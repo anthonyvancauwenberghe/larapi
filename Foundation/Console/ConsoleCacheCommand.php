@@ -7,7 +7,6 @@ use Illuminate\Console\Command;
 
 class ConsoleCacheCommand extends Command
 {
-
     /**
      * The console command name.
      *
@@ -24,9 +23,8 @@ class ConsoleCacheCommand extends Command
 
     protected $moduleCommandDirectoryNames = [
         'console',
-        'commands'
+        'commands',
     ];
-
 
     /**
      * Execute the console command.
@@ -38,5 +36,4 @@ class ConsoleCacheCommand extends Command
         $service->cacheCommands();
         $this->info('Commands cached successfully.');
     }
-
 }

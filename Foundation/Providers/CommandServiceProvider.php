@@ -9,7 +9,7 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 class CommandServiceProvider extends ServiceProvider
 {
     protected $commands = [
-        ConsoleCacheCommand::class
+        ConsoleCacheCommand::class,
     ];
 
     /**
@@ -32,11 +32,10 @@ class CommandServiceProvider extends ServiceProvider
     {
         $service = new CommandRegistrationService();
 
-        if (env('APP_ENV') !== 'production')
+        if (env('APP_ENV') !== 'production') {
             $service->cacheCommands();
+        }
 
         $this->commands($service->getCommandsFromCache());
     }
-
-
 }
