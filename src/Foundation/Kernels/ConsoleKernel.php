@@ -14,7 +14,7 @@ class ConsoleKernel extends LaravelConsoleKernel
      * @var array
      */
     protected $commands = [
-        BootstrapCacheCommand::class
+        BootstrapCacheCommand::class,
     ];
 
     /**
