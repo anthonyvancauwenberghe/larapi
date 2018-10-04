@@ -17,11 +17,9 @@ build:
     -
       command: phpcs-run
       use_website_config: true
-    -
-      command: "phpunit --coverage-clover=clover.xml"
-      coverage:
-        file: clover.xml
-        format: php-clover
+    - command: "vendor/bin/phpunit --coverage-clover=coverage.clover"
+    - command: "wget https://scrutinizer-ci.com/ocular.phar"
+    - command: "php ocular.phar code-coverage:upload --format=php-clover coverage.clover"
 checks:
   php:
     code_rating: true
@@ -44,5 +42,4 @@ filter:
   - tests/*
 tools:
   external_code_coverage:
-    runs: 3
     timeout: 600
