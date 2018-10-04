@@ -2,17 +2,17 @@
 
 namespace Foundation\Console;
 
-use Foundation\Services\CommandRegistrationService;
+use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Console\Command;
 
-class ConsoleCacheCommand extends Command
+class BootstrapCacheCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'commands:cache';
+    protected $signature = 'bootstrap:cache';
 
     /**
      * The console command description.
@@ -31,9 +31,9 @@ class ConsoleCacheCommand extends Command
      *
      * @return mixed
      */
-    public function handle(CommandRegistrationService $service)
+    public function handle(BootstrapRegistrarService $service)
     {
-        $service->cacheCommands();
+        $service->cache();
         $this->info('Commands cached successfully.');
     }
 }

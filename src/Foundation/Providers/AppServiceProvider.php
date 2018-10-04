@@ -2,7 +2,7 @@
 
 namespace Foundation\Providers;
 
-use Foundation\Services\CommandRegistrationService;
+use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CommandRegistrationService::class);
+        $this->app->bind(BootstrapRegistrarService::class);
     }
 }

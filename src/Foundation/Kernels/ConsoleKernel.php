@@ -2,6 +2,7 @@
 
 namespace Foundation\Kernels;
 
+use Foundation\Console\BootstrapCacheCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as LaravelConsoleKernel;
 
@@ -13,7 +14,7 @@ class ConsoleKernel extends LaravelConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        BootstrapCacheCommand::class
     ];
 
     /**

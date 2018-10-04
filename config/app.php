@@ -172,7 +172,7 @@ return [
         Foundation\Providers\BroadcastServiceProvider::class,
         Foundation\Providers\EventServiceProvider::class,
         Foundation\Providers\RouteServiceProvider::class,
-        Foundation\Providers\CommandServiceProvider::class,
+        Foundation\Providers\BootstrapServiceProvider::class,
     ],
 
     /*
