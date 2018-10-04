@@ -1,0 +1,49 @@
+language: php
+
+php:
+- '7.2'
+
+dist: trusty
+sudo: false
+
+services:
+- redis-server
+- mongodb
+
+addons:
+    hosts:
+    - larapi.test
+    - api.larapi.test
+
+env:
+    global:
+    - setup=stable
+
+matrix:
+    fast_finish: true
+    include:
+    - php: 7.2
+      env: setup=normal
+
+before_install:
+- echo '' > ./storage/logs/laravel.log
+- echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+- travis_retry composer self-update
+
+install:
+- if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --prefer-stable --no-interaction --no-suggest; fi
+- if [[ $setup = 'normal' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+
+before_script:
+- cp .env.travis .env
+- cp phpunit.travis.xml phpunit.xml
+- composer update
+- php artisan key:generate
+
+script: vendor/bin/phpunit
+
+after_failure:
+- echo --------------- Begin > Laravel.log ---------------
+- cat storage/logs/laravel.log
+- echo --------------- End   > Laravel.log ---------------
