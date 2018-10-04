@@ -5,7 +5,6 @@ build:
     - "pecl install mongodb"
     - "pecl install redis"
     - "cp .env.travis .env"
-    - "cp phpunit.travis.xml phpunit.xml"
     - "composer update"
     - "php artisan key:generate"
   environment:
