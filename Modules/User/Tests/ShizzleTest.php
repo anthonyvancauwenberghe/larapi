@@ -3,7 +3,6 @@
 namespace Modules\User\Tests;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ShizzleTest extends TestCase
 {
