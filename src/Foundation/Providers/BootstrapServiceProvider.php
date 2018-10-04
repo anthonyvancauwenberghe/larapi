@@ -5,16 +5,20 @@ namespace Foundation\Providers;
 use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
+/**
+ * Class BootstrapServiceProvider
+ * @package Foundation\Providers
+ */
 class BootstrapServiceProvider extends ServiceProvider
 {
+    /**
+     * @var BootstrapRegistrarService
+     */
     protected $bootstrapService;
 
-    /**
-     * BootstrapServiceProvider constructor.
-     */
-    public function __construct()
+
+    public function bootRegistrarService()
     {
-        parent::__construct(app());
         $this->bootstrapService = new BootstrapRegistrarService();
 
         if (env('APP_ENV') !== 'production') {
@@ -25,6 +29,7 @@ class BootstrapServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->bootRegistrarService();
         $this->loadModuleCommands();
         $this->loadModulePolicies();
     }

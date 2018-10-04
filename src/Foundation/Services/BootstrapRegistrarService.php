@@ -37,8 +37,9 @@ class BootstrapRegistrarService
     public function scanDirectories(): array
     {
         $bootstrap = [];
+        $modules = \Module::all();
 
-        foreach (\Module::all() as $module) {
+        foreach ($modules as $module) {
             foreach ($this->moduleEntityDirectories as $directory) {
                 $directory = ucfirst($directory);
                 $directoryPath = $module->getPath() . '/' . $directory;
@@ -73,10 +74,7 @@ class BootstrapRegistrarService
     {
         if (!isset($this->bootstrap)) {
             $commandCachePath = $this->getCachePath();
-
-            if (!file_exists($commandCachePath)) {
-                $this->cache();
-            }
+            $this->cache();
             $this->boostrap = unserialize($this->files->get($commandCachePath));
         }
         return $this->bootstrap;
