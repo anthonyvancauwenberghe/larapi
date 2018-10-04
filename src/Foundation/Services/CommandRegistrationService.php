@@ -78,6 +78,7 @@ class CommandRegistrationService
         if (!file_exists($commandCachePath)) {
             throw new \Exception('Command cache file not found');
         }
+
         return json_decode($this->files->get($commandCachePath));
     }
 
