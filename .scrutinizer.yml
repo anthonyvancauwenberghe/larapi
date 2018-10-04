@@ -40,7 +40,10 @@ build:
       command: phpcs-run
       use_website_config: true
     -
-      command: 'vendor/bin/phpunit'
+      command: 'vendor/bin/phpunit --coverage-clover build/logs/clover.xml'
+        coverage:
+          file: 'build/logs/clover.xml'
+          format: 'clover'
   environment:
     php:
       version: 7.2
