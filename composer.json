@@ -29,8 +29,8 @@
             "database/factories"
         ],
         "psr-4": {
-            "Modules\\": "Modules/",
-            "Foundation\\": "Foundation/"
+            "Modules\\": "src/Modules/",
+            "Foundation\\": "src/Foundation/"
         }
     },
     "autoload-dev": {
