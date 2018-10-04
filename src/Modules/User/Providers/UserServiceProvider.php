@@ -69,7 +69,7 @@ class UserServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/user';
+            return $path.'/modules/user';
         }, \Config::get('view.paths')), [$sourcePath]), 'user');
     }
 

@@ -6,8 +6,7 @@ use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
- * Class BootstrapServiceProvider
- * @package Foundation\Providers
+ * Class BootstrapServiceProvider.
  */
 class BootstrapServiceProvider extends ServiceProvider
 {
@@ -15,7 +14,6 @@ class BootstrapServiceProvider extends ServiceProvider
      * @var BootstrapRegistrarService
      */
     protected $bootstrapService;
-
 
     public function bootRegistrarService()
     {
@@ -25,7 +23,6 @@ class BootstrapServiceProvider extends ServiceProvider
             $this->bootstrapService->cache();
         }
     }
-
 
     public function register()
     {

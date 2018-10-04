@@ -15,7 +15,7 @@ class BootstrapRegistrarService
     protected $files;
 
     protected $moduleEntityDirectories = [
-        'console'
+        'console',
     ];
 
     protected $cacheFile = 'bootstrap.php';
@@ -42,14 +42,15 @@ class BootstrapRegistrarService
         foreach ($modules as $module) {
             foreach ($this->moduleEntityDirectories as $directory) {
                 $directory = ucfirst($directory);
-                $directoryPath = $module->getPath() . '/' . $directory;
-                $namespace = 'Modules' . '\\' . $module->getName();
+                $directoryPath = $module->getPath().'/'.$directory;
+                $namespace = 'Modules'.'\\'.$module->getName();
                 if (file_exists($directoryPath)) {
                     $files = scandir($directoryPath);
                     foreach ($files as $fileName) {
                         if ($this->isPhpFile($fileName)) {
                             $className = basename($fileName, '.php');
-                            $class = $namespace . '\\' . $directory . '\\' . $className;
+                            $class = $namespace.'\\'.$directory.'\\'.$className;
+
                             try {
                                 if (new $class() instanceof Command) {
                                     $bootstrap['commands'][] = $class;
@@ -67,7 +68,7 @@ class BootstrapRegistrarService
 
     private function isPhpFile(string $fileName): bool
     {
-        return strlen($fileName) > 5 && '.php' === ($fileName[-4] . $fileName[-3] . $fileName[-2] . $fileName[-1]);
+        return strlen($fileName) > 5 && '.php' === ($fileName[-4].$fileName[-3].$fileName[-2].$fileName[-1]);
     }
 
     private function loadBootstrapFromCache()
@@ -77,6 +78,7 @@ class BootstrapRegistrarService
             $this->cache();
             $this->boostrap = unserialize($this->files->get($commandCachePath));
         }
+
         return $this->bootstrap;
     }
 
@@ -87,6 +89,6 @@ class BootstrapRegistrarService
 
     public function getCachePath(): string
     {
-        return app()->bootstrapPath() . '/cache/' . $this->cacheFile;
+        return app()->bootstrapPath().'/cache/'.$this->cacheFile;
     }
 }
