@@ -2,6 +2,7 @@
 
 namespace Foundation\Providers;
 
+use Foundation\Repositories\Auth0UserRepository;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -22,6 +23,12 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
+        $this->app->bind(
+            \Auth0\Login\Contract\Auth0UserRepository::class,
+            \Foundation\Repositories\Auth0UserRepository::class
+        );
+
         $this->registerPolicies();
 
         //

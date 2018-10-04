@@ -10,4 +10,6 @@ use Illuminate\Notifications\Notifiable;
 class User extends MongoModel implements AuthorizableContract
 {
     use Notifiable, Authorizable;
+
+    protected $collection = 'users';
 }

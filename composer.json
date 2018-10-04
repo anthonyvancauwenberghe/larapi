@@ -7,6 +7,7 @@
     "require": {
         "php": "^7.2",
         "auth0/login": "^5.1",
+        "barryvdh/laravel-cors": "^0.11.2",
         "fideloper/proxy": "^4.0",
         "jenssegers/mongodb": "^3.4",
         "laravel/framework": "5.7.*",
@@ -25,8 +26,6 @@
     },
     "autoload": {
         "classmap": [
-            "database/seeds",
-            "database/factories"
         ],
         "psr-4": {
             "Modules\\": "src/Modules/",

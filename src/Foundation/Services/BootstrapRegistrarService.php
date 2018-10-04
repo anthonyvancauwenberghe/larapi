@@ -15,7 +15,12 @@ class BootstrapRegistrarService
     protected $files;
 
     protected $moduleEntityDirectories = [
-        'console',
+        'commands' => 'Console',
+        'routes' => 'Routes',
+        'configs' => 'Config',
+        'factories' => 'Database/factories',
+        'migrations' => 'Database/Migrations',
+        'seeders' => 'Database/Seeders'
     ];
 
     protected $cacheFile = 'bootstrap.php';
@@ -39,22 +44,46 @@ class BootstrapRegistrarService
         $bootstrap = [];
         $modules = \Module::all();
 
+
         foreach ($modules as $module) {
-            foreach ($this->moduleEntityDirectories as $directory) {
+            foreach ($this->moduleEntityDirectories as $key => $directory) {
                 $directory = ucfirst($directory);
-                $directoryPath = $module->getPath().'/'.$directory;
-                $namespace = 'Modules'.'\\'.$module->getName();
+                $directoryPath = $module->getPath() . '/' . $directory;
+                $namespace = 'Modules' . '\\' . $module->getName();
                 if (file_exists($directoryPath)) {
                     $files = scandir($directoryPath);
                     foreach ($files as $fileName) {
-                        if ($this->isPhpFile($fileName)) {
+                        if ($this->hasPhpExtension($fileName)) {
                             $className = basename($fileName, '.php');
-                            $class = $namespace.'\\'.$directory.'\\'.$className;
+                            $class = $namespace . '\\' . str_replace('/', '\\', $directory) . '\\' . $className;
 
                             try {
-                                if (new $class() instanceof Command) {
-                                    $bootstrap['commands'][] = $class;
+                                switch ($key) {
+                                    case 'commands':
+                                        if (new $class() instanceof Command) {
+                                            $bootstrap[$key][] = $class;
+                                        }
+                                        break;
+                                    case 'routes':
+                                        $bootstrap[$key][] = [$directoryPath . '/' . $fileName, $namespace];
+                                        break;
+                                    case 'configs':
+                                        $bootstrap[$key][] = [$directoryPath . '/' . $fileName, strtolower($module->getName())];
+                                        break;
+                                    case 'factories':
+                                        $bootstrap[$key][] = $directoryPath;
+                                        break;
+                                    case 'migrations':
+                                        $bootstrap[$key][] = $directoryPath;
+                                        break;
+                                    case 'seeders':
+                                        $bootstrap[$key][] = $class;
+                                        break;
+                                    default:
+                                        break;
                                 }
+
+
                             } catch (\Exception $e) {
                             }
                         }
@@ -66,9 +95,9 @@ class BootstrapRegistrarService
         return $bootstrap;
     }
 
-    private function isPhpFile(string $fileName): bool
+    private function hasPhpExtension(string $fileName): bool
     {
-        return strlen($fileName) > 5 && '.php' === ($fileName[-4].$fileName[-3].$fileName[-2].$fileName[-1]);
+        return strlen($fileName) > 4 && '.php' === ($fileName[-4] . $fileName[-3] . $fileName[-2] . $fileName[-1]);
     }
 
     private function loadBootstrapFromCache()
@@ -84,11 +113,36 @@ class BootstrapRegistrarService
 
     public function getCommands(): array
     {
-        return $this->loadBootstrapFromCache()['commands'];
+        return $this->loadBootstrapFromCache()['commands'] ?? [];
+    }
+
+    public function getRoutes(): array
+    {
+        return $this->loadBootstrapFromCache()['routes'] ?? [];
+    }
+
+    public function getConfigs(): array
+    {
+        return $this->loadBootstrapFromCache()['configs'] ?? [];
+    }
+
+    public function getFactories(): array
+    {
+        return $this->loadBootstrapFromCache()['factories'] ?? [];
+    }
+
+    public function getMigrations(): array
+    {
+        return $this->loadBootstrapFromCache()['migrations'] ?? [];
+    }
+
+    public function getSeeders(): array
+    {
+        return $this->loadBootstrapFromCache()['seeders'] ?? [];
     }
 
     public function getCachePath(): string
     {
-        return app()->bootstrapPath().'/cache/'.$this->cacheFile;
+        return app()->bootstrapPath() . '/cache/' . $this->cacheFile;
     }
 }
