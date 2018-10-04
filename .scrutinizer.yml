@@ -1,49 +1,49 @@
-filter:
-  excluded_paths: [tests/*]
-
-checks:
-  php:
-    code_rating: true
-    duplication: true
-    remove_extra_empty_lines: true
-    remove_php_closing_tag: true
-    remove_trailing_whitespace: true
-    fix_use_statements:
-      remove_unused: true
-      preserve_multiple: false
-      preserve_blanklines: true
-      order_alphabetically: true
-    fix_php_opening_tag: true
-    fix_linefeed: true
-    fix_line_ending: true
-    fix_identation_4spaces: true
-    fix_doc_comments: true
-
-tools:
-  external_code_coverage:
-    timeout: 600
-    runs: 3
-
+---
 build:
   dependencies:
     before:
-    - 'pecl install mongodb'
-    - 'pecl install redis'
-    - 'cp .env.travis .env'
-    - 'cp phpunit.travis.xml phpunit.xml'
-    - 'composer update'
-    - 'php artisan key:generate'
+    - "pecl install mongodb"
+    - "pecl install redis"
+    - "cp .env.travis .env"
+    - "cp phpunit.travis.xml phpunit.xml"
+    - "composer update"
+    - "php artisan key:generate"
+  environment:
+    mongodb: "4.0"
+    php:
+      version: 7.2
   tests:
     override:
     - php-scrutinizer-run
     -
       command: phpcs-run
       use_website_config: true
-    - command: phpunit --coverage-clover=clover.xml
-        coverage:
-          file: clover.xml
-          format: php-clover
-  environment:
-    php:
-      version: 7.2
-    mongodb: '4.0'
+    -
+      command: "phpunit --coverage-clover=clover.xml"
+      coverage:
+        file: clover.xml
+        format: php-clover
+checks:
+  php:
+    code_rating: true
+    duplication: true
+    fix_doc_comments: true
+    fix_identation_4spaces: true
+    fix_line_ending: true
+    fix_linefeed: true
+    fix_php_opening_tag: true
+    fix_use_statements:
+      order_alphabetically: true
+      preserve_blanklines: true
+      preserve_multiple: false
+      remove_unused: true
+    remove_extra_empty_lines: true
+    remove_php_closing_tag: true
+    remove_trailing_whitespace: true
+filter:
+  excluded_paths:
+  - tests/*
+tools:
+  external_code_coverage:
+    runs: 3
+    timeout: 600
