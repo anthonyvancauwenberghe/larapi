@@ -52,13 +52,13 @@ class BootstrapServiceProvider extends ServiceProvider
             $apiDomain = strtolower(env('API_URL'));
             $apiDomain = str_replace('http://', '', $apiDomain);
             $apiDomain = str_replace('https://', '', $apiDomain);
-            $namespace = $route[1] . '\\' . 'Http\\Controllers';
+            $namespace = $route[1].'\\'.'Http\\Controllers';
             $filepath = $route[0];
             Route::group([
-                'prefix' => 'v1',
-                'namespace' => $namespace,
-                'domain' => $apiDomain,
-                'middleware' => []
+                'prefix'     => 'v1',
+                'namespace'  => $namespace,
+                'domain'     => $apiDomain,
+                'middleware' => [],
             ], function (Router $router) use ($filepath) {
                 require $filepath;
             });
@@ -94,7 +94,6 @@ class BootstrapServiceProvider extends ServiceProvider
                 app(Factory::class)->load($factoryPath);
             }
         }
-
     }
 
     /**

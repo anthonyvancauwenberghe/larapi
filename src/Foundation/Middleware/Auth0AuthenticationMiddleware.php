@@ -22,8 +22,9 @@ class Auth0AuthenticationMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, Closure $next)
@@ -31,18 +32,19 @@ class Auth0AuthenticationMiddleware
         $auth0 = \App::make('auth0');
 
         $accessToken = $request->bearerToken();
+
         try {
             $tokenInfo = $auth0->decodeJWT($accessToken);
             $user = $this->auth0Repository->getUserByDecodedJWT($tokenInfo);
             if (!$user) {
-                return response()->json(["message" => "Unauthorized user"], 401);
+                return response()->json(['message' => 'Unauthorized user'], 401);
             }
 
             \Auth::login($user);
         } catch (InvalidTokenException $e) {
-            return response()->json(["message" => $e->getMessage()], 401);
+            return response()->json(['message' => $e->getMessage()], 401);
         } catch (CoreException $e) {
-            return response()->json(["message" => $e->getMessage()], 401);
+            return response()->json(['message' => $e->getMessage()], 401);
         }
 
         return $next($request);

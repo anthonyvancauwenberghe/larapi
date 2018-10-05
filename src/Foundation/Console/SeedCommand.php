@@ -21,7 +21,6 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $this->service = $service;
     }
 
-
     /**
      * Execute the console command.
      *
@@ -48,6 +47,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
     protected function getSeeders(): array
     {
         $this->service = $this->laravel->make(BootstrapRegistrarService::class);
+
         return $this->service->getSeeders() ?? [];
     }
 }
