@@ -34,18 +34,14 @@ class BootstrapRegistrarService
 
     public function cache()
     {
-        $boostrap = $this->scanDirectories();
-        $this->bootstrap = $boostrap;
-        $this->files->put($this->getCachePath(), serialize($boostrap));
+        $this->buildBootstrapArray();
+        $this->files->put($this->getCachePath(), serialize($this->bootstrap));
     }
 
-    public function scanDirectories(): array
+    public function buildBootstrapArray()
     {
         $bootstrap = [];
-        $modules = \Module::all();
-
-
-        foreach ($modules as $module) {
+        foreach (\Module::all() as $module) {
             foreach ($this->moduleEntityDirectories as $key => $directory) {
                 $directory = ucfirst($directory);
                 $directoryPath = $module->getPath() . '/' . $directory;
@@ -56,43 +52,44 @@ class BootstrapRegistrarService
                         if ($this->hasPhpExtension($fileName)) {
                             $className = basename($fileName, '.php');
                             $class = $namespace . '\\' . str_replace('/', '\\', $directory) . '\\' . $className;
-
-                            try {
-                                switch ($key) {
-                                    case 'commands':
-                                        if (new $class() instanceof Command) {
+                            switch ($key) {
+                                case 'commands':
+                                    try {
+                                        $command = new $class();
+                                        if ($command instanceof Command) {
                                             $bootstrap[$key][] = $class;
                                         }
-                                        break;
-                                    case 'routes':
-                                        $bootstrap[$key][] = [$directoryPath . '/' . $fileName, $namespace];
-                                        break;
-                                    case 'configs':
-                                        $bootstrap[$key][] = [$directoryPath . '/' . $fileName, strtolower($module->getName())];
-                                        break;
-                                    case 'factories':
-                                        $bootstrap[$key][] = $directoryPath;
-                                        break;
-                                    case 'migrations':
-                                        $bootstrap[$key][] = $directoryPath;
-                                        break;
-                                    case 'seeders':
-                                        $bootstrap[$key][] = $class;
-                                        break;
-                                    default:
-                                        break;
-                                }
-
-
-                            } catch (\Exception $e) {
+                                    } catch (\Exception $e) {
+                                        //If the creation of the class fails it is not a command so skip
+                                    }
+                                    break;
+                                case 'routes':
+                                    $bootstrap[$key][] = [$directoryPath . '/' . $fileName, $namespace];
+                                    break;
+                                case 'configs':
+                                    $bootstrap[$key][] = [$directoryPath . '/' . $fileName, strtolower($module->getName())];
+                                    break;
+                                case 'factories':
+                                    $bootstrap[$key][] = $directoryPath;
+                                    break;
+                                case 'migrations':
+                                    $bootstrap[$key][] = $directoryPath;
+                                    break;
+                                case 'seeders':
+                                    $bootstrap[$key][] = $class;
+                                    break;
+                                default:
+                                    break;
                             }
+
+
                         }
                     }
                 }
             }
         }
 
-        return $bootstrap;
+        $this->bootstrap = $bootstrap;
     }
 
     private function hasPhpExtension(string $fileName): bool
@@ -103,11 +100,12 @@ class BootstrapRegistrarService
     private function loadBootstrapFromCache()
     {
         if (!isset($this->bootstrap)) {
-            $commandCachePath = $this->getCachePath();
-            $this->cache();
-            $this->boostrap = unserialize($this->files->get($commandCachePath));
+            if (file_exists($this->getCachePath())) {
+                $this->bootstrap = unserialize($this->files->get($this->getCachePath()));
+            } else {
+                $this->cache();
+            }
         }
-
         return $this->bootstrap;
     }
 

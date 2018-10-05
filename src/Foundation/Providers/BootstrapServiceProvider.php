@@ -36,7 +36,7 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         $this->bootstrapService = new BootstrapRegistrarService();
 
-        if (env('APP_ENV') !== 'production') {
+        if (!$this->app->environment('production')) {
             $this->bootstrapService->cache();
         }
     }
@@ -90,7 +90,7 @@ class BootstrapServiceProvider extends ServiceProvider
     public function loadFactories()
     {
         foreach ($this->bootstrapService->getFactories() as $factoryPath) {
-            if (!app()->environment('production')) {
+            if (!$this->app->environment('production')) {
                 app(Factory::class)->load($factoryPath);
             }
         }
@@ -107,7 +107,6 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getMigrations() as $migrationPath) {
             $this->loadMigrationsFrom($migrationPath);
         }
-
     }
 
     private function loadPolicies()
