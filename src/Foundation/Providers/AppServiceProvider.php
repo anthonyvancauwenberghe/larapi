@@ -2,7 +2,6 @@
 
 namespace Foundation\Providers;
 
-use Foundation\Console\SeedCommand;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,5 +24,4 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
     }
-
 }

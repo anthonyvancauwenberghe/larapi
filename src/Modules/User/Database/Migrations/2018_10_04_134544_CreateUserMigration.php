@@ -9,5 +9,4 @@ class CreateUserMigration extends \Foundation\Abstracts\Migrations\MongoMigratio
         $collection->unique('auth0_id');
         $collection->unique('api_token');
     }
-
 }

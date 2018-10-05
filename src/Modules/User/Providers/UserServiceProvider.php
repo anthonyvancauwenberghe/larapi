@@ -2,12 +2,10 @@
 
 namespace Modules\User\Providers;
 
-use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\ServiceProvider;
 
 class UserServiceProvider extends ServiceProvider
 {
-
     /**
      * Boot the application events.
      *
@@ -15,7 +13,6 @@ class UserServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
     }
 
     /**
@@ -25,6 +22,5 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
     }
 }
