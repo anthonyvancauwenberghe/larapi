@@ -36,6 +36,7 @@ install:
 - if [[ $setup = 'normal' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
 
 before_script:
+- echo .env.travis >> AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
 - cp .env.travis .env
 - composer update
 - php artisan key:generate

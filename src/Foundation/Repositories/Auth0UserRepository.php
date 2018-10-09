@@ -84,19 +84,6 @@ class Auth0UserRepository extends \Auth0\Login\Repository\Auth0UserRepository
 
     public function getUserByIdentifier($identifier)
     {
-        //Get the user info of the user logged in (probably in session)
-        $user = \App::make('auth0')->getUser();
-
-        if ($user === null) {
-            return;
-        }
-
-        // build the user
-        $user = $this->getUserByUserInfo($user);
-
-        // it is not the same user as logged in, it is not valid
-        if ($user && $user->auth0id == $identifier) {
-            return $user;
-        }
+        return;
     }
 }
