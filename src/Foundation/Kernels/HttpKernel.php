@@ -39,12 +39,12 @@ class HttpKernel extends LaravelHttpKernel
         'api' => [
             'throttle:60,1',
             'bindings',
-            'auth0'
+            'auth0',
         ],
 
         'api:noauth' => [
             'throttle:60,1',
-            'bindings'
+            'bindings',
         ],
     ];
 
