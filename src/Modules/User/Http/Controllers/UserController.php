@@ -2,8 +2,8 @@
 
 namespace Modules\User\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class UserController extends Controller
@@ -11,21 +11,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function index()
     {
-        return view('user::index');
+        return \response()->json();
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function create()
     {
-        return view('user::create');
+        return \response()->json();
     }
 
     /**
@@ -33,16 +33,17 @@ class UserController extends Controller
      *
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
+        return \response()->json();
     }
 
     /**
      * Show the specified resource.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function show()
     {
@@ -50,32 +51,24 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('user::edit');
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param Request $request
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function update(Request $request)
     {
+        return \response()->json();
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @return Response
+     * @return JsonResponse
      */
     public function destroy()
     {
+        return \response()->json();
     }
 }
