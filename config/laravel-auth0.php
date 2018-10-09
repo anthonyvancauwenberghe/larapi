@@ -37,7 +37,7 @@ return [
      |   'Auth0\Login\Auth0Controller@callback'
      |
      */
-    'redirect_uri' => env('APP_URL') . '/auth0/callback',
+    'redirect_uri' => env('APP_URL').'/auth0/callback',
 
     /*
     |--------------------------------------------------------------------------
@@ -48,9 +48,9 @@ return [
     |   persist_id_token        (Boolean) Optional. Indicates if you want to persist the id token, default false
     |
     */
-    'persist_user' => false,
+    'persist_user'         => false,
     'persist_access_token' => false,
-    'persist_id_token' => false,
+    'persist_id_token'     => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -96,5 +96,5 @@ return [
     */
     // 'guzzle_options' => []
 
-    'state_handler' => false
+    'state_handler' => false,
 ];

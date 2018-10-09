@@ -15,5 +15,4 @@ class User extends MongoModel implements AuthorizableContract, Authenticatable
     protected $collection = 'users';
 
     protected $guarded = [];
-
 }

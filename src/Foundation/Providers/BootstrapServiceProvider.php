@@ -54,13 +54,13 @@ class BootstrapServiceProvider extends ServiceProvider
             $apiDomain = str_replace('https://', '', $apiDomain);
             $moduleNamespace = $route[1];
             $moduleName = explode('\\', $moduleNamespace)[1];
-            $controllerNamespace = $moduleNamespace . '\\' . 'Http\\Controllers';
-            $modelNameSpace = $moduleNamespace . '\\' . 'Entities\\' . $moduleName;
+            $controllerNamespace = $moduleNamespace.'\\'.'Http\\Controllers';
+            $modelNameSpace = $moduleNamespace.'\\'.'Entities\\'.$moduleName;
             $filepath = $route[0];
             Route::group([
-                'prefix' => 'v1',
-                'namespace' => $controllerNamespace,
-                'domain' => $apiDomain,
+                'prefix'     => 'v1',
+                'namespace'  => $controllerNamespace,
+                'domain'     => $apiDomain,
                 'middleware' => ['api'],
             ], function (Router $router) use ($filepath) {
                 require $filepath;
