@@ -16,9 +16,6 @@ build:
     - php-scrutinizer-run
     - command: phpcs-run
       use_website_config: true
-    - command: "vendor/bin/phpunit --coverage-clover=coverage.clover"
-    - command: "wget https://scrutinizer-ci.com/ocular.phar"
-    - command: "php ocular.phar code-coverage:upload --format=php-clover coverage.clover"
 checks:
   php:
     code_rating: true
