@@ -60,7 +60,7 @@ class BootstrapRegistrarService
                                             $bootstrap[$key][] = $class;
                                         }
                                     } catch (\Exception $e) {
-                                        //If the creation of the class fails it is not a command so skip
+                                        break;
                                     }
                                     break;
                                 case 'routes':
