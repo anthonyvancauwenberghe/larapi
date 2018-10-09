@@ -41,7 +41,11 @@ before_script:
 - composer update
 - php artisan key:generate
 
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit --coverage-clover=coverage.clover
+
+after_script:
+- wget https://scrutinizer-ci.com/ocular.phar
+- php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 after_failure:
 - echo --------------- Begin > Laravel.log ---------------
