@@ -24,7 +24,7 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->loadBootstrapService();
         $this->loadCommands();
         $this->loadPolicies();
-        $this->loadRoutes();
+        $this->loadV1Routes();
         $this->loadConfigs();
         $this->loadFactories();
         $this->loadMigrations();
@@ -46,22 +46,26 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->commands($this->bootstrapService->getCommands());
     }
 
-    private function loadRoutes()
+    private function loadV1Routes()
     {
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $apiDomain = strtolower(env('API_URL'));
             $apiDomain = str_replace('http://', '', $apiDomain);
             $apiDomain = str_replace('https://', '', $apiDomain);
-            $namespace = $route[1].'\\'.'Http\\Controllers';
+            $moduleNamespace = $route[1];
+            $moduleName = explode('\\', $moduleNamespace)[1];
+            $controllerNamespace = $moduleNamespace . '\\' . 'Http\\Controllers';
+            $modelNameSpace = $moduleNamespace . '\\' . 'Entities\\' . $moduleName;
             $filepath = $route[0];
             Route::group([
-                'prefix'     => 'v1',
-                'namespace'  => $namespace,
-                'domain'     => $apiDomain,
-                'middleware' => [],
+                'prefix' => 'v1',
+                'namespace' => $controllerNamespace,
+                'domain' => $apiDomain,
+                'middleware' => ['api'],
             ], function (Router $router) use ($filepath) {
                 require $filepath;
             });
+            Route::model(strtolower($moduleName), $modelNameSpace);
         }
     }
 

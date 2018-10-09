@@ -23,7 +23,7 @@ class Auth0AuthenticationMiddleware
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param \Closure $next
      *
      * @return mixed
      */
@@ -36,15 +36,16 @@ class Auth0AuthenticationMiddleware
         try {
             $tokenInfo = $auth0->decodeJWT($accessToken);
             $user = $this->auth0Repository->getUserByDecodedJWT($tokenInfo);
+
             if (!$user) {
-                return response()->json(['message' => 'Unauthorized user'], 401);
+                return response()->json(['error' => 'Unauthorized user'], 401);
             }
 
             \Auth::login($user);
         } catch (InvalidTokenException $e) {
-            return response()->json(['message' => $e->getMessage()], 401);
+            return response()->json(['error' => "Invalid or no token set"], 401);
         } catch (CoreException $e) {
-            return response()->json(['message' => $e->getMessage()], 401);
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
         return $next($request);

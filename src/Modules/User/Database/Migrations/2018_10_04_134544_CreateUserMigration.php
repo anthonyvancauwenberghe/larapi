@@ -6,7 +6,6 @@ class CreateUserMigration extends \Foundation\Abstracts\Migrations\MongoMigratio
 
     protected function migrate(\Jenssegers\Mongodb\Schema\Blueprint $collection)
     {
-        $collection->unique('auth0_id');
-        $collection->unique('api_token');
+
     }
 }

@@ -12,5 +12,11 @@ use Modules\User\Entities\User;
 
 interface UserServiceContract
 {
-    public function getUserByAuth0Id($id) :User;
+    public function find($id): ?User;
+
+    public function update($id, $data): ?User;
+
+    public function create($data): User;
+
+    public function delete($id): bool;
 }

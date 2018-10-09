@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'App\Http\Controllers';
+    protected $namespace = 'Foundation\Http\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -23,9 +23,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
         parent::boot();
+    }
+
+    public function register()
+    {
+        $this->map();
+        parent::register();
     }
 
     /**
@@ -36,8 +40,6 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapApiRoutes();
-
-        //$this->mapWebRoutes();
     }
 
     /**
@@ -63,8 +65,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        $path = base_path('routes/api.php');
-        Route::namespace($this->namespace)
+        $path = base_path('src/Foundation/Routes/api.php');
+        Route::middleware('api:noauth')
+            ->namespace($this->namespace)
             ->group($path);
     }
 }

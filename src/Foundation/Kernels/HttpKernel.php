@@ -28,18 +28,23 @@ class HttpKernel extends LaravelHttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Foundation\Middleware\EncryptCookies::class,
-            \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-            \Illuminate\Session\Middleware\StartSession::class,
-            // \Illuminate\Session\Middleware\AuthenticateSession::class,
-            \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \Foundation\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            /* \Foundation\Middleware\EncryptCookies::class,
+             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+             \Illuminate\Session\Middleware\StartSession::class,
+             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+             \Foundation\Middleware\VerifyCsrfToken::class,
+             \Illuminate\Routing\Middleware\SubstituteBindings::class,*/
         ],
 
         'api' => [
             'throttle:60,1',
             'bindings',
+            'auth0'
+        ],
+
+        'api:noauth' => [
+            'throttle:60,1',
+            'bindings'
         ],
     ];
 
@@ -52,12 +57,12 @@ class HttpKernel extends LaravelHttpKernel
      */
     protected $routeMiddleware = [
         'auth0'         => \Foundation\Middleware\Auth0AuthenticationMiddleware::class,
-        'auth'          => \Foundation\Middleware\Authenticate::class,
-        'auth.basic'    => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+        //'auth'          => \Foundation\Middleware\Authenticate::class,
+        // 'auth.basic'    => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings'      => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can'           => \Illuminate\Auth\Middleware\Authorize::class,
-        'guest'         => \Foundation\Middleware\RedirectIfAuthenticated::class,
+        // 'guest'         => \Foundation\Middleware\RedirectIfAuthenticated::class,
         'signed'        => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle'      => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified'      => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
@@ -71,11 +76,11 @@ class HttpKernel extends LaravelHttpKernel
      * @var array
      */
     protected $middlewarePriority = [
-        \Illuminate\Session\Middleware\StartSession::class,
-        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-        \Foundation\Middleware\Authenticate::class,
-        \Illuminate\Session\Middleware\AuthenticateSession::class,
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \Illuminate\Auth\Middleware\Authorize::class,
+        // \Illuminate\Session\Middleware\StartSession::class,
+        // \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        // \Foundation\Middleware\Authenticate::class,
+        // \Illuminate\Session\Middleware\AuthenticateSession::class,
+        // \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        // \Illuminate\Auth\Middleware\Authorize::class,
     ];
 }

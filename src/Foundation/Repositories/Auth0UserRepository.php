@@ -8,8 +8,11 @@
 
 namespace Foundation\Repositories;
 
+use Foundation\Exceptions\Exception;
+use Illuminate\Validation\UnauthorizedException;
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
+use MongoDB\BSON\ObjectId;
 
 class Auth0UserRepository extends \Auth0\Login\Repository\Auth0UserRepository
 {
@@ -44,20 +47,39 @@ class Auth0UserRepository extends \Auth0\Login\Repository\Auth0UserRepository
 
     protected function upsertUser($profile)
     {
+        if (!isset($profile->user_id))
+            throw new Exception("Missing token information: Auth0 user id is not set");
 
-        // Note: Requires configured database access
-        $user = $this->service->getUserByAuth0Id($profile->user_id);
+        $identifier = explode('|', $profile->user_id);
+        $identityProvider = $identifier[0];
+        $id = $identifier[1];
 
-        if ($user === null) {
-            // If not, create one
-            $user = new User();
-            $user->email = $profile->email; // you should ask for the email scope
-            $user->auth0_id = $profile->user_id;
-            $user->name = $profile->name; // you should ask for the name scope
-            $user->save();
+        $user = $this->service->find($id);
+
+        if ($user === null || !$this->userEqualsProfile($user, $profile)) {
+            try {
+
+                if ($user === null)
+                    $user = new User();
+
+                $user->_id = new ObjectId($id);
+                $user->provider = $identityProvider;
+                $user->email = $profile->email;
+                $user->username = $profile->nickname;
+                $user->name = $profile->name;
+                $user->avatar = $profile->picture;
+                $user->save();
+            } catch (\Exception $exception) {
+                throw new UnauthorizedException('Profile data is not set in the token ');
+            }
         }
 
         return $user;
+    }
+
+    private function userEqualsProfile($user, $profile)
+    {
+        return $user->username === $profile->nickname && $user->email === $profile->email && $user->name === $profile->name && $user->avatar === $profile->picture;
     }
 
     public function getUserByIdentifier($identifier)

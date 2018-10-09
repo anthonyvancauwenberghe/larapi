@@ -3,6 +3,8 @@
 namespace Modules\User\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\User\Contracts\UserServiceContract;
+use Modules\User\Services\UserService;
 
 class UserServiceProvider extends ServiceProvider
 {
@@ -22,5 +24,9 @@ class UserServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->bind(
+            UserServiceContract::class,
+            UserService::class
+        );
     }
 }

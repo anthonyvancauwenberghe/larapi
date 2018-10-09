@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -11,8 +13,10 @@
 |
 */
 
-Route::get('/user', 'UserController@show');
+Route::get('/', function (Request $request) {
+    return response()->json('Astral Api ');
+});
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
+Route::get('/authorized', function (Request $request) {
+    return response()->json('authorized');
+})->middleware('auth0');
