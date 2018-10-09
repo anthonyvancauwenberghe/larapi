@@ -17,16 +17,16 @@
         </testsuite>
     </testsuites>
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist>
             <directory suffix=".php">./src/Modules</directory>
             <directory suffix=".php">./src/Foundation</directory>
             <exclude>
-                <!--
-                NOTE: Exclude the following directories because they fail when directly included with code-coverage
-                -->
                 <directory suffix=".php">./src/Modules/*/Routes</directory>
                 <directory suffix=".php">./src/Modules/*/Resources</directory>
                 <directory suffix=".php">./src/Modules/*/Database</directory>
+                <directory suffix=".php">./src/Modules/*/Tests</directory>
+                <directory suffix=".php">./src/Foundation/*/Routes</directory>
+                <directory suffix=".php">./src/Foundation/*/Tests</directory>
             </exclude>
         </whitelist>
     </filter>
@@ -40,7 +40,5 @@
         <env name="REDIS_DB" value="2"/>
         <env name="REDIS_CACHE_DB" value="3"/>
         <env name="MONGODB_DB_DATABASE" value="larapi_testing"/>
-
-
     </php>
 </phpunit>
