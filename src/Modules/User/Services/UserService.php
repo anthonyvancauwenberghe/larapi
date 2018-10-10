@@ -26,6 +26,7 @@ class UserService implements UserServiceContract
         $user = $this->find($id);
         $user->update($data);
         \Cache::put($this->getCacheName($id), $user, $this->getCacheTime());
+
         return $user;
     }
 
@@ -33,15 +34,18 @@ class UserService implements UserServiceContract
     {
         $user = User::create($data);
         Cache::put($this->getCacheName($user->id), $user, $this->getCacheTime());
+
         return $user;
     }
 
     public function delete($id): bool
     {
         $deleted = User::destroy($id);
-        if ($deleted)
+        if ($deleted) {
             Cache::forget($this->getCacheName($id));
-        return (bool)$deleted;
+        }
+
+        return (bool) $deleted;
     }
 
     protected function getCacheName($id)
