@@ -39,7 +39,7 @@ class BootstrappingTest extends TestCase
         $this->assertTrue($this->service->cacheExists());
     }
 
-    public function readContentsCache()
+    public function testReadContentsCache()
     {
         $bootstrapData = $this->service->loadBootstrapFromCache();
         $this->assertArrayHasKey('commands', $bootstrapData);
@@ -48,5 +48,17 @@ class BootstrappingTest extends TestCase
         $this->assertArrayHasKey('factories', $bootstrapData);
         $this->assertArrayHasKey('migrations', $bootstrapData);
         $this->assertArrayHasKey('seeders', $bootstrapData);
+    }
+
+    public function testBootstrapCacheCommand()
+    {
+        if ($this->service->cacheExists()) {
+            $this->service->clearCache();
+        }
+        $this->assertFalse($this->service->cacheExists());
+
+        \Artisan::call('bootstrap:cache');
+
+        $this->assertTrue($this->service->cacheExists());
     }
 }

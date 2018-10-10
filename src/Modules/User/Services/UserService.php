@@ -41,7 +41,7 @@ class UserService implements UserServiceContract
         $deleted = User::destroy($id);
         if ($deleted)
             Cache::forget($this->getCacheName($id));
-        return $deleted;
+        return (bool)$deleted;
     }
 
     protected function getCacheName($id)
