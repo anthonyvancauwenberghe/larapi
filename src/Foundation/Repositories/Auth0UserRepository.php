@@ -47,9 +47,9 @@ class Auth0UserRepository extends \Auth0\Login\Repository\Auth0UserRepository
 
     protected function upsertUser($profile)
     {
-        if (!isset($profile->user_id))
-            throw new Exception("Missing token information: Auth0 user id is not set");
-
+        if (!isset($profile->user_id)) {
+            throw new Exception('Missing token information: Auth0 user id is not set');
+        }
         $identifier = explode('|', $profile->user_id);
         $identityProvider = $identifier[0];
         $id = $identifier[1];
@@ -58,9 +58,9 @@ class Auth0UserRepository extends \Auth0\Login\Repository\Auth0UserRepository
 
         if ($user === null || !$this->userEqualsProfile($user, $profile)) {
             try {
-
-                if ($user === null)
+                if ($user === null) {
                     $user = new User();
+                }
 
                 $user->_id = new ObjectId($id);
                 $user->provider = $identityProvider;
@@ -84,6 +84,5 @@ class Auth0UserRepository extends \Auth0\Login\Repository\Auth0UserRepository
 
     public function getUserByIdentifier($identifier)
     {
-        return;
     }
 }

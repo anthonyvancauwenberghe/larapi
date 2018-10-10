@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.10.18
- * Time: 21:56
+ * Time: 21:56.
  */
 
 namespace Foundation\Abstracts\Tests;
@@ -17,6 +17,4 @@ class TestCase extends BaseTestCase
         parent::tearDown();
         // \Cache::clear();
     }
-
-
 }
