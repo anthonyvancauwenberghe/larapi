@@ -21,7 +21,6 @@ class BootstrappingTest extends TestCase
         $this->service = new BootstrapRegistrarService();
     }
 
-
     public function testCacheDelete()
     {
         $this->assertTrue($this->service->cacheExists());

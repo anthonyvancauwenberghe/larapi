@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 10.10.18
- * Time: 02:18
+ * Time: 02:18.
  */
 
 namespace Foundation\Controllers;
-
 
 use Illuminate\Routing\Controller;
 

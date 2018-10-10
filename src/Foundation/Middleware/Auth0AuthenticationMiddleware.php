@@ -23,7 +23,7 @@ class Auth0AuthenticationMiddleware
      * Handle an incoming request.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \Closure $next
+     * @param \Closure                 $next
      *
      * @return mixed
      */
@@ -43,7 +43,7 @@ class Auth0AuthenticationMiddleware
 
             \Auth::login($user);
         } catch (InvalidTokenException $e) {
-            return response()->json(['error' => "Invalid or no token set."], 401);
+            return response()->json(['error' => 'Invalid or no token set.'], 401);
         } catch (CoreException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }

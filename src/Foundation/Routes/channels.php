@@ -10,5 +10,3 @@
 | routes are loaded by the BroadcastServiceProvider.
 |
 */
-
-
