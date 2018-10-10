@@ -38,12 +38,12 @@ class Auth0AuthenticationMiddleware
             $user = $this->auth0Repository->getUserByDecodedJWT($tokenInfo);
 
             if (!$user) {
-                return response()->json(['error' => 'Unauthorized user'], 401);
+                return response()->json(['error' => 'Unauthorized user.'], 401);
             }
 
             \Auth::login($user);
         } catch (InvalidTokenException $e) {
-            return response()->json(['error' => "Invalid or no token set"], 401);
+            return response()->json(['error' => "Invalid or no token set."], 401);
         } catch (CoreException $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }

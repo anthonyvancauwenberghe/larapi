@@ -24,7 +24,7 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->loadBootstrapService();
         $this->loadCommands();
         $this->loadPolicies();
-        $this->loadV1Routes();
+        $this->loadRoutes();
         $this->loadConfigs();
         $this->loadFactories();
         $this->loadMigrations();
@@ -37,7 +37,7 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->bootstrapService = new BootstrapRegistrarService();
 
         if (!$this->app->environment('production')) {
-            $this->bootstrapService->cache();
+            $this->bootstrapService->recache();
         }
     }
 
@@ -46,26 +46,19 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->commands($this->bootstrapService->getCommands());
     }
 
-    private function loadV1Routes()
+    private function loadRoutes()
     {
         foreach ($this->bootstrapService->getRoutes() as $route) {
-            $apiDomain = strtolower(env('API_URL'));
-            $apiDomain = str_replace('http://', '', $apiDomain);
-            $apiDomain = str_replace('https://', '', $apiDomain);
-            $moduleNamespace = $route[1];
-            $moduleName = explode('\\', $moduleNamespace)[1];
-            $controllerNamespace = $moduleNamespace . '\\' . 'Http\\Controllers';
-            $modelNameSpace = $moduleNamespace . '\\' . 'Entities\\' . $moduleName;
-            $filepath = $route[0];
+            $path = $route['path'];
             Route::group([
-                'prefix' => 'v1',
-                'namespace' => $controllerNamespace,
-                'domain' => $apiDomain,
+                'prefix' => 'v1/' . $route['module'],
+                'namespace' => $route['controller'],
+                'domain' => $route['domain'],
                 'middleware' => ['api'],
-            ], function (Router $router) use ($filepath) {
-                require $filepath;
+            ], function (Router $router) use ($path) {
+                require $path;
             });
-            Route::model(strtolower($moduleName), $modelNameSpace);
+            Route::model($route['module'], $route['model']);
         }
     }
 
@@ -76,12 +69,12 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     protected function loadConfigs()
     {
-        foreach ($this->bootstrapService->getConfigs() as $route) {
+        foreach ($this->bootstrapService->getConfigs() as $config) {
             $this->publishes([
-                $route[0] => config_path($route[1]),
+                $config['path'] => config_path($config['module']),
             ], 'config');
             $this->mergeConfigFrom(
-                $route[0], basename($route[1], '.php')
+                $config['path'], basename($config['module'], '.php')
             );
         }
     }
@@ -93,9 +86,9 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function loadFactories()
     {
-        foreach ($this->bootstrapService->getFactories() as $factoryPath) {
+        foreach ($this->bootstrapService->getFactories() as $factory) {
             if (!$this->app->environment('production')) {
-                app(Factory::class)->load($factoryPath);
+                app(Factory::class)->load($factory['path']);
             }
         }
     }
@@ -107,8 +100,8 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     public function loadMigrations()
     {
-        foreach ($this->bootstrapService->getMigrations() as $migrationPath) {
-            $this->loadMigrationsFrom($migrationPath);
+        foreach ($this->bootstrapService->getMigrations() as $migration) {
+            $this->loadMigrationsFrom($migration['path']);
         }
     }
 

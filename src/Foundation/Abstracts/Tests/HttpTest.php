@@ -49,7 +49,7 @@ class HttpTest extends TestCase
 
     private function sendRequest(string $method, string $route, array $payload = array(), $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, $route, $payload, $authenticated ? [
+        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
             "Authorization" => "Bearer " . $this->getUserTokenData()->id_token
         ] : []);
     }

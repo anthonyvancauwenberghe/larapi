@@ -12,10 +12,7 @@
 |
 */
 
-Route::get('/', function () {
-    return response()->json('Astral Api ');
-});
 
-Route::get('/authorized', function () {
-    return response()->json('authorized');
-})->middleware('auth0');
+Route::get('/', 'FoundationController@api');
+
+Route::get('/authorized', 'FoundationController@authorized')->middleware('auth0');

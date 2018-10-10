@@ -19,21 +19,16 @@ class BootstrapCacheCommand extends Command
      *
      * @var string
      */
-    protected $description = 'Cache all available command classes in the Modules namespace.';
-
-    protected $moduleCommandDirectoryNames = [
-        'console',
-        'commands',
-    ];
+    protected $description = 'Recache the bootstrapping modules.';
 
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle(BootstrapRegistrarService $service)
     {
-        $service->cache();
+        $service->recache();
         $this->info('Commands cached successfully.');
     }
 }

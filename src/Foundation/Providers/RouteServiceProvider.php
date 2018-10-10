@@ -14,7 +14,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'Foundation\Http\Controllers';
+    protected $namespace = 'Foundation\Controllers';
 
     /**
      * Define your route model bindings, pattern filters, etc.
@@ -39,6 +39,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapWebRoutes();
         $this->mapApiRoutes();
     }
 
@@ -51,9 +52,13 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
+        $domain = strtolower(env('APP_URL'));
+        $domain = str_replace('http://', '', $domain);
+        $domain = str_replace('https://', '', $domain);
         Route::middleware('web')
             ->namespace($this->namespace)
-            ->group(base_path('routes/web.php'));
+            ->domain($domain)
+            ->group(base_path('src/Foundation/Routes/web.php'));
     }
 
     /**
@@ -65,9 +70,12 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        $path = base_path('src/Foundation/Routes/api.php');
+        $domain = strtolower(env('API_URL'));
+        $domain = str_replace('http://', '', $domain);
+        $domain = str_replace('https://', '', $domain);
         Route::middleware('api:noauth')
             ->namespace($this->namespace)
-            ->group($path);
+            ->domain($domain)
+            ->group(base_path('src/Foundation/Routes/api.php'));
     }
 }

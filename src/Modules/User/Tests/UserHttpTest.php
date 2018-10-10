@@ -2,9 +2,9 @@
 
 namespace Modules\User\Tests;
 
-use Tests\TestCase;
+use Foundation\Abstracts\Tests\HttpTest;
 
-class ShizzleTest extends TestCase
+class UserHttpTest extends HttpTest
 {
     /**
      * A basic test example.
@@ -13,6 +13,7 @@ class ShizzleTest extends TestCase
      */
     public function testExample()
     {
-        $this->assertTrue(true);
+        $http = $this->http('GET', '/v1/user');
+        $http->assertStatus(200);
     }
 }

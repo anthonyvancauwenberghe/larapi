@@ -31,21 +31,14 @@ class UserService implements UserServiceContract
 
     public function create($data): User
     {
-        if (isset($data['_id'])) {
-            $user = new User();
-            $user->_id = $data['_id'];
-            $user->fill($data);
-            $user->save();
-        } else {
-            $user = User::create($data);
-        }
+        $user = User::create($data);
         Cache::put($this->getCacheName($user->id), $user, $this->getCacheTime());
         return $user;
     }
 
     public function delete($id): bool
     {
-        $deleted = User::delete($id);
+        $deleted = User::destroy($id);
         if ($deleted)
             Cache::forget($this->getCacheName($id));
         return $deleted;
