@@ -26,8 +26,10 @@ if (!function_exists('getAuthenticatedUser')) {
 if (!function_exists('getShortClassName')) {
     function getShortClassName($class)
     {
-        if (!is_string($class))
+        if (!is_string($class)) {
             $class = get_class($class);
+        }
+
         return substr(strrchr($class, '\\'), 1);
     }
 }
@@ -35,22 +37,26 @@ if (!function_exists('getShortClassName')) {
 if (!function_exists('getRandomArrayElement')) {
     function getRandomArrayElement(array $array)
     {
-        if (empty($array))
-            return null;
-        $randomIndex = random_int(0, sizeof($array) - 1);
+        if (empty($array)) {
+            return;
+        }
+        $randomIndex = random_int(0, count($array) - 1);
+
         return $array[$randomIndex];
     }
 }
 if (!function_exists('createArrayFromFactory')) {
     function createArrayFromFactory(string $modelClass, $amount = 1, ?string $state = null)
     {
-        if ($amount < 1)
+        if ($amount < 1) {
             return false;
+        }
 
         $factory = factory($modelClass, $amount);
 
-        if ($state !== null)
+        if ($state !== null) {
             $factory->state($state);
+        }
 
         return $factory->raw();
     }
@@ -61,8 +67,9 @@ if (!function_exists('createFromFactory')) {
     {
         $factory = factory($modelClass);
 
-        if ($state !== null)
+        if ($state !== null) {
             $factory->state($state);
+        }
 
         return $factory->raw();
     }
@@ -78,13 +85,12 @@ if (!function_exists('classImplementsInterface')) {
 if (!function_exists('classUsesTrait')) {
     function classUsesTrait($class, string $trait)
     {
-        if (!is_string($class))
+        if (!is_string($class)) {
             $class = get_class($class);
+        }
 
         $traits = array_flip(class_uses_recursive($class));
 
         return isset($traits[$trait]);
     }
 }
-
-
