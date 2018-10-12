@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 12.10.18
- * Time: 05:25
+ * Time: 05:25.
  */
 
 namespace Foundation\Abstracts\Jobs;
-
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -29,5 +28,4 @@ abstract class Job implements ShouldQueue
     | provides access to the "onQueue" and "delay" queue helper methods.
     |
     */
-
 }
