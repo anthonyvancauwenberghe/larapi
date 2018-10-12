@@ -3,6 +3,7 @@
 namespace Modules\User\Console;
 
 use Illuminate\Console\Command;
+use Modules\User\Jobs\AJob;
 
 class ATestCommand extends Command
 {
