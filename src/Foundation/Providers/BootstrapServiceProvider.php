@@ -2,7 +2,6 @@
 
 namespace Foundation\Providers;
 
-
 use Foundation\Console\SeedCommand;
 use Foundation\Contracts\Cacheable;
 use Foundation\Contracts\ModelPolicyContract;
@@ -25,7 +24,6 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     protected $bootstrapService;
 
-
     public function boot()
     {
         $this->overrideSeedCommand();
@@ -35,7 +33,6 @@ class BootstrapServiceProvider extends ServiceProvider
         /* Register Policies after ownership policies otherwise they would not get overriden */
         $this->loadPolicies();
     }
-
 
     public function register()
     {
@@ -68,9 +65,9 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $path = $route['path'];
             Route::group([
-                'prefix' => 'v1/' . $route['module'],
-                'namespace' => $route['controller'],
-                'domain' => $route['domain'],
+                'prefix'     => 'v1/'.$route['module'],
+                'namespace'  => $route['controller'],
+                'domain'     => $route['domain'],
                 'middleware' => ['api'],
             ], function () use ($path) {
                 require $path;
@@ -143,7 +140,7 @@ class BootstrapServiceProvider extends ServiceProvider
     private function loadCacheObservers()
     {
         foreach ($this->bootstrapService->getModels() as $model) {
-            if (classImplementsInterface($model, Cacheable::class) && (bool)config('model.caching')) {
+            if (classImplementsInterface($model, Cacheable::class) && (bool) config('model.caching')) {
                 $model::observe(CacheObserver::class);
             }
         }
@@ -154,7 +151,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getModels() as $model) {
             if (classImplementsInterface($model, Ownable::class)) {
                 Gate::policy($model, OwnershipPolicy::class);
-                Gate::define('access', OwnershipPolicy::class . '@access');
+                Gate::define('access', OwnershipPolicy::class.'@access');
             }
         }
     }

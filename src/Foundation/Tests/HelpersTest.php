@@ -22,8 +22,8 @@ class HelpersTest extends TestCase
     {
         $this->assertFalse(classImplementsInterface(self::class, Filesystem::class));
         $this->assertTrue(classImplementsInterface(self::class, \PHPUnit\Framework\Test::class));
-        $this->assertFalse(classImplementsInterface(new HelpersTest(), Filesystem::class));
-        $this->assertTrue(classImplementsInterface(new HelpersTest(), \PHPUnit\Framework\Test::class));
+        $this->assertFalse(classImplementsInterface(new self(), Filesystem::class));
+        $this->assertTrue(classImplementsInterface(new self(), \PHPUnit\Framework\Test::class));
     }
 
     public function testUnauthenticatedUserHelper()
@@ -46,11 +46,11 @@ class HelpersTest extends TestCase
     public function testRandomArrayElementHelper()
     {
         $array = [
-            "test",
-            "x",
-            "blabla",
-            "hello",
-            "hey"
+            'test',
+            'x',
+            'blabla',
+            'hello',
+            'hey',
         ];
 
         $randomArrayElement = getRandomArrayElement($array);

@@ -12,10 +12,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 
-
 /**
- * Class User
- * @package Modules\User\Entities
+ * Class User.
+ *
  * @property string $_id
  * @property string $id
  * @property string $username
@@ -45,6 +44,4 @@ class User extends MongoModel implements AuthorizableContract, AuthenticatableCo
     {
         return $this->id;
     }
-
-
 }
