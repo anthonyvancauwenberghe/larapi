@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 11.10.18
- * Time: 14:11
+ * Time: 14:11.
  */
 
 namespace Foundation\Cache;
-
 
 use Cache;
 use Foundation\Exceptions\Exception;
@@ -15,10 +14,10 @@ use Illuminate\Support\Facades\Redis;
 
 class ModelCache
 {
-
     /**
      * @param $id
      * @param string $modelClass
+     *
      * @return mixed
      */
     public static function find($id, $modelClass)
@@ -33,7 +32,7 @@ class ModelCache
      */
     public static function getCacheName($id, $modelClass)
     {
-        return config('model.cache_prefix') . ':' . strtolower(getShortClassName($modelClass)) . ':' . $id;
+        return config('model.cache_prefix').':'.strtolower(getShortClassName($modelClass)).':'.$id;
     }
 
     /**
@@ -47,6 +46,7 @@ class ModelCache
     /**
      * @param $id
      * @param string $modelClass
+     *
      * @return mixed
      */
     public static function findWithoutRequery($id, $modelClass)
@@ -65,6 +65,7 @@ class ModelCache
     /**
      * @param $id
      * @param string $modelClass
+     *
      * @return bool
      */
     public static function remove($id, $modelClass)
@@ -72,9 +73,6 @@ class ModelCache
         return Cache::forget(self::getCacheName($id, $modelClass));
     }
 
-    /**
-     *
-     */
     public static function clearAll()
     {
         $pattern = config('model.cache_prefix');
@@ -83,37 +81,39 @@ class ModelCache
 
     /**
      * @param $prefix
+     *
      * @throws Exception
      */
     private static function deleteWithPrefix($prefix)
     {
         $redis = self::getCacheConnection();
-        $keyPattern = Cache::getPrefix() . $prefix . '*';
+        $keyPattern = Cache::getPrefix().$prefix.'*';
         $keys = $redis->keys($keyPattern);
         $redis->delete($keys);
     }
 
-
     /**
-     * @return \Illuminate\Redis\Connections\Connection
      * @throws Exception
+     *
+     * @return \Illuminate\Redis\Connections\Connection
      */
     private static function getCacheConnection()
     {
-        if (config('cache.default') === 'redis')
+        if (config('cache.default') === 'redis') {
             return Redis::connection('cache');
+        }
 
-        throw new Exception("This action is only possible with redis as cache driver");
+        throw new Exception('This action is only possible with redis as cache driver');
     }
 
     /**
      * @param $modelClass
+     *
      * @throws Exception
      */
     public static function clearModel($modelClass)
     {
-        $pattern = config('model.cache_prefix') . ':' . strtolower(getShortClassName($modelClass));
+        $pattern = config('model.cache_prefix').':'.strtolower(getShortClassName($modelClass));
         self::deleteWithPrefix($pattern);
     }
-
 }

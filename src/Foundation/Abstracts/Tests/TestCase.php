@@ -25,6 +25,7 @@ abstract class TestCase extends BaseTestCase
     {
         $user = $this->createUser();
         $this->actingAs($user);
+
         return $user;
     }
 }

@@ -8,12 +8,10 @@ use Modules\User\Entities\User;
 
 class CacheObserverTest extends TestCase
 {
-
     public function testCache()
     {
         $user = $this->createUser();
         $this->assertEquals($user, ModelCache::find($user->getKey(), User::class));
-
     }
 
     public function testClearModelsCache()
@@ -33,5 +31,4 @@ class CacheObserverTest extends TestCase
         ModelCache::clearModel($user);
         $this->assertEquals(null, ModelCache::findWithoutRequery($user->getKey(), User::class));
     }
-
 }

@@ -2,12 +2,11 @@
 
 use Modules\User\Entities\User;
 
-
 $factory->define(
     User::class, function (Faker\Generator $faker) {
-    return [
+        return [
         'provider' => 'database',
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail
+        'name'     => $faker->name,
+        'email'    => $faker->unique()->safeEmail,
     ];
-});
+    });
