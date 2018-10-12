@@ -3,7 +3,6 @@
 namespace Foundation\Kernels;
 
 use Foundation\Console\BootstrapCacheCommand;
-use Foundation\Console\SeedCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as LaravelConsoleKernel;
 
@@ -16,7 +15,6 @@ class ConsoleKernel extends LaravelConsoleKernel
      */
     protected $commands = [
         BootstrapCacheCommand::class,
-       // SeedCommand::class
     ];
 
     /**
@@ -39,8 +37,6 @@ class ConsoleKernel extends LaravelConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
-        require base_path('routes/console.php');
+        require base_path('src/Foundation/Routes/console.php');
     }
 }
