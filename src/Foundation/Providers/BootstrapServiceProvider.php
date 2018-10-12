@@ -25,12 +25,6 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     protected $bootstrapService;
 
-    public function __construct(\Illuminate\Foundation\Application $app)
-    {
-        parent::__construct($app);
-        $this->loadBootstrapService();
-    }
-
 
     public function boot()
     {
@@ -45,6 +39,9 @@ class BootstrapServiceProvider extends ServiceProvider
 
     public function register()
     {
+        /* Load BootstrapService here because of the dependencies needed in BootstrapRegistrarService */
+        $this->loadBootstrapService();
+
         $this->loadCommands();
         $this->loadRoutes();
         $this->loadConfigs();
