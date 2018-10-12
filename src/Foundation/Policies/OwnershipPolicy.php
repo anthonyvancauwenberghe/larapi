@@ -93,11 +93,12 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
      * @param $user
      * @param $ability
      * @return null
+     *
+     * public function before($user, $ability)
+    * {
+        * //TODO IMPLEMENT CHECK USER IS ADMIN
+        * return null;
+     * }
      */
-    public function before($user, $ability)
-    {
-        //TODO IMPLEMENT CHECK USER IS ADMIN
-        return null;
-    }
 
 }
