@@ -11,7 +11,7 @@ class UserHttpTest extends HttpTest
      *
      * @return void
      */
-    public function testExample()
+    public function testGetUser()
     {
         $http = $this->http('GET', '/v1/user');
         $http->assertStatus(200);

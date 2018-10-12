@@ -2,11 +2,17 @@
 
 namespace Foundation\Providers;
 
+
 use Foundation\Console\SeedCommand;
+use Foundation\Contracts\Cacheable;
+use Foundation\Contracts\ModelPolicyContract;
+use Foundation\Contracts\Ownable;
+use Foundation\Observers\CacheObserver;
+use Foundation\Policies\OwnershipPolicy;
 use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Database\Eloquent\Factory;
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\ServiceProvider;
 use Route;
 
 /**
@@ -19,20 +25,34 @@ class BootstrapServiceProvider extends ServiceProvider
      */
     protected $bootstrapService;
 
+    public function __construct(\Illuminate\Foundation\Application $app)
+    {
+        parent::__construct($app);
+        $this->loadBootstrapService();
+    }
+
+
+    public function boot()
+    {
+        $this->overrideSeedCommand();
+        $this->loadCacheObservers();
+        $this->loadOwnershipPolicies();
+
+        /* Register Policies after ownership policies otherwise they would not get overriden */
+        $this->loadPolicies();
+    }
+
+
     public function register()
     {
-        $this->loadBootstrapService();
         $this->loadCommands();
-        $this->loadPolicies();
         $this->loadRoutes();
         $this->loadConfigs();
         $this->loadFactories();
         $this->loadMigrations();
-
-        $this->overrideSeedCommand();
     }
 
-    public function loadBootstrapService()
+    private function loadBootstrapService()
     {
         $this->bootstrapService = new BootstrapRegistrarService();
 
@@ -51,11 +71,11 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $path = $route['path'];
             Route::group([
-                'prefix'     => 'v1/'.$route['module'],
-                'namespace'  => $route['controller'],
-                'domain'     => $route['domain'],
+                'prefix' => 'v1/' . $route['module'],
+                'namespace' => $route['controller'],
+                'domain' => $route['domain'],
                 'middleware' => ['api'],
-            ], function (Router $router) use ($path) {
+            ], function () use ($path) {
                 require $path;
             });
             Route::model($route['module'], $route['model']);
@@ -107,7 +127,11 @@ class BootstrapServiceProvider extends ServiceProvider
 
     private function loadPolicies()
     {
-        //TODO
+        foreach ($this->bootstrapService->getPolicies() as $policy) {
+            if (classImplementsInterface($policy['class'], ModelPolicyContract::class)) {
+                Gate::policy($policy['model'], $policy['class']);
+            }
+        }
     }
 
     private function overrideSeedCommand()
@@ -117,5 +141,24 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->app->extend('command.seed', function () use ($app, $service) {
             return new SeedCommand($app['db'], $service);
         });
+    }
+
+    private function loadCacheObservers()
+    {
+        foreach ($this->bootstrapService->getModels() as $model) {
+            if (classImplementsInterface($model, Cacheable::class) && (bool)config('model.caching')) {
+                $model::observe(CacheObserver::class);
+            }
+        }
+    }
+
+    private function loadOwnershipPolicies()
+    {
+        foreach ($this->bootstrapService->getModels() as $model) {
+            if (classImplementsInterface($model, Ownable::class)) {
+                Gate::policy($model, OwnershipPolicy::class);
+                Gate::define('access', OwnershipPolicy::class . '@access');
+            }
+        }
     }
 }

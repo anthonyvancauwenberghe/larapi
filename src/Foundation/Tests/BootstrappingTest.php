@@ -8,8 +8,8 @@
 
 namespace Foundation\Tests;
 
+use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Services\BootstrapRegistrarService;
-use Tests\TestCase;
 
 class BootstrappingTest extends TestCase
 {

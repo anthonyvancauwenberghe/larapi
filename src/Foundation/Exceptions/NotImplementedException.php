@@ -8,9 +8,8 @@
 
 namespace Foundation\Exceptions;
 
-use Foundation\Abstracts\Exceptions\AbstractException;
-
-class Exception extends AbstractException
+class NotImplementedException extends \Exception
 {
     protected $code = 500;
+    protected $message = "There is no implementation for this method yet";
 }

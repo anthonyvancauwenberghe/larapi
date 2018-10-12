@@ -12,9 +12,8 @@ use Cache;
 use Foundation\Repositories\Auth0UserRepository;
 use GuzzleHttp\Client;
 use Modules\User\Services\UserService;
-use Tests\TestCase;
 
-class HttpTest extends TestCase
+abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 {
     protected function getTestUser()
     {

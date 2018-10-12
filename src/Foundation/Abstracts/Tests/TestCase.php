@@ -8,13 +8,23 @@
 
 namespace Foundation\Abstracts\Tests;
 
-use Tests\TestCase as BaseTestCase;
+use Foundation\Traits\RefreshDatabaseBeforeTest;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Modules\User\Entities\User;
 
-class TestCase extends BaseTestCase
+abstract class TestCase extends BaseTestCase
 {
-    protected function tearDown()
+    use RefreshDatabaseBeforeTest, CreatesApplication;
+
+    protected function createUser()
     {
-        parent::tearDown();
-        // \Cache::clear();
+        return factory(User::class)->create();
+    }
+
+    protected function actAsRandomUser()
+    {
+        $user = $this->createUser();
+        $this->actingAs($user);
+        return $user;
     }
 }

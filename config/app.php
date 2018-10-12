@@ -167,12 +167,12 @@ return [
         /*
          * Application Service Providers...
          */
+        Foundation\Providers\BootstrapServiceProvider::class,
         Foundation\Providers\AppServiceProvider::class,
         Foundation\Providers\AuthServiceProvider::class,
         Foundation\Providers\BroadcastServiceProvider::class,
         Foundation\Providers\EventServiceProvider::class,
         Foundation\Providers\RouteServiceProvider::class,
-        Foundation\Providers\BootstrapServiceProvider::class,
     ],
 
     /*

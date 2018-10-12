@@ -8,6 +8,6 @@
 
 namespace Foundation\Abstracts\Exceptions;
 
-abstract class Exception extends \Exception
+abstract class AbstractException extends \Exception
 {
 }

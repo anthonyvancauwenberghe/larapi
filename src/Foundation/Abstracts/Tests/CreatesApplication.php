@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace Foundation\Abstracts\Tests;
 
 use Illuminate\Contracts\Console\Kernel;
 
@@ -13,7 +13,8 @@ trait CreatesApplication
      */
     public function createApplication()
     {
-        $app = require __DIR__.'/../bootstrap/app.php';
+        $bootstrapFile = dirname(__FILE__, 5) . '/bootstrap/app.php';
+        $app = require $bootstrapFile;
 
         $app->make(Kernel::class)->bootstrap();
 

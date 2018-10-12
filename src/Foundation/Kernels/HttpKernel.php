@@ -19,6 +19,7 @@ class HttpKernel extends LaravelHttpKernel
         \Foundation\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Foundation\Middleware\TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
