@@ -15,3 +15,7 @@
 Route::get('/', 'FoundationController@api');
 
 Route::get('/authorized', 'FoundationController@authorized')->middleware('auth0');
+
+Route::get('/v1/notifications', 'NotificationController@all')->middleware('auth0');
+Route::get('/v1/notifications/unread', 'NotificationController@allUnread')->middleware('auth0');
+Route::post('/v1/notifications/{id}', 'NotificationController@read')->middleware('auth0');

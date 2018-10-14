@@ -57,7 +57,7 @@ class HttpKernel extends LaravelHttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth0'         => \Foundation\Middleware\Auth0AuthenticationMiddleware::class,
+        'auth0'         => \Modules\Auth0\Middleware\Auth0AuthenticationMiddleware::class,
         //'auth'          => \Foundation\Middleware\Authenticate::class,
         // 'auth.basic'    => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings'      => \Illuminate\Routing\Middleware\SubstituteBindings::class,

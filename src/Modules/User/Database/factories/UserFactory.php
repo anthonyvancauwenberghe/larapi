@@ -2,11 +2,11 @@
 
 use Modules\User\Entities\User;
 
-$factory->define(
-    User::class, function (Faker\Generator $faker) {
-        return [
+$factory->define(User::class, function (Faker\Generator $faker) {
+    return [
         'provider' => 'database',
-        'name'     => $faker->name,
-        'email'    => $faker->unique()->safeEmail,
+        'identity_id' => (new \MongoDB\BSON\ObjectId())->__toString(),
+        'name' => $faker->name,
+        'email' => $faker->unique()->safeEmail,
     ];
-    });
+});

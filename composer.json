@@ -9,15 +9,16 @@
         "ext-hash": "*",
         "ext-json": "*",
         "ext-mongodb": "^1.5.0",
-        "auth0/login": "^5.1",
         "barryvdh/laravel-cors": "^0.11.2",
         "fideloper/proxy": "^4.0",
+        "hhxsv5/laravel-s": "~3.0",
         "jenssegers/mongodb": "^3.4",
         "laravel/framework": "5.7.*",
         "laravel/horizon": "^1.4",
         "laravel/tinker": "^1.0",
         "nwidart/laravel-modules": "^4.0",
-        "pusher/pusher-php-server": "^3.2"
+        "pusher/pusher-php-server": "^3.2",
+        "wikimedia/composer-merge-plugin": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.5",
@@ -47,7 +48,20 @@
     "extra": {
         "laravel": {
             "dont-discover": [
+                "nwidart/laravel-modules",
+                "barryvdh/laravel-ide-helper"
             ]
+        },
+        "merge-plugin": {
+            "include": [
+                "src/Modules/*/composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "merge-dev": true,
+            "merge-extra": false,
+            "merge-extra-deep": false,
+            "merge-scripts": true
         }
     },
     "scripts": {

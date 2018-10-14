@@ -9,6 +9,6 @@ class OwnershipPolicyTest extends TestCase
     public function testAccessPolicy()
     {
         $user = $this->actAsRandomUser();
-        $this->assertTrue($user->can('access', getAuthenticatedUser()));
+        $this->assertTrue($user->can('access', get_authenticated_user()));
     }
 }

@@ -19,4 +19,6 @@ interface UserServiceContract
     public function create($data): User;
 
     public function delete($id): bool;
+
+    public function newUser($data): User;
 }

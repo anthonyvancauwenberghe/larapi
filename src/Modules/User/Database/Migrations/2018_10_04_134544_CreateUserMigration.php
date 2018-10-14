@@ -6,5 +6,6 @@ class CreateUserMigration extends \Foundation\Abstracts\Migrations\MongoMigratio
 
     protected function migrate(\Jenssegers\Mongodb\Schema\Blueprint $collection)
     {
+        $collection->unique('identity_id');
     }
 }

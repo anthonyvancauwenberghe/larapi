@@ -11,7 +11,7 @@ namespace Foundation\Traits;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabaseState;
 
-trait RefreshDatabaseBeforeTest
+trait RefreshDatabase
 {
     use DatabaseMigrations {
         DatabaseMigrations::runDatabaseMigrations as parentMethod;
@@ -20,9 +20,11 @@ trait RefreshDatabaseBeforeTest
     public function runDatabaseMigrations()
     {
         $this->artisan('migrate:fresh');
+        $this->artisan('cache:clear');
         $this->artisan('db:seed');
 
         $this->beforeApplicationDestroyed(function () {
+            $this->artisan('cache:clear');
             $this->artisan('migrate:rollback');
             RefreshDatabaseState::$migrated = false;
         });

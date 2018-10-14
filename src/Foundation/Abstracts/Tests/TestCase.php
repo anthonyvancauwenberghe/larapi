@@ -8,13 +8,13 @@
 
 namespace Foundation\Abstracts\Tests;
 
-use Foundation\Traits\RefreshDatabaseBeforeTest;
+use Foundation\Traits\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Modules\User\Entities\User;
 
 abstract class TestCase extends BaseTestCase
 {
-    use RefreshDatabaseBeforeTest, CreatesApplication;
+    use RefreshDatabase, CreatesApplication;
 
     protected function createUser()
     {

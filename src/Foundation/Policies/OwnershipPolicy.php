@@ -44,14 +44,14 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
      */
     private function userIsModelOwner(User $user, Ownable $model): bool
     {
-        if (classImplementsInterface($model->ownedBy(), Authenticatable::class)) {
+        if (class_implements_interface($model->ownedBy(), Authenticatable::class)) {
             return $user->id === $model->ownerId();
         }
 
         $ownerModel = $model->ownedBy();
         $owner = $ownerModel::find($model->ownerId());
 
-        if (classImplementsInterface($owner, Ownable::class)) {
+        if (class_implements_interface($owner, Ownable::class)) {
             return $this->userIsModelOwner($user, $owner);
         }
 

@@ -1,0 +1,28 @@
+{
+    "name": "Auth0",
+    "description": "",
+    "authors": [
+        {
+            "name": "Arthur Devious",
+            "email": "development@astralbot.io"
+        }
+    ],
+    "require": {
+        "auth0/login": "^5.1"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+
+            ],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Auth0\\": ""
+        }
+    }
+}

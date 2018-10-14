@@ -1,6 +1,6 @@
 <?php
 
-namespace Foundation\Middleware;
+namespace Modules\Auth0\Middleware;
 
 use Auth0\Login\Contract\Auth0UserRepository;
 use Auth0\SDK\Exception\CoreException;
@@ -9,14 +9,14 @@ use Closure;
 
 class Auth0AuthenticationMiddleware
 {
-    protected $auth0Repository;
+    protected $auth0Service;
 
     /**
      * Auth0AuthenticationMiddleware constructor.
      */
-    public function __construct(Auth0UserRepository $auth0Repository)
+    public function __construct(Auth0UserRepository $auth0Service)
     {
-        $this->auth0Repository = $auth0Repository;
+        $this->auth0Service = $auth0Service;
     }
 
     /**
@@ -35,7 +35,7 @@ class Auth0AuthenticationMiddleware
 
         try {
             $tokenInfo = $auth0->decodeJWT($accessToken);
-            $user = $this->auth0Repository->getUserByDecodedJWT($tokenInfo);
+            $user = $this->auth0Service->getUserByDecodedJWT($tokenInfo);
 
             if (!$user) {
                 return response()->json(['error' => 'Unauthorized user.'], 401);

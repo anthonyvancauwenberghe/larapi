@@ -22,11 +22,6 @@ class AuthServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(
-            \Auth0\Login\Contract\Auth0UserRepository::class,
-            \Foundation\Repositories\Auth0UserRepository::class
-        );
-
         $this->registerPolicies();
     }
 }

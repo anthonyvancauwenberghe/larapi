@@ -3,14 +3,15 @@
 namespace Modules\User\Entities;
 
 use Foundation\Abstracts\MongoModel;
-use Foundation\Contracts\Cacheable;
 use Foundation\Contracts\Ownable;
+use Foundation\Traits\Cacheable;
+use Foundation\Traits\Notifiable;
 use Foundation\Traits\OwnedByUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Notifications\Notifiable;
+use Modules\Auth0\Traits\Auth0Model;
 
 /**
  * Class User.
@@ -23,9 +24,9 @@ use Illuminate\Notifications\Notifiable;
  * @property string $avatar
  * @property string $provider
  */
-class User extends MongoModel implements AuthorizableContract, AuthenticatableContract, Cacheable, Ownable
+class User extends MongoModel implements AuthorizableContract, AuthenticatableContract, Ownable
 {
-    use Notifiable, Authorizable, Authenticatable, OwnedByUser;
+    use Notifiable, Authorizable, Authenticatable, OwnedByUser, Cacheable, Auth0Model;
 
     /**
      * @var string
@@ -44,4 +45,5 @@ class User extends MongoModel implements AuthorizableContract, AuthenticatableCo
     {
         return $this->id;
     }
+
 }

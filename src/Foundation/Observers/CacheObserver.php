@@ -18,7 +18,6 @@ class CacheObserver extends Observer
      */
     public function created($model)
     {
-        $model->relations = [];
         ModelCache::store($model);
     }
 
