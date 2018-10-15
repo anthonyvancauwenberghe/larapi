@@ -21,23 +21,24 @@ class NotificationsTest extends HttpTest
     public function testUserRegisteredEvent()
     {
         $this->expectsEvents(UserRegisteredEvent::class);
-        event(new UserRegisteredEvent($this->getHttpUser()));
+
+        /* Creates a new user & therefore a new userregisteredevent is launched */
+        $this->getHttpUser();
     }
 
     public function testDatabaseNotification()
     {
+        /* Creates a new user & therefore a new userregisteredevent is launched */
         $user = $this->getHttpUser();
-        $user->notifyNow(new UserRegisteredNotification($user));
-        $user->notifyNow(new UserRegisteredNotification($user));
 
-        $notifications = User::find($user->getKey())->unreadNotifications;
-        $this->assertCount(2, $notifications);
+        $notifications = User::find($user->getKey())->unreadNotifications->toArray();
+        $this->assertCount(1, $notifications);
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
         $response = $this->http('POST', 'v1/notifications/' . $notificationId);
         $response->assertStatus(200);
         $unreadnotifications = User::find($user->getKey())->unreadNotifications;
-        $this->assertCount(1, $unreadnotifications);
+        $this->assertCount(0, $unreadnotifications);
     }
 
     public function testAllNotificationsRoute()
@@ -55,8 +56,6 @@ class NotificationsTest extends HttpTest
     public function testUnreadNotificationsRoute()
     {
         $user = $this->getHttpUser();
-        $user->notifyNow(new UserRegisteredNotification($user));
-        $user->notifyNow(new UserRegisteredNotification($user));
         $user->notifyNow(new UserRegisteredNotification($user));
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();

@@ -5,6 +5,7 @@ namespace Modules\User\Console;
 use Auth0\Login\Contract\Auth0UserRepository;
 use Illuminate\Console\Command;
 use Modules\User\Entities\User;
+use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 use Modules\User\Services\UserService;
 
@@ -32,7 +33,7 @@ class ATestCommand extends Command
     public function handle()
     {
         $user = User::get()->last();
-        $user->notify(new UserRegisteredNotification($user));
+        event(new UserRegisteredEvent($user));
         $this->info('working');
     }
 }

@@ -28,9 +28,9 @@ trait Cacheable
     {
         $model = new static();
         if (is_array($id) || $id instanceof Arrayable) {
-            return static::whereIn($model->getKeyName(), $id)->get($columns);
+            return $model::whereIn($model->getKeyName(), $id)->get($columns);
         }
-        return static::where($model->getKeyName(), $id)->first($columns);
+        return $model::whereKey($id)->first($columns);
     }
 
     private static function filterFromColumns($model, $columns)

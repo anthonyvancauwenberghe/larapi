@@ -10,6 +10,7 @@ namespace Foundation\Controllers;
 
 use Foundation\Resources\NotificationResource;
 use Illuminate\Routing\Controller;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NotificationController extends Controller
 {
@@ -25,7 +26,12 @@ class NotificationController extends Controller
 
     public function read($id)
     {
-        get_authenticated_user()->unreadNotifications()->find($id)->markAsRead();
+        $notification = get_authenticated_user()->unreadNotifications()->find($id);
+
+        if ($notification === null)
+            throw new NotFoundHttpException("Could not find notification");
+
+        $notification->markAsRead();
         return response()->json([
             "success"
         ]);

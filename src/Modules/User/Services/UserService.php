@@ -10,6 +10,7 @@ namespace Modules\User\Services;
 
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
+use Modules\User\Events\UserRegisteredEvent;
 
 class UserService implements UserServiceContract
 {
@@ -27,7 +28,9 @@ class UserService implements UserServiceContract
 
     public function create($data): User
     {
-        return User::create($data);
+        $user = User::create($data);
+        event(new UserRegisteredEvent($user));
+        return $user;
     }
 
     public function delete($id): bool
@@ -39,6 +42,5 @@ class UserService implements UserServiceContract
     {
         return new User($data);
     }
-
 
 }

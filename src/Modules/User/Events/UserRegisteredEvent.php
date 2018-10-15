@@ -10,6 +10,8 @@ namespace Modules\User\Events;
 
 
 use Foundation\Abstracts\Events\Event;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\User\Entities\User;
 use Modules\User\Listeners\NewlyRegisteredUserListener;
 
@@ -30,5 +32,19 @@ class UserRegisteredEvent extends Event
         $this->user = $user;
     }
 
+    public function broadcastOn()
+    {
+        return new PrivateChannel('app.' . $this->user->getKey());
+    }
+
+    /**
+     * The event's broadcast name.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'user.registered';
+    }
 
 }

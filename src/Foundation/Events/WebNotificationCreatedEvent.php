@@ -16,4 +16,14 @@ class WebNotificationCreatedEvent extends BroadcastNotificationCreated
     public function broadcastAs(){
         return 'notification.created';
     }
+
+    /**
+     * Get the data that should be sent with the broadcasted event.
+     *
+     * @return array
+     */
+    public function broadcastWith()
+    {
+        return $this->data;
+    }
 }

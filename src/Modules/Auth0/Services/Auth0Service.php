@@ -12,6 +12,7 @@ namespace Modules\Auth0\Services;
 use Auth0\Login\Repository\Auth0UserRepository;
 use Modules\Auth0\Drivers\Auth0UserProfileStorageDriver;
 use Modules\User\Contracts\UserServiceContract;
+use Modules\User\Events\UserRegisteredEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class Auth0Service extends Auth0UserRepository
@@ -55,13 +56,19 @@ class Auth0Service extends Auth0UserRepository
         $id = $identifier[1];
 
         $user = $this->service->find($id);
+        $newUser = false;
         if ($user === null) {
             $user = $this->service->newUser([
                 "identity_id" => $id
             ]);
+            $newUser = true;
         }
         $driver = new Auth0UserProfileStorageDriver($user, $profile, $identityProvider);
         $user = $driver->run();
+
+        if ($newUser) {
+            event(new UserRegisteredEvent($user));
+        }
 
         return $user;
     }

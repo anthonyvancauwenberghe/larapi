@@ -14,6 +14,8 @@ use Jenssegers\Mongodb\Eloquent\Model;
 
 class MongoDatabaseNotification extends Model
 {
+    protected $primaryKey = '_id';
+
     /**
      * The table associated with the model.
      *
