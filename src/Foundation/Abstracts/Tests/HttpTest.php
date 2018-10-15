@@ -47,7 +47,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         return Cache::remember('testing:http_access_token', 60, function () {
             try {
                 $httpClient = new Client();
-                $response = $httpClient->post(config('laravel-auth0.domain') . 'oauth/token', [
+                $response = $httpClient->post(env('AUTH0_DOMAIN') . 'oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
                         'client_id' => env('AUTH0_CLIENT_ID'),
@@ -58,7 +58,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
                 ]);
                 return json_decode($response->getBody()->getContents());
             } catch (ClientException $exception) {
-                throw new Exception("Could not obtain token from Auth0 for testing.");
+                throw new Exception("Could not obtain token from Auth0 for testing." . $exception->getMessage());
             }
         });
     }
