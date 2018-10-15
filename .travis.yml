@@ -11,19 +11,19 @@ services:
 - mongodb
 
 addons:
-    hosts:
-    - larapi.test
-    - api.larapi.test
+  hosts:
+  - larapi.test
+  - api.larapi.test
 
 env:
-    global:
-    - setup=stable
+  global:
+  - setup=stable
 
 matrix:
-    fast_finish: true
-    include:
-    - php: 7.2
-      env: setup=normal
+  fast_finish: true
+  include:
+  - php: 7.2
+    env: setup=normal
 
 before_install:
 - echo '' > ./storage/logs/laravel.log
@@ -36,11 +36,12 @@ install:
 - if [[ $setup = 'normal' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
 
 before_script:
-- echo .env.travis >> PUSHER_APP_SECRET=$PUSHER_APP_SECRET
-- echo .env.travis >> AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
-- echo .env.travis >> AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME
-- echo .env.travis >> AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS
 - cp .env.travis .env
+- echo .env >> PUSHER_APP_SECRET=$PUSHER_APP_SECRET
+- echo .env >> AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
+- echo .env >> AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME
+- echo .env >> AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS
+- echo .env >> RANDOMVARIABLE=blablabla
 - composer update
 - php artisan key:generate
 - php artisan bootstrap:cache
