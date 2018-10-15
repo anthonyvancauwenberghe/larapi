@@ -47,24 +47,18 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         return Cache::remember('testing:http_access_token', 60, function () {
             try {
                 $httpClient = new Client();
-                $domain = 'https://astral.eu.auth0.com/';
-                $test = env('AUTH0_DOMAIN');
-                $clientId = env('AUTH0_CLIENT_ID');
-                $username = env('AUTH0_TEST_USER_NAME');
-                $password = env('AUTH0_TEST_USER_PASS');
-
-                $response = $httpClient->post($domain . 'oauth/token', [
+                $response = $httpClient->post(env('AUTH0_DOMAIN') . 'oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
-                        'client_id' => $clientId,
-                        'username' => $username,
-                        'password' => $password,
+                        'client_id' => env('AUTH0_CLIENT_ID'),
+                        'username' => env('AUTH0_TEST_USER_NAME'),
+                        'password' => env('AUTH0_TEST_USER_PASS'),
                         'scope' => 'openid profile email offline_access',
                     ],
                 ]);
                 return json_decode($response->getBody()->getContents());
             } catch (ClientException $exception) {
-                throw new Exception("Could not obtain token from Auth0 for testing from $test $domain $clientId $username $password" . $exception->getMessage());
+                throw new Exception("Could not obtain token from Auth0 at " . env('AUTH0_DOMAIN') . " for testing.");
             }
         });
     }
