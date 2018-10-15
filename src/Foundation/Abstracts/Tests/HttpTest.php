@@ -47,7 +47,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         return Cache::remember('testing:http_access_token', 60, function () {
             try {
                 $httpClient = new Client();
-                $domain = env('AUTH0_DOMAIN');
+                $domain = 'https://astral.eu.auth0.com/';
                 $response = $httpClient->post($domain . 'oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
