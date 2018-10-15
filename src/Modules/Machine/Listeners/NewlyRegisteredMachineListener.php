@@ -3,20 +3,17 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 19:44
+ * Time: 19:44.
  */
 
 namespace Modules\Machine\Listeners;
 
-
 use Foundation\Abstracts\Listeners\Listener;
 use Modules\Machine\Events\MachineRegisteredEvent;
-use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
 class NewlyRegisteredMachineListener extends Listener
 {
-
     /**
      * @param MachineRegisteredEvent $event
      */
@@ -31,7 +28,5 @@ class NewlyRegisteredMachineListener extends Listener
      */
     public function failed($event, $exception): void
     {
-
     }
-
 }

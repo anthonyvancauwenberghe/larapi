@@ -15,7 +15,6 @@ use Modules\User\Entities\User;
 
 abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 {
-
     /**
      * @var Auth0Service
      */
@@ -27,7 +26,6 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         $this->service = $this->app->make(Auth0UserRepository::class);
     }
 
-
     /**
      * @return User | Authenticatable
      */
@@ -38,8 +36,10 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     protected function decodeHttpContent($content, $unwrap = true)
     {
-        if ($unwrap)
+        if ($unwrap) {
             return json_decode($content, true)['data'];
+        }
+
         return json_decode($content, true);
     }
 
@@ -50,15 +50,15 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     private function sendRequest(string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer ' . $this->service->getPredefinedUserTokenData()->id_token,
+        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer '.$this->service->getPredefinedUserTokenData()->id_token,
         ] : []);
     }
 
     protected function sendRequestWithToken($token, string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer ' . $token,
+        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer '.$token,
         ] : []);
     }
 

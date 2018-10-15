@@ -36,16 +36,15 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $this->resolver->setDefaultConnection($this->getDatabase());
 
         Model::unguarded(function () {
-
             $seeders = $this->getSeeders();
 
-            $priorities = array();
+            $priorities = [];
             $prioritySeeders = [];
             $nonPrioritySeeders = [];
             foreach ($seeders as $seeder) {
                 $priority = get_class_property($seeder, 'priority');
                 if (!is_int($priority) && $priority !== null) {
-                    throw new Exception("Priority on seeder must be integer");
+                    throw new Exception('Priority on seeder must be integer');
                 } elseif (in_array($priority, $priorities)) {
                     throw new Exception("Duplicate priority on seeder $seeder with $prioritySeeders[$priority]");
                 } elseif ($priority === null) {

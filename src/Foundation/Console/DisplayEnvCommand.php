@@ -2,7 +2,6 @@
 
 namespace Foundation\Console;
 
-use Foundation\Cache\ModelCache;
 use Illuminate\Console\Command;
 
 class DisplayEnvCommand extends Command

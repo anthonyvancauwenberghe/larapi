@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 13.10.18
- * Time: 22:22
+ * Time: 22:22.
  */
 
 namespace Modules\Auth0\Traits;
-
 
 trait Auth0Model
 {

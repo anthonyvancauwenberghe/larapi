@@ -11,25 +11,23 @@ namespace Foundation\Services;
 use Foundation\Abstracts\Listeners\ListenerContract;
 use Illuminate\Console\Command;
 use Nwidart\Modules\Module;
-use ReflectionClass;
 
 class BootstrapRegistrarService
 {
-
     /**
      * @var array
      */
     protected $moduleEntityDirectories = [
-        'commands' => 'Console',
-        'routes' => 'Routes',
-        'configs' => 'Config',
-        'factories' => 'Database/factories',
+        'commands'   => 'Console',
+        'routes'     => 'Routes',
+        'configs'    => 'Config',
+        'factories'  => 'Database/factories',
         'migrations' => 'Database/Migrations',
-        'seeders' => 'Database/Seeders',
-        'models' => 'Entities',
-        'policies' => 'Policies',
-        'providers' => 'Providers',
-        'events' => 'Events'
+        'seeders'    => 'Database/Seeders',
+        'models'     => 'Entities',
+        'policies'   => 'Policies',
+        'providers'  => 'Providers',
+        'events'     => 'Events',
     ];
 
     /**
@@ -42,7 +40,6 @@ class BootstrapRegistrarService
      */
     protected $bootstrap;
 
-
     public function recache()
     {
         $this->buildBootstrapData();
@@ -54,7 +51,7 @@ class BootstrapRegistrarService
      */
     private function storeInCache($data)
     {
-        file_put_contents($this->getCachePath(), '<?php return ' . var_export($data, true) . ';');
+        file_put_contents($this->getCachePath(), '<?php return '.var_export($data, true).';');
     }
 
     /**
@@ -83,7 +80,7 @@ class BootstrapRegistrarService
      */
     private function getCachePath(): string
     {
-        return app()->bootstrapPath() . '/cache/' . $this->cacheFile;
+        return app()->bootstrapPath().'/cache/'.$this->cacheFile;
     }
 
     /**
@@ -105,11 +102,12 @@ class BootstrapRegistrarService
     private function getModules(): array
     {
         $path = base_path('src/Modules');
-        $moduleNames = array_diff(scandir($path), array('..', '.'));
-        $modules = array();
+        $moduleNames = array_diff(scandir($path), ['..', '.']);
+        $modules = [];
         foreach ($moduleNames as $moduleName) {
-            $modules[$moduleName] = $path . '/' . $moduleName;
+            $modules[$moduleName] = $path.'/'.$moduleName;
         }
+
         return $modules;
     }
 
@@ -124,14 +122,14 @@ class BootstrapRegistrarService
             if (is_dir($modulePath)) {
                 foreach ($this->moduleEntityDirectories as $key => $directory) {
                     $directory = ucfirst($directory);
-                    $directoryPath = $modulePath . '/' . $directory;
-                    $namespace = 'Modules' . '\\' . $moduleName;
+                    $directoryPath = $modulePath.'/'.$directory;
+                    $namespace = 'Modules'.'\\'.$moduleName;
                     if (is_dir($directoryPath)) {
                         $files = scandir($directoryPath);
                         foreach ($files as $fileName) {
                             if ($this->hasPhpExtension($fileName)) {
                                 $className = basename($fileName, '.php');
-                                $class = $namespace . '\\' . str_replace('/', '\\', $directory) . '\\' . $className;
+                                $class = $namespace.'\\'.str_replace('/', '\\', $directory).'\\'.$className;
                                 switch ($key) {
                                     case 'commands':
                                         try {
@@ -144,10 +142,10 @@ class BootstrapRegistrarService
                                         }
                                         break;
                                     case 'routes':
-                                        $bootstrap[$key][] = $this->buildRouteArray($directoryPath . '/' . $fileName, $namespace);
+                                        $bootstrap[$key][] = $this->buildRouteArray($directoryPath.'/'.$fileName, $namespace);
                                         break;
                                     case 'configs':
-                                        $bootstrap[$key][] = $this->buildConfigArray($directoryPath . '/' . $fileName, $moduleName, $fileName);
+                                        $bootstrap[$key][] = $this->buildConfigArray($directoryPath.'/'.$fileName, $moduleName, $fileName);
                                         break;
                                     case 'factories':
                                         $bootstrap[$key][] = $this->buildDirectoryPathArray($directoryPath);
@@ -190,7 +188,7 @@ class BootstrapRegistrarService
      */
     private function hasPhpExtension(string $fileName): bool
     {
-        return strlen($fileName) > 4 && '.php' === ($fileName[-4] . $fileName[-3] . $fileName[-2] . $fileName[-1]);
+        return strlen($fileName) > 4 && '.php' === ($fileName[-4].$fileName[-3].$fileName[-2].$fileName[-1]);
     }
 
     /**
@@ -222,16 +220,16 @@ class BootstrapRegistrarService
         $apiDomain = str_replace('https://', '', $apiDomain);
         $moduleNamespace = $namespace;
         $moduleName = explode('\\', $moduleNamespace)[1];
-        $controllerNamespace = $moduleNamespace . '\\' . 'Http\\Controllers';
-        $modelNameSpace = $moduleNamespace . '\\' . 'Entities\\' . $moduleName;
+        $controllerNamespace = $moduleNamespace.'\\'.'Http\\Controllers';
+        $modelNameSpace = $moduleNamespace.'\\'.'Entities\\'.$moduleName;
 
         return [
-            'path' => $path,
-            'namespace' => $namespace,
-            'module' => strtolower($moduleName),
-            'domain' => $apiDomain,
+            'path'       => $path,
+            'namespace'  => $namespace,
+            'module'     => strtolower($moduleName),
+            'domain'     => $apiDomain,
             'controller' => $controllerNamespace,
-            'model' => $modelNameSpace,
+            'model'      => $modelNameSpace,
         ];
     }
 
@@ -245,7 +243,7 @@ class BootstrapRegistrarService
     {
         $moduleNamespace = $namespace;
         $moduleName = explode('\\', $moduleNamespace)[1];
-        $modelNameSpace = $moduleNamespace . '\\' . 'Entities\\' . $moduleName;
+        $modelNameSpace = $moduleNamespace.'\\'.'Entities\\'.$moduleName;
 
         return [
             'class' => $class,
@@ -262,9 +260,9 @@ class BootstrapRegistrarService
     private function buildConfigArray($path, $module, $filename)
     {
         return [
-            'path' => $path,
+            'path'     => $path,
             'filename' => $filename,
-            'module' => strtolower($module),
+            'module'   => strtolower($module),
         ];
     }
 
@@ -283,7 +281,7 @@ class BootstrapRegistrarService
     private function buildEventsArray($class)
     {
         $listenerProperties = get_class_property($class, 'listeners');
-        $listeners = array();
+        $listeners = [];
         foreach ($listenerProperties as $listener) {
             if (class_implements_interface($listener, ListenerContract::class)) {
                 $listeners[] = $listener;
@@ -291,8 +289,8 @@ class BootstrapRegistrarService
         }
 
         return [
-            'class' => $class,
-            'listeners' => $listeners
+            'class'     => $class,
+            'listeners' => $listeners,
         ];
     }
 

@@ -115,6 +115,7 @@ if (!function_exists('array_is_subset_of')) {
             } else {
                 $result = $array == $patched;
             }
+
             return $result;
         } elseif (($subsetAssociative && !$arrayAssociative) ||
             (!$subsetAssociative && $arrayAssociative)) {
@@ -123,8 +124,9 @@ if (!function_exists('array_is_subset_of')) {
 
         $result = array_intersect($subset, $array);
 
-        if ($strict)
+        if ($strict) {
             return $result === $subset;
+        }
 
         return $result == $subset;
     }
@@ -133,7 +135,10 @@ if (!function_exists('array_is_subset_of')) {
 if (!function_exists('is_associative_array')) {
     function is_associative_array(array $arr)
     {
-        if (array() === $arr) return false;
+        if ([] === $arr) {
+            return false;
+        }
+
         return array_keys($arr) !== range(0, count($arr) - 1);
     }
 }
@@ -146,10 +151,9 @@ if (!function_exists('get_class_property')) {
             $property = $reflectionClass->getProperty($property);
             $property->setAccessible(true);
         } catch (ReflectionException $e) {
-            return null;
+            return;
         }
+
         return $property->getValue($reflectionClass->newInstanceWithoutConstructor());
     }
 }
-
-

@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 18:58
+ * Time: 18:58.
  */
 
 namespace Foundation\Controllers;
@@ -28,12 +28,13 @@ class NotificationController extends Controller
     {
         $notification = get_authenticated_user()->unreadNotifications()->find($id);
 
-        if ($notification === null)
-            throw new NotFoundHttpException("Could not find notification");
-
+        if ($notification === null) {
+            throw new NotFoundHttpException('Could not find notification');
+        }
         $notification->markAsRead();
+
         return response()->json([
-            "success"
+            'success',
         ]);
     }
 }

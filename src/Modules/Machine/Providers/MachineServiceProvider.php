@@ -5,8 +5,6 @@ namespace Modules\Machine\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Machine\Contracts\MachineServiceContract;
 use Modules\Machine\Services\MachineService;
-use Modules\User\Contracts\UserServiceContract;
-use Modules\User\Services\UserService;
 
 class MachineServiceProvider extends ServiceProvider
 {

@@ -6,8 +6,7 @@ use Artisan;
 use Illuminate\Console\Command;
 
 /**
- * Class DatabaseResetCommand
- * @package Foundation\Console
+ * Class DatabaseResetCommand.
  */
 class DatabaseResetCommand extends Command
 {

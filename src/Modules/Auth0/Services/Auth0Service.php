@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 13.10.18
- * Time: 20:50
+ * Time: 20:50.
  */
 
 namespace Modules\Auth0\Services;
-
 
 use Auth0\Login\Repository\Auth0UserRepository;
 use Cache;
@@ -63,7 +62,7 @@ class Auth0Service extends Auth0UserRepository
         $newUser = false;
         if ($user === null) {
             $user = $this->service->newUser([
-                "identity_id" => $id
+                'identity_id' => $id,
             ]);
             $newUser = true;
         }
@@ -90,18 +89,19 @@ class Auth0Service extends Auth0UserRepository
         return Cache::remember('testing:http_access_token', 60, function () {
             try {
                 $httpClient = new Client();
-                $response = $httpClient->post(env('AUTH0_DOMAIN') . 'oauth/token', [
+                $response = $httpClient->post(env('AUTH0_DOMAIN').'oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
-                        'client_id' => env('AUTH0_CLIENT_ID'),
-                        'username' => env('AUTH0_TEST_USER_NAME'),
-                        'password' => env('AUTH0_TEST_USER_PASS'),
-                        'scope' => 'openid profile email offline_access',
+                        'client_id'  => env('AUTH0_CLIENT_ID'),
+                        'username'   => env('AUTH0_TEST_USER_NAME'),
+                        'password'   => env('AUTH0_TEST_USER_PASS'),
+                        'scope'      => 'openid profile email offline_access',
                     ],
                 ]);
+
                 return json_decode($response->getBody()->getContents());
             } catch (ClientException $exception) {
-                throw new Exception("Could not obtain token from Auth0 at " . env('AUTH0_DOMAIN') . " for testing.");
+                throw new Exception('Could not obtain token from Auth0 at '.env('AUTH0_DOMAIN').' for testing.');
             }
         });
     }

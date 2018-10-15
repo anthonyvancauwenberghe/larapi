@@ -19,5 +19,4 @@ interface MachineServiceContract
     public function create($data): Machine;
 
     public function delete($id): bool;
-
 }

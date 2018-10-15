@@ -14,7 +14,6 @@ class UserSeeder extends Seeder
      */
     public $priority = 0;
 
-
     /**
      * @var Auth0Service
      */
@@ -22,13 +21,13 @@ class UserSeeder extends Seeder
 
     /**
      * UserSeeder constructor.
+     *
      * @param $service
      */
     public function __construct(Auth0UserRepository $service)
     {
         $this->service = $service;
     }
-
 
     /**
      * Run the database seeds.
