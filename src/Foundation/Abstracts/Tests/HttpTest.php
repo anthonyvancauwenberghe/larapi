@@ -48,18 +48,22 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
             try {
                 $httpClient = new Client();
                 $domain = 'https://astral.eu.auth0.com/';
+                $clientId = env('AUTH0_CLIENT_ID');
+                $username = env('AUTH0_TEST_USER_NAME');
+                $password = env('AUTH0_TEST_USER_PASS');
+
                 $response = $httpClient->post($domain . 'oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
-                        'client_id' => env('AUTH0_CLIENT_ID'),
-                        'username' => env('AUTH0_TEST_USER_NAME'),
-                        'password' => env('AUTH0_TEST_USER_PASS'),
+                        'client_id' => $clientId,
+                        'username' => $username,
+                        'password' => $password,
                         'scope' => 'openid profile email offline_access',
                     ],
                 ]);
                 return json_decode($response->getBody()->getContents());
             } catch (ClientException $exception) {
-                throw new Exception("Could not obtain token from Auth0 for testing from $domain" . $exception->getMessage());
+                throw new Exception("Could not obtain token from Auth0 for testing from $domain $clientId $username $password" . $exception->getMessage());
             }
         });
     }
