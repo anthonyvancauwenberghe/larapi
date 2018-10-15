@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 13.10.18
- * Time: 19:08
+ * Time: 19:08.
  */
 
 namespace Modules\Auth0\Drivers;
-
 
 use Foundation\Exceptions\NotImplementedException;
 use Illuminate\Validation\UnauthorizedException;
@@ -40,9 +39,9 @@ class Auth0UserProfileStorageDriver
      * @var array
      */
     protected $requiredProfileAttributes = [
-        "email",
-        "name",
-        "avatar"
+        'email',
+        'name',
+        'avatar',
     ];
 
     /**
@@ -57,6 +56,7 @@ class Auth0UserProfileStorageDriver
 
     /**
      * Auth0UserStorageDriver constructor.
+     *
      * @param $profile
      * @param $user
      * @param $identityProvider
@@ -68,7 +68,6 @@ class Auth0UserProfileStorageDriver
         $this->identityProvider = $identityProvider;
         $this->boot();
     }
-
 
     /**
      * @throws NotImplementedException | UnauthorizedException
@@ -83,21 +82,22 @@ class Auth0UserProfileStorageDriver
     }
 
     /**
-     * @return void
      * @throws NotImplementedException
+     *
+     * @return void
      */
     protected function loadServices()
     {
         switch ($this->identityProvider) {
-            case "auth0":
+            case 'auth0':
                 $this->transformer = new Auth0DatabaseProfileTransformer();
                 $this->validator = new Auth0DatabaseProfileValidator();
                 break;
-            case "facebook":
+            case 'facebook':
                 $this->transformer = new Auth0FacebookProfileTransformer();
                 $this->validator = new Auth0FacebookProfileValidator();
                 break;
-            case "google-oauth2":
+            case 'google-oauth2':
                 $this->transformer = new Auth0GoogleProfileTransformer();
                 $this->validator = new Auth0GoogleProfileValidator();
                 break;
@@ -122,7 +122,7 @@ class Auth0UserProfileStorageDriver
     protected function profileHasChanged(): bool
     {
         $user = $this->user->toArray();
-        $profile = (array)$this->profile;
+        $profile = (array) $this->profile;
 
         return !array_is_subset_of($profile, $user);
     }

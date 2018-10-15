@@ -14,13 +14,11 @@ use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Modules\User\Entities\User;
-use PHPUnit\Framework\Constraint\ArraySubset;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class HelpersTest extends TestCase
 {
-
-    private $randomTestVariable = "blablabla";
+    private $randomTestVariable = 'blablabla';
 
     public function testClassImplementsHelper()
     {
@@ -71,21 +69,21 @@ class HelpersTest extends TestCase
     public function testArrayKeysExistHelper()
     {
         $requiredKeys = [
-            "input1",
-            "input3",
-            "input4"
+            'input1',
+            'input3',
+            'input4',
         ];
 
         $invalidArray = [
-            "input1" => 5,
-            "input3" => 4,
-            "input5" => 3
+            'input1' => 5,
+            'input3' => 4,
+            'input5' => 3,
         ];
 
         $validArray = [
-            "input1" => 5,
-            "input3" => 4,
-            "input4" => 3
+            'input1' => 5,
+            'input3' => 4,
+            'input4' => 3,
         ];
         $this->assertTrue(array_keys_exists($requiredKeys, $validArray));
         $this->assertFalse(array_keys_exists($requiredKeys, $invalidArray));
@@ -94,79 +92,76 @@ class HelpersTest extends TestCase
     public function testArrayIsSubsetOfHelper()
     {
         $keyValueArray = [
-            "input1" => 5,
-            "input3" => 4,
-            "input4" => 3
+            'input1' => 5,
+            'input3' => 4,
+            'input4' => 3,
         ];
 
         $valueArray = [
-            "value1",
-            "value2",
-            "value4"
+            'value1',
+            'value2',
+            'value4',
         ];
 
         $keyValueSubset = [
-            "input1" => 5,
-            "input3" => 4
+            'input1' => 5,
+            'input3' => 4,
         ];
 
         $keyValueInvalidSubset = [
-            "input1" => 4,
-            "input3" => 4
+            'input1' => 4,
+            'input3' => 4,
         ];
 
         $keyValueInvalidSubset2 = [
-            "input2" => 5,
+            'input2' => 5,
         ];
 
         $valueSubset = [
-            "value2",
-            "value4"
+            'value2',
+            'value4',
         ];
 
         $valueSubset2 = [
-            "value1"
+            'value1',
         ];
 
         $invalidValueSubset = [
-            "value5"
+            'value5',
         ];
 
         $invalidValueSubset2 = [
-            "value1",
-            "value2",
-            "value3",
-            "value4"
+            'value1',
+            'value2',
+            'value3',
+            'value4',
         ];
-
 
         $this->assertTrue(array_is_subset_of($keyValueSubset, $keyValueArray));
         $this->assertFalse(array_is_subset_of($keyValueInvalidSubset, $keyValueArray));
         $this->assertFalse(array_is_subset_of($keyValueInvalidSubset2, $keyValueArray));
 
-
         $this->assertTrue(array_is_subset_of($valueSubset, $valueArray));
         $this->assertTrue(array_is_subset_of($valueSubset2, $valueArray));
         $this->assertFalse(array_is_subset_of($invalidValueSubset, $valueArray));
         $this->assertFalse(array_is_subset_of($invalidValueSubset2, $valueArray));
-
     }
 
     public function testIsAssocativeArrayHelper()
     {
         $associativeArray = [
-            "key1" => "value1",
-            "key3" => "value3"
+            'key1' => 'value1',
+            'key3' => 'value3',
         ];
 
         $array = [
-            0, 1, 2, 3
+            0, 1, 2, 3,
         ];
 
         $mixedArray = [
-            "key1" => "value1",
-            "randomvalue",
-            "key3" => "value3"
+            'key1' => 'value1',
+            'randomvalue',
+            'key3' => 'value3',
         ];
 
         $this->assertTrue(is_associative_array($associativeArray));

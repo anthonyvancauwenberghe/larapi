@@ -12,5 +12,4 @@ use Foundation\Policies\OwnershipPolicy;
 
 class UserPolicy extends OwnershipPolicy
 {
-
 }

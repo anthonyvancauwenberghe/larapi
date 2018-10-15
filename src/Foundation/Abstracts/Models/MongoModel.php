@@ -2,8 +2,6 @@
 
 namespace Foundation\Abstracts;
 
-use DB;
-
 /**
  * Class MongoModel.
  *
@@ -12,5 +10,4 @@ use DB;
 abstract class MongoModel extends \Jenssegers\Mongodb\Eloquent\Model
 {
     protected $connection = 'mongodb';
-
 }

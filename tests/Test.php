@@ -10,14 +10,11 @@ namespace Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
 use Modules\User\Entities\User;
-use Modules\User\Notifications\UserRegisteredNotification;
-
 
 class Test extends TestCase
 {
     public function test()
     {
-
-        $test=5;
+        $test = 5;
     }
 }

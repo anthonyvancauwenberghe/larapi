@@ -13,7 +13,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MachineController extends Controller
 {
-
     /**
      * @var MachineService
      */
@@ -21,6 +20,7 @@ class MachineController extends Controller
 
     /**
      * MachineController constructor.
+     *
      * @param $service
      */
     public function __construct(MachineServiceContract $service)
@@ -28,13 +28,13 @@ class MachineController extends Controller
         $this->service = $service;
     }
 
-
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $machines = get_authenticated_user()->machines;
+
         return MachineResource::collection($machines);
     }
 
@@ -46,6 +46,7 @@ class MachineController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create');
+
         return \response()->json($this->service->create($request->toArray()));
     }
 
@@ -60,7 +61,8 @@ class MachineController extends Controller
     {
         $machine = $this->service->find($id);
         $this->authorize('update', $machine);
-        $machine = $this->service->update($id,$request->toArray());
+        $machine = $this->service->update($id, $request->toArray());
+
         return \response()->json($machine);
     }
 
@@ -96,6 +98,7 @@ class MachineController extends Controller
         }
 
         $this->authorize('delete', $machine);
+
         return \response()->json(['deleted']);
     }
 }

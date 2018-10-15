@@ -9,7 +9,6 @@
 namespace Foundation\Abstracts\Tests;
 
 use Foundation\Traits\RefreshDatabase;
-use Illuminate\Broadcasting\BroadcastManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Modules\User\Entities\User;
 

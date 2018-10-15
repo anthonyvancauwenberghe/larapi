@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 18:36
+ * Time: 18:36.
  */
 
 namespace Foundation\Traits;
-
 
 use Foundation\Models\MongoDatabaseNotification;
 
@@ -23,11 +22,12 @@ trait Notifiable
             return $this->morphMany(MongoDatabaseNotification::class, 'notifiable')
                 ->orderBy('created_at', 'desc');
         }
+
         return $this->baseNotificationsMethod();
     }
 
     public function receivesBroadcastNotificationsOn()
     {
-        return strtolower(get_short_class_name($this)) . '.' . $this->getKey();
+        return strtolower(get_short_class_name($this)).'.'.$this->getKey();
     }
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 22:56
+ * Time: 22:56.
  */
 
 namespace Foundation\Tests;
-
 
 use Foundation\Abstracts\Tests\HttpTest;
 use MongoDB\BSON\ObjectId;

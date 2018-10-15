@@ -23,6 +23,7 @@ class MachineService implements MachineServiceContract
     {
         $user = $this->find($id);
         $user->update($data);
+
         return $user;
     }
 
@@ -30,6 +31,7 @@ class MachineService implements MachineServiceContract
     {
         $machine = Machine::create($data);
         event(new MachineRegisteredEvent($machine));
+
         return $machine;
     }
 
@@ -37,5 +39,4 @@ class MachineService implements MachineServiceContract
     {
         return Machine::destroy($id);
     }
-
 }

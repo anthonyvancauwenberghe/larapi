@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 15.10.18
- * Time: 00:02
+ * Time: 00:02.
  */
 
 namespace Modules\Auth0\Tests;
-
 
 use Foundation\Abstracts\Tests\HttpTest;
 use Modules\User\Entities\User;

@@ -6,7 +6,6 @@ use Foundation\Abstracts\MongoModel;
 use Foundation\Contracts\Ownable;
 use Foundation\Traits\Cacheable;
 use Foundation\Traits\Notifiable;
-use Foundation\Traits\OwnedByUser;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -49,11 +48,11 @@ class User extends MongoModel implements AuthorizableContract, AuthenticatableCo
 
     public function ownedBy()
     {
-        return User::class;
+        return self::class;
     }
 
     public function machines()
     {
-        return $this->hasMany(Machine::class,'user_id','identity_id');
+        return $this->hasMany(Machine::class, 'user_id', 'identity_id');
     }
 }

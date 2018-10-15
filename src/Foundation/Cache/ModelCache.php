@@ -23,12 +23,11 @@ class ModelCache
     public static function find($id, $modelClass)
     {
         return Cache::get(self::getCacheName($id, $modelClass));
-
     }
 
     public static function findOrRequery($id, $modelClass)
     {
-        return Cache::remember(self::getCacheName($id, $modelClass), self::getCacheTime(),function () use ($id, $modelClass) {
+        return Cache::remember(self::getCacheName($id, $modelClass), self::getCacheTime(), function () use ($id, $modelClass) {
             return $modelClass::findWithoutCache($id);
         });
     }
@@ -38,7 +37,7 @@ class ModelCache
      */
     public static function getCacheName($id, $modelClass)
     {
-        return config('model.cache_prefix') . ':' . strtolower(get_short_class_name($modelClass)) . ':' . $id;
+        return config('model.cache_prefix').':'.strtolower(get_short_class_name($modelClass)).':'.$id;
     }
 
     /**
@@ -93,7 +92,7 @@ class ModelCache
     private static function deleteWithPrefix($prefix)
     {
         $redis = self::getCacheConnection();
-        $keyPattern = Cache::getPrefix() . $prefix . '*';
+        $keyPattern = Cache::getPrefix().$prefix.'*';
         $keys = $redis->keys($keyPattern);
         $redis->delete($keys);
     }
@@ -119,7 +118,7 @@ class ModelCache
      */
     public static function clearModel($modelClass)
     {
-        $pattern = config('model.cache_prefix') . ':' . strtolower(get_short_class_name($modelClass));
+        $pattern = config('model.cache_prefix').':'.strtolower(get_short_class_name($modelClass));
         self::deleteWithPrefix($pattern);
     }
 }

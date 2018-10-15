@@ -4,9 +4,9 @@ use Modules\User\Entities\User;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
-        'provider' => 'database',
+        'provider'    => 'database',
         'identity_id' => (new \MongoDB\BSON\ObjectId())->__toString(),
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
+        'name'        => $faker->name,
+        'email'       => $faker->unique()->safeEmail,
     ];
 });

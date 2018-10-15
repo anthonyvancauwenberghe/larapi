@@ -2,10 +2,8 @@
 
 namespace Modules\Machine\Tests;
 
-use Foundation\Abstracts\Tests\HttpTest;
 use Foundation\Abstracts\Tests\TestCase;
 use Modules\Machine\Entities\Machine;
-use Modules\Machine\Services\MachineService;
 
 class MachineServiceTest extends TestCase
 {
@@ -22,7 +20,8 @@ class MachineServiceTest extends TestCase
         $this->assertNotEmpty($machines);
     }
 
-    public function testMachineBelongsToUser(){
+    public function testMachineBelongsToUser()
+    {
         $machine = Machine::first();
         $user = $machine->user;
         $this->assertNotNull($user);

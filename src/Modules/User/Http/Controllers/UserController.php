@@ -49,6 +49,7 @@ class UserController extends Controller
     public function show()
     {
         $this->authorize('access', get_authenticated_user());
+
         return \response()->json(\Auth::user()->toArray());
     }
 
