@@ -76,7 +76,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $path = $route['path'];
             Route::group([
-                'prefix' => 'v1/' . $route['module'],
+                'prefix' => 'v1/' . str_plural($route['module']),
                 'namespace' => $route['controller'],
                 'domain' => $route['domain'],
                 'middleware' => ['api'],

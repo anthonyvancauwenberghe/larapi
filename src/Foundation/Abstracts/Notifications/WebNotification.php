@@ -15,7 +15,7 @@ use Illuminate\Notifications\Notification;
 
 abstract class WebNotification extends Notification
 {
-    protected $targetModel;
+    private $targetModel;
 
     /**
      * WebNotification constructor.

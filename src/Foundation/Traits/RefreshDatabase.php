@@ -20,11 +20,11 @@ trait RefreshDatabase
     public function runDatabaseMigrations()
     {
         $this->artisan('migrate:fresh');
-        $this->artisan('cache:clear');
+        $this->artisan('cache:model:clear');
         $this->artisan('db:seed');
 
         $this->beforeApplicationDestroyed(function () {
-            $this->artisan('cache:clear');
+            $this->artisan('cache:model:clear');
             $this->artisan('migrate:rollback');
             RefreshDatabaseState::$migrated = false;
         });

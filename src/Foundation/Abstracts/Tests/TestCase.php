@@ -9,6 +9,7 @@
 namespace Foundation\Abstracts\Tests;
 
 use Foundation\Traits\RefreshDatabase;
+use Illuminate\Broadcasting\BroadcastManager;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Modules\User\Entities\User;
 
@@ -23,7 +24,13 @@ abstract class TestCase extends BaseTestCase
 
     protected function actAsRandomUser()
     {
-        $user = $this->createUser();
+        $users = User::all();
+        if ($users->isEmpty()) {
+            $user = $this->createUser();
+        } else {
+            $user = $users->random();
+        }
+
         $this->actingAs($user);
 
         return $user;

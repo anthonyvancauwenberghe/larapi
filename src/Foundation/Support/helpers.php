@@ -143,11 +143,11 @@ if (!function_exists('get_class_property')) {
     {
         try {
             $reflectionClass = new \ReflectionClass($class);
+            $property = $reflectionClass->getProperty($property);
+            $property->setAccessible(true);
         } catch (ReflectionException $e) {
             return null;
         }
-        $property = $reflectionClass->getProperty($property);
-        $property->setAccessible(true);
         return $property->getValue($reflectionClass->newInstanceWithoutConstructor());
     }
 }

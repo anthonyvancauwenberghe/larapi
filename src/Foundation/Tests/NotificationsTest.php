@@ -20,6 +20,9 @@ class NotificationsTest extends HttpTest
 {
     public function testUserRegisteredEvent()
     {
+        /* Remove the http test user from database so it seems like it's being registered */
+        $user = $this->getHttpUser();
+        User::destroy($user->id);
         $this->expectsEvents(UserRegisteredEvent::class);
 
         /* Creates a new user & therefore a new userregisteredevent is launched */
@@ -28,7 +31,6 @@ class NotificationsTest extends HttpTest
 
     public function testDatabaseNotification()
     {
-        /* Creates a new user & therefore a new userregisteredevent is launched */
         $user = $this->getHttpUser();
 
         $notifications = User::find($user->getKey())->unreadNotifications->toArray();

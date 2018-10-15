@@ -6,11 +6,10 @@
  * Time: 01:25.
  */
 
-namespace Modules\User\Policies;
+namespace Modules\Machine\Policies;
 
 use Foundation\Policies\OwnershipPolicy;
 
-class UserPolicy extends OwnershipPolicy
+class MachinePolicy extends OwnershipPolicy
 {
-
 }

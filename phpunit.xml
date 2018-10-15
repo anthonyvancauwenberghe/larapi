@@ -34,7 +34,8 @@
         <env name="APP_ENV" value="testing"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
         <env name="CACHE_DRIVER" value="redis"/>
-        <env name="SESSION_DRIVER" value="redis"/>
+        <env name="BROADCAST_DRIVER" value="log"/>
+        <env name="SESSION_DRIVER" value="array"/>
         <env name="QUEUE_CONNECTION" value="sync"/>
         <env name="MAIL_DRIVER" value="array"/>
         <env name="REDIS_DB" value="2"/>
