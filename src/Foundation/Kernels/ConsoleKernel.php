@@ -4,6 +4,7 @@ namespace Foundation\Kernels;
 
 use Foundation\Console\BootstrapCacheCommand;
 use Foundation\Console\BootstrapClearCacheCommand;
+use Foundation\Console\ClearModelsCacheCommand;
 use Foundation\Console\DatabaseResetCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as LaravelConsoleKernel;
@@ -18,7 +19,8 @@ class ConsoleKernel extends LaravelConsoleKernel
     protected $commands = [
         BootstrapCacheCommand::class,
         BootstrapClearCacheCommand::class,
-        DatabaseResetCommand::class
+        DatabaseResetCommand::class,
+        ClearModelsCacheCommand::class
     ];
 
     /**

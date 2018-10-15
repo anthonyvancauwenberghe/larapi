@@ -1,36 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arthur
- * Date: 11.10.18
- * Time: 23:33.
- */
 
-namespace Foundation\Traits;
+namespace Foundation\Abstracts;
 
-
-use DB;
 use Foundation\Cache\ModelCache;
-use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Model;
 
-trait Cacheable
+/**
+ * Class MongoModel.
+ *
+ * @mixin \Eloquent
+ */
+abstract class SqlModel extends Model
 {
+    protected $connection = 'mysql';
+
     public static function find($id, $columns = ['*'])
     {
         if ((bool)config('model.caching')) {
             $model = ModelCache::findOrRequery($id, get_called_class());
             return self::filterFromColumns($model, $columns);
         }
-        return static::findWithoutCache($id, $columns);
+        return self::findWithoutCache($id, $columns);
     }
 
     public static function findWithoutCache($id, $columns = ['*'])
     {
-        $model = new static();
-        if (is_array($id) || $id instanceof Arrayable) {
-            return static::whereIn($model->getKeyName(), $id)->get($columns);
-        }
-        return static::where($model->getKeyName(), $id)->first($columns);
+        return parent::find($id, $columns);
     }
 
     private static function filterFromColumns($model, $columns)
@@ -40,4 +35,5 @@ trait Cacheable
         }
         return $model;
     }
+
 }

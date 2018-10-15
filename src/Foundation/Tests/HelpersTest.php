@@ -19,6 +19,9 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class HelpersTest extends TestCase
 {
+
+    private $randomTestVariable = "blablabla";
+
     public function testClassImplementsHelper()
     {
         $this->assertFalse(class_implements_interface(self::class, Filesystem::class));
@@ -169,5 +172,10 @@ class HelpersTest extends TestCase
         $this->assertTrue(is_associative_array($associativeArray));
         $this->assertTrue(is_associative_array($mixedArray));
         $this->assertFalse(is_associative_array($array));
+    }
+
+    public function testGetClassPropertyHelper()
+    {
+        $this->assertEquals($this->randomTestVariable, get_class_property(static::class, 'randomTestVariable'));
     }
 }

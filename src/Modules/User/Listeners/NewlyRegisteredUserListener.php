@@ -13,7 +13,7 @@ use Foundation\Abstracts\Listeners\Listener;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
-class SendNewlyRegisteredUserWelcomeNotification extends Listener
+class NewlyRegisteredUserListener extends Listener
 {
 
     /**
@@ -21,7 +21,7 @@ class SendNewlyRegisteredUserWelcomeNotification extends Listener
      */
     public function handle($event): void
     {
-        $event->user->notify(new UserRegisteredNotification());
+        $event->user->notify(new UserRegisteredNotification($event->user));
     }
 
     /**

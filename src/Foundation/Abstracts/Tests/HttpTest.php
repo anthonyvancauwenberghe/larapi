@@ -63,8 +63,11 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         });
     }
 
-    protected function decodeHttpContent($content) {
-        return json_decode($content,true)['data'];
+    protected function decodeHttpContent($content, $unwrap = true)
+    {
+        if ($unwrap)
+            return json_decode($content, true)['data'];
+        return json_decode($content, true);
     }
 
     protected function http(string $method, string $route, array $payload = [])
@@ -76,6 +79,13 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
     {
         return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
             'Authorization' => 'Bearer ' . $this->getUserTokenData()->id_token,
+        ] : []);
+    }
+
+    protected function sendRequestWithToken($token, string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
+    {
+        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer ' . $token,
         ] : []);
     }
 

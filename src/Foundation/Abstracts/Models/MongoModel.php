@@ -2,12 +2,14 @@
 
 namespace Foundation\Abstracts;
 
+use DB;
+
 /**
  * Class MongoModel.
  *
  * @mixin \Eloquent
  */
-class MongoModel extends \Jenssegers\Mongodb\Eloquent\Model
+abstract class MongoModel extends \Jenssegers\Mongodb\Eloquent\Model
 {
     protected $connection = 'mongodb';
 

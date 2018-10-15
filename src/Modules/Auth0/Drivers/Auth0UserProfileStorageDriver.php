@@ -11,12 +11,8 @@ namespace Modules\Auth0\Drivers;
 
 use Foundation\Exceptions\NotImplementedException;
 use Illuminate\Validation\UnauthorizedException;
-use Modules\Auth0\Abstracts\Auth0ChangeDetectorGuard;
 use Modules\Auth0\Abstracts\Auth0IdentityProviderTransformer;
 use Modules\Auth0\Abstracts\Auth0ProfileValidator;
-use Modules\Auth0\Guards\Auth0DatabaseProfileChangeDetector;
-use Modules\Auth0\Guards\Auth0FacebookProfileChangeDetector;
-use Modules\Auth0\Guards\Auth0GoogleProfileChangeDetector;
 use Modules\Auth0\Transformers\Auth0DatabaseProfileTransformer;
 use Modules\Auth0\Transformers\Auth0FacebookProfileTransformer;
 use Modules\Auth0\Transformers\Auth0GoogleProfileTransformer;

@@ -28,7 +28,11 @@ class BootstrapServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->overrideSeedCommand();
-        $this->loadCacheObservers();
+
+        if ((bool)config('model.caching')) {
+            $this->loadCacheObservers();
+        }
+
         $this->loadOwnershipPolicies();
 
         /* Register Policies after ownership policies otherwise they would not get overriden */
@@ -148,11 +152,9 @@ class BootstrapServiceProvider extends ServiceProvider
 
     private function loadCacheObservers()
     {
-        if ((bool)config('model.caching')) {
-            foreach ($this->bootstrapService->getModels() as $model) {
-                if (class_uses_trait($model, Cacheable::class)) {
-                    $model::observe(CacheObserver::class);
-                }
+        foreach ($this->bootstrapService->getModels() as $model) {
+            if (class_uses_trait($model, Cacheable::class)) {
+                $model::observe(CacheObserver::class);
             }
         }
     }

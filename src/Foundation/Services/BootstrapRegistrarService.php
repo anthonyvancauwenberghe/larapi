@@ -282,16 +282,12 @@ class BootstrapRegistrarService
 
     private function buildEventsArray($class)
     {
-        try {
-            $reflectionClass = new \ReflectionClass($class);
-            $listenerProperties = $reflectionClass->getProperty('listeners')->getValue($reflectionClass->newInstanceWithoutConstructor());
-            $listeners = array();
-            foreach ($listenerProperties as $listener) {
-                if (class_implements_interface($listener, ListenerContract::class)) {
-                    $listeners[] = $listener;
-                }
+        $listenerProperties = get_class_property($class, 'listeners');
+        $listeners = array();
+        foreach ($listenerProperties as $listener) {
+            if (class_implements_interface($listener, ListenerContract::class)) {
+                $listeners[] = $listener;
             }
-        } catch (\ReflectionException $e) {
         }
 
         return [

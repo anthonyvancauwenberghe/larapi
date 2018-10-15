@@ -11,7 +11,7 @@ class CacheObserverTest extends TestCase
     public function testCache()
     {
         $user = $this->createUser();
-        $this->assertArraySubset($user->toArray(),ModelCache::find($user->getKey(), User::class)->toArray());
+        $this->assertArraySubset($user->toArray(), ModelCache::find($user->getKey(), User::class)->toArray());
     }
 
     public function testClearModelsCache()

@@ -10,11 +10,20 @@ namespace Foundation\Tests;
 
 
 use Foundation\Abstracts\Tests\HttpTest;
+use Foundation\Events\WebNotificationCreatedEvent;
+use Foundation\Resources\NotificationResource;
 use Modules\User\Entities\User;
+use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
 class NotificationsTest extends HttpTest
 {
+    public function testUserRegisteredEvent()
+    {
+        $this->expectsEvents(UserRegisteredEvent::class);
+        event(new UserRegisteredEvent($this->getHttpUser()));
+    }
+
     public function testDatabaseNotification()
     {
         $user = $this->getHttpUser();
@@ -38,9 +47,9 @@ class NotificationsTest extends HttpTest
         $user->notifyNow(new UserRegisteredNotification($user));
         $response = $this->http('GET', 'v1/notifications');
         $response->assertStatus(200);
-        /*$notificationsReponse = $this->decodeHttpContent($response->getContent());*/
-        /*$notifications = (array)User::find($user->getKey())->notifications->toArray();
-        $this->assertArraySubset($this->decodeHttpContent($response->getContent()), (array)$notifications);*/
+        $notificationsReponse = $this->decodeHttpContent($response->getContent());
+        $notifications = NotificationResource::collection(User::find($user->getKey())->notifications)->jsonSerialize();
+        $this->assertEquals($notificationsReponse, (array)$notifications);
     }
 
     public function testUnreadNotificationsRoute()
@@ -55,9 +64,7 @@ class NotificationsTest extends HttpTest
         $response->assertStatus(200);
         $response = $this->http('GET', 'v1/notifications/unread');
         $response->assertStatus(200);
-        $notifications = (array)User::find($user->getKey())->unreadNotifications->toArray();
-        //$this->assertEquals($notifications, $this->decodeHttpContent($response->getContent()));
+        $notifications = NotificationResource::collection(User::find($user->getKey())->unreadNotifications)->jsonSerialize();
+        $this->assertEquals($notifications, $this->decodeHttpContent($response->getContent()));
     }
-
-
 }

@@ -9,15 +9,13 @@
 namespace Foundation\Abstracts\Notifications;
 
 
+use Foundation\Channels\DatabaseNotificationChannel;
 use Foundation\Channels\WebNotificationChannel;
 use Illuminate\Notifications\Notification;
 
 abstract class WebNotification extends Notification
 {
-
     protected $targetModel;
-
-    protected $tag = 'info';
 
     /**
      * WebNotification constructor.
@@ -27,7 +25,6 @@ abstract class WebNotification extends Notification
     {
         $this->targetModel = $targetModel;
     }
-
 
     /**
      * Get the array representation of the notification.
@@ -42,7 +39,7 @@ abstract class WebNotification extends Notification
             'message' => $this->message(),
             'target' => get_short_class_name($this->targetModel),
             'target_id' => $this->targetModel->getKey(),
-            'tag' => $this->tag,
+            'tag' => $this->tag(),
         ];
     }
 
@@ -57,7 +54,7 @@ abstract class WebNotification extends Notification
             'id' => $notification->getKey(),
             'target_id' => $this->targetModel->getKey(),
             'target' => get_short_class_name($this->targetModel),
-            'tag' => $this->tag,
+            'tag' => $this->tag(),
             'title' => $this->title(),
             'message' => $this->message(),
             'is_read' => isset($notification->read_at) ? true : false
@@ -77,6 +74,16 @@ abstract class WebNotification extends Notification
     abstract protected function message(): string;
 
     /**
+     * The tag for the web notification
+     * success | info | warning | danger
+     * @return string
+     */
+    protected function tag()
+    {
+        return 'info';
+    }
+
+    /**
      * Do not change the order database must be called before broadcast.
      * Otherwise we cannot get the appropriate id to broadcast
      * @param $notifiable
@@ -85,7 +92,7 @@ abstract class WebNotification extends Notification
     public function via($notifiable)
     {
         return [
-            'database',
+            DatabaseNotificationChannel::class,
             WebNotificationChannel::class
         ];
     }

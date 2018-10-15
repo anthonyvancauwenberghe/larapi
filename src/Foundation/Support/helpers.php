@@ -138,4 +138,18 @@ if (!function_exists('is_associative_array')) {
     }
 }
 
+if (!function_exists('get_class_property')) {
+    function get_class_property(string $class, string $property)
+    {
+        try {
+            $reflectionClass = new \ReflectionClass($class);
+        } catch (ReflectionException $e) {
+            return null;
+        }
+        $property = $reflectionClass->getProperty($property);
+        $property->setAccessible(true);
+        return $property->getValue($reflectionClass->newInstanceWithoutConstructor());
+    }
+}
+
 

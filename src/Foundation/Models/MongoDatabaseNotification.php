@@ -15,12 +15,6 @@ use Jenssegers\Mongodb\Eloquent\Model;
 class MongoDatabaseNotification extends Model
 {
     /**
-     * Indicates if the IDs are auto-incrementing.
-     *
-     * @var bool
-     */
-    public $incrementing = false;
-    /**
      * The table associated with the model.
      *
      * @var string
@@ -41,6 +35,7 @@ class MongoDatabaseNotification extends Model
         'data' => 'array',
         'read_at' => 'datetime',
     ];
+
     /**
      * Get the notifiable entity that the notification belongs to.
      */
@@ -48,6 +43,7 @@ class MongoDatabaseNotification extends Model
     {
         return $this->morphTo();
     }
+
     /**
      * Mark the notification as read.
      *
@@ -59,6 +55,7 @@ class MongoDatabaseNotification extends Model
             $this->forceFill(['read_at' => $this->freshTimestamp()])->save();
         }
     }
+
     /**
      * Determine if a notification has been read.
      *
@@ -68,6 +65,7 @@ class MongoDatabaseNotification extends Model
     {
         return $this->read_at !== null;
     }
+
     /**
      * Determine if a notification has not been read.
      *
@@ -77,10 +75,11 @@ class MongoDatabaseNotification extends Model
     {
         return $this->read_at === null;
     }
+
     /**
      * Create a new database notification collection instance.
      *
-     * @param  array  $models
+     * @param  array $models
      * @return \Illuminate\Notifications\DatabaseNotificationCollection
      */
     public function newCollection(array $models = [])

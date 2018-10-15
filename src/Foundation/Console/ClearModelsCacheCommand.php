@@ -2,24 +2,24 @@
 
 namespace Foundation\Console;
 
-use Artisan;
+use Foundation\Cache\ModelCache;
 use Illuminate\Console\Command;
 
-class DatabaseResetCommand extends Command
+class ClearModelsCacheCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'db:reset';
+    protected $signature = 'cache:model:clear';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Clear all tables/collections and reseed.';
+    protected $description = 'Clear the model cache.';
 
     /**
      * Execute the console command.
@@ -28,9 +28,7 @@ class DatabaseResetCommand extends Command
      */
     public function handle()
     {
-        Artisan::call('migrate:fresh');
-        Artisan::call('cache:clear');
-        Artisan::call('db:seed');
-        $this->info('Database has been reset!');
+        ModelCache::clearAll();
+        $this->info('Model cache has been reset!');
     }
 }

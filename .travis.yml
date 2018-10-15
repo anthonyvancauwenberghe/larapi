@@ -38,6 +38,8 @@ install:
 before_script:
 - echo .env.travis >> PUSHER_APP_SECRET=$PUSHER_APP_SECRET
 - echo .env.travis >> AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
+- echo .env.travis >> AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME
+- echo .env.travis >> AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS
 - cp .env.travis .env
 - composer update
 - php artisan key:generate

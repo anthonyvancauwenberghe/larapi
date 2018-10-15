@@ -11,12 +11,12 @@ namespace Modules\User\Events;
 
 use Foundation\Abstracts\Events\Event;
 use Modules\User\Entities\User;
-use Modules\User\Listeners\SendNewlyRegisteredUserWelcomeNotification;
+use Modules\User\Listeners\NewlyRegisteredUserListener;
 
 class UserRegisteredEvent extends Event
 {
     public $listeners = [
-        SendNewlyRegisteredUserWelcomeNotification::class
+        NewlyRegisteredUserListener::class
     ];
 
     public $user;

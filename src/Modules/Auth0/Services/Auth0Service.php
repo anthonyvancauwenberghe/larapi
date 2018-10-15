@@ -12,7 +12,6 @@ namespace Modules\Auth0\Services;
 use Auth0\Login\Repository\Auth0UserRepository;
 use Modules\Auth0\Drivers\Auth0UserProfileStorageDriver;
 use Modules\User\Contracts\UserServiceContract;
-use MongoDB\BSON\ObjectId;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class Auth0Service extends Auth0UserRepository
@@ -56,7 +55,6 @@ class Auth0Service extends Auth0UserRepository
         $id = $identifier[1];
 
         $user = $this->service->find($id);
-
         if ($user === null) {
             $user = $this->service->newUser([
                 "identity_id" => $id
