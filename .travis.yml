@@ -37,11 +37,10 @@ install:
 
 before_script:
 - cp .env.travis .env
-- echo .env >> PUSHER_APP_SECRET=$PUSHER_APP_SECRET
-- echo .env >> AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET
-- echo .env >> AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME
-- echo .env >> AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS
-- echo .env >> RANDOMVARIABLE=blablabla
+- echo -n PUSHER_APP_SECRET=$PUSHER_APP_SECRET >> .env
+- echo -n AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET >> .env
+- echo -n AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME >> .env
+- echo -n AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS >> .env
 - composer update
 - php artisan key:generate
 - php artisan bootstrap:cache
