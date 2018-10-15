@@ -6,6 +6,7 @@ use Foundation\Console\BootstrapCacheCommand;
 use Foundation\Console\BootstrapClearCacheCommand;
 use Foundation\Console\ClearModelsCacheCommand;
 use Foundation\Console\DatabaseResetCommand;
+use Foundation\Console\DisplayEnvCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as LaravelConsoleKernel;
 
@@ -20,7 +21,8 @@ class ConsoleKernel extends LaravelConsoleKernel
         BootstrapCacheCommand::class,
         BootstrapClearCacheCommand::class,
         DatabaseResetCommand::class,
-        ClearModelsCacheCommand::class
+        ClearModelsCacheCommand::class,
+        DisplayEnvCommand::class
     ];
 
     /**
