@@ -23,7 +23,13 @@ abstract class TestCase extends BaseTestCase
 
     protected function actAsRandomUser()
     {
-        $user = $this->createUser();
+        $users = User::all();
+        if ($users->isEmpty()) {
+            $user = $this->createUser();
+        } else {
+            $user = $users->random();
+        }
+
         $this->actingAs($user);
 
         return $user;

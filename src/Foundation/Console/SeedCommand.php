@@ -2,6 +2,7 @@
 
 namespace Foundation\Console;
 
+use Foundation\Exceptions\Exception;
 use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Eloquent\Model;
@@ -35,7 +36,32 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
         $this->resolver->setDefaultConnection($this->getDatabase());
 
         Model::unguarded(function () {
-            foreach ($this->getSeeders() as $seeder) {
+            $seeders = $this->getSeeders();
+
+            $priorities = [];
+            $prioritySeeders = [];
+            $nonPrioritySeeders = [];
+            foreach ($seeders as $seeder) {
+                $priority = get_class_property($seeder, 'priority');
+                if (!is_int($priority) && $priority !== null) {
+                    throw new Exception('Priority on seeder must be integer');
+                } elseif (in_array($priority, $priorities)) {
+                    throw new Exception("Duplicate priority on seeder $seeder with $prioritySeeders[$priority]");
+                } elseif ($priority === null) {
+                    $nonPrioritySeeders[] = $seeder;
+                } else {
+                    $priorities[] = $priority;
+                    $prioritySeeders[$priority] = $seeder;
+                }
+            }
+            ksort($prioritySeeders);
+
+            foreach ($prioritySeeders as $priority => $seeder) {
+                $seeder = $this->laravel->make($seeder);
+                $seeder->__invoke();
+            }
+
+            foreach ($nonPrioritySeeders as $seeder) {
                 $seeder = $this->laravel->make($seeder);
                 $seeder->__invoke();
             }

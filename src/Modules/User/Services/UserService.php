@@ -23,6 +23,7 @@ class UserService implements UserServiceContract
     {
         $user = $this->find($id);
         $user->update($data);
+
         return $user;
     }
 
@@ -30,6 +31,7 @@ class UserService implements UserServiceContract
     {
         $user = User::create($data);
         event(new UserRegisteredEvent($user));
+
         return $user;
     }
 
@@ -42,5 +44,4 @@ class UserService implements UserServiceContract
     {
         return new User($data);
     }
-
 }

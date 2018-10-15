@@ -12,8 +12,4 @@ use Foundation\Policies\OwnershipPolicy;
 
 class UserPolicy extends OwnershipPolicy
 {
-    public function access($user, $model): bool
-    {
-        return true;
-    }
 }

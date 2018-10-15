@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 13.10.18
- * Time: 20:49
+ * Time: 20:49.
  */
 
 namespace Modules\Auth0\Providers;
-
 
 use Illuminate\Support\ServiceProvider;
 use Modules\Auth0\Services\Auth0Service;
@@ -31,7 +30,7 @@ class Auth0ServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->app->bind(\Auth0\Login\Contract\Auth0UserRepository::class, function (){
+        $this->app->bind(\Auth0\Login\Contract\Auth0UserRepository::class, function () {
             return new Auth0Service(new UserService());
         });
     }

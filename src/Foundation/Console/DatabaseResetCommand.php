@@ -5,6 +5,9 @@ namespace Foundation\Console;
 use Artisan;
 use Illuminate\Console\Command;
 
+/**
+ * Class DatabaseResetCommand.
+ */
 class DatabaseResetCommand extends Command
 {
     /**

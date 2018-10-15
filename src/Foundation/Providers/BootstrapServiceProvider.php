@@ -29,7 +29,7 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         $this->overrideSeedCommand();
 
-        if ((bool)config('model.caching')) {
+        if ((bool) config('model.caching')) {
             $this->loadCacheObservers();
         }
 
@@ -76,9 +76,9 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $path = $route['path'];
             Route::group([
-                'prefix' => 'v1/' . $route['module'],
-                'namespace' => $route['controller'],
-                'domain' => $route['domain'],
+                'prefix'     => 'v1/'.str_plural($route['module']),
+                'namespace'  => $route['controller'],
+                'domain'     => $route['domain'],
                 'middleware' => ['api'],
             ], function () use ($path) {
                 require $path;
@@ -164,7 +164,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getModels() as $model) {
             if (class_implements_interface($model, Ownable::class)) {
                 Gate::policy($model, OwnershipPolicy::class);
-                Gate::define('access', OwnershipPolicy::class . '@access');
+                Gate::define('access', OwnershipPolicy::class.'@access');
             }
         }
     }

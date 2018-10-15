@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 18:37
+ * Time: 18:37.
  */
 
 namespace Foundation\Traits;
@@ -20,6 +20,7 @@ trait HasDatabaseNotifications
         } else {
             $notificationClass = \Illuminate\Notifications\DatabaseNotification::class;
         }
+
         return $this->morphMany($notificationClass, 'notifiable')
             ->orderBy('created_at', 'desc');
     }

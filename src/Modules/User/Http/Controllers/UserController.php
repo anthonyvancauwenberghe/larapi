@@ -2,9 +2,10 @@
 
 namespace Modules\User\Http\Controllers;
 
+use Foundation\Abstracts\Controller\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use Modules\User\Entities\User;
 
 class UserController extends Controller
 {
@@ -47,6 +48,8 @@ class UserController extends Controller
      */
     public function show()
     {
+        $this->authorize('access', get_authenticated_user());
+
         return \response()->json(\Auth::user()->toArray());
     }
 

@@ -16,10 +16,12 @@ abstract class SqlModel extends Model
 
     public static function find($id, $columns = ['*'])
     {
-        if ((bool)config('model.caching')) {
+        if ((bool) config('model.caching')) {
             $model = ModelCache::findOrRequery($id, get_called_class());
+
             return self::filterFromColumns($model, $columns);
         }
+
         return self::findWithoutCache($id, $columns);
     }
 
@@ -33,7 +35,7 @@ abstract class SqlModel extends Model
         if ($columns !== ['*']) {
             return collect($model)->first($columns);
         }
+
         return $model;
     }
-
 }

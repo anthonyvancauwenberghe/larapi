@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 18:34
+ * Time: 18:34.
  */
 
 namespace Foundation\Models;
-
 
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Jenssegers\Mongodb\Eloquent\Model;
@@ -34,7 +33,7 @@ class MongoDatabaseNotification extends Model
      * @var array
      */
     protected $casts = [
-        'data' => 'array',
+        'data'    => 'array',
         'read_at' => 'datetime',
     ];
 
@@ -81,7 +80,8 @@ class MongoDatabaseNotification extends Model
     /**
      * Create a new database notification collection instance.
      *
-     * @param  array $models
+     * @param array $models
+     *
      * @return \Illuminate\Notifications\DatabaseNotificationCollection
      */
     public function newCollection(array $models = [])

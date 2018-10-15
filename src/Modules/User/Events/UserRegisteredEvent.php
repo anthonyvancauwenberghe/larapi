@@ -3,28 +3,27 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 14.10.18
- * Time: 19:31
+ * Time: 19:31.
  */
 
 namespace Modules\User\Events;
 
-
 use Foundation\Abstracts\Events\Event;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\User\Entities\User;
 use Modules\User\Listeners\NewlyRegisteredUserListener;
 
 class UserRegisteredEvent extends Event
 {
     public $listeners = [
-        NewlyRegisteredUserListener::class
+        NewlyRegisteredUserListener::class,
     ];
 
     public $user;
 
     /**
      * UserRegisteredEvent constructor.
+     *
      * @param $user
      */
     public function __construct(User $user)
@@ -34,7 +33,7 @@ class UserRegisteredEvent extends Event
 
     public function broadcastOn()
     {
-        return new PrivateChannel('app.' . $this->user->getKey());
+        return new PrivateChannel('app.'.$this->user->getKey());
     }
 
     /**
@@ -46,5 +45,4 @@ class UserRegisteredEvent extends Event
     {
         return 'user.registered';
     }
-
 }
