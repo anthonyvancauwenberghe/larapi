@@ -6,6 +6,5 @@ class CreateRoleMigration extends \Foundation\Abstracts\Migrations\MongoMigratio
 
     protected function migrate(\Jenssegers\Mongodb\Schema\Blueprint $collection)
     {
-
     }
 }

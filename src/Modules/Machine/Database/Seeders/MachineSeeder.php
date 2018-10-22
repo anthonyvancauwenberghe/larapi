@@ -8,7 +8,6 @@ use Modules\User\Entities\User;
 
 class MachineSeeder extends Seeder
 {
-
     /**
      * Run the database seeds.
      *

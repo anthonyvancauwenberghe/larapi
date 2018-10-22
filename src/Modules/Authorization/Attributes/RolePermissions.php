@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: anthony
  * Date: 22-10-18
- * Time: 20:02
+ * Time: 20:02.
  */
 
 namespace Modules\Authorization\Attributes;
@@ -16,7 +16,7 @@ interface RolePermissions
         Permission::SHOW_MACHINE,
         Permission::CREATE_MACHINE,
         Permission::UPDATE_MACHINE,
-        Permission::DELETE_MACHINE
+        Permission::DELETE_MACHINE,
     ];
 
     const GUEST = [
