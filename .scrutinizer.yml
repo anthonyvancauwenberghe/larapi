@@ -4,6 +4,7 @@ build:
     before:
     - "pecl install mongodb"
     - "pecl install redis"
+    - "composer update"
     - "cp .env.travis .env"
     - "composer update"
     - "php artisan key:generate"

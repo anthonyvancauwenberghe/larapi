@@ -1,5 +1,5 @@
 {
-    "name": "deviouspk/authorization",
+    "name": "Authorization",
     "description": "",
     "authors": [
         {
@@ -22,7 +22,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Modules\\User\\": ""
+            "Modules\\Authorization\\": ""
         }
     }
 }
