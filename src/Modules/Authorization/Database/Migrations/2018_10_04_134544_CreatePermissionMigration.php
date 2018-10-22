@@ -6,6 +6,5 @@ class CreatePermissionMigration extends \Foundation\Abstracts\Migrations\MongoMi
 
     protected function migrate(\Jenssegers\Mongodb\Schema\Blueprint $collection)
     {
-
     }
 }
