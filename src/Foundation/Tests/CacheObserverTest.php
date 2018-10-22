@@ -11,6 +11,7 @@ class CacheObserverTest extends TestCase
     public function testCache()
     {
         $user = $this->createUser();
+        unset($user->role_ids);
         $this->assertArraySubset($user->toArray(), ModelCache::find($user->getKey(), User::class)->toArray());
     }
 
@@ -26,7 +27,6 @@ class CacheObserverTest extends TestCase
     public function testClearSpecificModelCache()
     {
         $user = $this->createUser();
-
         $this->assertNotNull(ModelCache::find($user->getKey(), User::class));
         ModelCache::clearModel($user);
         $this->assertEquals(null, ModelCache::findWithoutRequery($user->getKey(), User::class));

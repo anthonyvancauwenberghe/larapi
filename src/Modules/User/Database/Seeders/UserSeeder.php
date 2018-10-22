@@ -5,6 +5,7 @@ namespace Modules\User\Database\Seeders;
 use Auth0\Login\Contract\Auth0UserRepository;
 use Illuminate\Database\Seeder;
 use Modules\Auth0\Services\Auth0Service;
+use Modules\Authorization\Entities\Role;
 use Modules\User\Entities\User;
 
 class UserSeeder extends Seeder
@@ -12,7 +13,7 @@ class UserSeeder extends Seeder
     /**
      * @var int
      */
-    public $priority = 0;
+    public $priority = 1;
 
     /**
      * @var Auth0Service
@@ -36,7 +37,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $this->service->getPredefinedUser();
-        factory(User::class, 5)->create();
+        $this->service->getTestUser();
+        foreach (factory(User::class, 5)->create() as $user) {
+            $user->assignRole(Role::USER);
+        }
     }
 }

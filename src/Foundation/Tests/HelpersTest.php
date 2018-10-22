@@ -18,6 +18,8 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class HelpersTest extends TestCase
 {
+    const TEST_CONSTANT = 'test';
+
     private $randomTestVariable = 'blablabla';
 
     public function testClassImplementsHelper()
@@ -172,5 +174,11 @@ class HelpersTest extends TestCase
     public function testGetClassPropertyHelper()
     {
         $this->assertEquals($this->randomTestVariable, get_class_property(static::class, 'randomTestVariable'));
+    }
+
+    public function testGetClassConstants()
+    {
+        $this->assertArrayHasKey('TEST_CONSTANT', get_class_constants(static::class));
+        $this->assertEquals(self::TEST_CONSTANT,get_class_constants(static::class)['TEST_CONSTANT']);
     }
 }

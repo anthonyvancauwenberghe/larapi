@@ -5,10 +5,27 @@ namespace Modules\User\Http\Controllers;
 use Foundation\Abstracts\Controller\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
+use Modules\User\Services\UserService;
 
 class UserController extends Controller
 {
+
+    /**
+     * @var UserService
+     */
+    protected $service;
+
+    /**
+     * UserController constructor.
+     * @param $service
+     */
+    public function __construct(UserServiceContract $service)
+    {
+        $this->service = $service;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,29 +33,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        return \response()->json();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return JsonResponse
-     */
-    public function create()
-    {
-        return \response()->json();
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     *
-     * @return JsonResponse
-     */
-    public function store(Request $request)
-    {
-        return \response()->json();
+        return \response()->json($this->service->all());
     }
 
     /**
@@ -48,30 +43,19 @@ class UserController extends Controller
      */
     public function show()
     {
-        $this->authorize('access', get_authenticated_user());
-
-        return \response()->json(\Auth::user()->toArray());
+        return \response()->json(get_authenticated_user()->toArray());
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the roles in storage.
      *
      * @param Request $request
      *
      * @return JsonResponse
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
-        return \response()->json();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @return JsonResponse
-     */
-    public function destroy()
-    {
-        return \response()->json();
+        $this->service->assignRole($id, $request->roles);
+        return \response()->json('success');
     }
 }

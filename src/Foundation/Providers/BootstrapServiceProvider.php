@@ -27,9 +27,11 @@ class BootstrapServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        /* Override the seed command with the larapi custom one */
         $this->overrideSeedCommand();
 
-        if ((bool) config('model.caching')) {
+        /* Load cache observers only when caching is enabled */
+        if (config('model.caching')) {
             $this->loadCacheObservers();
         }
 

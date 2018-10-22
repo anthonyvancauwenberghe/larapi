@@ -11,6 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Modules\Auth0\Traits\Auth0Model;
+use Modules\Authorization\Traits\HasRoles;
 use Modules\Machine\Entities\Machine;
 
 /**
@@ -26,8 +27,9 @@ use Modules\Machine\Entities\Machine;
  */
 class User extends MongoModel implements AuthorizableContract, AuthenticatableContract, Ownable
 {
-    use Notifiable, Authorizable, Authenticatable, Cacheable, Auth0Model;
+    use Notifiable, Authorizable, Authenticatable, Cacheable, Auth0Model, HasRoles;
 
+    protected $guard_name = 'api';
     /**
      * @var string
      */

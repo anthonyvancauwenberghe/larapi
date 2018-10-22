@@ -1,0 +1,28 @@
+{
+    "name": "deviouspk/authorization",
+    "description": "",
+    "authors": [
+        {
+            "name": "Arthur Devious",
+            "email": "aamining2@gmail.com"
+        }
+    ],
+    "require": {
+        "mostafamaklad/laravel-permission-mongodb": "^1.8"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\User\\": ""
+        }
+    }
+}

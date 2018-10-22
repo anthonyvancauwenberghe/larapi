@@ -12,6 +12,8 @@ use Modules\User\Entities\User;
 
 interface UserServiceContract
 {
+    public function all();
+
     public function find($id): ?User;
 
     public function update($id, $data): ?User;
@@ -21,4 +23,6 @@ interface UserServiceContract
     public function delete($id): bool;
 
     public function newUser($data): User;
+
+    public function assignRole($id, $roles): void;
 }

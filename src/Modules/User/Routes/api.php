@@ -11,4 +11,8 @@
 |
 */
 
-Route::get('/', 'UserController@show');
+use Modules\Authorization\Entities\Permission;
+
+Route::get('/me', 'UserController@show');
+Route::patch('/{id}', 'UserController@update')->middleware(['permission:' . Permission::ASSIGN_ROLES]);
+Route::get('/', 'UserController@index')->middleware(['permission:' . Permission::INDEX_USERS]);

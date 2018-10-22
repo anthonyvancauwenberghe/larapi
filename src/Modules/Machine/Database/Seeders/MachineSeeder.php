@@ -8,7 +8,6 @@ use Modules\User\Entities\User;
 
 class MachineSeeder extends Seeder
 {
-    public $priority = 1;
 
     /**
      * Run the database seeds.

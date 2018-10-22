@@ -45,8 +45,6 @@ class MachineController extends Controller
      */
     public function store(Request $request)
     {
-        $this->authorize('create');
-
         return \response()->json($this->service->create($request->toArray()));
     }
 

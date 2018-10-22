@@ -144,8 +144,11 @@ if (!function_exists('is_associative_array')) {
 }
 
 if (!function_exists('get_class_property')) {
-    function get_class_property(string $class, string $property)
+    function get_class_property($class, string $property)
     {
+        if (!is_string($class)) {
+            $class = get_class($class);
+        }
         try {
             $reflectionClass = new \ReflectionClass($class);
             $property = $reflectionClass->getProperty($property);
@@ -155,5 +158,21 @@ if (!function_exists('get_class_property')) {
         }
 
         return $property->getValue($reflectionClass->newInstanceWithoutConstructor());
+    }
+}
+
+if (!function_exists('get_class_constants')) {
+    function get_class_constants($class)
+    {
+        if (!is_string($class)) {
+            $class = get_class($class);
+        }
+        try {
+            $reflectionClass = new \ReflectionClass($class);
+        } catch (ReflectionException $e) {
+            return;
+        }
+
+        return $reflectionClass->getConstants();
     }
 }

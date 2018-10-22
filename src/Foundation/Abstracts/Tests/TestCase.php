@@ -10,15 +10,28 @@ namespace Foundation\Abstracts\Tests;
 
 use Foundation\Traits\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
+use Modules\User\Services\UserService;
 
 abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase, CreatesApplication;
 
+    /**
+     * @var UserService
+     */
+    private $userService;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->userService = $this->app->make(UserServiceContract::class);
+    }
+
     protected function createUser()
     {
-        return factory(User::class)->create();
+        return $this->userService->create(factory(User::class)->raw());
     }
 
     protected function actAsRandomUser()

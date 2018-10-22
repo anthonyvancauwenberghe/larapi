@@ -45,7 +45,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
                 $priority = get_class_property($seeder, 'priority');
                 if (!is_int($priority) && $priority !== null) {
                     throw new Exception('Priority on seeder must be integer');
-                } elseif (in_array($priority, $priorities)) {
+                } elseif ($priority !== null && in_array($priority, $priorities)) {
                     throw new Exception("Duplicate priority on seeder $seeder with $prioritySeeders[$priority]");
                 } elseif ($priority === null) {
                     $nonPrioritySeeders[] = $seeder;
