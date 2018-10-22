@@ -36,6 +36,7 @@ class UserService implements UserServiceContract
     {
         $user = User::create($data);
         $user->assignRole(Role::USER);
+
         return $user;
     }
 
@@ -48,6 +49,7 @@ class UserService implements UserServiceContract
     {
         $user = new User($data);
         $user->assignRole(Role::USER);
+
         return $user;
     }
 
@@ -55,6 +57,4 @@ class UserService implements UserServiceContract
     {
         $this->find($id)->assignRole($roles);
     }
-
-
 }

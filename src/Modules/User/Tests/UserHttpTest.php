@@ -19,7 +19,7 @@ class UserHttpTest extends HttpTest
     {
         $http = $this->http('GET', '/v1/users/me');
         $http->assertStatus(200);
-        $this->assertArraySubset($this->decodeHttpContent($http,false),get_authenticated_user()->toArray());
+        $this->assertArraySubset($this->decodeHttpContent($http, false), get_authenticated_user()->toArray());
     }
 
     /**
@@ -32,12 +32,12 @@ class UserHttpTest extends HttpTest
         $user = User::all()->last();
         $this->assertFalse($user->hasRole(Role::ADMIN));
 
-        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => Role::ADMIN]);
+        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => Role::ADMIN]);
         $http->assertStatus(403);
 
         $this->changeTestUserRoles(Role::ADMIN);
 
-        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => Role::ADMIN]);
+        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => Role::ADMIN]);
         $http->assertStatus(200);
 
         $user = User::find($user->id);

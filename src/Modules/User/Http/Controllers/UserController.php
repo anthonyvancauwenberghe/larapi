@@ -6,12 +6,10 @@ use Foundation\Abstracts\Controller\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\User\Contracts\UserServiceContract;
-use Modules\User\Entities\User;
 use Modules\User\Services\UserService;
 
 class UserController extends Controller
 {
-
     /**
      * @var UserService
      */
@@ -19,6 +17,7 @@ class UserController extends Controller
 
     /**
      * UserController constructor.
+     *
      * @param $service
      */
     public function __construct(UserServiceContract $service)
@@ -56,6 +55,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $this->service->assignRole($id, $request->roles);
+
         return \response()->json('success');
     }
 }

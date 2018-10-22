@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: anthony
  * Date: 22-10-18
- * Time: 17:27
+ * Time: 17:27.
  */
 
 namespace Modules\Authorization\Tests;
-
 
 use Foundation\Abstracts\Tests\TestCase;
 use Modules\Authorization\Entities\Role;

@@ -149,6 +149,7 @@ if (!function_exists('get_class_property')) {
         if (!is_string($class)) {
             $class = get_class($class);
         }
+
         try {
             $reflectionClass = new \ReflectionClass($class);
             $property = $reflectionClass->getProperty($property);
@@ -167,6 +168,7 @@ if (!function_exists('get_class_constants')) {
         if (!is_string($class)) {
             $class = get_class($class);
         }
+
         try {
             $reflectionClass = new \ReflectionClass($class);
         } catch (ReflectionException $e) {

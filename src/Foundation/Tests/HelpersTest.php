@@ -179,6 +179,6 @@ class HelpersTest extends TestCase
     public function testGetClassConstants()
     {
         $this->assertArrayHasKey('TEST_CONSTANT', get_class_constants(static::class));
-        $this->assertEquals(self::TEST_CONSTANT,get_class_constants(static::class)['TEST_CONSTANT']);
+        $this->assertEquals(self::TEST_CONSTANT, get_class_constants(static::class)['TEST_CONSTANT']);
     }
 }

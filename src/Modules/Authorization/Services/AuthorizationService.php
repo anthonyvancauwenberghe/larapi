@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: anthony
  * Date: 22-10-18
- * Time: 14:18
+ * Time: 14:18.
  */
 
 namespace Modules\Authorization\Services;
-
 
 use Modules\Authorization\Contracts\AuthorizationContract;
 use Modules\Authorization\Entities\Permission;
@@ -18,10 +17,11 @@ class AuthorizationService implements AuthorizationContract
     public function createRole(string $role, array $permissions): Role
     {
         $role = Role::create([
-            'name' => $role,
-            'guard_name' => 'api'
+            'name'       => $role,
+            'guard_name' => 'api',
         ]);
         $role->givePermissionTo($permissions);
+
         return $role;
     }
 
@@ -29,11 +29,9 @@ class AuthorizationService implements AuthorizationContract
     {
         foreach ($permissions as $permission) {
             Permission::create([
-                'name' => $permission,
-                'guard_name' => 'api'
+                'name'       => $permission,
+                'guard_name' => 'api',
             ]);
         }
     }
-
-
 }

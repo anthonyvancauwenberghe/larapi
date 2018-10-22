@@ -46,8 +46,9 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     protected function decodeHttpContent($content, $unwrap = true)
     {
-        if ($content instanceof TestResponse)
+        if ($content instanceof TestResponse) {
             $content = $content->content();
+        }
 
         if ($unwrap) {
             return json_decode($content, true)['data'];
@@ -63,15 +64,15 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     private function sendRequest(string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer ' . $this->service->getTestUserToken()->id_token,
+        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer '.$this->service->getTestUserToken()->id_token,
         ] : []);
     }
 
     protected function sendRequestWithToken($token, string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer ' . $token,
+        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer '.$token,
         ] : []);
     }
 
