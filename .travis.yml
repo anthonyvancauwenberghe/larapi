@@ -31,7 +31,6 @@ before_install:
 - echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 
 before_script:
-- composer update
 - cp .env.travis .env
 - echo PUSHER_APP_SECRET=$PUSHER_APP_SECRET >> .env
 - echo AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET >> .env
@@ -41,6 +40,7 @@ before_script:
 - php artisan key:generate
 - php artisan bootstrap:cache
 - php artisan env:display
+- composer update
 
 script: vendor/bin/phpunit --coverage-clover=coverage.clover
 
