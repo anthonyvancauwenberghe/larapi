@@ -156,6 +156,7 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         foreach ($this->bootstrapService->getModels() as $model) {
             if (class_uses_trait($model, Cacheable::class)) {
+                //TODO bind modelcache to model
                 $model::observe(CacheObserver::class);
             }
         }
