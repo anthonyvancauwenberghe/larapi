@@ -12,6 +12,7 @@ use Cache;
 use Foundation\Exceptions\Exception;
 use Illuminate\Support\Facades\Redis;
 
+//TODO rewrite modelcache object oriented
 class ModelCache
 {
     /**
