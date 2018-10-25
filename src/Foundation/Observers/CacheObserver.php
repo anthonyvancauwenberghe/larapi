@@ -11,6 +11,7 @@ namespace Foundation\Observers;
 use Foundation\Abstracts\Observers\Observer;
 use Foundation\Cache\ModelCache;
 
+//TODO change this to work with the new object modelcache.
 class CacheObserver extends Observer
 {
     /**
