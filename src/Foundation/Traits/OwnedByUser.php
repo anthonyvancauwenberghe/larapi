@@ -14,6 +14,7 @@ trait OwnedByUser
 {
     public function ownerId()
     {
+        //TODO change ownerid to ownerkey
         $ownerAttributeName = strtolower(get_short_class_name($this->ownedBy())).'_id';
 
         return $this->$ownerAttributeName;
