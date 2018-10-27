@@ -21,7 +21,6 @@ trait RefreshDatabase
     {
         $this->artisan('migrate:fresh');
         $this->artisan('cache:model:clear');
-        app()['cache']->forget('maklad.permission.cache');
         $this->artisan('db:seed');
 
         $this->beforeApplicationDestroyed(function () {

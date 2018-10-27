@@ -16,8 +16,7 @@ class Auth0Test extends HttpTest
     public function testUserIdEqualsIdentityId()
     {
         $user = $this->getHttpUser();
-        $this->assertEquals($user->id, $user->identity_id);
-        $this->assertEquals($user->_id, $user->identity_id);
+        $this->assertEquals($user->identity_id, User::find($user->id)->identity_id);
     }
 
     public function testAuthorized()
@@ -43,6 +42,6 @@ class Auth0Test extends HttpTest
 
     public function testUserPrimaryKey()
     {
-        $this->assertEquals(factory(User::class)->create()->getKeyName(), 'identity_id');
+        $this->assertEquals(factory(User::class)->create()->getKeyName(), 'id');
     }
 }

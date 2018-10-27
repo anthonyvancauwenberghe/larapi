@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "mostafamaklad/laravel-permission-mongodb": "^1.8"
+
     },
     "extra": {
         "laravel": {

@@ -8,8 +8,8 @@
 
 namespace Foundation\Abstracts\Notifications;
 
-use Foundation\Channels\DatabaseNotificationChannel;
-use Foundation\Channels\WebNotificationChannel;
+use Illuminate\Notifications\Channels\BroadcastChannel;
+use Illuminate\Notifications\Channels\DatabaseChannel;
 use Illuminate\Notifications\Notification;
 
 abstract class WebNotification extends Notification
@@ -100,8 +100,8 @@ abstract class WebNotification extends Notification
     public function via($notifiable)
     {
         return [
-            DatabaseNotificationChannel::class,
-            WebNotificationChannel::class,
+            DatabaseChannel::class,
+            BroadcastChannel::class,
         ];
     }
 }

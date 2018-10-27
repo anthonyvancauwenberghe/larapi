@@ -15,4 +15,6 @@ interface AuthorizationContract
     public function createRole(string $role, array $permissions): Role;
 
     public function createPermissions(array $permissions): void;
+
+    public function clearPermissionCache() :void;
 }

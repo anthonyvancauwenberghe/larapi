@@ -6,7 +6,7 @@
  * Time: 23:31.
  */
 
-namespace Foundation\Resources;
+namespace Modules\Notification\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 

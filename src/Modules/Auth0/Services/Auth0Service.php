@@ -59,7 +59,7 @@ class Auth0Service extends Auth0UserRepository
         $identityProvider = $identifier[0];
         $id = $identifier[1];
 
-        $user = $this->service->find($id);
+        $user = $this->service->findByIdentityId($id);
         if ($user === null) {
             $user = $this->service->newUser([
                 'identity_id' => $id,
@@ -82,11 +82,11 @@ class Auth0Service extends Auth0UserRepository
 
         $user = $this->getUserByDecodedJWT($tokenInfo);
 
-        if ($roles !== null) {
+        /*if ($roles !== null) {
             $user->syncRoles($roles);
         } else {
             $user->syncRoles(Role::USER);
-        }
+        }*/
 
         return $user;
     }

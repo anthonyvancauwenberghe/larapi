@@ -16,9 +16,9 @@
         "laravel/framework": "5.7.*",
         "laravel/horizon": "^1.4",
         "laravel/tinker": "^1.0",
-        "mostafamaklad/laravel-permission-mongodb": "^1.8",
         "nwidart/laravel-modules": "^4.0",
         "pusher/pusher-php-server": "^3.2",
+        "spatie/laravel-permission": "^2.23",
         "wikimedia/composer-merge-plugin": "^1.4"
     },
     "require-dev": {

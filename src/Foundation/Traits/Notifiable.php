@@ -26,8 +26,5 @@ trait Notifiable
         return $this->baseNotificationsMethod();
     }
 
-    public function receivesBroadcastNotificationsOn()
-    {
-        return strtolower(get_short_class_name($this)).'.'.$this->getKey();
-    }
+
 }

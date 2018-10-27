@@ -6,10 +6,10 @@
  * Time: 19:04.
  */
 
-namespace Foundation\Tests;
+namespace Modules\Notification\Tests;
 
 use Foundation\Abstracts\Tests\HttpTest;
-use Foundation\Resources\NotificationResource;
+use Modules\Notification\Resources\NotificationResource;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;

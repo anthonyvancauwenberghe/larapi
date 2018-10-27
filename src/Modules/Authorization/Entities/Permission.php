@@ -10,6 +10,7 @@ namespace Modules\Authorization\Entities;
 
 use Modules\Authorization\Attributes\PermissionAttributes;
 
-class Permission extends \Maklad\Permission\Models\Permission implements PermissionAttributes
+class Permission extends \Spatie\Permission\Models\Permission implements PermissionAttributes
 {
+
 }

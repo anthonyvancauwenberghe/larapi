@@ -2,17 +2,17 @@
 
 namespace Modules\User\Entities;
 
-use Foundation\Abstracts\MongoModel;
+use Foundation\Abstracts\SqlModel;
 use Foundation\Contracts\Ownable;
 use Foundation\Traits\Cacheable;
-use Foundation\Traits\Notifiable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Modules\Auth0\Traits\Auth0Model;
-use Modules\Authorization\Traits\HasRoles;
-use Modules\Machine\Entities\Machine;
+use Illuminate\Notifications\HasDatabaseNotifications;
+use Illuminate\Notifications\Notifiable;
+use Modules\Notification\Traits\ReceivesWebNotifications;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User.
@@ -25,15 +25,21 @@ use Modules\Machine\Entities\Machine;
  * @property string $avatar
  * @property string $provider
  */
-class User extends MongoModel implements AuthorizableContract, AuthenticatableContract, Ownable
+class User extends SqlModel implements AuthorizableContract, AuthenticatableContract, Ownable
 {
-    use Notifiable, Authorizable, Authenticatable, Cacheable, Auth0Model, HasRoles;
+    use Notifiable,
+        Authorizable,
+        Authenticatable,
+        Cacheable,
+        HasRoles,
+        ReceivesWebNotifications;
 
     protected $guard_name = 'api';
+
     /**
      * @var string
      */
-    protected $collection = 'users';
+    protected $table = 'users';
 
     /**
      * @var array
@@ -51,10 +57,5 @@ class User extends MongoModel implements AuthorizableContract, AuthenticatableCo
     public function ownedBy()
     {
         return self::class;
-    }
-
-    public function machines()
-    {
-        return $this->hasMany(Machine::class, 'user_id', 'identity_id');
     }
 }

@@ -10,6 +10,7 @@ namespace Modules\Authorization\Entities;
 
 use Modules\Authorization\Attributes\RoleAttributes;
 
-class Role extends \Maklad\Permission\Models\Role implements RoleAttributes
+class Role extends \Spatie\Permission\Models\Role implements RoleAttributes
 {
+
 }

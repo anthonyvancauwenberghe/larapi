@@ -8,11 +8,11 @@
 
 namespace Modules\Machine\Services;
 
-use Modules\Machine\Contracts\MachineServiceContract;
+use Modules\Machine\Contracts\NotificationServiceContract;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Events\MachineRegisteredEvent;
 
-class MachineService implements MachineServiceContract
+class Notification implements NotificationServiceContract
 {
     public function find($id): ?Machine
     {

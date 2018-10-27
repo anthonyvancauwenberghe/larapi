@@ -34,4 +34,8 @@ class AuthorizationService implements AuthorizationContract
             ]);
         }
     }
+
+    public function clearPermissionCache() :void{
+        app()['cache']->forget('spatie.permission.cache');
+    }
 }

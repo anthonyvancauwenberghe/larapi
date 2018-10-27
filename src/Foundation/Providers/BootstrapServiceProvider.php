@@ -40,10 +40,7 @@ class BootstrapServiceProvider extends ServiceProvider
         /* Register Policies after ownership policies otherwise they would not get overriden */
         $this->loadPolicies();
 
-        /* Register all Module Service providers.
-        ** Always load at the end so the user has the ability to override certain functionality
-         * */
-        $this->loadServiceProviders();
+
     }
 
     public function register()
@@ -57,6 +54,11 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->loadFactories();
         $this->loadMigrations();
         $this->loadListeners();
+
+        /* Register all Module Service providers.
+        ** Always load at the end so the user has the ability to override certain functionality
+         * */
+        $this->loadServiceProviders();
     }
 
     private function loadBootstrapService()

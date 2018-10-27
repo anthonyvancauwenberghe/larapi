@@ -16,6 +16,8 @@ interface UserServiceContract
 
     public function find($id): ?User;
 
+    public function findByIdentityId($id): ?User;
+
     public function update($id, $data): ?User;
 
     public function create($data): User;

@@ -4,6 +4,7 @@ namespace Modules\Machine\Tests;
 
 use Foundation\Abstracts\Tests\HttpTest;
 use Modules\Authorization\Entities\Role;
+use Modules\Machine\Entities\Machine;
 
 class MachineHttpTest extends HttpTest
 {
@@ -17,7 +18,8 @@ class MachineHttpTest extends HttpTest
     public function testFindMachine()
     {
         $user = $this->getHttpUser();
-        $machine = $user->machines->first();
+        $id = $user->id;
+        $machine = Machine::where('user_id',$user->id)->first();
 
         $http = $this->http('GET', '/v1/machines/'.$machine->id);
         $http->assertStatus(200);

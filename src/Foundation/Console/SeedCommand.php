@@ -55,13 +55,9 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
                 }
             }
             ksort($prioritySeeders);
+            $seeders = array_merge($prioritySeeders, $nonPrioritySeeders);
 
-            foreach ($prioritySeeders as $priority => $seeder) {
-                $seeder = $this->laravel->make($seeder);
-                $seeder->__invoke();
-            }
-
-            foreach ($nonPrioritySeeders as $seeder) {
+            foreach ($seeders as $seeder) {
                 $seeder = $this->laravel->make($seeder);
                 $seeder->__invoke();
             }

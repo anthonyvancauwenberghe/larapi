@@ -35,15 +35,11 @@ class AuthorizationSeeder extends Seeder
      */
     public function run()
     {
-        $this->clearAuthorizationCache();
+        $this->service->clearPermissionCache();
         $this->createPermissions();
         $this->createRoles();
     }
 
-    private function clearAuthorizationCache(): void
-    {
-        app()['cache']->forget('maklad.permission.cache');
-    }
 
     private function createPermissions(): void
     {
