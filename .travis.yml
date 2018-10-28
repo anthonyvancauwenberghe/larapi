@@ -47,6 +47,7 @@ before_script:
 - php artisan bootstrap:cache
 - php artisan env:display
 - composer update
+- php artisan telescope:install
 
 script: vendor/bin/phpunit --coverage-clover=coverage.clover
 
