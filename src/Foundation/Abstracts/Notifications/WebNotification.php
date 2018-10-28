@@ -64,6 +64,8 @@ abstract class WebNotification extends Notification
         ];
     }
 
+
+
     /**
      * The title for the web notification.
      *
@@ -103,5 +105,15 @@ abstract class WebNotification extends Notification
             DatabaseChannel::class,
             BroadcastChannel::class,
         ];
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return string
+     */
+    public function broadcastAs()
+    {
+        return 'notification.created';
     }
 }

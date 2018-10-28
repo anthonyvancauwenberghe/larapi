@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event implements ShouldQueue
+abstract class Event
 {
     use SerializesModels, Dispatchable;
 }

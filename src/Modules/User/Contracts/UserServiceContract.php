@@ -26,5 +26,5 @@ interface UserServiceContract
 
     public function newUser($data): User;
 
-    public function assignRole($id, $roles): void;
+    public function setRoles($id, array $roles): void;
 }

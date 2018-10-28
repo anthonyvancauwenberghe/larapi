@@ -35,6 +35,6 @@ class Machine extends MongoModel implements Ownable
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'identity_id', 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

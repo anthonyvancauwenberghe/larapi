@@ -13,13 +13,15 @@ use Cache;
 use Foundation\Exceptions\Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
+use Modules\Auth0\Contracts\Auth0ServiceContract;
 use Modules\Auth0\Drivers\Auth0UserProfileStorageDriver;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Contracts\UserServiceContract;
+use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
-class Auth0Service extends Auth0UserRepository
+class Auth0Service extends Auth0UserRepository implements Auth0ServiceContract
 {
     protected $service;
 
@@ -75,23 +77,23 @@ class Auth0Service extends Auth0UserRepository
         return $user;
     }
 
-    public function getTestUser($roles = null)
+    public function getTestUser($roles = null) :User
     {
         $auth0 = \App::make('auth0');
         $tokenInfo = $auth0->decodeJWT($this->getTestUserToken()->id_token);
 
         $user = $this->getUserByDecodedJWT($tokenInfo);
 
-        /*if ($roles !== null) {
+        if ($roles !== null) {
             $user->syncRoles($roles);
         } else {
             $user->syncRoles(Role::USER);
-        }*/
+        }
 
         return $user;
     }
 
-    public function getTestUserToken(): \stdClass
+    public function getTestUserToken()
     {
         return Cache::remember('testing:http_access_token', 60, function () {
             try {

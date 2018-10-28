@@ -5,16 +5,15 @@ namespace Modules\Machine\Http\Controllers;
 use Foundation\Abstracts\Controller\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Modules\Machine\Contracts\NotificationServiceContract;
+use Modules\Machine\Contracts\MachineServiceContract;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Resources\MachineResource;
-use Modules\Machine\Services\NotificationService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MachineController extends Controller
 {
     /**
-     * @var NotificationService
+     * @var MachineServiceContract
      */
     protected $service;
 
@@ -23,7 +22,7 @@ class MachineController extends Controller
      *
      * @param $service
      */
-    public function __construct(NotificationServiceContract $service)
+    public function __construct(MachineServiceContract $service)
     {
         $this->service = $service;
     }
@@ -33,9 +32,7 @@ class MachineController extends Controller
      */
     public function index()
     {
-        $machines = get_authenticated_user()->machines;
-
-        return MachineResource::collection($machines);
+        return MachineResource::collection($this->service->allByUserId(get_authenticated_user_id()));
     }
 
     /**

@@ -9,10 +9,9 @@ use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Foundation\Auth\Access\Authorizable;
-use Illuminate\Notifications\HasDatabaseNotifications;
 use Illuminate\Notifications\Notifiable;
+use Modules\Authorization\Traits\HasRoles;
 use Modules\Notification\Traits\ReceivesWebNotifications;
-use Spatie\Permission\Traits\HasRoles;
 
 /**
  * Class User.
@@ -40,6 +39,8 @@ class User extends SqlModel implements AuthorizableContract, AuthenticatableCont
      * @var string
      */
     protected $table = 'users';
+
+    protected $with = ['roles','permissions'];
 
     /**
      * @var array

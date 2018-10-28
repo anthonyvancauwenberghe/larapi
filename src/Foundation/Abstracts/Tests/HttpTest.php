@@ -20,15 +20,20 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
     /**
      * @var Auth0Service
      */
-    protected $service;
+    private $auth0;
 
     protected $roles = Role::USER;
 
     public function setUp()
     {
         parent::setUp();
-        $this->service = $this->app->make(Auth0UserRepository::class);
-        $this->service->getTestUser($this->roles);
+    }
+
+    protected function getAuth0Service()
+    {
+        if ($this->auth0 === null)
+            $this->auth0 = $this->app->make(Auth0UserRepository::class);
+        return $this->auth0;
     }
 
     /**
@@ -36,12 +41,12 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
      */
     protected function getHttpUser()
     {
-        return $this->service->getTestUser($this->roles);
+        return $this->getAuth0Service()->getTestUser($this->roles);
     }
 
     protected function changeTestUserRoles($roles)
     {
-        return $this->service->getTestUser($roles);
+        return $this->getAuth0Service()->getTestUser($roles);
     }
 
     protected function decodeHttpContent($content, $unwrap = true)
@@ -51,7 +56,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         }
 
         if ($unwrap) {
-            return json_decode($content, true)['data'];
+            return json_decode($content, true)['data'] ?? json_decode($content, true);
         }
 
         return json_decode($content, true);
@@ -64,15 +69,15 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     private function sendRequest(string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer '.$this->service->getTestUserToken()->id_token,
+        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer ' . $this->getAuth0Service()->getTestUserToken()->id_token,
         ] : []);
     }
 
     protected function sendRequestWithToken($token, string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer '.$token,
+        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer ' . $token,
         ] : []);
     }
 

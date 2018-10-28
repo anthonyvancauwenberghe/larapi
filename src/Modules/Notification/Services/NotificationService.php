@@ -10,8 +10,8 @@ namespace Modules\Notification\Services;
 
 
 
+use Illuminate\Notifications\DatabaseNotification as Notification;
 use Modules\Notification\Contracts\NotificationServiceContract;
-use Modules\Notification\Entities\Notification;
 use Modules\User\Contracts\UserServiceContract;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -43,12 +43,12 @@ class NotificationService implements NotificationServiceContract
 
     public function allNotificationsByUser($user)
     {
-        $this->user->find($user)->notifications;
+       return $this->user->find($user)->notifications;
     }
 
     public function unreadNotifcationsByUser($user)
     {
-        $this->user->find($user)->unreadNotifications;
+        return  $this->user->find($user)->unreadNotifications;
     }
 
     public function markAsRead($id)

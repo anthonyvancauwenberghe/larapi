@@ -9,6 +9,7 @@
 namespace Modules\User\Listeners;
 
 use Foundation\Abstracts\Listeners\Listener;
+use Modules\Authorization\Entities\Role;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
@@ -20,6 +21,7 @@ class NewlyRegisteredUserListener extends Listener
     public function handle($event): void
     {
         $event->user->notify(new UserRegisteredNotification($event->user));
+        $event->user->syncRoles(Role::USER);
     }
 
     /**

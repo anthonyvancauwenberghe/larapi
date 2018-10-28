@@ -8,7 +8,7 @@
 
 namespace Modules\Notification\Contracts;
 
-use Modules\Notification\Entities\Notification;
+use Illuminate\Notifications\DatabaseNotification as Notification;
 
 interface NotificationServiceContract
 {

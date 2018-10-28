@@ -12,6 +12,8 @@ use Modules\Machine\Entities\Machine;
 
 interface MachineServiceContract
 {
+    public function allByUserId($userId);
+
     public function find($id): ?Machine;
 
     public function update($id, $data): Machine;
@@ -19,4 +21,6 @@ interface MachineServiceContract
     public function create($data): Machine;
 
     public function delete($id): bool;
+
+    public function heartbeat($id,$data): void;
 }

@@ -16,7 +16,7 @@ interface PermissionAttributes
     const ASSIGN_ROLES = 'assign.roles';
 
     const SHOW_MACHINE = 'show.machine';
-    const UPDATE_MACHINE = 'update.machine';
+    const UPDATE_MACHINE = 'test.machine';
     const CREATE_MACHINE = 'create.machine';
     const DELETE_MACHINE = 'delete.machine';
 }

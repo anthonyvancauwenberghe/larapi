@@ -6,7 +6,7 @@
  * Time: 18:58.
  */
 
-namespace Modules\Notification\Controllers;
+namespace Modules\Notification\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Modules\Notification\Contracts\NotificationServiceContract;

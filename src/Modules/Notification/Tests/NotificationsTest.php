@@ -16,11 +16,20 @@ use Modules\User\Notifications\UserRegisteredNotification;
 
 class NotificationsTest extends HttpTest
 {
+    /**
+     * @var User
+     */
+    protected $user;
+
+    protected function seedData()
+    {
+        parent::seedData();
+        $this->user = $this->getHttpUser();
+    }
     public function testUserRegisteredEvent()
     {
         /* Remove the http test user from database so it seems like it's being registered */
-        $user = $this->getHttpUser();
-        User::destroy($user->id);
+        User::destroy($this->user->id);
         $this->expectsEvents(UserRegisteredEvent::class);
 
         /* Creates a new user & therefore a new userregisteredevent is launched */
@@ -29,15 +38,14 @@ class NotificationsTest extends HttpTest
 
     public function testDatabaseNotification()
     {
-        $user = $this->getHttpUser();
 
-        $notifications = User::find($user->getKey())->unreadNotifications->toArray();
+        $notifications = User::find($this->user->getKey())->unreadNotifications->toArray();
         $this->assertCount(1, $notifications);
-        $notification = $user->unreadNotifications()->first();
+        $notification = $this->user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
         $response = $this->http('POST', 'v1/notifications/'.$notificationId);
         $response->assertStatus(200);
-        $unreadnotifications = User::find($user->getKey())->unreadNotifications;
+        $unreadnotifications = User::find($this->user->getKey())->unreadNotifications;
         $this->assertCount(0, $unreadnotifications);
     }
 

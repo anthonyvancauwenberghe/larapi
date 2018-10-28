@@ -11,7 +11,7 @@ namespace Foundation\Abstracts\Listeners;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-abstract class Listener implements ShouldQueue, ListenerContract
+abstract class Listener implements ListenerContract
 {
     use InteractsWithQueue;
 }

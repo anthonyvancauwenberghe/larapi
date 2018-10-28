@@ -15,7 +15,7 @@ class DatabaseResetCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'db:reset';
+    protected $signature = 'db:reset {--demo}';
 
     /**
      * The console command description.
@@ -31,9 +31,15 @@ class DatabaseResetCommand extends Command
      */
     public function handle()
     {
+        Artisan::call('migrate:refresh');
         Artisan::call('migrate:fresh');
         Artisan::call('cache:clear');
+        Artisan::call('migrate');
         Artisan::call('db:seed');
+
+        if ($this->option('demo'))
+            Artisan::call('demo:seed');
+
         $this->info('Database has been reset!');
     }
 }

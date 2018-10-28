@@ -3,8 +3,8 @@
 namespace Modules\Machine\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Machine\Contracts\NotificationServiceContract;
-use Modules\Machine\Services\NotificationService;
+use Modules\Machine\Contracts\MachineServiceContract;
+use Modules\Machine\Services\MachineService;
 
 class MachineServiceProvider extends ServiceProvider
 {
@@ -25,8 +25,8 @@ class MachineServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(
-            NotificationServiceContract::class,
-            NotificationService::class
+            MachineServiceContract::class,
+            MachineService::class
         );
     }
 }

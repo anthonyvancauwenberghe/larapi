@@ -14,11 +14,19 @@ use Modules\User\Entities\User;
 
 class AuthorizationTest extends TestCase
 {
-    public function testRoles()
+    /**
+     * @var User
+     */
+    protected $user;
+
+    protected function seedData()
     {
-        $user = User::first();
-        $this->assertFalse($user->isAdmin());
-        $user->assignRole(Role::ADMIN);
-        $this->assertTrue($user->isAdmin());
+         $this->user =factory(User::class)->create();
+    }
+
+    public function testAdminAssignmentRole(){
+        $this->assertFalse($this->user->hasRole(Role::ADMIN));
+        $this->user->assignRole(Role::ADMIN);
+        $this->assertTrue($this->user->hasRole(Role::ADMIN));
     }
 }

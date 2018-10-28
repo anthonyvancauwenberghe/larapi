@@ -6,10 +6,10 @@ use Foundation\Console\BootstrapCacheCommand;
 use Foundation\Console\BootstrapClearCacheCommand;
 use Foundation\Console\ClearModelsCacheCommand;
 use Foundation\Console\DatabaseResetCommand;
-use Foundation\Console\DemoSeedCommand;
 use Foundation\Console\DisplayEnvCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as LaravelConsoleKernel;
+use Modules\Demo\Jobs\AlterDemoDataJob;
 
 class ConsoleKernel extends LaravelConsoleKernel
 {
@@ -23,8 +23,7 @@ class ConsoleKernel extends LaravelConsoleKernel
         BootstrapClearCacheCommand::class,
         DatabaseResetCommand::class,
         ClearModelsCacheCommand::class,
-        DisplayEnvCommand::class,
-        DemoSeedCommand::class
+        DisplayEnvCommand::class
     ];
 
     /**
@@ -37,6 +36,7 @@ class ConsoleKernel extends LaravelConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('horizon:snapshot')->everyFiveMinutes();
+        $schedule->job(new AlterDemoDataJob())->everyMinute();
     }
 
     /**

@@ -6,6 +6,7 @@ use Foundation\Abstracts\Controller\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\User\Contracts\UserServiceContract;
+use Modules\User\Resources\UserResource;
 use Modules\User\Services\UserService;
 
 class UserController extends Controller
@@ -28,21 +29,21 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse
+     * @return
      */
     public function index()
     {
-        return \response()->json($this->service->all());
+        return UserResource::collection($this->service->all()->load('roles'));
     }
 
     /**
      * Show the specified resource.
      *
-     * @return JsonResponse
+     * @return UserResource
      */
     public function show()
     {
-        return \response()->json(get_authenticated_user()->toArray());
+        return new UserResource(get_authenticated_user());
     }
 
     /**
@@ -54,7 +55,7 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->service->assignRole($id, $request->roles);
+        $this->service->setRoles($id, $request->roles);
 
         return \response()->json('success');
     }

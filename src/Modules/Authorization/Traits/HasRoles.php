@@ -12,11 +12,11 @@ use Modules\Authorization\Entities\Role;
 
 trait HasRoles
 {
-    use \Maklad\Permission\Traits\HasRoles {
-        \Maklad\Permission\Traits\HasRoles::assignRole as assignRoleParent;
-        \Maklad\Permission\Traits\HasRoles::removeRole as removeRoleParent;
-        \Maklad\Permission\Traits\HasRoles::givePermissionTo as givePermissionParent;
-        \Maklad\Permission\Traits\HasRoles::revokePermissionTo as revokePermissionParent;
+    use \Spatie\Permission\Traits\HasRoles {
+        \Spatie\Permission\Traits\HasRoles::assignRole as assignRoleParent;
+        \Spatie\Permission\Traits\HasRoles::removeRole as removeRoleParent;
+        \Spatie\Permission\Traits\HasRoles::givePermissionTo as givePermissionParent;
+        \Spatie\Permission\Traits\HasRoles::revokePermissionTo as revokePermissionParent;
     }
 
     public function assignRole(...$roles)
@@ -27,12 +27,10 @@ trait HasRoles
         return $roles;
     }
 
-    public function removeRole(...$roles)
+    public function removeRole($role)
     {
-        $roles = $this->removeRoleParent($roles);
+        $this->removeRoleParent($role);
         unset($this->roles);
-
-        return $roles;
     }
 
     public function givePermissionTo(...$permissions)

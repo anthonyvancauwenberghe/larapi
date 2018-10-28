@@ -31,7 +31,7 @@ cache:
     - $HOME/.composer/cache
 
 before_install:
-- mysql -e 'CREATE DATABASE larapi;'
+- mysql -e 'CREATE DATABASE larapi_testing;'
 - echo '' > ./storage/logs/laravel.log
 - echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini

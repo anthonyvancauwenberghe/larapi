@@ -30,7 +30,10 @@ abstract class TestCase extends BaseTestCase
         $this->userService = $this->app->make(UserServiceContract::class);
         $this->app->make(AuthorizationContract::class)->clearPermissionCache();
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
+        $this->seedData();
     }
+
+    protected function seedData(){}
 
     protected function createUser()
     {

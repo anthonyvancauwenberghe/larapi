@@ -11,6 +11,11 @@
 |
 */
 
+use Modules\Auth0\Services\Auth0Service;
+use Modules\Authorization\Contracts\AuthorizationContract;
+use Modules\Authorization\Services\AuthorizationService;
+use Modules\User\Services\UserService;
+
 $app = new Illuminate\Foundation\Application(
     dirname(__DIR__)
 );
@@ -40,7 +45,9 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     \Foundation\Kernels\ExceptionKernel::class
 );
-
+$app->bind(\Auth0\Login\Contract\Auth0UserRepository::class, function () {
+    return new Auth0Service(new UserService());
+});
 /*
 |--------------------------------------------------------------------------
 | Return The Application
