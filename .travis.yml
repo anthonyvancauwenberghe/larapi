@@ -6,7 +6,7 @@ sudo: false
 services:
 - redis-server
 - mongodb
-- mariadb
+- mysql
 
 addons:
   hosts:
