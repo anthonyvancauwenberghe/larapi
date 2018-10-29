@@ -8,7 +8,7 @@ services:
 - mongodb
 
 addons:
-  mariadb: '10.0'
+  mariadb: '10.3'
   hosts:
   - larapi.test
   - api.larapi.test
