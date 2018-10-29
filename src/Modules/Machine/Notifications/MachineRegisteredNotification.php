@@ -12,7 +12,6 @@ use Foundation\Abstracts\Notifications\WebNotification;
 
 class MachineRegisteredNotification extends WebNotification
 {
-
     protected function title(): string
     {
         return 'New machine registered!';

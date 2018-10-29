@@ -22,14 +22,15 @@ class UserService implements UserServiceContract
 
     public function find($id): ?User
     {
-        if ($id instanceof User)
+        if ($id instanceof User) {
             return $id;
+        }
 
         $user = User::find($id);
 
-        if ($user === null)
+        if ($user === null) {
             throw new NotFoundHttpException();
-
+        }
         return $user;
     }
 
@@ -69,8 +70,9 @@ class UserService implements UserServiceContract
 
     public function setRoles($id, array $roles): void
     {
-        if (!in_array(Role::USER, $roles))
+        if (!in_array(Role::USER, $roles)) {
             $roles[] = Role::USER;
+        }
         $this->find($id)->syncRoles($roles);
     }
 }

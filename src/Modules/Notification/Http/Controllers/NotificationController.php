@@ -18,6 +18,7 @@ class NotificationController extends Controller
 
     /**
      * NotificationController constructor.
+     *
      * @param $service
      */
     public function __construct(NotificationServiceContract $service)

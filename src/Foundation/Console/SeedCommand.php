@@ -59,8 +59,9 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 
             foreach ($seeders as $seeder) {
                 $seeder = $this->laravel->make($seeder);
-                if (!isset($seeder->seed) || $seeder->seed === false)
+                if (!isset($seeder->seed) || $seeder->seed === false) {
                     $seeder->__invoke();
+                }
             }
         });
 

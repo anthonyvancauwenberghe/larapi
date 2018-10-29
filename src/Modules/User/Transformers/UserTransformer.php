@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 29.10.18
- * Time: 12:06
+ * Time: 12:06.
  */
 
 namespace Modules\User\Transformers;
@@ -17,7 +17,7 @@ class UserTransformer extends Transformer
 {
     public $relations = [
         'roles',
-        'permissions'
+        'permissions',
     ];
 
     /**
@@ -30,14 +30,14 @@ class UserTransformer extends Transformer
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->name,
+            'id'             => $this->id,
+            'name'           => $this->name,
+            'email'          => $this->name,
             'email_verified' => $this->email_verified,
-            'gender' => $this->gender,
-            'provider' => $this->provider,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'gender'         => $this->gender,
+            'provider'       => $this->provider,
+            'created_at'     => $this->created_at,
+            'updated_at'     => $this->updated_at,
         ];
     }
 

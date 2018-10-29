@@ -23,7 +23,7 @@ class ConsoleKernel extends LaravelConsoleKernel
         BootstrapClearCacheCommand::class,
         DatabaseResetCommand::class,
         ClearModelsCacheCommand::class,
-        DisplayEnvCommand::class
+        DisplayEnvCommand::class,
     ];
 
     /**

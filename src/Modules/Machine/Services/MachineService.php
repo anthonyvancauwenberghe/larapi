@@ -23,8 +23,10 @@ class MachineService implements MachineServiceContract
 
     public function find($id): ?Machine
     {
-        if ($id instanceof Machine)
+        if ($id instanceof Machine) {
             return $id;
+        }
+
         return Machine::find($id);
     }
 
@@ -33,6 +35,7 @@ class MachineService implements MachineServiceContract
         $machine = $this->find($id);
         $machine->update($data);
         event(new MachineUpdatedEvent($machine));
+
         return $machine;
     }
 
@@ -53,11 +56,9 @@ class MachineService implements MachineServiceContract
     {
         $this->update($id, [
             'last_heartbeat' => Carbon::now(),
-            'memory_usage' => $data['memory_usage'],
-            'cpu_usage' => $data['cpu_usage'],
-            'online'    => true
+            'memory_usage'   => $data['memory_usage'],
+            'cpu_usage'      => $data['cpu_usage'],
+            'online'         => true,
         ]);
     }
-
-
 }

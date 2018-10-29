@@ -5,7 +5,6 @@ namespace Modules\User\Tests;
 use Foundation\Abstracts\Tests\HttpTest;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Entities\User;
-use Modules\User\Resources\UserResource;
 use Modules\User\Transformers\UserTransformer;
 
 class UserHttpTest extends HttpTest
@@ -30,7 +29,7 @@ class UserHttpTest extends HttpTest
         $user = $this->getHttpUser();
         $http = $this->http('GET', '/v1/users/me');
         $http->assertStatus(200);
-        $this->assertEquals((new UserTransformer($user))->serialize(),$this->decodeHttpContent($http));
+        $this->assertEquals((new UserTransformer($user))->serialize(), $this->decodeHttpContent($http));
     }
 
     /**
@@ -49,7 +48,7 @@ class UserHttpTest extends HttpTest
 
         $this->changeTestUserRoles(Role::ADMIN);
         $this->assertTrue($user->fresh()->hasRole(Role::ADMIN));
-        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => [Role::ADMIN]]);
+        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => [Role::ADMIN]]);
         $http->assertStatus(200);
 
         $user = User::find($user->id);

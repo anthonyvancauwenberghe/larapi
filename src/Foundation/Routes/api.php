@@ -15,5 +15,3 @@
 Route::get('/', 'FoundationController@api');
 
 Route::get('/authorized', 'FoundationController@authorized')->middleware('auth0');
-
-

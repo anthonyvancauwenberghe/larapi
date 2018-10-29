@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 28.10.18
- * Time: 16:15
+ * Time: 16:15.
  */
 
 namespace Modules\Demo\Database\Seeder;
@@ -21,13 +21,13 @@ class DemoSeeder extends Seeder
 
     /**
      * DemoSeeder constructor.
+     *
      * @param bool $seed
      */
     public function __construct(Auth0ServiceContract $auth0Service)
     {
         $this->service = $auth0Service;
     }
-
 
     /**
      * Run the database seeds.

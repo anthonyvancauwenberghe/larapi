@@ -31,8 +31,10 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     protected function getAuth0Service()
     {
-        if ($this->auth0 === null)
+        if ($this->auth0 === null) {
             $this->auth0 = $this->app->make(Auth0UserRepository::class);
+        }
+
         return $this->auth0;
     }
 
@@ -69,15 +71,15 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     private function sendRequest(string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer ' . $this->getAuth0Service()->getTestUserToken()->id_token,
+        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer '.$this->getAuth0Service()->getTestUserToken()->id_token,
         ] : []);
     }
 
     protected function sendRequestWithToken($token, string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL') . '/' . $route, $payload, $authenticated ? [
-            'Authorization' => 'Bearer ' . $token,
+        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+            'Authorization' => 'Bearer '.$token,
         ] : []);
     }
 

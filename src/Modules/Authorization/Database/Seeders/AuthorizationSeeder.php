@@ -6,7 +6,6 @@ use Illuminate\Database\Seeder;
 use Modules\Authorization\Attributes\PermissionAttributes;
 use Modules\Authorization\Attributes\RolePermissions;
 use Modules\Authorization\Contracts\AuthorizationContract;
-use Modules\Authorization\Entities\Permission;
 use Modules\Authorization\Entities\Role;
 use Modules\Authorization\Services\AuthorizationService;
 
@@ -40,7 +39,6 @@ class AuthorizationSeeder extends Seeder
         $this->createPermissions();
         $this->createRoles();
     }
-
 
     protected function createPermissions(): void
     {

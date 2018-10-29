@@ -12,7 +12,6 @@ use Foundation\Abstracts\Events\Event;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\Machine\Entities\Machine;
-use Modules\Machine\Resources\MachineResource;
 use Modules\Machine\Transformer\MachineTransformer;
 
 class MachineUpdatedEvent extends Event implements ShouldBroadcast
@@ -36,7 +35,7 @@ class MachineUpdatedEvent extends Event implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new PrivateChannel('user.' . $this->machine->user_id);
+        return new PrivateChannel('user.'.$this->machine->user_id);
     }
 
     public function broadcastAs()

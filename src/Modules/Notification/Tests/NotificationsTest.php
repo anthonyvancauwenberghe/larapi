@@ -9,7 +9,6 @@
 namespace Modules\Notification\Tests;
 
 use Foundation\Abstracts\Tests\HttpTest;
-use Modules\Notification\Resources\NotificationResource;
 use Modules\Notification\Transformers\NotificationTransformer;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
@@ -27,6 +26,7 @@ class NotificationsTest extends HttpTest
         parent::seedData();
         $this->user = $this->getHttpUser();
     }
+
     public function testUserRegisteredEvent()
     {
         /* Remove the http test user from database so it seems like it's being registered */
@@ -39,7 +39,6 @@ class NotificationsTest extends HttpTest
 
     public function testDatabaseNotification()
     {
-
         $notifications = User::find($this->user->getKey())->unreadNotifications->toArray();
         $this->assertCount(1, $notifications);
         $notification = $this->user->unreadNotifications()->first();

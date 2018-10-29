@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 29.10.18
- * Time: 12:40
+ * Time: 12:40.
  */
 
 namespace Modules\Notification\Transformers;
-
 
 use Foundation\Abstracts\Transformers\Transformer;
 

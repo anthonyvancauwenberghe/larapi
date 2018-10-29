@@ -3,9 +3,7 @@
 namespace Foundation\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
-use Foundation\Cache\ModelCache;
 use Foundation\Cache\ModelCacheOOP;
-use Modules\User\Entities\User;
 
 class CacheObserverTest extends TestCase
 {

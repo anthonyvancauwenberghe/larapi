@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 28.10.18
- * Time: 17:25
+ * Time: 17:25.
  */
 
 namespace Modules\Demo\Jobs;
-
 
 use Foundation\Abstracts\Jobs\Job;
 use Modules\Auth0\Contracts\Auth0ServiceContract;
@@ -17,7 +16,6 @@ use Modules\User\Entities\User;
 
 class AlterDemoDataJob extends Job
 {
-
     /**
      * @var MachineService
      */
@@ -27,7 +25,6 @@ class AlterDemoDataJob extends Job
      * @var User
      */
     protected $user;
-
 
     public function handle()
     {
@@ -44,12 +41,11 @@ class AlterDemoDataJob extends Job
     protected function alterMachineData()
     {
         foreach ($this->machineService->getByUserId($this->user->id) as $machine) {
-
             $this->machineService->heartbeat($machine, [
-                'cpu_usage' => rand(0, 100),
+                'cpu_usage'    => rand(0, 100),
                 'memory_usage' => rand(1, $machine->memory_available),
             ]);
-            $this->machineService->update($machine, ['online' => (bool)rand(0, 1)]);
+            $this->machineService->update($machine, ['online' => (bool) rand(0, 1)]);
         }
     }
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 29.10.18
- * Time: 16:29
+ * Time: 16:29.
  */
 
 namespace Foundation\Traits;
-
 
 trait MutatesRequest
 {

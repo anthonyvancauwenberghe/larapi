@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 28.10.18
- * Time: 16:16
+ * Time: 16:16.
  */
 
 namespace Modules\Demo\Jobs;
-
 
 use Foundation\Abstracts\Jobs\Job;
 use Illuminate\Contracts\Queue\ShouldQueue;

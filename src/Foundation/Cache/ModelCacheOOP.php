@@ -24,7 +24,7 @@ class ModelCacheOOP
     /**
      * ModelCacheOOP constructor.
      */
-    public function __construct(string $model, array $indexes = array(), $cacheTime = null)
+    public function __construct(string $model, array $indexes = [], $cacheTime = null)
     {
         $this->model = $model;
         $this->secondaryIndexes = $indexes;
@@ -41,8 +41,9 @@ class ModelCacheOOP
     {
         $model = Cache::get(self::getCacheName($id));
 
-        if ($eagerLoad)
+        if ($eagerLoad) {
             return $this->eagerLoadRelations($model);
+        }
 
         return $model;
     }
@@ -54,16 +55,18 @@ class ModelCacheOOP
         }
         $modelId = $this->findSecondaryIndex($index, $key);
 
-        if ($modelId === null)
+        if ($modelId === null) {
             return ($this->model)::where($index, $key)->first();
+        }
+
         return $this->find($modelId, $eagerLoad);
     }
 
     protected function eagerLoadRelations($model)
     {
-        if ($model !== null)
-            return $model::eagerLoadRelations(array($model))[0];
-        return null;
+        if ($model !== null) {
+            return $model::eagerLoadRelations([$model])[0];
+        }
     }
 
     protected function findSecondaryIndex(string $index, $key)
@@ -76,7 +79,7 @@ class ModelCacheOOP
      */
     public function getCacheName($id, string $index = 'id')
     {
-        return config('model.cache_prefix') . ':' . strtolower(get_short_class_name($this->model)) . ':' . $index . ':' . $id;
+        return config('model.cache_prefix').':'.strtolower(get_short_class_name($this->model)).':'.$index.':'.$id;
     }
 
     /**
@@ -97,15 +100,16 @@ class ModelCacheOOP
     }
 
     /**
-     * @param string $index
+     * @param string    $index
      * @param \Eloquent $model
      */
     protected function storeSecondaryIndexReferences($model)
     {
         foreach ($this->secondaryIndexes as $index) {
             $indexValue = $model->$index;
-            if ($indexValue !== null)
+            if ($indexValue !== null) {
                 Cache::put($this->getCacheName($indexValue, $index), $model->getKey(), $this->getCacheTime());
+            }
         }
     }
 
@@ -134,7 +138,7 @@ class ModelCacheOOP
     private static function deleteWithPrefix($prefix)
     {
         $redis = self::getCacheConnection();
-        $keyPattern = Cache::getPrefix() . $prefix . '*';
+        $keyPattern = Cache::getPrefix().$prefix.'*';
         $keys = $redis->keys($keyPattern);
         $redis->delete($keys);
     }
@@ -160,12 +164,12 @@ class ModelCacheOOP
      */
     public function clearModelCache()
     {
-        $pattern = config('model.cache_prefix') . ':' . strtolower(get_short_class_name($this->model));
+        $pattern = config('model.cache_prefix').':'.strtolower(get_short_class_name($this->model));
         self::deleteWithPrefix($pattern);
     }
 
     public function enabled(): bool
     {
-        return (bool)config('model.caching');
+        return (bool) config('model.caching');
     }
 }

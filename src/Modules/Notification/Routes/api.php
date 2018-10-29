@@ -11,7 +11,6 @@
 |
 */
 
-
 Route::get('/', 'NotificationController@all');
 Route::get('/unread', 'NotificationController@allUnread');
 Route::post('/{id}', 'NotificationController@read');
