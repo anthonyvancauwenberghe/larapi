@@ -6,9 +6,9 @@ sudo: false
 services:
 - redis-server
 - mongodb
-- mysql
 
 addons:
+  mariadb: '10.0'
   hosts:
   - larapi.test
   - api.larapi.test
