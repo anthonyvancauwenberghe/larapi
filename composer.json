@@ -52,7 +52,8 @@
             "dont-discover": [
                 "nwidart/laravel-modules",
                 "barryvdh/laravel-ide-helper",
-                "laravel/telescope"
+                "laravel/telescope",
+                "laravel/horizon"
             ]
         },
         "merge-plugin": {
