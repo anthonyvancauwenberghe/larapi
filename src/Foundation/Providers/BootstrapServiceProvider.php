@@ -39,8 +39,6 @@ class BootstrapServiceProvider extends ServiceProvider
 
         /* Register Policies after ownership policies otherwise they would not get overriden */
         $this->loadPolicies();
-
-
     }
 
     public function register()

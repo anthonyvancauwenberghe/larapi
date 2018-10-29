@@ -11,11 +11,6 @@
 |
 */
 
-use Modules\Auth0\Services\Auth0Service;
-use Modules\Authorization\Contracts\AuthorizationContract;
-use Modules\Authorization\Services\AuthorizationService;
-use Modules\User\Services\UserService;
-
 $app = new Illuminate\Foundation\Application(
     dirname(__DIR__)
 );

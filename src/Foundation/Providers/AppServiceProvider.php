@@ -38,7 +38,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->register(\Foundation\Providers\TelescopeServiceProvider::class);
     }
 
-    private function registerNonTestingPackages(){
+    private function registerNonTestingPackages()
+    {
         $this->app->register(\Laravel\Horizon\HorizonServiceProvider::class);
     }
 }

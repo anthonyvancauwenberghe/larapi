@@ -8,8 +8,6 @@
 
 namespace Modules\Notification\Services;
 
-
-
 use Illuminate\Notifications\DatabaseNotification as Notification;
 use Modules\Notification\Contracts\NotificationServiceContract;
 use Modules\User\Contracts\UserServiceContract;
@@ -21,6 +19,7 @@ class NotificationService implements NotificationServiceContract
 
     /**
      * NotificationService constructor.
+     *
      * @param $service
      */
     public function __construct(UserServiceContract $service)
@@ -30,20 +29,21 @@ class NotificationService implements NotificationServiceContract
 
     public function find($id): ?Notification
     {
-        if ($id instanceof Notification)
+        if ($id instanceof Notification) {
             return $id;
+        }
 
         $notification = Notification::find($id);
 
-        if ($notification === null)
+        if ($notification === null) {
             throw new NotFoundHttpException();
-
+        }
         return $notification;
     }
 
     public function allNotificationsByUser($user)
     {
-       return $this->user->find($user)->notifications;
+        return $this->user->find($user)->notifications;
     }
 
     public function unreadNotifcationsByUser($user)
@@ -60,5 +60,4 @@ class NotificationService implements NotificationServiceContract
     {
         $this->find($id)->markAsUnread();
     }
-
 }

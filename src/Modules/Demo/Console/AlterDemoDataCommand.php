@@ -2,10 +2,8 @@
 
 namespace Modules\Demo\Console;
 
-use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Console\Command;
 use Modules\Demo\Jobs\AlterDemoDataJob;
-use Modules\Demo\Jobs\SeedDemoDataJob;
 
 class AlterDemoDataCommand extends Command
 {

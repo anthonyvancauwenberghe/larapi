@@ -23,8 +23,10 @@ trait Cacheable
 
     public static function cache(): ModelCacheOOP
     {
-        if (!isset(static::$caching))
+        if (!isset(static::$caching)) {
             static::$caching = new ModelCacheOOP(static::class, get_class_property(static::class, 'secondaryCacheIndexes'), get_class_property(static::class, 'cacheTime'));
+        }
+
         return static::$caching;
     }
 
@@ -32,6 +34,7 @@ trait Cacheable
     {
         if (static::cache()->enabled()) {
             $model = static::cache()->find($id) ?? static::recache($id);
+
             return static::filterFromColumns($model, $columns);
         }
 
@@ -42,6 +45,7 @@ trait Cacheable
     {
         $model = static::findWithoutCache($id);
         static::cache()->store($model);
+
         return $model;
     }
 
@@ -57,8 +61,9 @@ trait Cacheable
 
     private static function filterFromColumns($model, $columns)
     {
-        if ($model === null)
-            return null;
+        if ($model === null) {
+            return;
+        }
 
         if ($columns !== ['*']) {
             return collect($model)->first($columns);

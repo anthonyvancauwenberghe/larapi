@@ -37,8 +37,9 @@ class DatabaseResetCommand extends Command
         Artisan::call('migrate');
         Artisan::call('db:seed');
 
-        if ($this->option('demo'))
+        if ($this->option('demo')) {
             Artisan::call('demo:seed');
+        }
 
         $this->info('Database has been reset!');
     }

@@ -32,7 +32,6 @@ class MachineServiceTest extends TestCase
      */
     public function testUserMachines()
     {
-
         $machines = $this->machines->toArray();
 
         $this->assertNotEmpty($machines);
@@ -43,6 +42,6 @@ class MachineServiceTest extends TestCase
         $machine = Machine::first();
         $user = $machine->user;
         $this->assertNotNull($user);
-        $this->assertInstanceOf(User::class,$machine->user);
+        $this->assertInstanceOf(User::class, $machine->user);
     }
 }

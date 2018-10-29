@@ -33,7 +33,9 @@ abstract class TestCase extends BaseTestCase
         $this->seedData();
     }
 
-    protected function seedData(){}
+    protected function seedData()
+    {
+    }
 
     protected function createUser()
     {

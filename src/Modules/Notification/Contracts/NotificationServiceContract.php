@@ -16,10 +16,9 @@ interface NotificationServiceContract
 
     public function allNotificationsByUser($user);
 
-    public  function unreadNotifcationsByUser($user);
+    public function unreadNotifcationsByUser($user);
 
     public function markAsRead($id);
 
     public function markAsUnread($id);
-
 }

@@ -11,7 +11,6 @@ namespace Modules\Machine\Listeners;
 use Foundation\Abstracts\Listeners\Listener;
 use Modules\Machine\Events\MachineRegisteredEvent;
 use Modules\Machine\Notifications\MachineRegisteredNotification;
-use Modules\User\Notifications\UserRegisteredNotification;
 
 class MachineRegisteredListener extends Listener
 {

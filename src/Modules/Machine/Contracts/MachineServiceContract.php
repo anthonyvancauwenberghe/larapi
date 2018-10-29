@@ -22,5 +22,5 @@ interface MachineServiceContract
 
     public function delete($id): bool;
 
-    public function heartbeat($id,$data): void;
+    public function heartbeat($id, $data): void;
 }

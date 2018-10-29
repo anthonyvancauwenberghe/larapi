@@ -12,5 +12,4 @@ use Modules\Authorization\Attributes\RoleAttributes;
 
 class Role extends \Spatie\Permission\Models\Role implements RoleAttributes
 {
-
 }

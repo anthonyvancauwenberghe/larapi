@@ -2,7 +2,6 @@
 
 namespace Foundation\Console;
 
-use Foundation\Cache\ModelCache;
 use Foundation\Cache\ModelCacheOOP;
 use Illuminate\Console\Command;
 

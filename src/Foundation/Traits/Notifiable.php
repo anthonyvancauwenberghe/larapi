@@ -25,6 +25,4 @@ trait Notifiable
 
         return $this->baseNotificationsMethod();
     }
-
-
 }

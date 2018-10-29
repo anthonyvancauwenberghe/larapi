@@ -12,5 +12,4 @@ use Modules\Authorization\Attributes\PermissionAttributes;
 
 class Permission extends \Spatie\Permission\Models\Permission implements PermissionAttributes
 {
-
 }

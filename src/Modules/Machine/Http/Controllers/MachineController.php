@@ -35,11 +35,11 @@ class MachineController extends Controller
 
     /**
      * Store a newly created machine in storage.
-     *
      */
     public function store(Request $request)
     {
         $machine = $this->service->create($this->injectUserId($request));
+
         return MachineTransformer::resource($machine);
     }
 
@@ -47,7 +47,6 @@ class MachineController extends Controller
      * Update a machine.
      *
      * @param Request $request
-     *
      */
     public function update(Request $request, $id)
     {
@@ -62,7 +61,6 @@ class MachineController extends Controller
 
     /**
      * Show the specified resource.
-     *
      */
     public function show($id)
     {
@@ -75,7 +73,6 @@ class MachineController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
      */
     public function destroy($id)
     {

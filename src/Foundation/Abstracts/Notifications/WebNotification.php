@@ -64,8 +64,6 @@ abstract class WebNotification extends Notification
         ];
     }
 
-
-
     /**
      * The title for the web notification.
      *

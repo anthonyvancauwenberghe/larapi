@@ -21,10 +21,11 @@ class AuthorizationTest extends TestCase
 
     protected function seedData()
     {
-         $this->user =factory(User::class)->create();
+        $this->user = factory(User::class)->create();
     }
 
-    public function testAdminAssignmentRole(){
+    public function testAdminAssignmentRole()
+    {
         $this->assertFalse($this->user->hasRole(Role::ADMIN));
         $this->user->assignRole(Role::ADMIN);
         $this->assertTrue($this->user->hasRole(Role::ADMIN));

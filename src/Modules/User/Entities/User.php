@@ -52,7 +52,7 @@ class User extends SqlModel implements AuthorizableContract, AuthenticatableCont
     protected $guarded = [];
 
     protected $casts = [
-        'email_verified' => 'bool'
+        'email_verified' => 'bool',
     ];
 
     /**

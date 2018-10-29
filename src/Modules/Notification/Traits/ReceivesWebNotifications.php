@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 27.10.18
- * Time: 15:01
+ * Time: 15:01.
  */
 
 namespace Modules\Notification\Traits;
-
 
 trait ReceivesWebNotifications
 {
