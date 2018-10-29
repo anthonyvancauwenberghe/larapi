@@ -10,6 +10,7 @@ namespace Modules\Machine\Transformer;
 
 
 use Foundation\Abstracts\Transformers\Transformer;
+use Modules\Machine\Entities\Machine;
 use Modules\User\Entities\User;
 use Modules\User\Transformers\UserTransformer;
 
@@ -42,17 +43,17 @@ class MachineTransformer extends Transformer
             'memory_usage' => $this->memory_usage,
             'memory_available' => $this->memory_available,
             'cpu_usage' => $this->cpu_usage,
-            'cpu_clock' => 5,
-            'online' => true,
+            'cpu_clock' => $this->cpu_clock,
+            'online' => $this->online,
             'last_heartbeat' => $this->last_heartbeat ?? null,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];
     }
 
-    public function transformUser(User $user)
+    public function transformUser(Machine $machine)
     {
-        return UserTransformer::resource($user);
+        return UserTransformer::resource($machine->user);
     }
 
 }

@@ -16,7 +16,7 @@ use Modules\Machine\Events\MachineUpdatedEvent;
 
 class MachineService implements MachineServiceContract
 {
-    public function allByUserId($userId)
+    public function getByUserId($userId)
     {
         return Machine::where('user_id', $userId)->get();
     }
@@ -54,7 +54,8 @@ class MachineService implements MachineServiceContract
         $this->update($id, [
             'last_heartbeat' => Carbon::now(),
             'memory_usage' => $data['memory_usage'],
-            'cpu_usage' => $data['cpu_usage']
+            'cpu_usage' => $data['cpu_usage'],
+            'online'    => true
         ]);
     }
 

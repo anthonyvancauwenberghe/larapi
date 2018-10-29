@@ -35,7 +35,7 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
     }
 
     /**
-     * @param User    $user
+     * @param User $user
      * @param Ownable $model
      *
      * @throws Exception
@@ -99,11 +99,11 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
      * @param $user
      * @param $ability
      * @return null
-     *
-     * public function before($user, $ability)
-    * {
-        * //TODO IMPLEMENT CHECK USER IS ADMIN
-        * return null;
-     * }
-     */
+    */
+    public function before($user, $ability)
+    {
+        if ($user->isAdmin())
+            return true;
+    }
+
 }

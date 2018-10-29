@@ -3,12 +3,10 @@
 namespace Modules\Machine\Http\Controllers;
 
 use Foundation\Abstracts\Controller\Controller;
-use Illuminate\Http\JsonResponse;
+use Foundation\Responses\ApiResponse;
 use Illuminate\Http\Request;
 use Modules\Machine\Contracts\MachineServiceContract;
-use Modules\Machine\Entities\Machine;
-use Modules\Machine\Resources\MachineResource;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Modules\Machine\Transformer\MachineTransformer;
 
 class MachineController extends Controller
 {
@@ -32,68 +30,61 @@ class MachineController extends Controller
      */
     public function index()
     {
-        return MachineResource::collection($this->service->allByUserId(get_authenticated_user_id()));
+        return MachineTransformer::collection($this->service->getByUserId(get_authenticated_user_id()));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Store a newly created machine in storage.
      *
-     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        return \response()->json($this->service->create($request->toArray()));
+        $machine = $this->service->create($this->injectUserId($request));
+        return MachineTransformer::resource($machine);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update a machine.
      *
      * @param Request $request
      *
-     * @return JsonResponse
      */
     public function update(Request $request, $id)
     {
         $machine = $this->service->find($id);
-        $this->authorize('update', $machine);
+
+        $this->isOwner($machine);
+
         $machine = $this->service->update($id, $request->toArray());
 
-        return \response()->json($machine);
+        return MachineTransformer::resource($machine);
     }
 
     /**
      * Show the specified resource.
      *
-     * @return MachineResource
      */
     public function show($id)
     {
-        $machine = Machine::find($id);
+        $machine = $this->service->find($id);
 
-        if ($machine === null) {
-            throw new NotFoundHttpException();
-        }
+        $this->isOwner($machine);
 
-        $this->authorize('access', $machine);
-
-        return new MachineResource($machine);
+        return MachineTransformer::resource($machine);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @return JsonResponse
      */
     public function destroy($id)
     {
-        $machine = Machine::find($id);
+        $machine = $this->service->find($id);
 
-        if ($machine === null) {
-            throw new NotFoundHttpException();
-        }
+        $this->isOwner($machine);
 
-        $this->authorize('delete', $machine);
+        $this->service->delete($machine);
 
-        return \response()->json(['deleted']);
+        return ApiResponse::deleted();
     }
 }

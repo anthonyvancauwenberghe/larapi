@@ -13,6 +13,7 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Resources\MachineResource;
+use Modules\Machine\Transformer\MachineTransformer;
 
 class MachineUpdatedEvent extends Event implements ShouldBroadcast
 {
@@ -45,6 +46,6 @@ class MachineUpdatedEvent extends Event implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return (new MachineResource($this->machine))->toArray(null);
+        return MachineTransformer::resource($this->machine)->serialize();
     }
 }

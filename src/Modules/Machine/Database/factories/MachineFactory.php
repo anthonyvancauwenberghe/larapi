@@ -21,5 +21,7 @@ $factory->define(Modules\Machine\Entities\Machine::class, function (Faker $faker
         'memory_usage'     => rand(512, 8192),
         'memory_available' => 8192,
         'cpu_usage'        => rand(0, 100),
+        'cpu_clock'         => rand(3,5),
+        'online'            => $faker->boolean
     ];
 });

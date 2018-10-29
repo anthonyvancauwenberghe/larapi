@@ -43,11 +43,13 @@ class AlterDemoDataJob extends Job
 
     protected function alterMachineData()
     {
-        foreach ($this->machineService->allByUserId($this->user->id) as $machine) {
+        foreach ($this->machineService->getByUserId($this->user->id) as $machine) {
+
             $this->machineService->heartbeat($machine, [
                 'cpu_usage' => rand(0, 100),
-                'memory_usage' => rand(1, $machine->memory_available)
+                'memory_usage' => rand(1, $machine->memory_available),
             ]);
+            $this->machineService->update($machine, ['online' => (bool)rand(0, 1)]);
         }
     }
 }

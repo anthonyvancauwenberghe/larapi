@@ -10,13 +10,12 @@ namespace Modules\Machine\Events;
 
 use Foundation\Abstracts\Events\Event;
 use Modules\Machine\Entities\Machine;
-use Modules\Machine\Listeners\NewlyRegisteredMachineListener;
-use Modules\User\Entities\User;
+use Modules\Machine\Listeners\MachineRegisteredListener;
 
 class MachineRegisteredEvent extends Event
 {
     public $listeners = [
-        NewlyRegisteredMachineListener::class,
+        MachineRegisteredListener::class,
     ];
 
     /**

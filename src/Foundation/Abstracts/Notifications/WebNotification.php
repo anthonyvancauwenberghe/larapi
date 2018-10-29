@@ -14,16 +14,16 @@ use Illuminate\Notifications\Notification;
 
 abstract class WebNotification extends Notification
 {
-    private $targetModel;
+    protected $model;
 
     /**
      * WebNotification constructor.
      *
-     * @param $targetModel
+     * @param $model
      */
-    public function __construct($targetModel)
+    public function __construct($model)
     {
-        $this->targetModel = $targetModel;
+        $this->model = $model;
     }
 
     /**
@@ -38,8 +38,8 @@ abstract class WebNotification extends Notification
         return [
             'title'     => $this->title(),
             'message'   => $this->message(),
-            'target'    => get_short_class_name($this->targetModel),
-            'target_id' => $this->targetModel->getKey(),
+            'target'    => get_short_class_name($this->model),
+            'target_id' => $this->model->getKey(),
             'tag'       => $this->tag(),
         ];
     }
@@ -55,8 +55,8 @@ abstract class WebNotification extends Notification
 
         return [
             'id'        => $notification->getKey(),
-            'target_id' => $this->targetModel->getKey(),
-            'target'    => get_short_class_name($this->targetModel),
+            'target_id' => $this->model->getKey(),
+            'target'    => get_short_class_name($this->model),
             'tag'       => $this->tag(),
             'title'     => $this->title(),
             'message'   => $this->message(),

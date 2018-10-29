@@ -12,7 +12,7 @@ use Modules\Machine\Entities\Machine;
 
 interface MachineServiceContract
 {
-    public function allByUserId($userId);
+    public function getByUserId($userId);
 
     public function find($id): ?Machine;
 

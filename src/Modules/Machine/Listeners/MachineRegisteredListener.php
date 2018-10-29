@@ -10,16 +10,17 @@ namespace Modules\Machine\Listeners;
 
 use Foundation\Abstracts\Listeners\Listener;
 use Modules\Machine\Events\MachineRegisteredEvent;
+use Modules\Machine\Notifications\MachineRegisteredNotification;
 use Modules\User\Notifications\UserRegisteredNotification;
 
-class NewlyRegisteredMachineListener extends Listener
+class MachineRegisteredListener extends Listener
 {
     /**
      * @param MachineRegisteredEvent $event
      */
     public function handle($event): void
     {
-        $event->machine->notify(new UserRegisteredNotification($event->machine));
+        $event->machine->user->notify(new MachineRegisteredNotification($event->machine));
     }
 
     /**

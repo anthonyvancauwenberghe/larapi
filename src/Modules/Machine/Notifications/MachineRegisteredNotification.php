@@ -9,25 +9,9 @@
 namespace Modules\Machine\Notifications;
 
 use Foundation\Abstracts\Notifications\WebNotification;
-use Modules\Machine\Entities\Machine;
 
 class MachineRegisteredNotification extends WebNotification
 {
-    /**
-     * @var Machine
-     */
-    public $machine;
-
-    /**
-     * UserRegisteredEvent constructor.
-     *
-     * @param $user
-     */
-    public function __construct(Machine $machine)
-    {
-        parent::__construct($machine);
-        $this->machine = $machine;
-    }
 
     protected function title(): string
     {
@@ -36,6 +20,6 @@ class MachineRegisteredNotification extends WebNotification
 
     protected function message(): string
     {
-        return 'A new machine with ip: '.$this->machine->ip_address.' has been added';
+        return 'A new machine with ip: '.$this->model->ip_address.' has been added';
     }
 }
