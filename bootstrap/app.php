@@ -45,9 +45,7 @@ $app->singleton(
     Illuminate\Contracts\Debug\ExceptionHandler::class,
     \Foundation\Kernels\ExceptionKernel::class
 );
-$app->bind(\Auth0\Login\Contract\Auth0UserRepository::class, function () {
-    return new Auth0Service(new UserService());
-});
+
 /*
 |--------------------------------------------------------------------------
 | Return The Application

@@ -19,16 +19,10 @@ trait RefreshDatabase
 
     public function runDatabaseMigrations()
     {
-        $this->artisan('migrate:refresh');
-        $this->artisan('migrate:fresh');
         $this->artisan('cache:model:clear');
-        $this->artisan('migrate');
+        $this->artisan('migrate:refresh');
         $this->artisan('db:seed');
-
         $this->beforeApplicationDestroyed(function () {
-            $this->artisan('cache:model:clear');
-            $this->artisan('migrate:refresh');
-            $this->artisan('migrate:fresh');
             RefreshDatabaseState::$migrated = false;
         });
     }

@@ -38,9 +38,9 @@ class MachineResource extends JsonResource
             'cpu_usage'        => $this->cpu_usage,
             'cpu_clock'        => 5,
             'online'           => true,
-            'last_heartbeat'   => Carbon::now()->toDateTimeString(),
-            'created_at'       => Carbon::now()->toDateTimeString(),
-            'updated_at'       => Carbon::now()->toDateTimeString(),
+            'last_heartbeat'   => $this->last_heartbeat,
+            'created_at'       => $this->created_at,
+            'updated_at'       => $this->updated_at,
         ];
     }
 }

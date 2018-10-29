@@ -2,15 +2,16 @@
 /**
  * Created by PhpStorm.
  * User: arthur
- * Date: 14.10.18
- * Time: 23:31.
+ * Date: 29.10.18
+ * Time: 12:40
  */
 
-namespace Modules\Notification\Resources;
+namespace Modules\Notification\Transformers;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 
-class NotificationResource extends JsonResource
+use Foundation\Abstracts\Transformers\Transformer;
+
+class NotificationTransformer extends Transformer
 {
     /**
      * Transform the resource into an array.

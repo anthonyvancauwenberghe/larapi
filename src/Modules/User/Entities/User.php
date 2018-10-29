@@ -40,12 +40,20 @@ class User extends SqlModel implements AuthorizableContract, AuthenticatableCont
      */
     protected $table = 'users';
 
-    protected $with = ['roles','permissions'];
+    protected $with = ['roles', 'permissions'];
+
+    public $cacheTime = 60;
+
+    public $secondaryCacheIndexes = ['identity_id'];
 
     /**
      * @var array
      */
     protected $guarded = [];
+
+    protected $casts = [
+        'email_verified' => 'bool'
+    ];
 
     /**
      * @return mixed

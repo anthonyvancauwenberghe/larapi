@@ -10,7 +10,7 @@ namespace Modules\Notification\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Modules\Notification\Contracts\NotificationServiceContract;
-use Modules\Notification\Resources\NotificationResource;
+use Modules\Notification\Transformers\NotificationTransformer;
 
 class NotificationController extends Controller
 {
@@ -27,12 +27,12 @@ class NotificationController extends Controller
 
     public function all()
     {
-        return NotificationResource::collection($this->service->allNotificationsByUser(get_authenticated_user()));
+        return NotificationTransformer::collection($this->service->allNotificationsByUser(get_authenticated_user()));
     }
 
     public function allUnread()
     {
-        return NotificationResource::collection($this->service->unreadNotifcationsByUser(get_authenticated_user()));
+        return NotificationTransformer::collection($this->service->unreadNotifcationsByUser(get_authenticated_user()));
     }
 
     public function read($id)

@@ -10,31 +10,32 @@ namespace Foundation\Observers;
 
 use Foundation\Abstracts\Observers\Observer;
 use Foundation\Cache\ModelCache;
+use Foundation\Traits\Cacheable;
 
 //TODO change this to work with the new object modelcache.
 class CacheObserver extends Observer
 {
     /**
-     * @param \Eloquent $model
+     * @param Cacheable | \Eloquent $model
      */
     public function created($model)
     {
-        ModelCache::store($model);
+        $model::cache()->store($model);
     }
 
     /**
-     * @param \Eloquent $model
+     * @param Cacheable | \Eloquent $model
      */
     public function updated($model)
     {
-        ModelCache::store($model);
+        $model::cache()->store($model);
     }
 
     /**
-     * @param \Eloquent $model
+     * @param Cacheable | \Eloquent $model
      */
     public function deleted($model)
     {
-        ModelCache::remove($model->getKey(), $model);
+        $model::cache()->remove($model->getKey());
     }
 }

@@ -6,6 +6,7 @@ use Foundation\Abstracts\Tests\HttpTest;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Entities\User;
 use Modules\User\Resources\UserResource;
+use Modules\User\Transformers\UserTransformer;
 
 class UserHttpTest extends HttpTest
 {
@@ -29,7 +30,7 @@ class UserHttpTest extends HttpTest
         $user = $this->getHttpUser();
         $http = $this->http('GET', '/v1/users/me');
         $http->assertStatus(200);
-        //TODO $this->assertArraySubset((new UserResource($user))->toArray(null),$this->decodeHttpContent($http));
+        $this->assertEquals((new UserTransformer($user))->serialize(),$this->decodeHttpContent($http));
     }
 
     /**

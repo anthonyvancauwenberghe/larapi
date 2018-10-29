@@ -6,8 +6,8 @@ use Foundation\Abstracts\Controller\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Modules\User\Contracts\UserServiceContract;
-use Modules\User\Resources\UserResource;
 use Modules\User\Services\UserService;
+use Modules\User\Transformers\UserTransformer;
 
 class UserController extends Controller
 {
@@ -33,17 +33,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        return UserResource::collection($this->service->all()->load('roles'));
+        return UserTransformer::collection($this->service->all()->load('roles'));
     }
 
     /**
      * Show the specified resource.
      *
-     * @return UserResource
+     * @return UserTransformer
      */
     public function show()
     {
-        return new UserResource(get_authenticated_user());
+        return UserTransformer::resource(get_authenticated_user());
     }
 
     /**

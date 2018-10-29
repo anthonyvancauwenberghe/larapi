@@ -8,6 +8,7 @@ use Modules\Machine\Contracts\MachineServiceContract;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Resources\MachineResource;
 use Modules\Machine\Services\MachineService;
+use Modules\Machine\Transformer\MachineTransformer;
 use Modules\User\Entities\User;
 
 class MachineHttpTest extends HttpTest
@@ -43,7 +44,7 @@ class MachineHttpTest extends HttpTest
         $this->user->syncRoles(Role::USER);
         $http = $this->http('GET', '/v1/machines');
         $this->assertEquals(
-            MachineResource::collection($this->service->allByUserId($this->user->id))->toArray(null),
+            MachineTransformer::collection($this->service->allByUserId($this->user->id))->serialize(),
             $this->decodeHttpContent($http)
         );
         $http->assertStatus(200);

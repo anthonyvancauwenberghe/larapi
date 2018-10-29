@@ -8,20 +8,41 @@
 
 namespace Foundation\Traits;
 
-use Foundation\Cache\ModelCache;
+use Foundation\Cache\ModelCacheOOP;
 use Illuminate\Contracts\Support\Arrayable;
 
+/**
+ * Trait Cacheable.
+ *
+ * @property int $cacheTime
+ * @property array $secondaryCacheIndexes
+ */
 trait Cacheable
 {
+    private static $caching;
+
+    public static function cache(): ModelCacheOOP
+    {
+        if (!isset(static::$caching))
+            static::$caching = new ModelCacheOOP(static::class, get_class_property(static::class, 'secondaryCacheIndexes'), get_class_property(static::class, 'cacheTime'));
+        return static::$caching;
+    }
+
     public static function find($id, $columns = ['*'])
     {
-        if ((bool) config('model.caching')) {
-            $model = ModelCache::findOrRequery($id, get_called_class());
-
-            return self::filterFromColumns($model, $columns);
+        if (static::cache()->enabled()) {
+            $model = static::cache()->find($id) ?? static::recache($id);
+            return static::filterFromColumns($model, $columns);
         }
 
         return static::findWithoutCache($id, $columns);
+    }
+
+    private static function recache($id)
+    {
+        $model = static::findWithoutCache($id);
+        static::cache()->store($model);
+        return $model;
     }
 
     public static function findWithoutCache($id, $columns = ['*'])
@@ -36,6 +57,9 @@ trait Cacheable
 
     private static function filterFromColumns($model, $columns)
     {
+        if ($model === null)
+            return null;
+
         if ($columns !== ['*']) {
             return collect($model)->first($columns);
         }

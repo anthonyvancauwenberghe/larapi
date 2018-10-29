@@ -35,7 +35,7 @@ class UserService implements UserServiceContract
 
     public function findByIdentityId($id): ?User
     {
-        return User::where('identity_id', $id)->first();
+        return User::cache()->findBy('identity_id', $id);
     }
 
     public function update($id, $data): ?User

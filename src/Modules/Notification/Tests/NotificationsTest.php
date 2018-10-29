@@ -10,6 +10,7 @@ namespace Modules\Notification\Tests;
 
 use Foundation\Abstracts\Tests\HttpTest;
 use Modules\Notification\Resources\NotificationResource;
+use Modules\Notification\Transformers\NotificationTransformer;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
@@ -57,7 +58,7 @@ class NotificationsTest extends HttpTest
         $response = $this->http('GET', 'v1/notifications');
         $response->assertStatus(200);
         $notificationsReponse = $this->decodeHttpContent($response->getContent());
-        $notifications = NotificationResource::collection(User::find($user->getKey())->notifications)->jsonSerialize();
+        $notifications = NotificationTransformer::collection(User::find($user->getKey())->notifications)->jsonSerialize();
         $this->assertEquals($notificationsReponse, (array) $notifications);
     }
 
@@ -71,7 +72,7 @@ class NotificationsTest extends HttpTest
         $response->assertStatus(200);
         $response = $this->http('GET', 'v1/notifications/unread');
         $response->assertStatus(200);
-        $notifications = NotificationResource::collection(User::find($user->getKey())->unreadNotifications)->jsonSerialize();
+        $notifications = NotificationTransformer::collection(User::find($user->getKey())->unreadNotifications)->jsonSerialize();
         $this->assertEquals($notifications, $this->decodeHttpContent($response->getContent()));
     }
 }

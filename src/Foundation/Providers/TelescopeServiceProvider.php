@@ -2,6 +2,7 @@
 
 namespace Foundation\Providers;
 
+use Laravel\Telescope\EntryType;
 use Laravel\Telescope\Telescope;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\IncomingEntry;
@@ -16,9 +17,17 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register()
     {
+        $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
          //Telescope::night();
 
         Telescope::filter(function (IncomingEntry $entry) {
+
+            if ($entry->type === EntryType::REQUEST
+                && isset($entry->content['uri'])
+                && str_contains($entry->content['uri'], 'horizon')) {
+                return false;
+            }
+
             if ($this->app->environment('local')) {
                 return true;
             }

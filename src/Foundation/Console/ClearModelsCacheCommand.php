@@ -3,6 +3,7 @@
 namespace Foundation\Console;
 
 use Foundation\Cache\ModelCache;
+use Foundation\Cache\ModelCacheOOP;
 use Illuminate\Console\Command;
 
 class ClearModelsCacheCommand extends Command
@@ -28,7 +29,7 @@ class ClearModelsCacheCommand extends Command
      */
     public function handle()
     {
-        ModelCache::clearAll();
+        ModelCacheOOP::clearAll();
         $this->info('Model cache has been reset!');
     }
 }

@@ -23,15 +23,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (env('APP_ENV') !== 'production') {
-            $this->registerDevelopmentPackages();
+        if (env('APP_ENV') === 'local') {
+            $this->registerLocalPackages();
+        }
+        if (env('APP_ENV') !== 'testing') {
+            $this->registerNonTestingPackages();
         }
     }
 
-    private function registerDevelopmentPackages()
+    private function registerLocalPackages()
     {
         $this->app->register(\Nwidart\Modules\LaravelModulesServiceProvider::class);
         $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         $this->app->register(\Foundation\Providers\TelescopeServiceProvider::class);
+    }
+
+    private function registerNonTestingPackages(){
+        $this->app->register(\Laravel\Horizon\HorizonServiceProvider::class);
     }
 }
