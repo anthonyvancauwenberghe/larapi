@@ -23,23 +23,10 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider imple
         //Telescope::night();
 
         Telescope::filter(function (IncomingEntry $entry) {
-            if ($entry->type === EntryType::REQUEST
-                && isset($entry->content['uri'])
-                && str_contains($entry->content['uri'], 'horizon')) {
-                return false;
-            }
 
-            if ($entry->type === EntryType::EVENT
-                && isset($entry->content['name'])
-                && str_contains($entry->content['name'], 'Horizon')) {
-                return false;
-            }
+            $this->filterHorizonEntries($entry);
 
-            if ($entry->type === EntryType::REQUEST
-                && isset($entry->content['method'])
-                && $entry->content['method'] ==='OPTIONS'){
-                return false;
-            }
+            $this->filterCorsRequests($entry);
 
             if ($this->app->environment('local')) {
                 return true;
@@ -50,8 +37,30 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider imple
                 $entry->isScheduledTask() ||
                 $entry->hasMonitoredTag();
         });
+    }
 
+    protected function filterHorizonEntries(IncomingEntry $entry)
+    {
+        if ($entry->type === EntryType::REQUEST
+            && isset($entry->content['uri'])
+            && str_contains($entry->content['uri'], 'horizon')) {
+            return false;
+        }
 
+        if ($entry->type === EntryType::EVENT
+            && isset($entry->content['name'])
+            && str_contains($entry->content['name'], 'Horizon')) {
+            return false;
+        }
+    }
+
+    protected function filterCorsRequests(IncomingEntry $entry)
+    {
+        if ($entry->type === EntryType::REQUEST
+            && isset($entry->content['method'])
+            && $entry->content['method'] === 'OPTIONS') {
+            return false;
+        }
     }
 
     /**
