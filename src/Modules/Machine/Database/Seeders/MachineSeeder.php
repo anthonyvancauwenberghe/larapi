@@ -15,10 +15,6 @@ class MachineSeeder extends Seeder
      */
     public function run()
     {
-        foreach (User::all() as $user) {
-            factory(Machine::class, 5)->create([
-                'user_id' => $user->id,
-            ]);
-        }
+
     }
 }
