@@ -37,19 +37,17 @@ before_install:
 - echo "extension=mongodb.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - echo "extension=redis.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
 - travis_retry composer self-update
+- cp .env.travis .env
 
 install:
-  - if [[ $setup = 'stable' ]]; then travis_retry composer update --prefer-dist --prefer-stable --no-interaction --no-suggest; fi
-  - if [[ $setup = 'normal' ]]; then travis_retry composer update --prefer-dist --no-interaction --prefer-stable --no-suggest; fi
+- composer require wikimedia/composer-merge-plugin
 
 before_script:
-- cp .env.travis .env
+- composer update --lock
 - echo PUSHER_APP_SECRET=$PUSHER_APP_SECRET >> .env
 - echo AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET >> .env
 - echo AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME >> .env
 - echo AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS >> .env
-- composer require wikimedia/composer-merge-plugin
-- composer update --lock
 - php artisan key:generate
 - php artisan bootstrap:cache
 - php artisan env:display

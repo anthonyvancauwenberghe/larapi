@@ -8,11 +8,9 @@
         "php": "^7.2",
         "ext-hash": "*",
         "ext-json": "*",
-        "barryvdh/laravel-cors": "^0.11.2",
         "fideloper/proxy": "^4.0",
         "hhxsv5/laravel-s": "~3.0",
         "laravel/framework": "5.7.*",
-        "laravel/tinker": "^1.0",
         "nwidart/laravel-modules": "^4.0",
         "pusher/pusher-php-server": "^3.2",
         "wikimedia/composer-merge-plugin": "*"
@@ -62,7 +60,8 @@
                 "laravel/telescope",
                 "jenssegers/mongodb",
                 "spatie/laravel-permission",
-                "auth0/login"
+                "auth0/login",
+                "barryvdh/laravel-cors"
             ]
         }
     },
