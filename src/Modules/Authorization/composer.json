@@ -8,7 +8,7 @@
         }
     ],
     "require": {
-        "spatie/laravel-permission": "^2"
+        "spatie/laravel-permission": "^2.23"
     },
     "extra": {
         "laravel": {

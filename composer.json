@@ -15,7 +15,7 @@
         "laravel/tinker": "^1.0",
         "nwidart/laravel-modules": "^4.0",
         "pusher/pusher-php-server": "^3.2",
-        "wikimedia/composer-merge-plugin": "^1.4"
+        "wikimedia/composer-merge-plugin": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.5",
@@ -43,6 +43,17 @@
         }
     },
     "extra": {
+        "merge-plugin": {
+            "require": [
+                "src/Modules/*/composer.json"
+            ],
+            "recurse": true,
+            "replace": false,
+            "merge-dev": true,
+            "merge-extra": true,
+            "merge-extra-deep": true,
+            "merge-scripts": true
+        },
         "laravel": {
             "dont-discover": [
                 "nwidart/laravel-modules",
@@ -53,17 +64,6 @@
                 "spatie/laravel-permission",
                 "auth0/login"
             ]
-        },
-        "merge-plugin": {
-            "include": [
-                "src/Modules/*/composer.json"
-            ],
-            "recurse": true,
-            "replace": false,
-            "merge-dev": true,
-            "merge-extra": true,
-            "merge-extra-deep": true,
-            "merge-scripts": true
         }
     },
     "scripts": {
