@@ -6,7 +6,7 @@ use Foundation\Abstracts\Controller\Controller;
 use Foundation\Responses\ApiResponse;
 use Illuminate\Http\Request;
 use Modules\Machine\Contracts\MachineServiceContract;
-use Modules\Machine\Transformer\MachineTransformer;
+use Modules\Machine\Transformers\MachineTransformer;
 
 class MachineController extends Controller
 {

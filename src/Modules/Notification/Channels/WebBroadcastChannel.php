@@ -6,14 +6,14 @@
  * Time: 21:39.
  */
 
-namespace Foundation\Channels;
+namespace Modules\Notification\Channels;
 
 use Foundation\Events\WebNotificationCreatedEvent;
 use Illuminate\Notifications\Channels\BroadcastChannel;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 
-class WebNotificationChannel extends BroadcastChannel
+class WebBroadcastChannel extends BroadcastChannel
 {
     /**
      * Send the given notification.

@@ -3,7 +3,7 @@
 namespace Foundation\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
-use Foundation\Cache\ModelCacheOOP;
+use Foundation\Cache\ModelCache;
 
 class CacheObserverTest extends TestCase
 {
@@ -21,7 +21,7 @@ class CacheObserverTest extends TestCase
         $user = $this->createUser();
 
         $this->assertNotNull($user::cache()->find($user->id));
-        ModelCacheOOP::clearAll();
+        ModelCache::clearAll();
         $this->assertNull($user::cache()->find($user->id));
     }
 

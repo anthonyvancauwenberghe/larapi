@@ -6,7 +6,7 @@
  * Time: 09:38.
  */
 
-namespace Modules\Machine\Transformer;
+namespace Modules\Machine\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
 use Modules\Machine\Entities\Machine;
@@ -15,7 +15,7 @@ use Modules\User\Transformers\UserTransformer;
 
 class MachineTransformer extends Transformer
 {
-    public $relations = [
+    public $available = [
         'user',
     ];
 

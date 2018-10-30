@@ -7,7 +7,7 @@ use Modules\Authorization\Entities\Role;
 use Modules\Machine\Contracts\MachineServiceContract;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Services\MachineService;
-use Modules\Machine\Transformer\MachineTransformer;
+use Modules\Machine\Transformers\MachineTransformer;
 use Modules\User\Entities\User;
 
 class MachineHttpTest extends HttpTest
@@ -43,7 +43,7 @@ class MachineHttpTest extends HttpTest
         $response = $this->http('GET', '/v1/machines');
         $this->assertEquals(
             MachineTransformer::collection($this->service->getByUserId($this->user->id))->serialize(),
-            $this->decodeHttpContent($response)
+            $this->decodeHttpResponse($response)
         );
         $response->assertStatus(200);
     }
@@ -56,46 +56,63 @@ class MachineHttpTest extends HttpTest
     public function testFindMachine()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/machines/'.$this->machine->id);
+        $response = $this->http('GET', '/v1/machines/' . $this->machine->id);
         $response->assertStatus(200);
 
         $this->user->syncRoles(Role::GUEST);
-        $response = $this->http('GET', '/v1/machines/'.$this->machine->id);
+        $response = $this->http('GET', '/v1/machines/' . $this->machine->id);
         $response->assertStatus(200);
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testFindMachineWithRelations()
+    {
+        $this->user->syncRoles(Role::USER);
+        $response = $this->http('GET', '/v1/machines/' . $this->machine->id, ['include' => 'user']);
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
+
+        $response = $this->http('GET', '/v1/machines/' . $this->machine->id);
+        $response->assertStatus(200);
+        $this->assertArrayNotHasKey('user', $this->decodeHttpResponse($response));
     }
 
     public function testUnauthorizedAccessMachine()
     {
         $user = factory(User::class)->create();
-        $machine = factory(Machine::class)->create(['user_id'=>$user->id]);
+        $machine = factory(Machine::class)->create(['user_id' => $user->id]);
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/machines/'.$machine->id);
+        $response = $this->http('GET', '/v1/machines/' . $machine->id);
         $response->assertStatus(403);
     }
 
     public function testUnauthorizedDeleteMachine()
     {
         $user = factory(User::class)->create();
-        $machine = factory(Machine::class)->create(['user_id'=>$user->id]);
+        $machine = factory(Machine::class)->create(['user_id' => $user->id]);
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/machines/'.$machine->id);
+        $response = $this->http('DELETE', '/v1/machines/' . $machine->id);
         $response->assertStatus(403);
     }
 
     public function testDeleteMachine()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/machines/'.$this->machine->id);
+        $response = $this->http('DELETE', '/v1/machines/' . $this->machine->id);
         $response->assertStatus(204);
     }
 
     public function testAdminAccessMachine()
     {
         $user = factory(User::class)->create();
-        $machine = factory(Machine::class)->create(['user_id'=>$user->id]);
+        $machine = factory(Machine::class)->create(['user_id' => $user->id]);
 
         $this->user->syncRoles(Role::ADMIN);
-        $response = $this->http('GET', '/v1/machines/'.$machine->id);
+        $response = $this->http('GET', '/v1/machines/' . $machine->id);
         $response->assertStatus(200);
     }
 
@@ -112,7 +129,7 @@ class MachineHttpTest extends HttpTest
         ]);
         $response = $this->http('POST', '/v1/machines', $machine);
         $response->assertStatus(201);
-        $this->assertArraySubset($machine, $this->decodeHttpContent($response));
+        $this->assertArraySubset($machine, $this->decodeHttpResponse($response));
     }
 
     /**
@@ -124,7 +141,7 @@ class MachineHttpTest extends HttpTest
     {
         $this->user->syncRoles(Role::USER);
         /* Test response for a normal user */
-        $response = $this->http('PATCH', '/v1/machines/'.$this->machine->id, []);
+        $response = $this->http('PATCH', '/v1/machines/' . $this->machine->id, []);
         $response->assertStatus(200);
 
         /* Test response for a guest user */
@@ -132,7 +149,7 @@ class MachineHttpTest extends HttpTest
         $this->assertFalse($this->user->hasRole(Role::USER));
         $this->assertTrue($this->user->hasRole(Role::GUEST));
 
-        $response = $this->http('PATCH', '/v1/machines/'.$this->machine->id, []);
+        $response = $this->http('PATCH', '/v1/machines/' . $this->machine->id, []);
         $response->assertStatus(403);
     }
 }

@@ -12,7 +12,7 @@ use Cache;
 use Foundation\Exceptions\Exception;
 use Illuminate\Support\Facades\Redis;
 
-class ModelCacheOOP
+class ModelCache
 {
     protected $model;
 
@@ -22,7 +22,7 @@ class ModelCacheOOP
     protected $secondaryIndexes;
 
     /**
-     * ModelCacheOOP constructor.
+     * ModelCache constructor.
      */
     public function __construct(string $model, array $indexes = [], $cacheTime = null)
     {

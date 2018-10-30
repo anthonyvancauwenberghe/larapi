@@ -11,7 +11,7 @@ namespace Modules\Demo\Jobs;
 use Foundation\Abstracts\Jobs\Job;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Demo\Database\Seeder\DemoSeeder;
+use Modules\Demo\Database\Seeders\DemoSeeder;
 
 class SeedDemoDataJob extends Job implements ShouldQueue
 {

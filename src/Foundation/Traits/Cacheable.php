@@ -8,7 +8,7 @@
 
 namespace Foundation\Traits;
 
-use Foundation\Cache\ModelCacheOOP;
+use Foundation\Cache\ModelCache;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -21,10 +21,10 @@ trait Cacheable
 {
     private static $caching;
 
-    public static function cache(): ModelCacheOOP
+    public static function cache(): ModelCache
     {
         if (!isset(static::$caching)) {
-            static::$caching = new ModelCacheOOP(static::class, get_class_property(static::class, 'secondaryCacheIndexes'), get_class_property(static::class, 'cacheTime'));
+            static::$caching = new ModelCache(static::class, get_class_property(static::class, 'secondaryCacheIndexes'), get_class_property(static::class, 'cacheTime'));
         }
 
         return static::$caching;

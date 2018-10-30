@@ -280,7 +280,7 @@ class BootstrapRegistrarService
 
     private function buildEventsArray($class)
     {
-        $listenerProperties = get_class_property($class, 'listeners');
+        $listenerProperties = get_class_property($class, 'listeners') ?? [];
         $listeners = [];
         foreach ($listenerProperties as $listener) {
             if (class_implements_interface($listener, ListenerContract::class)) {

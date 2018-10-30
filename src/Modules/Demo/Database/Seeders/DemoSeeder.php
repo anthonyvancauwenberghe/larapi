@@ -6,7 +6,7 @@
  * Time: 16:15.
  */
 
-namespace Modules\Demo\Database\Seeder;
+namespace Modules\Demo\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Auth0\Contracts\Auth0ServiceContract;
@@ -15,7 +15,7 @@ use Modules\Machine\Entities\Machine;
 
 class DemoSeeder extends Seeder
 {
-    public $seed = false;
+    public $enabled = false;
 
     public $service;
 
@@ -36,10 +36,23 @@ class DemoSeeder extends Seeder
      */
     public function run()
     {
+        $user = $this->seedUser();
+        $machines = $this->seedMachines($user);
+    }
+
+    protected function seedUser()
+    {
         $user = $this->service->getTestUser();
         $user->assignRole(Role::ADMIN);
+        return $user;
+    }
+
+    protected function seedMachines($user)
+    {
         $machines = factory(Machine::class, 5)->create([
             'user_id' => $user->id,
         ]);
+
+        return $machines;
     }
 }

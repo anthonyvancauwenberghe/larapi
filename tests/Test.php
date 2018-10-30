@@ -15,6 +15,5 @@ class Test extends HttpTest
 {
     public function test()
     {
-
     }
 }

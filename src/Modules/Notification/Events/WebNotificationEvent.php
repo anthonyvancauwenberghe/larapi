@@ -6,11 +6,11 @@
  * Time: 21:43.
  */
 
-namespace Foundation\Events;
+namespace Modules\Notification\Events;
 
 use Illuminate\Notifications\Events\BroadcastNotificationCreated;
 
-class WebNotificationCreatedEvent extends BroadcastNotificationCreated
+class WebNotificationEvent extends BroadcastNotificationCreated
 {
     public function broadcastAs()
     {

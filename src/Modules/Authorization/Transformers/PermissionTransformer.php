@@ -6,11 +6,11 @@
  * Time: 23:21.
  */
 
-namespace Modules\Authorization\Resources;
+namespace Modules\Authorization\Transformers;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Foundation\Abstracts\Transformers\Transformer;
 
-class RoleResource extends JsonResource
+class PermissionTransformer extends Transformer
 {
     /**
      * Transform the resource into an array.

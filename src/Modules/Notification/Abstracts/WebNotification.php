@@ -11,6 +11,8 @@ namespace Modules\Notification\Abstracts;
 use Illuminate\Notifications\Channels\BroadcastChannel;
 use Illuminate\Notifications\Channels\DatabaseChannel;
 use Illuminate\Notifications\Notification;
+use Modules\Notification\Channels\WebBroadcastChannel;
+use Modules\Notification\Tags\Tag;
 
 abstract class WebNotification extends Notification
 {
@@ -86,7 +88,7 @@ abstract class WebNotification extends Notification
      */
     protected function tag()
     {
-        return 'info';
+        return Tag::INFO;
     }
 
     /**
@@ -101,7 +103,7 @@ abstract class WebNotification extends Notification
     {
         return [
             DatabaseChannel::class,
-            BroadcastChannel::class,
+            WebBroadcastChannel::class,
         ];
     }
 }

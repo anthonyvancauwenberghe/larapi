@@ -29,7 +29,7 @@ class UserHttpTest extends HttpTest
         $user = $this->getHttpUser();
         $http = $this->http('GET', '/v1/users/me');
         $http->assertStatus(200);
-        $this->assertEquals((new UserTransformer($user))->serialize(), $this->decodeHttpContent($http));
+        $this->assertEquals((new UserTransformer($user))->serialize(), $this->decodeHttpResponse($http));
     }
 
     /**

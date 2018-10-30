@@ -2,7 +2,6 @@
 
 namespace Foundation\Console;
 
-use Foundation\Exceptions\Exception;
 use Foundation\Services\BootstrapRegistrarService;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 use Illuminate\Database\Eloquent\Model;
@@ -37,7 +36,9 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 
         Model::unguarded(function () {
             foreach ($this->getSeeders() as $seeder) {
-                $this->laravel->make($seeder)->__invoke();
+                $seeder = $this->laravel->make($seeder);
+                if (!isset($seeder->enabled) || $seeder->enabled)
+                    $seeder->__invoke();
             }
         });
 

@@ -51,7 +51,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         return $this->getAuth0Service()->getTestUser($roles);
     }
 
-    protected function decodeHttpContent($content, $unwrap = true)
+    protected function decodeHttpResponse($content, $unwrap = true)
     {
         if ($content instanceof TestResponse) {
             $content = $content->content();

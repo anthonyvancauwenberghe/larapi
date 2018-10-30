@@ -9,13 +9,13 @@
 namespace Modules\User\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
-use Modules\Authorization\Resources\PermissionResource;
-use Modules\Authorization\Resources\RoleResource;
+use Modules\Authorization\Transformers\PermissionTransformer;
+use Modules\Authorization\Transformers\RoleTransformer;
 use Modules\User\Entities\User;
 
 class UserTransformer extends Transformer
 {
-    public $relations = [
+    public $include = [
         'roles',
         'permissions',
     ];
@@ -43,11 +43,11 @@ class UserTransformer extends Transformer
 
     public function transformRoles(User $user)
     {
-        return collect(RoleResource::collection($user->roles))->flatten();
+        return collect(RoleTransformer::collection($user->roles)->serialize())->flatten();
     }
 
     public function transformPermissions(User $user)
     {
-        return collect(PermissionResource::collection($user->getAllPermissions())->toArray(null))->flatten();
+        return collect(PermissionTransformer::collection($user->getAllPermissions())->serialize())->flatten();
     }
 }

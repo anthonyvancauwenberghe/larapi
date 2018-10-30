@@ -12,7 +12,7 @@ use Foundation\Abstracts\Events\Event;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\Machine\Entities\Machine;
-use Modules\Machine\Transformer\MachineTransformer;
+use Modules\Machine\Transformers\MachineTransformer;
 
 class MachineUpdatedEvent extends Event implements ShouldBroadcast
 {
