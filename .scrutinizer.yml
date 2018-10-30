@@ -7,7 +7,9 @@ build:
     - "cp .env.travis .env"
     - "composer update"
     - "php artisan key:generate"
-    - "composer update"
+    - "composer require wikimedia/composer-merge-plugin"
+    - "composer update --lock"
+    - "composer update --lock"
   environment:
     mongodb: "4.0"
     php:

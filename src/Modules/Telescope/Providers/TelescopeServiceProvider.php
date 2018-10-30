@@ -2,7 +2,6 @@
 
 namespace Modules\Telescope\Providers;
 
-use DB;
 use Foundation\Contracts\ConditionalAutoRegistration;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\EntryType;
