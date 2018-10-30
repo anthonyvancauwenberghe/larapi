@@ -1,5 +1,5 @@
 {
-    "name": "Auth0",
+    "name": "Mongo",
     "description": "",
     "authors": [
         {
@@ -8,18 +8,22 @@
         }
     ],
     "require": {
-        "auth0/login": "^5.1"
+        "ext-mongodb": "^1.5.0",
+        "jenssegers/mongodb": "^3.4"
     },
     "extra": {
         "laravel": {
             "dont-discover": [
-                "auth0/login"
+                "jenssegers/mongodb"
             ]
         }
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Auth0\\": ""
+            "Modules\\Mongo\\": ""
         }
+    },
+    "scripts": {
+        "post-autoload-dump": []
     }
 }

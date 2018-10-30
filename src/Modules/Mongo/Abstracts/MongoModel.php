@@ -1,6 +1,6 @@
 <?php
 
-namespace Foundation\Abstracts;
+namespace Modules\Mongo\Abstracts;
 
 /**
  * Class MongoModel.

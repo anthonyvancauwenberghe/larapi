@@ -2,9 +2,10 @@
 
 namespace Modules\User\Entities;
 
-use Foundation\Abstracts\SqlModel;
+use Foundation\Abstracts\Models\Model;
 use Foundation\Contracts\Ownable;
 use Foundation\Traits\Cacheable;
+use Foundation\Traits\ModelFactory;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
@@ -24,14 +25,17 @@ use Modules\Notification\Traits\ReceivesWebNotifications;
  * @property string $avatar
  * @property string $provider
  */
-class User extends SqlModel implements AuthorizableContract, AuthenticatableContract, Ownable
+class User extends Model implements AuthorizableContract, AuthenticatableContract, Ownable
 {
+    protected $connection = 'mysql';
+
     use Notifiable,
         Authorizable,
         Authenticatable,
         Cacheable,
         HasRoles,
-        ReceivesWebNotifications;
+        ReceivesWebNotifications,
+        ModelFactory;
 
     protected $guard_name = 'api';
 

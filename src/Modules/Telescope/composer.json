@@ -1,5 +1,5 @@
 {
-    "name": "Auth0",
+    "name": "Telescope",
     "description": "",
     "authors": [
         {
@@ -7,19 +7,24 @@
             "email": "development@astralbot.io"
         }
     ],
-    "require": {
-        "auth0/login": "^5.1"
+    "require-dev": {
+        "laravel/telescope": "*"
     },
     "extra": {
         "laravel": {
             "dont-discover": [
-                "auth0/login"
+                "laravel/telescope"
             ]
         }
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Auth0\\": ""
+            "Modules\\Telescope\\": ""
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php artisan telescope:publish:assets"
+        ]
     }
 }

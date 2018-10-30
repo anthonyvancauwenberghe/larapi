@@ -2,10 +2,12 @@
 
 namespace Modules\Machine\Entities;
 
-use Foundation\Abstracts\MongoModel;
 use Foundation\Contracts\Ownable;
+use Foundation\Traits\ModelFactory;
 use Foundation\Traits\Notifiable;
 use Foundation\Traits\OwnedByUser;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Modules\Mongo\Abstracts\MongoModel;
 use Modules\User\Entities\User;
 
 /**
@@ -21,7 +23,7 @@ use Modules\User\Entities\User;
  */
 class Machine extends MongoModel implements Ownable
 {
-    use Notifiable, OwnedByUser;
+    use Notifiable, OwnedByUser, ModelFactory, SoftDeletes;
 
     /**
      * @var string
@@ -32,6 +34,18 @@ class Machine extends MongoModel implements Ownable
      * @var array
      */
     protected $guarded = [];
+
+    protected $casts = [
+        'online' => 'boolean',
+        'active' => 'boolean'
+    ];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'last_heartbeat'
+    ];
 
     public function user()
     {

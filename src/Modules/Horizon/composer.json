@@ -1,5 +1,5 @@
 {
-    "name": "Auth0",
+    "name": "Horizon",
     "description": "",
     "authors": [
         {
@@ -7,19 +7,23 @@
             "email": "development@astralbot.io"
         }
     ],
-    "require": {
-        "auth0/login": "^5.1"
+    "require-dev": {
+        "laravel/horizon": "^1.4"
     },
     "extra": {
         "laravel": {
             "dont-discover": [
-                "auth0/login"
+                "laravel/horizon"
             ]
         }
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Auth0\\": ""
+            "Modules\\Horizon\\": ""
         }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+        ]
     }
 }

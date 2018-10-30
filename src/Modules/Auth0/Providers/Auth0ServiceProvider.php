@@ -15,22 +15,16 @@ use Modules\User\Services\UserService;
 
 class Auth0ServiceProvider extends ServiceProvider
 {
-    /**
-     * The policy mappings for the application.
-     *
-     * @var array
-     */
-    protected $policies = [
-        //  'App\Model' => 'App\Policies\ModelPolicy',
-    ];
 
     /**
      * Register any authentication / authorization services.
      *
      * @return void
      */
-    public function boot()
+    public function register()
     {
+        $this->app->register(\Auth0\Login\LoginServiceProvider::class);
+
         $this->app->bind(\Auth0\Login\Contract\Auth0UserRepository::class, function () {
             return new Auth0Service(new UserService());
         });

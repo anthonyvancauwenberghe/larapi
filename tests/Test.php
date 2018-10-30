@@ -8,12 +8,13 @@
 
 namespace Tests;
 
+use DB;
 use Foundation\Abstracts\Tests\HttpTest;
 
 class Test extends HttpTest
 {
     public function test()
     {
-        $this->assertTrue(true);
+
     }
 }

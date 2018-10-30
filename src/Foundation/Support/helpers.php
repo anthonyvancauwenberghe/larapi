@@ -162,6 +162,23 @@ if (!function_exists('get_class_property')) {
     }
 }
 
+if (!function_exists('run_class_function')) {
+    function run_class_function($class, string $methodName)
+    {
+        if (!is_string($class)) {
+            $class = get_class($class);
+        }
+
+        try {
+            $reflectionClass = new \ReflectionClass($class);
+        } catch (ReflectionException $e) {
+            return;
+        }
+
+        return $reflectionClass->newInstanceWithoutConstructor()->$methodName();
+    }
+}
+
 if (!function_exists('get_class_constants')) {
     function get_class_constants($class)
     {

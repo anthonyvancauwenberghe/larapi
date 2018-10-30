@@ -12,8 +12,6 @@ use Modules\User\Entities\User;
 
 interface ModelPolicyContract
 {
-    public function access(User $user, $model): bool;
-
     public function create(User $user): bool;
 
     public function update(User $user, $model): bool;

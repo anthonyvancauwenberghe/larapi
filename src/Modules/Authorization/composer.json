@@ -8,16 +8,13 @@
         }
     ],
     "require": {
-
+        "spatie/laravel-permission": "^2"
     },
     "extra": {
         "laravel": {
-            "providers": [
-
-            ],
-            "aliases": {
-                
-            }
+            "dont-discover": [
+                "spatie/laravel-permission"
+            ]
         }
     },
     "autoload": {

@@ -5,6 +5,7 @@ namespace Modules\Authorization\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Authorization\Contracts\AuthorizationContract;
 use Modules\Authorization\Services\AuthorizationService;
+use Spatie\Permission\PermissionServiceProvider;
 
 class AuthorizationServiceProvider extends ServiceProvider
 {
@@ -15,6 +16,8 @@ class AuthorizationServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->register(\Spatie\Permission\PermissionServiceProvider::class);
+
         $this->app->bind(
             AuthorizationContract::class,
             AuthorizationService::class

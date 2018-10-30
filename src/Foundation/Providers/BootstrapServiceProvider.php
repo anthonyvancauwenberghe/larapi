@@ -3,6 +3,7 @@
 namespace Foundation\Providers;
 
 use Foundation\Console\SeedCommand;
+use Foundation\Contracts\ConditionalAutoRegistration;
 use Foundation\Contracts\ModelPolicyContract;
 use Foundation\Contracts\Ownable;
 use Foundation\Observers\CacheObserver;
@@ -27,18 +28,10 @@ class BootstrapServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        /* Override the seed command with the larapi custom one */
-        $this->overrideSeedCommand();
-
         /* Load cache observers only when caching is enabled */
         if (config('model.caching')) {
             $this->loadCacheObservers();
         }
-
-        $this->loadOwnershipPolicies();
-
-        /* Register Policies after ownership policies otherwise they would not get overriden */
-        $this->loadPolicies();
     }
 
     public function register()
@@ -52,6 +45,16 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->loadFactories();
         $this->loadMigrations();
         $this->loadListeners();
+
+        /* Override the seed command with the larapi custom one */
+        $this->overrideSeedCommand();
+
+
+
+        $this->loadOwnershipPolicies();
+
+        /* Register Policies after ownership policies otherwise they would not get overriden */
+        $this->loadPolicies();
 
         /* Register all Module Service providers.
         ** Always load at the end so the user has the ability to override certain functionality
@@ -78,9 +81,9 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $path = $route['path'];
             Route::group([
-                'prefix'     => 'v1/'.str_plural($route['module']),
-                'namespace'  => $route['controller'],
-                'domain'     => $route['domain'],
+                'prefix' => 'v1/' . str_plural($route['module']),
+                'namespace' => $route['controller'],
+                'domain' => $route['domain'],
                 'middleware' => ['api'],
             ], function () use ($path) {
                 require $path;
@@ -97,12 +100,11 @@ class BootstrapServiceProvider extends ServiceProvider
     protected function loadConfigs()
     {
         foreach ($this->bootstrapService->getConfigs() as $config) {
-            if ($config['filename'] === 'config.php') {
-                $this->publishes([
-                    $config['path'] => config_path($config['module']),
-                ], 'config');
+            if (isset($config['filename']) && is_string($config['filename'])) {
+                $fileName = $config['filename'];
+                $configName = strtolower(explode('.',$fileName)[0]);
                 $this->mergeConfigFrom(
-                    $config['path'], basename($config['module'], '.php')
+                    $config['path'], $configName
                 );
             }
         }
@@ -156,7 +158,6 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         foreach ($this->bootstrapService->getModels() as $model) {
             if (class_uses_trait($model, Cacheable::class)) {
-                //TODO bind modelcache to model
                 $model::observe(CacheObserver::class);
             }
         }
@@ -167,7 +168,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getModels() as $model) {
             if (class_implements_interface($model, Ownable::class)) {
                 Gate::policy($model, OwnershipPolicy::class);
-                Gate::define('access', OwnershipPolicy::class.'@access');
+                Gate::define('access', OwnershipPolicy::class . '@access');
             }
         }
     }
@@ -175,7 +176,8 @@ class BootstrapServiceProvider extends ServiceProvider
     private function loadServiceProviders()
     {
         foreach ($this->bootstrapService->getProviders() as $provider) {
-            $this->app->register($provider);
+            if ($this->passedRegistrationCondition($provider))
+                $this->app->register($provider);
         }
     }
 
@@ -186,5 +188,12 @@ class BootstrapServiceProvider extends ServiceProvider
                 Event::listen($event['class'], $listener);
             }
         }
+    }
+
+    private function passedRegistrationCondition($class)
+    {
+        if (!class_implements_interface($class, ConditionalAutoRegistration::class))
+            return true;
+        return run_class_function($class, 'registrationCondition');
     }
 }

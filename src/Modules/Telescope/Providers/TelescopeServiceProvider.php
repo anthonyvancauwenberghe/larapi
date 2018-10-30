@@ -1,14 +1,16 @@
 <?php
 
-namespace Foundation\Providers;
+namespace Modules\Telescope\Providers;
 
+use DB;
+use Foundation\Contracts\ConditionalAutoRegistration;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\EntryType;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 
-class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
+class TelescopeServiceProvider extends TelescopeApplicationServiceProvider implements ConditionalAutoRegistration
 {
     /**
      * Register any application services.
@@ -18,6 +20,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     public function register()
     {
         $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+
         //Telescope::night();
 
         Telescope::filter(function (IncomingEntry $entry) {
@@ -27,15 +30,29 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                 return false;
             }
 
+            if ($entry->type === EntryType::EVENT
+                && isset($entry->content['name'])
+                && str_contains($entry->content['name'], 'Horizon')) {
+                return false;
+            }
+
+            if ($entry->type === EntryType::REQUEST
+                && isset($entry->content['method'])
+                && $entry->content['method'] ==='OPTIONS'){
+                return false;
+            }
+
             if ($this->app->environment('local')) {
                 return true;
             }
 
             return $entry->isReportableException() ||
-                   $entry->isFailedJob() ||
-                   $entry->isScheduledTask() ||
-                   $entry->hasMonitoredTag();
+                $entry->isFailedJob() ||
+                $entry->isScheduledTask() ||
+                $entry->hasMonitoredTag();
         });
+
+
     }
 
     /**
@@ -53,4 +70,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
             ]);
         });
     }
+
+    public function registrationCondition(): bool
+    {
+        return env('APP_ENV') === 'local';
+    }
+
+
 }
