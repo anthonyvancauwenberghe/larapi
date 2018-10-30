@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 30.10.18
- * Time: 22:59
+ * Time: 22:59.
  */
 
 namespace Foundation\Tests;
-
 
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Abstracts\Transformers\Transformer;
@@ -20,7 +19,6 @@ class TransformerTest extends TestCase
 
     protected $machineNoUser;
 
-
     protected function seedData()
     {
         $this->user = new UserTestModel();
@@ -28,7 +26,8 @@ class TransformerTest extends TestCase
         $this->machineNoUser = new MachineTestModel(null);
     }
 
-    public function testNoRelation(){
+    public function testNoRelation()
+    {
         $machineResource = MachineTestTransformer::resource($this->machine)->serialize();
         $this->assertEmpty($machineResource);
         $this->assertArrayNotHasKey('user', $machineResource);
@@ -40,19 +39,22 @@ class TransformerTest extends TestCase
         $this->assertArrayHasKey('user', $machineResource);
     }
 
-    public function testEmptyRelation(){
+    public function testEmptyRelation()
+    {
         $machineResource = MachineTestTransformer::resource($this->machineNoUser)->include('user')->serialize();
         $this->assertArrayHasKey('user', $machineResource);
         $this->assertNull($machineResource['user']);
     }
 
-    public function testPreIncludedRelation(){
+    public function testPreIncludedRelation()
+    {
         $machineResource = UserIncludedMachineTestTransformer::resource($this->machine)->serialize();
         $this->assertArrayHasKey('user', $machineResource);
     }
 }
 
-final class MachineTestModel {
+final class MachineTestModel
+{
     public $user;
 
     public function __construct($user)
@@ -61,12 +63,12 @@ final class MachineTestModel {
     }
 }
 
-final class UserTestModel {
-
+final class UserTestModel
+{
 }
 
-
-class MachineTestTransformer extends Transformer {
+class MachineTestTransformer extends Transformer
+{
     public function toArray($request)
     {
         return [];
@@ -78,12 +80,13 @@ class MachineTestTransformer extends Transformer {
     }
 }
 
-class UserIncludedMachineTestTransformer extends MachineTestTransformer {
+class UserIncludedMachineTestTransformer extends MachineTestTransformer
+{
     protected $include = ['user'];
 }
 
-class UserTestTransformer extends Transformer {
-
+class UserTestTransformer extends Transformer
+{
     public function toArray($request)
     {
         return [];

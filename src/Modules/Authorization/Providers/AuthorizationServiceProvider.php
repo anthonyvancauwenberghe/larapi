@@ -5,7 +5,6 @@ namespace Modules\Authorization\Providers;
 use Illuminate\Support\ServiceProvider;
 use Modules\Authorization\Contracts\AuthorizationContract;
 use Modules\Authorization\Services\AuthorizationService;
-use Spatie\Permission\PermissionServiceProvider;
 
 class AuthorizationServiceProvider extends ServiceProvider
 {

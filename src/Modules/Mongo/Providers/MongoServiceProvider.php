@@ -16,8 +16,6 @@ class MongoServiceProvider extends ServiceProvider
     {
         $this->app->register(\Jenssegers\Mongodb\MongodbServiceProvider::class);
         $this->app->register(\Jenssegers\Mongodb\MongodbQueueServiceProvider::class);
-        DB::connection( 'mongodb' )->enableQueryLog();
+        DB::connection('mongodb')->enableQueryLog();
     }
-
-
 }

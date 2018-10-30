@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 30.10.18
- * Time: 14:01
+ * Time: 14:01.
  */
 
 namespace Modules\Horizon\Console;
-
 
 use Artisan;
 use Illuminate\Console\Command;
@@ -35,8 +34,8 @@ class PublishHorizonAssetsCommand extends Command
      */
     public function handle()
     {
-        Artisan::call('vendor:publish',[
-            "--provider"=>"Laravel\Horizon\HorizonServiceProvider"
+        Artisan::call('vendor:publish', [
+            '--provider'=> "Laravel\Horizon\HorizonServiceProvider",
         ]);
         $this->info('Horizon assets published.');
     }

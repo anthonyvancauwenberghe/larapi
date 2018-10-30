@@ -8,7 +8,6 @@
 
 namespace Modules\Notification\Abstracts;
 
-use Illuminate\Notifications\Channels\BroadcastChannel;
 use Illuminate\Notifications\Channels\DatabaseChannel;
 use Illuminate\Notifications\Notification;
 use Modules\Notification\Channels\WebBroadcastChannel;

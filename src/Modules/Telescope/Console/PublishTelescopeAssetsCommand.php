@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 30.10.18
- * Time: 14:01
+ * Time: 14:01.
  */
 
 namespace Modules\Telescope\Console;
-
 
 use Artisan;
 use Illuminate\Console\Command;
@@ -35,9 +34,9 @@ class PublishTelescopeAssetsCommand extends Command
      */
     public function handle()
     {
-        Artisan::call('vendor:publish',[
-            "--tag" => "telescope-assets",
-            "--force" => true
+        Artisan::call('vendor:publish', [
+            '--tag'   => 'telescope-assets',
+            '--force' => true,
         ]);
         $this->info('Telescope assets published.');
     }

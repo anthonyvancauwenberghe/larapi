@@ -24,9 +24,9 @@ trait RefreshDatabase
         /* If refresh fails. It usually means the database was only partially migrated or seeded.
         ** Start fresh if that's the case
         **/
-        try{
+        try {
             $this->artisan('migrate:refresh');
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $this->artisan('cache:model:clear');
             $this->artisan('migrate:fresh');
             $this->artisan('migrate:refresh');

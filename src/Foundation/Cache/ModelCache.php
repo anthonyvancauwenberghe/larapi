@@ -57,8 +57,10 @@ class ModelCache
 
         if ($modelId === null) {
             $model = ($this->model)::where($index, $key)->first();
-            if ($model !== null)
+            if ($model !== null) {
                 $this->store($model);
+            }
+
             return $model;
         }
 
@@ -82,7 +84,7 @@ class ModelCache
      */
     public function getCacheName($id, string $index = 'id')
     {
-        return config('model.cache_prefix') . ':' . strtolower(get_short_class_name($this->model)) . ':' . $index . ':' . $id;
+        return config('model.cache_prefix').':'.strtolower(get_short_class_name($this->model)).':'.$index.':'.$id;
     }
 
     /**
@@ -103,7 +105,7 @@ class ModelCache
     }
 
     /**
-     * @param string $index
+     * @param string    $index
      * @param \Eloquent $model
      */
     protected function storeSecondaryIndexReferences($model)
@@ -141,7 +143,7 @@ class ModelCache
     private static function deleteWithPrefix($prefix)
     {
         $redis = self::getCacheConnection();
-        $keyPattern = Cache::getPrefix() . $prefix . '*';
+        $keyPattern = Cache::getPrefix().$prefix.'*';
         $keys = $redis->keys($keyPattern);
         $redis->delete($keys);
     }
@@ -167,12 +169,12 @@ class ModelCache
      */
     public function clearModelCache()
     {
-        $pattern = config('model.cache_prefix') . ':' . strtolower(get_short_class_name($this->model));
+        $pattern = config('model.cache_prefix').':'.strtolower(get_short_class_name($this->model));
         self::deleteWithPrefix($pattern);
     }
 
     public function enabled(): bool
     {
-        return (bool)config('model.caching');
+        return (bool) config('model.caching');
     }
 }

@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 30.10.18
- * Time: 23:34
+ * Time: 23:34.
  */
 
 namespace Modules\Notification\Tags;
-
 
 class Tag
 {
