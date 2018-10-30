@@ -37,14 +37,14 @@ class Machine extends MongoModel implements Ownable
 
     protected $casts = [
         'online' => 'boolean',
-        'active' => 'boolean'
+        'active' => 'boolean',
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
-        'last_heartbeat'
+        'last_heartbeat',
     ];
 
     public function user()

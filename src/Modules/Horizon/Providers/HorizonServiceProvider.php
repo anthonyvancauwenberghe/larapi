@@ -21,6 +21,4 @@ class HorizonServiceProvider extends ServiceProvider implements ConditionalAutoR
     {
         return env('APP_ENV') !== 'testing';
     }
-
-
 }

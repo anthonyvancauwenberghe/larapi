@@ -23,12 +23,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider imple
         //Telescope::night();
 
         Telescope::filter(function (IncomingEntry $entry) {
-
-            if(is_bool($filter = $this->filterHorizonEntries($entry))){
+            if (is_bool($filter = $this->filterHorizonEntries($entry))) {
                 return $filter;
             }
 
-            if(is_bool($filter = $this->filterCorsRequests($entry))){
+            if (is_bool($filter = $this->filterCorsRequests($entry))) {
                 return $filter;
             }
 
@@ -87,6 +86,4 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider imple
     {
         return env('APP_ENV') === 'local';
     }
-
-
 }
