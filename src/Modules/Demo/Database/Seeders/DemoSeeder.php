@@ -9,6 +9,7 @@
 namespace Modules\Demo\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Account\Entities\Account;
 use Modules\Auth0\Contracts\Auth0ServiceContract;
 use Modules\Authorization\Entities\Role;
 use Modules\Machine\Entities\Machine;
@@ -49,10 +50,23 @@ class DemoSeeder extends Seeder
 
     protected function seedMachines($user)
     {
-        $machines = factory(Machine::class, 5)->create([
+        $machines = Machine::fromFactory(12)->create([
             'user_id' => $user->id,
         ]);
 
+        foreach($machines as $machine){
+            $this->seedAccounts($machine);
+        }
+
         return $machines;
+    }
+
+    protected function seedAccounts($machine)
+    {
+        $accounts = Account::fromFactory(rand(2,5))->state('OSRS')->create([
+            'user_id' => $machine->user_id,
+        ]);
+
+        return $accounts;
     }
 }

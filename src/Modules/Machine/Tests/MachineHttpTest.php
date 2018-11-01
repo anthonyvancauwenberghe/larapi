@@ -48,6 +48,15 @@ class MachineHttpTest extends HttpTest
         $response->assertStatus(200);
     }
 
+    public function testAllMachinesWithUserRelation()
+    {
+        $this->user->syncRoles(Role::USER);
+        $response = $this->http('GET', '/v1/machines?include=user');
+        dd($this->decodeHttpResponse($response));
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
+    }
+
     /**
      * A basic test example.
      *

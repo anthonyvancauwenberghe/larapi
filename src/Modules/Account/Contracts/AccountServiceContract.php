@@ -6,42 +6,42 @@
  * Time: 16:15.
  */
 
-namespace Modules\Machine\Contracts;
+namespace Modules\Account\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
-use Modules\Machine\Entities\Machine;
+use Modules\Account\Entities\Account;
 
 /**
- * Interface MachineServiceContract
- * @package Modules\Machine\Contracts
+ * Interface AccountServiceContract
+ * @package Modules\Account\Contracts
  */
-interface MachineServiceContract
+interface AccountServiceContract
 {
 
     /**
      * @param int $userId
-     * @return Collection | Machine[]
+     * @return Collection | Account[]
      */
     public function getByUserId($userId);
 
     /**
      * @param $id
-     * @return Machine|null
+     * @return Account|null
      */
-    public function find($id): ?Machine;
+    public function find($id): ?Account;
 
     /**
      * @param $id
      * @param $data
-     * @return Machine
+     * @return Account
      */
-    public function update($id, $data): Machine;
+    public function update($id, $data): Account;
 
     /**
      * @param $data
-     * @return Machine
+     * @return Account
      */
-    public function create($data): Machine;
+    public function create($data): Account;
 
     /**
      * @param $id

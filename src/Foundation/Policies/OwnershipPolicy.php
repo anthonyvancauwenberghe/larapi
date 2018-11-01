@@ -42,7 +42,7 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
      *
      * @return bool
      */
-    private function userIsModelOwner(User $user, Ownable $model): bool
+    protected function userIsModelOwner(User $user, Ownable $model): bool
     {
         if (class_implements_interface($model->ownedBy(), Authenticatable::class)) {
             return $user->id === $model->ownerId();
@@ -81,7 +81,7 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
      */
     public function update(User $user, $model): bool
     {
-        return $this->userIsModelOwner($user, $model);
+        return true;
     }
 
     /**
@@ -96,7 +96,7 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
     }
 
     /*
-     * @param $user
+     * @param User $user
      * @param $ability
      * @return null
     */

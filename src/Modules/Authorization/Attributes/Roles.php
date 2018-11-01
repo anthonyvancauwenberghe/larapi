@@ -8,9 +8,11 @@
 
 namespace Modules\Authorization\Attributes;
 
-interface RoleAttributes
+interface Roles
 {
     const ADMIN = 'admin';
     const USER = 'user';
     const GUEST = 'guest';
+    const SCRIPTER = 'scripter';
+    const TRUSTED_SCRIPTER = 'scripter.trusted';
 }

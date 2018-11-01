@@ -8,8 +8,8 @@
 
 namespace Modules\Authorization\Entities;
 
-use Modules\Authorization\Attributes\PermissionAttributes;
+use Modules\Authorization\Attributes\Permissions;
 
-class Permission extends \Spatie\Permission\Models\Permission implements PermissionAttributes
+class Permission extends \Spatie\Permission\Models\Permission implements Permissions
 {
 }

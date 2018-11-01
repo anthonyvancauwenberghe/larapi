@@ -142,7 +142,7 @@ class BootstrapRegistrarService
                                         }
                                         break;
                                     case 'routes':
-                                        $bootstrap[$key][] = $this->buildRouteArray($directoryPath.'/'.$fileName, $namespace);
+                                        $bootstrap[$key][] = $this->buildRouteArray($directoryPath.'/'.$fileName, $namespace,$fileName);
                                         break;
                                     case 'configs':
                                         $bootstrap[$key][] = $this->buildConfigArray($directoryPath.'/'.$fileName, $moduleName, $fileName);
@@ -213,7 +213,7 @@ class BootstrapRegistrarService
      *
      * @return array
      */
-    private function buildRouteArray($path, $namespace)
+    private function buildRouteArray($path, $namespace,$fileName)
     {
         $apiDomain = strtolower(env('API_URL'));
         $apiDomain = str_replace('http://', '', $apiDomain);
@@ -230,6 +230,7 @@ class BootstrapRegistrarService
             'domain'     => $apiDomain,
             'controller' => $controllerNamespace,
             'model'      => $modelNameSpace,
+            'filename'   => $fileName
         ];
     }
 

@@ -8,8 +8,8 @@
 
 namespace Modules\Authorization\Entities;
 
-use Modules\Authorization\Attributes\RoleAttributes;
+use Modules\Authorization\Attributes\Roles;
 
-class Role extends \Spatie\Permission\Models\Role implements RoleAttributes
+class Role extends \Spatie\Permission\Models\Role implements Roles
 {
 }

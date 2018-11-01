@@ -50,7 +50,6 @@ class BootstrapServiceProvider extends ServiceProvider
         $this->overrideSeedCommand();
 
 
-
         $this->loadOwnershipPolicies();
 
         /* Register Policies after ownership policies otherwise they would not get overriden */
@@ -80,8 +79,17 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         foreach ($this->bootstrapService->getRoutes() as $route) {
             $path = $route['path'];
+            $fileNameArray = explode('.', $route['filename']);
+            $routePrefix = $fileNameArray[0];
+            $version = $fileNameArray[1];
+
+            if ($version === 'php')
+                $prefix = $routePrefix;
+            else
+                $prefix = $version . '/' . $routePrefix;
+
             Route::group([
-                'prefix' => 'v1/' . str_plural($route['module']),
+                'prefix' => $prefix,
                 'namespace' => $route['controller'],
                 'domain' => $route['domain'],
                 'middleware' => ['api'],
@@ -102,7 +110,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getConfigs() as $config) {
             if (isset($config['filename']) && is_string($config['filename'])) {
                 $fileName = $config['filename'];
-                $configName = strtolower(explode('.',$fileName)[0]);
+                $configName = strtolower(explode('.', $fileName)[0]);
                 $this->mergeConfigFrom(
                     $config['path'], $configName
                 );

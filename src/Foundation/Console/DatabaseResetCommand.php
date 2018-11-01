@@ -31,8 +31,8 @@ class DatabaseResetCommand extends Command
      */
     public function handle()
     {
-        Artisan::call('migrate:refresh');
         Artisan::call('migrate:fresh');
+        Artisan::call('migrate:refresh');
         Artisan::call('cache:clear');
         Artisan::call('migrate');
         Artisan::call('db:seed');

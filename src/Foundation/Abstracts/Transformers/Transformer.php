@@ -8,9 +8,10 @@
 
 namespace Foundation\Abstracts\Transformers;
 
+use Foundation\Contracts\Transformable;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-abstract class Transformer extends JsonResource
+abstract class Transformer extends JsonResource implements Transformable
 {
     protected $include = [];
 
@@ -25,8 +26,7 @@ abstract class Transformer extends JsonResource
      */
     public function resolve($request = null)
     {
-        $includedRequestRelations = $this->parseRequestIncludeParameter($request);
-        return array_merge(parent::resolve($request), $this->filter($this->includeRelations($includedRequestRelations)));
+        return array_merge(parent::resolve($request), $this->filter($this->getIncludedRelations($request)));
     }
 
     protected function parseRequestIncludeParameter($request)
@@ -42,8 +42,9 @@ abstract class Transformer extends JsonResource
         return array_unique(array_merge($this->include, array_intersect($this->available, $includedRequestRelations)));
     }
 
-    protected function includeRelations($requestedRelations)
+    public function getIncludedRelations($request)
     {
+        $requestedRelations= $this->parseRequestIncludeParameter($request);
         $relations = [];
         foreach ($this->compileRelations($requestedRelations) as $relation) {
             if (is_string($relation) && method_exists($this, 'transform' . ucfirst(strtolower($relation)))) {
@@ -96,7 +97,7 @@ abstract class Transformer extends JsonResource
 
     public static function collection($resource)
     {
-        return new TransformerCollection($resource, get_called_class());
+        return new TransformerCollection($resource, static::class);
     }
 
     public function serialize()
