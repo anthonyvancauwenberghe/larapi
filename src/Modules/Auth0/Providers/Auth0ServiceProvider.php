@@ -15,7 +15,6 @@ use Modules\User\Services\UserService;
 
 class Auth0ServiceProvider extends ServiceProvider
 {
-
     /**
      * Register any authentication / authorization services.
      *

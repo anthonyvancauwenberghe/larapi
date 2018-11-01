@@ -15,5 +15,4 @@ class CorsServiceProvider extends ServiceProvider
     {
         $this->app->register(\Barryvdh\Cors\ServiceProvider::class);
     }
-
 }

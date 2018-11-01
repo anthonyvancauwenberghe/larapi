@@ -45,6 +45,7 @@ class DemoSeeder extends Seeder
     {
         $user = $this->service->getTestUser();
         $user->assignRole(Role::ADMIN);
+
         return $user;
     }
 

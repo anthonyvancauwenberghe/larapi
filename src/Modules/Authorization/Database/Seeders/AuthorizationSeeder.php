@@ -11,7 +11,6 @@ use Modules\Authorization\Services\AuthorizationService;
 
 class AuthorizationSeeder extends Seeder
 {
-
     /**
      * @var AuthorizationService
      */

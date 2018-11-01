@@ -110,7 +110,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getConfigs() as $config) {
             if (isset($config['filename']) && is_string($config['filename'])) {
                 $fileName = $config['filename'];
-                $configName = strtolower(explode('.', $fileName)[0]);
+                $configName = strtolower(explode('.',$fileName)[0]);
                 $this->mergeConfigFrom(
                     $config['path'], $configName
                 );

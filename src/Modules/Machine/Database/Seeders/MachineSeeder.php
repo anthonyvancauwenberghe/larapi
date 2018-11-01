@@ -3,8 +3,6 @@
 namespace Modules\Machine\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Machine\Entities\Machine;
-use Modules\User\Entities\User;
 
 class MachineSeeder extends Seeder
 {
@@ -15,6 +13,5 @@ class MachineSeeder extends Seeder
      */
     public function run()
     {
-
     }
 }

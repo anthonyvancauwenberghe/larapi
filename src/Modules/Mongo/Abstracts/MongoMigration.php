@@ -8,10 +8,8 @@
 
 namespace Modules\Mongo\Abstracts;
 
-
 /**
  * Class MongoMigration.
- *
  */
 abstract class MongoMigration extends \Illuminate\Database\Migrations\Migration
 {
@@ -22,12 +20,12 @@ abstract class MongoMigration extends \Illuminate\Database\Migrations\Migration
      *
      * @return void
      */
-    public abstract function up();
+    abstract public function up();
 
     /**
      * Reverse the migrations.
      *
      * @return void
      */
-    public abstract function down();
+    abstract public function down();
 }
