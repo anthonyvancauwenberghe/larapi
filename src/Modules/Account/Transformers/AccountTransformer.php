@@ -8,22 +8,23 @@
 
 namespace Modules\Account\Transformers;
 
-use Foundation\Abstracts\Transformers\Transformer;
+use Foundation\Abstracts\Transformers\NewTransformer;
 use Foundation\Exceptions\Exception;
-use Modules\Account\Entities\Account;
+use Modules\Machine\Entities\Machine;
 use Modules\Machine\Transformers\MachineTransformer;
+use Modules\User\Entities\User;
 use Modules\User\Transformers\UserTransformer;
 
-class AccountTransformer extends Transformer
+class AccountTransformer extends NewTransformer
 {
-    public $available = [
+    public $availableIncludes = [
         'user',
         'machine'
     ];
 
     public $include = [
-        'machine',
-        'user'
+        //'machine',
+        //'user'
     ];
 
     /**
@@ -63,13 +64,13 @@ class AccountTransformer extends Transformer
         ];
     }
 
-    public function transformUser(Account $account)
+    public function transformUser(User $user)
     {
-        return UserTransformer::resource($account->user);
+        return UserTransformer::resource($user);
     }
 
-    public function transformMachine(Account $account)
+    public function transformMachine(Machine $machine)
     {
-        return MachineTransformer::resource($account->machine);
+        return MachineTransformer::resource($machine);
     }
 }

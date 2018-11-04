@@ -13,6 +13,7 @@ use Modules\Account\Contracts\AccountServiceContract;
 use Modules\Account\Entities\Account;
 use Modules\Account\Events\AccountCreatedEvent;
 use Modules\Account\Events\AccountUpdatedEvent;
+use Modules\Machine\Entities\Machine;
 
 class AccountService implements AccountServiceContract
 {
@@ -56,7 +57,17 @@ class AccountService implements AccountServiceContract
     {
         $this->update($id, [
             'last_heartbeat' => Carbon::now(),
-            'online'         => true,
+            'online' => true,
         ]);
+    }
+
+    public function assignToMachine($id, ?Machine $machine)
+    {
+        return $this->update($id, ["machine_id" => $machine->id ?? null]);
+    }
+
+    public function unlinkFromMachine($id)
+    {
+        return $this->assignToMachine($id, null);
     }
 }

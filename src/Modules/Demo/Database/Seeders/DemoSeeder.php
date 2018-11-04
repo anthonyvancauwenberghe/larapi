@@ -44,18 +44,17 @@ class DemoSeeder extends Seeder
     protected function seedUser()
     {
         $user = $this->service->getTestUser();
-        $user->assignRole(Role::ADMIN);
-
+        $user->syncRoles(Role::ADMIN);
         return $user;
     }
 
     protected function seedMachines($user)
     {
-        $machines = Machine::fromFactory(12)->create([
+        $machines = Machine::fromFactory(4)->create([
             'user_id' => $user->id,
         ]);
 
-        foreach($machines as $machine){
+        foreach ($machines as $machine) {
             $this->seedAccounts($machine);
         }
 
@@ -64,8 +63,9 @@ class DemoSeeder extends Seeder
 
     protected function seedAccounts($machine)
     {
-        $accounts = Account::fromFactory(rand(2,5))->state('OSRS')->create([
+        $accounts = Account::fromFactory(rand(2, 5))->state('OSRS')->create([
             'user_id' => $machine->user_id,
+            'machine_id' => $machine->id
         ]);
 
         return $accounts;

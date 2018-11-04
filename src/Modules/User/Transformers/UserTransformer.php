@@ -38,6 +38,8 @@ class UserTransformer extends Transformer
             'provider'       => $this->provider,
             'created_at'     => $this->created_at,
             'updated_at'     => $this->updated_at,
+            'roles'          => $this->transformRoles($this->resource),
+            'permissions'    => $this->transformPermissions($this->resource),
         ];
     }
 

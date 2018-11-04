@@ -162,8 +162,8 @@ if (!function_exists('get_class_property')) {
     }
 }
 
-if (!function_exists('run_class_function')) {
-    function run_class_function($class, string $methodName)
+if (!function_exists('call_class_function')) {
+    function call_class_function($class, string $methodName)
     {
         if (!is_string($class)) {
             $class = get_class($class);

@@ -8,7 +8,7 @@
 
 namespace Modules\Notification\Tags;
 
-class Tag
+class WebNotificationTag
 {
     const INFO = 'info';
     const SUCCESS = 'success';

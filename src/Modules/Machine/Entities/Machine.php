@@ -7,6 +7,7 @@ use Foundation\Traits\ModelFactory;
 use Foundation\Traits\Notifiable;
 use Foundation\Traits\OwnedByUser;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Modules\Account\Entities\Account;
 use Modules\Mongo\Abstracts\MongoModel;
 use Modules\User\Entities\User;
 
@@ -50,5 +51,10 @@ class Machine extends MongoModel implements Ownable
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
     }
 }

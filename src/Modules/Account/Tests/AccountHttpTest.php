@@ -80,9 +80,10 @@ class AccountHttpTest extends HttpTest
     public function testFindAccountWithRelations()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/accounts/' . $this->account->id, ['include' => 'user']);
+        $response = $this->http('GET', '/v1/accounts/' . $this->account->id, ['include' => 'user,machine']);
         $response->assertStatus(200);
         $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
+        $this->assertArrayHasKey('machine', $this->decodeHttpResponse($response));
 
         $response = $this->http('GET', '/v1/accounts/' . $this->account->id);
         $response->assertStatus(200);

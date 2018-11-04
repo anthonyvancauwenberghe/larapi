@@ -10,6 +10,7 @@ namespace Modules\Account\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Account\Entities\Account;
+use Modules\Machine\Entities\Machine;
 
 /**
  * Interface AccountServiceContract
@@ -54,4 +55,9 @@ interface AccountServiceContract
      * @param $data
      */
     public function heartbeat($id, $data): void;
+
+    public function assignToMachine($id, Machine $machine);
+
+    public function unlinkFromMachine($id);
+
 }

@@ -8,10 +8,10 @@
 
 namespace Modules\Notification\Channels;
 
-use Foundation\Events\WebNotificationCreatedEvent;
 use Illuminate\Notifications\Channels\BroadcastChannel;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
+use Modules\Notification\Events\WebNotificationEvent;
 
 class WebBroadcastChannel extends BroadcastChannel
 {
@@ -27,7 +27,7 @@ class WebBroadcastChannel extends BroadcastChannel
     {
         $message = $this->getData($notifiable, $notification);
 
-        $event = new WebNotificationCreatedEvent(
+        $event = new WebNotificationEvent(
             $notifiable, $notification, is_array($message) ? $message : $message->data
         );
 

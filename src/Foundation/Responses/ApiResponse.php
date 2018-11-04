@@ -8,6 +8,8 @@
 
 namespace Foundation\Responses;
 
+use Illuminate\Database\Eloquent\Collection;
+
 class ApiResponse
 {
     public static function deleted()

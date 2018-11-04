@@ -11,12 +11,12 @@ namespace Modules\User\Events;
 use Foundation\Abstracts\Events\Event;
 use Illuminate\Broadcasting\PrivateChannel;
 use Modules\User\Entities\User;
-use Modules\User\Listeners\NewlyRegisteredUserListener;
+use Modules\User\Listeners\RegisteredUserListener;
 
 class UserRegisteredEvent extends Event
 {
     public $listeners = [
-        NewlyRegisteredUserListener::class,
+        RegisteredUserListener::class,
     ];
 
     public $user;

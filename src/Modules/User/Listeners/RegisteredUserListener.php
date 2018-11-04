@@ -13,7 +13,7 @@ use Modules\Authorization\Entities\Role;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
-class NewlyRegisteredUserListener extends Listener
+class RegisteredUserListener extends Listener
 {
     /**
      * @param UserRegisteredEvent $event

@@ -202,6 +202,6 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         if (!class_implements_interface($class, ConditionalAutoRegistration::class))
             return true;
-        return run_class_function($class, 'registrationCondition');
+        return call_class_function($class, 'registrationCondition');
     }
 }
