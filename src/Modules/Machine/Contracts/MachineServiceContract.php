@@ -12,20 +12,20 @@ use Illuminate\Database\Eloquent\Collection;
 use Modules\Machine\Entities\Machine;
 
 /**
- * Interface MachineServiceContract
- * @package Modules\Machine\Contracts
+ * Interface MachineServiceContract.
  */
 interface MachineServiceContract
 {
-
     /**
      * @param int $userId
+     *
      * @return Collection | Machine[]
      */
     public function getByUserId($userId);
 
     /**
      * @param $id
+     *
      * @return Machine|null
      */
     public function find($id): ?Machine;
@@ -33,18 +33,21 @@ interface MachineServiceContract
     /**
      * @param $id
      * @param $data
+     *
      * @return Machine
      */
     public function update($id, $data): Machine;
 
     /**
      * @param $data
+     *
      * @return Machine
      */
     public function create($data): Machine;
 
     /**
      * @param $id
+     *
      * @return bool
      */
     public function delete($id): bool;

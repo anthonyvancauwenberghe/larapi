@@ -42,6 +42,6 @@ interface RolePermissions
 
         Role::TRUSTED_SCRIPTER => [
 
-        ]
+        ],
     ];
 }

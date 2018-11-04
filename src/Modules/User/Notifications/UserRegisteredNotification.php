@@ -8,7 +8,6 @@
 
 namespace Modules\User\Notifications;
 
-
 use Modules\Notification\Abstracts\WebNotification;
 
 class UserRegisteredNotification extends WebNotification

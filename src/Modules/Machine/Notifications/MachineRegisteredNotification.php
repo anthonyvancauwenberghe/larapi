@@ -8,7 +8,6 @@
 
 namespace Modules\Machine\Notifications;
 
-
 use Modules\Notification\Abstracts\WebNotification;
 
 class MachineRegisteredNotification extends WebNotification

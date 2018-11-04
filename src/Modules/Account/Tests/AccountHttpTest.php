@@ -64,11 +64,11 @@ class AccountHttpTest extends HttpTest
     public function testFindAccount()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/accounts/' . $this->account->id);
+        $response = $this->http('GET', '/v1/accounts/'.$this->account->id);
         $response->assertStatus(200);
 
         $this->user->syncRoles(Role::GUEST);
-        $response = $this->http('GET', '/v1/accounts/' . $this->account->id);
+        $response = $this->http('GET', '/v1/accounts/'.$this->account->id);
         $response->assertStatus(200);
     }
 
@@ -80,12 +80,12 @@ class AccountHttpTest extends HttpTest
     public function testFindAccountWithRelations()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/accounts/' . $this->account->id, ['include' => 'user,machine']);
+        $response = $this->http('GET', '/v1/accounts/'.$this->account->id, ['include' => 'user,machine']);
         $response->assertStatus(200);
         $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
         $this->assertArrayHasKey('machine', $this->decodeHttpResponse($response));
 
-        $response = $this->http('GET', '/v1/accounts/' . $this->account->id);
+        $response = $this->http('GET', '/v1/accounts/'.$this->account->id);
         $response->assertStatus(200);
         $this->assertArrayNotHasKey('user', $this->decodeHttpResponse($response));
     }
@@ -95,7 +95,7 @@ class AccountHttpTest extends HttpTest
         $user = factory(User::class)->create();
         $Account = factory(Account::class)->create(['user_id' => $user->id]);
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/accounts/' . $Account->id);
+        $response = $this->http('GET', '/v1/accounts/'.$Account->id);
         $response->assertStatus(403);
     }
 
@@ -104,14 +104,14 @@ class AccountHttpTest extends HttpTest
         $user = factory(User::class)->create();
         $Account = factory(Account::class)->create(['user_id' => $user->id]);
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/accounts/' . $Account->id);
+        $response = $this->http('DELETE', '/v1/accounts/'.$Account->id);
         $response->assertStatus(403);
     }
 
     public function testDeleteAccount()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/accounts/' . $this->account->id);
+        $response = $this->http('DELETE', '/v1/accounts/'.$this->account->id);
         $response->assertStatus(204);
     }
 
@@ -121,7 +121,7 @@ class AccountHttpTest extends HttpTest
         $Account = factory(Account::class)->create(['user_id' => $user->id]);
 
         $this->user->syncRoles(Role::ADMIN);
-        $response = $this->http('GET', '/v1/accounts/' . $Account->id);
+        $response = $this->http('GET', '/v1/accounts/'.$Account->id);
         $response->assertStatus(200);
     }
 
@@ -151,7 +151,7 @@ class AccountHttpTest extends HttpTest
     {
         $this->user->syncRoles(Role::USER);
         /* Test response for a normal user */
-        $response = $this->http('PATCH', '/v1/accounts/' . $this->account->id, []);
+        $response = $this->http('PATCH', '/v1/accounts/'.$this->account->id, []);
         $response->assertStatus(200);
 
         /* Test response for a guest user */
@@ -159,7 +159,7 @@ class AccountHttpTest extends HttpTest
         $this->assertFalse($this->user->hasRole(Role::USER));
         $this->assertTrue($this->user->hasRole(Role::GUEST));
 
-        $response = $this->http('PATCH', '/v1/accounts/' . $this->account->id, []);
+        $response = $this->http('PATCH', '/v1/accounts/'.$this->account->id, []);
         $response->assertStatus(403);
     }
 }

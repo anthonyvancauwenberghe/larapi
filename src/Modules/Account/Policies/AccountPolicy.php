@@ -15,11 +15,11 @@ use Modules\User\Entities\User;
 
 class AccountPolicy extends OwnershipPolicy
 {
-
     protected $service;
 
     /**
      * AccountPolicy constructor.
+     *
      * @param $service
      */
     public function __construct(AccountServiceContract $service)
@@ -27,16 +27,14 @@ class AccountPolicy extends OwnershipPolicy
         $this->service = $service;
     }
 
-
     public function create(User $user): bool
     {
         $AccountCount = $this->service->getByUserId($user->id)->count();
 
         $maxAccountCount = 20;
 
-        if($AccountCount > $maxAccountCount)
-            throw new Exception('You Cannot create more than 20 Accounts. Delete one first',401);
+        if ($AccountCount > $maxAccountCount) {
+            throw new Exception('You Cannot create more than 20 Accounts. Delete one first', 401);
+        }
     }
-
-
 }

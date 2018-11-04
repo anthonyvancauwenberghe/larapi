@@ -15,5 +15,4 @@ use Modules\User\Permissions\UserPermissions;
 interface Permissions extends UserPermissions, MachinePermissions, AccountPermissions
 {
     const ASSIGN_ROLES = 'role.assign';
-
 }

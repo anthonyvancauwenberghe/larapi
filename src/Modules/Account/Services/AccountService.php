@@ -57,13 +57,13 @@ class AccountService implements AccountServiceContract
     {
         $this->update($id, [
             'last_heartbeat' => Carbon::now(),
-            'online' => true,
+            'online'         => true,
         ]);
     }
 
     public function assignToMachine($id, ?Machine $machine)
     {
-        return $this->update($id, ["machine_id" => $machine->id ?? null]);
+        return $this->update($id, ['machine_id' => $machine->id ?? null]);
     }
 
     public function unlinkFromMachine($id)

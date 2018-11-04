@@ -8,5 +8,4 @@ class CreateAccountCollection extends \Modules\Mongo\Abstracts\MongoCollectionMi
     {
         $collection->index('user_id');
     }
-
 }

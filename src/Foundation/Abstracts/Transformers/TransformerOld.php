@@ -31,8 +31,9 @@ abstract class TransformerOld extends JsonResource implements Transformable
 
     protected function parseRequestIncludeParameter($request)
     {
-        if (isset($request->include) && is_string($request->include))
+        if (isset($request->include) && is_string($request->include)) {
             return explode(',', $request->include);
+        }
 
         return [];
     }
@@ -44,24 +45,25 @@ abstract class TransformerOld extends JsonResource implements Transformable
 
     public function getIncludedRelations($request)
     {
-        $requestedRelations= $this->parseRequestIncludeParameter($request);
+        $requestedRelations = $this->parseRequestIncludeParameter($request);
         $relations = [];
         foreach ($this->compileRelations($requestedRelations) as $relation) {
-            if (is_string($relation) && method_exists($this, 'transform' . ucfirst(strtolower($relation)))) {
+            if (is_string($relation) && method_exists($this, 'transform'.ucfirst(strtolower($relation)))) {
                 $data = null;
                 if ($this->resource !== null) {
-                    $method = 'transform' . ucfirst(strtolower($relation));
+                    $method = 'transform'.ucfirst(strtolower($relation));
                     $data = $this->$method($this->resource);
                 }
                 if ($data instanceof JsonResource) {
-                    if ($data->resource === null)
+                    if ($data->resource === null) {
                         $data = null;
-                    else
+                    } else {
                         $data->jsonSerialize();
+                    }
                 }
                 $relations[strtolower($relation)] = $data;
             } else {
-                throw new \Exception('invalid relation or not relation_transform_method given in ' . get_short_class_name(static::class));
+                throw new \Exception('invalid relation or not relation_transform_method given in '.get_short_class_name(static::class));
             }
         }
 
@@ -73,9 +75,11 @@ abstract class TransformerOld extends JsonResource implements Transformable
      */
     public function include($relations)
     {
-        if (is_string($relations))
+        if (is_string($relations)) {
             $relations = [$relations];
+        }
         $this->include = array_unique(array_merge($this->include, $relations));
+
         return $this;
     }
 
@@ -84,9 +88,11 @@ abstract class TransformerOld extends JsonResource implements Transformable
      */
     public function available($relations)
     {
-        if (is_string($relations))
+        if (is_string($relations)) {
             $relations = [$relations];
+        }
         $this->available = array_unique(array_merge($this->available, $relations));
+
         return $this;
     }
 

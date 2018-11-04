@@ -38,6 +38,7 @@ class NotificationService implements NotificationServiceContract
         if ($notification === null) {
             throw new NotFoundHttpException();
         }
+
         return $notification;
     }
 

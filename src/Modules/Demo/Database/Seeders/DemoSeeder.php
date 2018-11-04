@@ -45,6 +45,7 @@ class DemoSeeder extends Seeder
     {
         $user = $this->service->getTestUser();
         $user->syncRoles(Role::ADMIN);
+
         return $user;
     }
 
@@ -64,8 +65,8 @@ class DemoSeeder extends Seeder
     protected function seedAccounts($machine)
     {
         $accounts = Account::fromFactory(rand(2, 5))->state('OSRS')->create([
-            'user_id' => $machine->user_id,
-            'machine_id' => $machine->id
+            'user_id'    => $machine->user_id,
+            'machine_id' => $machine->id,
         ]);
 
         return $accounts;
