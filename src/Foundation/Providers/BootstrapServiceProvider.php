@@ -49,7 +49,6 @@ class BootstrapServiceProvider extends ServiceProvider
         /* Override the seed command with the larapi custom one */
         $this->overrideSeedCommand();
 
-
         $this->loadOwnershipPolicies();
 
         /* Register Policies after ownership policies otherwise they would not get overriden */
@@ -83,15 +82,16 @@ class BootstrapServiceProvider extends ServiceProvider
             $routePrefix = $fileNameArray[0];
             $version = $fileNameArray[1];
 
-            if ($version === 'php')
+            if ($version === 'php') {
                 $prefix = $routePrefix;
-            else
-                $prefix = $version . '/' . $routePrefix;
+            } else {
+                $prefix = $version.'/'.$routePrefix;
+            }
 
             Route::group([
-                'prefix' => $prefix,
-                'namespace' => $route['controller'],
-                'domain' => $route['domain'],
+                'prefix'     => $prefix,
+                'namespace'  => $route['controller'],
+                'domain'     => $route['domain'],
                 'middleware' => ['api'],
             ], function () use ($path) {
                 require $path;
@@ -110,7 +110,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getConfigs() as $config) {
             if (isset($config['filename']) && is_string($config['filename'])) {
                 $fileName = $config['filename'];
-                $configName = strtolower(explode('.',$fileName)[0]);
+                $configName = strtolower(explode('.', $fileName)[0]);
                 $this->mergeConfigFrom(
                     $config['path'], $configName
                 );
@@ -176,7 +176,7 @@ class BootstrapServiceProvider extends ServiceProvider
         foreach ($this->bootstrapService->getModels() as $model) {
             if (class_implements_interface($model, Ownable::class)) {
                 Gate::policy($model, OwnershipPolicy::class);
-                Gate::define('access', OwnershipPolicy::class . '@access');
+                Gate::define('access', OwnershipPolicy::class.'@access');
             }
         }
     }
@@ -184,8 +184,9 @@ class BootstrapServiceProvider extends ServiceProvider
     private function loadServiceProviders()
     {
         foreach ($this->bootstrapService->getProviders() as $provider) {
-            if ($this->passedRegistrationCondition($provider))
+            if ($this->passedRegistrationCondition($provider)) {
                 $this->app->register($provider);
+            }
         }
     }
 
@@ -200,8 +201,10 @@ class BootstrapServiceProvider extends ServiceProvider
 
     private function passedRegistrationCondition($class)
     {
-        if (!class_implements_interface($class, ConditionalAutoRegistration::class))
+        if (!class_implements_interface($class, ConditionalAutoRegistration::class)) {
             return true;
+        }
+
         return call_class_function($class, 'registrationCondition');
     }
 }

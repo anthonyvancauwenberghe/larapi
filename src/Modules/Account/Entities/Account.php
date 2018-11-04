@@ -31,14 +31,14 @@ class Account extends MongoModel implements Ownable, AccountAttributes
     protected $guarded = [];
 
     protected $casts = [
-        'online' => 'boolean'
+        'online' => 'boolean',
     ];
 
     protected $dates = [
         'created_at',
         'updated_at',
         'deleted_at',
-        'last_heartbeat'
+        'last_heartbeat',
     ];
 
     public function user()

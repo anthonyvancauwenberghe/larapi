@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 15.09.18
- * Time: 13:37
+ * Time: 13:37.
  */
 
 namespace Modules\Account\Attributes;
-
 
 interface AccountAttributes
 {

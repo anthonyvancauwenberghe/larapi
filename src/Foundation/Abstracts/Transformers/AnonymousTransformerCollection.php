@@ -46,15 +46,18 @@ class AnonymousTransformerCollection extends AnonymousResourceCollection
     /**
      * Map the given collection resource into its individual resources.
      *
-     * @param  mixed $resource
+     * @param mixed $resource
+     *
      * @return mixed
      */
     protected function collectResource($resource)
     {
         parent::collectResource($resource);
         $this->collection->transform(function ($item, $key) {
-            if ($item instanceof NewTransformer)
+            if ($item instanceof NewTransformer) {
                 return $item->include($this->relations);
+            }
+
             return $item;
         });
     }

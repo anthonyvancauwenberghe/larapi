@@ -38,7 +38,7 @@ class AlterDemoDataJob extends Job
     {
         $this->machineService = app()->make(MachineServiceContract::class);
         $this->accountService = app()->make(AccountServiceContract::class);
-         $this->user = app()->make(Auth0ServiceContract::class)->getTestUser(Role::ADMIN);
+        $this->user = app()->make(Auth0ServiceContract::class)->getTestUser(Role::ADMIN);
     }
 
     public function handle()

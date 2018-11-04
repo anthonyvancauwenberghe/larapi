@@ -15,11 +15,11 @@ use Modules\User\Entities\User;
 
 class MachinePolicy extends OwnershipPolicy
 {
-
     protected $service;
 
     /**
      * MachinePolicy constructor.
+     *
      * @param $service
      */
     public function __construct(MachineServiceContract $service)
@@ -27,16 +27,14 @@ class MachinePolicy extends OwnershipPolicy
         $this->service = $service;
     }
 
-
     public function create(User $user): bool
     {
         $machineCount = $this->service->getByUserId($user->id)->count();
 
         $maxMachineCount = 20;
 
-        if($machineCount > $maxMachineCount)
-            throw new Exception('You Cannot create more than 20 machines. Delete one first',401);
+        if ($machineCount > $maxMachineCount) {
+            throw new Exception('You Cannot create more than 20 machines. Delete one first', 401);
+        }
     }
-
-
 }

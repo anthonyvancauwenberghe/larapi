@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 31.10.18
- * Time: 09:06
+ * Time: 09:06.
  */
 
 namespace Modules\Machine\Permissions;
-
 
 interface MachinePermissions
 {

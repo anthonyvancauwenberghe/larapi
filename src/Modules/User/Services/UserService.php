@@ -31,6 +31,7 @@ class UserService implements UserServiceContract
         if ($user === null) {
             throw new NotFoundHttpException();
         }
+
         return $user;
     }
 

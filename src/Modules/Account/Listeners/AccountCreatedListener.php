@@ -18,7 +18,6 @@ class AccountCreatedListener extends Listener
      */
     public function handle($event): void
     {
-
     }
 
     /**

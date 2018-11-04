@@ -13,20 +13,20 @@ use Modules\Account\Entities\Account;
 use Modules\Machine\Entities\Machine;
 
 /**
- * Interface AccountServiceContract
- * @package Modules\Account\Contracts
+ * Interface AccountServiceContract.
  */
 interface AccountServiceContract
 {
-
     /**
      * @param int $userId
+     *
      * @return Collection | Account[]
      */
     public function getByUserId($userId);
 
     /**
      * @param $id
+     *
      * @return Account|null
      */
     public function find($id): ?Account;
@@ -34,18 +34,21 @@ interface AccountServiceContract
     /**
      * @param $id
      * @param $data
+     *
      * @return Account
      */
     public function update($id, $data): Account;
 
     /**
      * @param $data
+     *
      * @return Account
      */
     public function create($data): Account;
 
     /**
      * @param $id
+     *
      * @return bool
      */
     public function delete($id): bool;
@@ -59,5 +62,4 @@ interface AccountServiceContract
     public function assignToMachine($id, Machine $machine);
 
     public function unlinkFromMachine($id);
-
 }

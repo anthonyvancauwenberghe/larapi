@@ -3,8 +3,6 @@
 namespace Modules\Account\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Account\Entities\Account;
-use Modules\User\Entities\User;
 
 class AccountSeeder extends Seeder
 {
@@ -15,6 +13,5 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
-
     }
 }

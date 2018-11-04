@@ -31,7 +31,7 @@ class NewTransformer extends JsonResource implements Transformable
 
     public static function collection($resource)
     {
-        return new AnonymousTransformerCollection($resource, static::class, call_class_function(static::class,'compileRelations'));
+        return new AnonymousTransformerCollection($resource, static::class, call_class_function(static::class, 'compileRelations'));
     }
 
     public function serialize()
