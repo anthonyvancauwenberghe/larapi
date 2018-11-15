@@ -19,23 +19,23 @@ class AccountUpdatedEvent extends Event implements ShouldBroadcast
     public $listeners = [];
 
     /**
-     * @var Account
+     * @var account
      */
-    public $Account;
+    public $account;
 
     /**
      * UserRegisteredEvent constructor.
      *
      * @param $user
      */
-    public function __construct(Account $Account)
+    public function __construct(Account $account)
     {
-        $this->Account = $Account;
+        $this->account = $account;
     }
 
     public function broadcastOn()
     {
-        return new PrivateChannel('user.'.$this->Account->user_id);
+        return new PrivateChannel('user.'.$this->account->user_id);
     }
 
     public function broadcastAs()
@@ -45,6 +45,6 @@ class AccountUpdatedEvent extends Event implements ShouldBroadcast
 
     public function broadcastWith()
     {
-        return AccountTransformer::resource($this->Account)->serialize();
+        return AccountTransformer::resource($this->account)->serialize();
     }
 }

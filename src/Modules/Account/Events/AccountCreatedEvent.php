@@ -21,15 +21,15 @@ class AccountCreatedEvent extends Event
     /**
      * @var Account
      */
-    public $Account;
+    public $account;
 
     /**
      * UserRegisteredEvent constructor.
      *
      * @param $user
      */
-    public function __construct(Account $Account)
+    public function __construct(Account $account)
     {
-        $this->Account = $Account;
+        $this->account = $account;
     }
 }
