@@ -11,7 +11,6 @@ namespace Modules\User\Services;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserService implements UserServiceContract
 {
@@ -26,13 +25,7 @@ class UserService implements UserServiceContract
             return $id;
         }
 
-        $user = User::find($id);
-
-        if ($user === null) {
-            throw new NotFoundHttpException();
-        }
-
-        return $user;
+        return User::find($id);
     }
 
     public function findByIdentityId($id): ?User
@@ -44,7 +37,6 @@ class UserService implements UserServiceContract
     {
         $user = $this->find($id);
         $user->update($data);
-
         return $user;
     }
 
@@ -65,7 +57,6 @@ class UserService implements UserServiceContract
     {
         $user = new User($data);
         $user->assignRole(Role::USER);
-
         return $user;
     }
 

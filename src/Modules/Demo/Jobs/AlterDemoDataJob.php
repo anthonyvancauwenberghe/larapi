@@ -30,15 +30,15 @@ class AlterDemoDataJob extends Job
     protected $accountService;
 
     /**
-     * @var User
+     * @var Auth0ServiceContract
      */
-    protected $user;
+    protected $userService;
 
     public function __construct()
     {
         $this->machineService = app()->make(MachineServiceContract::class);
         $this->accountService = app()->make(AccountServiceContract::class);
-        $this->user = app()->make(Auth0ServiceContract::class)->getTestUser(Role::ADMIN);
+        $this->userService = app()->make(Auth0ServiceContract::class);
     }
 
     public function handle()
@@ -48,7 +48,7 @@ class AlterDemoDataJob extends Job
 
     protected function alterMachineData()
     {
-        foreach ($this->machineService->getByUserId($this->user->id) as $machine) {
+        foreach ($this->machineService->getByUserId($this->userService->getTestUser(Role::ADMIN)) as $machine) {
             $this->machineService->heartbeat($machine, [
                 'cpu_usage'    => rand(0, 100),
                 'memory_usage' => rand(1, $machine->memory_available),
@@ -59,7 +59,7 @@ class AlterDemoDataJob extends Job
 
     protected function alterAccountData()
     {
-        foreach ($this->accountService->getByUserId($this->user->id) as $account) {
+        foreach ($this->accountService->getByUserId($this->userService->getTestUser(Role::ADMIN)) as $account) {
             $this->accountService->heartbeat($account, [
                 'cpu_usage'    => rand(0, 100),
                 'memory_usage' => rand(1, $account->memory_available),
