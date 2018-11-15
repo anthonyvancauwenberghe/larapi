@@ -15,9 +15,6 @@ trait HandlesOwnership
 {
     public function isOwner(?Ownable $model)
     {
-        if ($model === null) {
-            throw new NotFoundHttpException('Could not found resouce.');
-        }
         $this->authorize('access', $model);
     }
 }

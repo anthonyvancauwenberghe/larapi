@@ -29,7 +29,9 @@ class UserHttpTest extends HttpTest
         $user = $this->getHttpUser();
         $http = $this->http('GET', '/v1/users/me');
         $http->assertStatus(200);
-        $this->assertEquals((new UserTransformer($user))->serialize(), $this->decodeHttpResponse($http));
+        $userTransformer = UserTransformer::resource($user)->serialize();
+        $httpData = $this->decodeHttpResponse($http);
+        $this->assertEquals($userTransformer, $httpData);
     }
 
     /**
@@ -43,12 +45,12 @@ class UserHttpTest extends HttpTest
 
         $this->assertFalse($user->hasRole(Role::ADMIN));
 
-        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => [Role::ADMIN]]);
+        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => [Role::ADMIN]]);
         $http->assertStatus(403);
 
         $this->changeTestUserRoles(Role::ADMIN);
         $this->assertTrue($user->fresh()->hasRole(Role::ADMIN));
-        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => [Role::ADMIN]]);
+        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => [Role::ADMIN]]);
         $http->assertStatus(200);
 
         $user = User::find($user->id);

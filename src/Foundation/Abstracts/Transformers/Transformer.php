@@ -9,13 +9,21 @@
 namespace Foundation\Abstracts\Transformers;
 
 use Foundation\Contracts\Transformable;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 abstract class Transformer extends JsonResource implements Transformable
 {
-    public function include()
+    use IncludesRelations;
+
+    public $include = [];
+
+    public $availableIncludes = [];
+
+    public function __construct($resource)
     {
-        return $this;
+        parent::__construct(self::loadRelations($resource));
     }
 
     public static function resource($model): self
@@ -23,9 +31,18 @@ abstract class Transformer extends JsonResource implements Transformable
         return new static($model);
     }
 
+    private static function loadRelations($resource)
+    {
+        if ($resource instanceof Model || $resource instanceof Collection) {
+            $relations = call_class_function(static::class, 'compileRelations');
+            $resource->load($relations);
+        }
+        return $resource;
+    }
+
     public static function collection($resource)
     {
-        return new AnonymousTransformerCollection($resource, static::class, []);
+        return new AnonymousTransformerCollection(self::loadRelations($resource), static::class);
     }
 
     public function serialize()

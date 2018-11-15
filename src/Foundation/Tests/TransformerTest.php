@@ -10,6 +10,8 @@ namespace Foundation\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Abstracts\Transformers\Transformer;
+use Modules\Machine\Entities\Machine;
+use Modules\Machine\Transformers\MachineTransformer;
 
 class TransformerTest extends TestCase
 {
@@ -82,7 +84,7 @@ class MachineTestTransformer extends Transformer
 
 class UserIncludedMachineTestTransformer extends MachineTestTransformer
 {
-    protected $include = ['user'];
+    public $include = ['user'];
 }
 
 class UserTestTransformer extends Transformer

@@ -8,6 +8,7 @@
 
 namespace Foundation\Abstracts\Controller;
 
+use Foundation\Traits\HandlesNullResource;
 use Foundation\Traits\HandlesOwnership;
 use Foundation\Traits\MutatesRequest;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -17,5 +18,5 @@ use Illuminate\Routing\Controller as BaseController;
 
 abstract class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, HandlesOwnership, MutatesRequest;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests, HandlesOwnership, HandlesNullResource, MutatesRequest;
 }

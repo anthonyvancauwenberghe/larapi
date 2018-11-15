@@ -48,13 +48,22 @@ class MachineHttpTest extends HttpTest
         $response->assertStatus(200);
     }
 
-    /*public function testAllMachinesWithUserRelation()
+    public function testAllMachinesWithUserRelation()
     {
         $this->user->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/machines?include=user');
         $response->assertStatus(200);
-        $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
-    }*/
+        $this->assertArrayHasKey('user', $this->decodeHttpResponse($response)[0]);
+    }
+
+    public function testAllMachinesWithAccountsRelation()
+    {
+        $this->user->syncRoles(Role::USER);
+        $response = $this->http('GET', '/v1/machines?include=accounts');
+        dd($this->decodeHttpResponse($response));
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('accounts', $this->decodeHttpResponse($response)[0]);
+    }
 
     /**
      * A basic test example.
@@ -77,7 +86,7 @@ class MachineHttpTest extends HttpTest
      *
      * @return void
      */
-    /*public function testFindMachineWithRelations()
+    public function testFindMachineWithRelations()
     {
         $this->user->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/machines/'.$this->machine->id, ['include' => 'user']);
@@ -87,7 +96,39 @@ class MachineHttpTest extends HttpTest
         $response = $this->http('GET', '/v1/machines/'.$this->machine->id);
         $response->assertStatus(200);
         $this->assertArrayNotHasKey('user', $this->decodeHttpResponse($response));
-    }*/
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testFindMachineWithFaultyRelations()
+    {
+        $this->user->syncRoles(Role::USER);
+        $response = $this->http('GET', '/v1/machines/'.$this->machine->id, ['include' => 'userx,blabla,user']);
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
+        $this->assertArrayNotHasKey('userx', $this->decodeHttpResponse($response));
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testAllMachinesWithRelations()
+    {
+        $this->user->syncRoles(Role::USER);
+        Machine::fromFactory(5)->create(['user_id' => $this->user->id]);
+        $response = $this->http('GET', '/v1/machines/', ['include' => 'user']);
+        $response->assertStatus(200);
+        $this->assertArrayHasKey('user', $this->decodeHttpResponse($response)[0]);
+
+        $response = $this->http('GET', '/v1/machines/');
+        $response->assertStatus(200);
+        $this->assertArrayNotHasKey('user', $this->decodeHttpResponse($response)[0]);
+    }
 
     public function testUnauthorizedAccessMachine()
     {

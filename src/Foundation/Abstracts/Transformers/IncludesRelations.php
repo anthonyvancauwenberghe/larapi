@@ -16,10 +16,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 trait IncludesRelations
 {
-    public function resolve($request = null)
-    {
-        return array_merge(parent::resolve($request), $this->includeRelations());
-    }
 
     /**
      * @return array
@@ -56,36 +52,5 @@ trait IncludesRelations
         }
 
         return $this;
-    }
-
-    /**
-     * @throws \Exception
-     *
-     * @return array
-     */
-    protected function includeRelations()
-    {
-        $relations = [];
-        foreach ($this->compileRelations() as $relation) {
-            if (method_exists($this, 'transform'.ucfirst(strtolower($relation)))) {
-                $data = null;
-                if ($this->resource !== null && $this->resource instanceof Model) {
-                    $method = 'transform'.ucfirst(strtolower($relation));
-                    $data = $this->$method($this->resource->$relation);
-                }
-                if ($data instanceof JsonResource) {
-                    if ($data->resource === null) {
-                        $data = null;
-                    } else {
-                        $data->jsonSerialize();
-                    }
-                }
-                $relations[strtolower($relation)] = $data;
-            } else {
-                throw new \Exception('invalid relation or not relation_transform_method given in '.get_short_class_name(static::class));
-            }
-        }
-
-        return $relations;
     }
 }

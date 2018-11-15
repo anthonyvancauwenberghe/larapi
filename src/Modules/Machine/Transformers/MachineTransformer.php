@@ -8,15 +8,19 @@
 
 namespace Modules\Machine\Transformers;
 
-use Foundation\Abstracts\Transformers\NewTransformer;
+use Foundation\Abstracts\Transformers\Transformer;
 use Modules\Account\Transformers\AccountTransformer;
 use Modules\Machine\Entities\Machine;
 use Modules\User\Transformers\UserTransformer;
 
-class MachineTransformer extends NewTransformer
+class MachineTransformer extends Transformer
 {
-    public $available = [
+    public $availableIncludes = [
         'user',
+        'accounts'
+    ];
+
+    public $include = [
     ];
 
     /**
@@ -45,20 +49,10 @@ class MachineTransformer extends NewTransformer
             'cpu_clock'        => $this->cpu_clock,
             'online'           => $this->online,
             'last_heartbeat'   => $this->last_heartbeat ?? null,
-            'user'             => $this->transformUser($this->resource),
-            'accounts'         => $this->transformAccounts($this->resource),
+            'user'             => UserTransformer::resource($this->whenLoaded('user')),
+            'accounts'         => AccountTransformer::collection($this->whenLoaded('accounts')),
             'created_at'       => $this->created_at,
             'updated_at'       => $this->updated_at,
         ];
-    }
-
-    public function transformUser(Machine $machine)
-    {
-        return UserTransformer::resource($machine->user);
-    }
-
-    public function transformAccounts(Machine $machine)
-    {
-        return AccountTransformer::collection($machine->accounts);
     }
 }

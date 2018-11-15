@@ -38,9 +38,9 @@ class AccountController extends Controller
      */
     public function store(Request $request)
     {
-        $Account = $this->service->create($this->injectUserId($request));
+        $account = $this->service->create($this->injectUserId($request));
 
-        return AccountTransformer::resource($Account);
+        return AccountTransformer::resource($account);
     }
 
     /**
@@ -50,13 +50,13 @@ class AccountController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $Account = $this->service->find($id);
+        $account = $this->service->find($id);
 
-        $this->isOwner($Account);
+        $this->exists($account);
+        $this->isOwner($account);
+        $account = $this->service->update($id, $request->toArray());
 
-        $Account = $this->service->update($id, $request->toArray());
-
-        return AccountTransformer::resource($Account);
+        return AccountTransformer::resource($account);
     }
 
     /**
@@ -64,11 +64,12 @@ class AccountController extends Controller
      */
     public function show($id)
     {
-        $Account = $this->service->find($id);
+        $account = $this->service->find($id);
 
-        $this->isOwner($Account);
+        $this->exists($account);
+        $this->isOwner($account);
 
-        return AccountTransformer::resource($Account);
+        return AccountTransformer::resource($account);
     }
 
     /**
@@ -76,11 +77,12 @@ class AccountController extends Controller
      */
     public function destroy($id)
     {
-        $Account = $this->service->find($id);
+        $account = $this->service->find($id);
 
-        $this->isOwner($Account);
+        $this->exists($account);
+        $this->isOwner($account);
 
-        $this->service->delete($Account);
+        $this->service->delete($account);
 
         return ApiResponse::deleted();
     }

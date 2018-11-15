@@ -8,24 +8,21 @@
 
 namespace Modules\Account\Transformers;
 
-use Foundation\Abstracts\Transformers\NewTransformer;
+use Foundation\Abstracts\Transformers\Transformer;
 use Foundation\Exceptions\Exception;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Transformers\MachineTransformer;
 use Modules\User\Entities\User;
 use Modules\User\Transformers\UserTransformer;
 
-class AccountTransformer extends NewTransformer
+class AccountTransformer extends Transformer
 {
     public $availableIncludes = [
         'user',
         'machine',
     ];
 
-    public $include = [
-        //'machine',
-        //'user'
-    ];
+    public $include = [];
 
     /**
      * Transform the resource into an array.
@@ -42,6 +39,8 @@ class AccountTransformer extends NewTransformer
         switch ($game) {
             case 'OSRS':
                 return $this->OSRSAccountToArray();
+            case null:
+                return null;
             default:
                 throw new Exception('Could not identity account game type');
         }
@@ -60,18 +59,10 @@ class AccountTransformer extends NewTransformer
             'skills'                => $this->skills,
             'membership_expires_at' => $this->membership_expires_at,
             'banned_at'             => $this->banned_at,
+            'user'                  => UserTransformer::resource($this->whenLoaded('user')),
+            'machine'               => MachineTransformer::resource($this->whenLoaded('machine')),
             'created_at'            => $this->created_at,
             'updated_at'            => $this->updated_at,
         ];
-    }
-
-    public function transformUser(User $user)
-    {
-        return UserTransformer::resource($user);
-    }
-
-    public function transformMachine(Machine $machine)
-    {
-        return MachineTransformer::resource($machine);
     }
 }

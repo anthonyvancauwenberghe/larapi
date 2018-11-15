@@ -51,7 +51,8 @@ class DemoSeeder extends Seeder
 
     protected function seedMachines($user)
     {
-        $machines = Machine::fromFactory(4)->create([
+        $machines = Machine::fromFactory(4)
+            ->create([
             'user_id' => $user->id,
         ]);
 
@@ -64,7 +65,9 @@ class DemoSeeder extends Seeder
 
     protected function seedAccounts($machine)
     {
-        $accounts = Account::fromFactory(rand(2, 5))->state('OSRS')->create([
+        $accounts = Account::fromFactory(rand(2, 5))
+            ->state('OSRS')
+            ->create([
             'user_id'    => $machine->user_id,
             'machine_id' => $machine->id,
         ]);

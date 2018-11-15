@@ -9,9 +9,7 @@
 namespace Modules\User\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
-use Modules\Authorization\Transformers\PermissionTransformer;
 use Modules\Authorization\Transformers\RoleTransformer;
-use Modules\User\Entities\User;
 
 class UserTransformer extends Transformer
 {
@@ -36,20 +34,9 @@ class UserTransformer extends Transformer
             'email_verified' => $this->email_verified,
             'gender'         => $this->gender,
             'provider'       => $this->provider,
+            'roles'          => collect(RoleTransformer::collection($this->whenLoaded('roles'))->serialize())->flatten(),
             'created_at'     => $this->created_at,
             'updated_at'     => $this->updated_at,
-            'roles'          => $this->transformRoles($this->resource),
-            'permissions'    => $this->transformPermissions($this->resource),
         ];
-    }
-
-    public function transformRoles(User $user)
-    {
-        return collect(RoleTransformer::collection($user->roles)->serialize())->flatten();
-    }
-
-    public function transformPermissions(User $user)
-    {
-        return collect(PermissionTransformer::collection($user->getAllPermissions())->serialize())->flatten();
     }
 }
