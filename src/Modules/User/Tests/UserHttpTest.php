@@ -45,12 +45,12 @@ class UserHttpTest extends HttpTest
 
         $this->assertFalse($user->hasRole(Role::ADMIN));
 
-        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => [Role::ADMIN]]);
+        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => [Role::ADMIN]]);
         $http->assertStatus(403);
 
         $this->changeTestUserRoles(Role::ADMIN);
         $this->assertTrue($user->fresh()->hasRole(Role::ADMIN));
-        $http = $this->http('PATCH', '/v1/users/' . $user->id, ['roles' => [Role::ADMIN]]);
+        $http = $this->http('PATCH', '/v1/users/'.$user->id, ['roles' => [Role::ADMIN]]);
         $http->assertStatus(200);
 
         $user = User::find($user->id);

@@ -9,7 +9,6 @@
 namespace Foundation\Traits;
 
 use Foundation\Contracts\Ownable;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 trait HandlesOwnership
 {

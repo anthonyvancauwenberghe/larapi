@@ -37,6 +37,7 @@ abstract class Transformer extends JsonResource implements Transformable
             $relations = call_class_function(static::class, 'compileRelations');
             $resource->loadMissing(array_keys($relations));
         }
+
         return $resource;
     }
 

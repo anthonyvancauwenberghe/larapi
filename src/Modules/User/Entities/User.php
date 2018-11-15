@@ -27,7 +27,6 @@ use Modules\Notification\Traits\ReceivesWebNotifications;
  */
 class User extends Model implements AuthorizableContract, AuthenticatableContract, Ownable
 {
-
     use Notifiable,
         Authorizable,
         Authenticatable,
