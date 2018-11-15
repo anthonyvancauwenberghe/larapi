@@ -45,13 +45,13 @@ install:
 - echo AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET >> .env
 - echo AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME >> .env
 - echo AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS >> .env
-- composer update --lock
+- composer update --lock --no-scripts --no-update
 
 before_script:
 - php artisan key:generate
 - php artisan bootstrap:cache
 - php artisan env:display
-- composer update
+- composer update --lock
 
 script: vendor/bin/phpunit --coverage-clover=coverage.clover
 
