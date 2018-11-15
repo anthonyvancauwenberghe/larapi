@@ -8,7 +8,6 @@
 
 namespace Foundation\Abstracts\Transformers;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class AnonymousTransformerCollection extends AnonymousResourceCollection
@@ -17,5 +16,4 @@ class AnonymousTransformerCollection extends AnonymousResourceCollection
     {
         return json_decode(json_encode($this->jsonSerialize()), true);
     }
-
 }

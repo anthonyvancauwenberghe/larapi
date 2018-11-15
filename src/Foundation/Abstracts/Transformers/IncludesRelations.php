@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 trait IncludesRelations
 {
-
     /**
      * @return array
      */
@@ -43,6 +42,7 @@ trait IncludesRelations
             }
         }
         $merge = array_merge($this->include, $relations);
+
         return array_unique($merge);
     }
 
@@ -68,20 +68,19 @@ trait IncludesRelations
         if ($this->resource instanceof Model) {
             $relations = $this->compileRelations();
             foreach ($relations as $relation => $transformer) {
-                $relationMethodName = 'transform' . ucfirst(strtolower($relation));
+                $relationMethodName = 'transform'.ucfirst(strtolower($relation));
                 if (method_exists($this, $relationMethodName)) {
                     $relations[$relation] = $this->$relationMethodName($this->resource->$relation);
                 } else {
                     if ($this->resource->$relation instanceof Model) {
                         $relations[$relation] = $transformer::resource($this->whenLoaded($relation));
-                    } else if ($this->resource->$relation instanceof Collection) {
+                    } elseif ($this->resource->$relation instanceof Collection) {
                         $relations[$relation] = $transformer::collection($this->whenLoaded($relation));
                     }
                 }
-
             }
-
         }
+
         return $relations;
     }
 }
