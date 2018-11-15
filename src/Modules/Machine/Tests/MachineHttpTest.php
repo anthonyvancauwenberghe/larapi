@@ -60,7 +60,6 @@ class MachineHttpTest extends HttpTest
     {
         $this->user->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/machines?include=accounts');
-        dd($this->decodeHttpResponse($response));
         $response->assertStatus(200);
         $this->assertArrayHasKey('accounts', $this->decodeHttpResponse($response)[0]);
     }
