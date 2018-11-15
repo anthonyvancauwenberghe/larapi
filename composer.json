@@ -13,7 +13,6 @@
         "laravel/framework": "5.7.*",
         "nwidart/laravel-modules": "^4.0",
         "pusher/pusher-php-server": "^3.2",
-        "spatie/laravel-permission": "^2.25",
         "wikimedia/composer-merge-plugin": "^1.4"
     },
     "require-dev": {
