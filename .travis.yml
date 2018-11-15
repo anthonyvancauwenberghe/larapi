@@ -40,18 +40,17 @@ before_install:
 - cp .env.travis .env
 
 install:
-- composer require wikimedia/composer-merge-plugin
-
-before_script:
-- composer update --lock
 - echo PUSHER_APP_SECRET=$PUSHER_APP_SECRET >> .env
 - echo AUTH0_CLIENT_SECRET=$AUTH0_CLIENT_SECRET >> .env
 - echo AUTH0_TEST_USER_NAME=$AUTH0_TEST_USER_NAME >> .env
 - echo AUTH0_TEST_USER_PASS=$AUTH0_TEST_USER_PASS >> .env
+- composer update
+
+before_script:
 - php artisan key:generate
 - php artisan bootstrap:cache
 - php artisan env:display
-- composer update --lock
+- composer update
 
 script: vendor/bin/phpunit --coverage-clover=coverage.clover
 
