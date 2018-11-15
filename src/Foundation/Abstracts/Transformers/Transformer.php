@@ -19,7 +19,7 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public $include = [];
 
-    public $availableIncludes = [];
+    public $available = [];
 
     public function __construct($resource)
     {
@@ -35,7 +35,7 @@ abstract class Transformer extends JsonResource implements Transformable
     {
         if ($resource instanceof Model || $resource instanceof Collection) {
             $relations = call_class_function(static::class, 'compileRelations');
-            $resource->load($relations);
+            $resource->loadMissing(array_keys($relations));
         }
         return $resource;
     }
@@ -48,5 +48,15 @@ abstract class Transformer extends JsonResource implements Transformable
     public function serialize()
     {
         return json_decode(json_encode($this->jsonSerialize()), true);
+    }
+
+    public function toArray($request)
+    {
+        return array_merge($this->transformResource(), $this->includeRelations());
+    }
+
+    public function transformResource()
+    {
+        return [];
     }
 }

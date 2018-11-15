@@ -15,22 +15,17 @@ use Modules\User\Transformers\UserTransformer;
 
 class MachineTransformer extends Transformer
 {
-    public $availableIncludes = [
-        'user',
-        'accounts'
-    ];
-
-    public $include = [
+    public $available = [
+        'user' => UserTransformer::class,
+        'accounts' => AccountTransformer::class
     ];
 
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return array
      */
-    public function toArray($request)
+    public function transformResource()
     {
         return [
             'id'               => $this->id,
@@ -49,8 +44,6 @@ class MachineTransformer extends Transformer
             'cpu_clock'        => $this->cpu_clock,
             'online'           => $this->online,
             'last_heartbeat'   => $this->last_heartbeat ?? null,
-            'user'             => UserTransformer::resource($this->whenLoaded('user')),
-            'accounts'         => AccountTransformer::collection($this->whenLoaded('accounts')),
             'created_at'       => $this->created_at,
             'updated_at'       => $this->updated_at,
         ];

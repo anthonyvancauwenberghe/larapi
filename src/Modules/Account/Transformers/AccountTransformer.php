@@ -10,30 +10,24 @@ namespace Modules\Account\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
 use Foundation\Exceptions\Exception;
-use Modules\Machine\Entities\Machine;
 use Modules\Machine\Transformers\MachineTransformer;
-use Modules\User\Entities\User;
 use Modules\User\Transformers\UserTransformer;
 
 class AccountTransformer extends Transformer
 {
-    public $availableIncludes = [
-        'user',
-        'machine',
+    public $available = [
+        'user' => UserTransformer::class,
+        'machine' => MachineTransformer::class,
     ];
-
-    public $include = [];
 
     /**
      * Transform the resource into an array.
-     *
-     * @param \Illuminate\Http\Request $request
      *
      * @throws Exception
      *
      * @return array
      */
-    public function toArray($request)
+    public function transformResource()
     {
         $game = $this->game ?? null;
         switch ($game) {
@@ -59,8 +53,6 @@ class AccountTransformer extends Transformer
             'skills'                => $this->skills,
             'membership_expires_at' => $this->membership_expires_at,
             'banned_at'             => $this->banned_at,
-            'user'                  => UserTransformer::resource($this->whenLoaded('user')),
-            'machine'               => MachineTransformer::resource($this->whenLoaded('machine')),
             'created_at'            => $this->created_at,
             'updated_at'            => $this->updated_at,
         ];

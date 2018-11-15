@@ -8,8 +8,8 @@
 
 namespace Foundation\Abstracts\Transformers;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * Trait IncludesRelations.
@@ -35,7 +35,15 @@ trait IncludesRelations
      */
     public function compileRelations()
     {
-        return array_unique(array_merge($this->include, array_intersect($this->availableIncludes, $this->parseRequestIncludeParameter())));
+        $requestedRelations = $this->parseRequestIncludeParameter();
+        $relations = [];
+        foreach ($requestedRelations as $requestedRelation) {
+            if (isset($this->available[$requestedRelation])) {
+                $relations[$requestedRelation] = $this->available[$requestedRelation];
+            }
+        }
+        $merge = array_merge($this->include, $relations);
+        return array_unique($merge);
     }
 
     /**
@@ -52,5 +60,28 @@ trait IncludesRelations
         }
 
         return $this;
+    }
+
+    protected function includeRelations()
+    {
+        $relations = [];
+        if ($this->resource instanceof Model) {
+            $relations = $this->compileRelations();
+            foreach ($relations as $relation => $transformer) {
+                $relationMethodName = 'transform' . ucfirst(strtolower($relation));
+                if (method_exists($this, $relationMethodName)) {
+                    $relations[$relation] = $this->$relationMethodName($this->resource->$relation);
+                } else {
+                    if ($this->resource->$relation instanceof Model) {
+                        $relations[$relation] = $transformer::resource($this->whenLoaded($relation));
+                    } else if ($this->resource->$relation instanceof Collection) {
+                        $relations[$relation] = $transformer::collection($this->whenLoaded($relation));
+                    }
+                }
+
+            }
+
+        }
+        return $relations;
     }
 }

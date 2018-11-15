@@ -9,34 +9,40 @@
 namespace Modules\User\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
+use Modules\Account\Transformers\AccountTransformer;
 use Modules\Authorization\Transformers\RoleTransformer;
 
 class UserTransformer extends Transformer
 {
     public $include = [
-        'roles',
-        'permissions',
+        'roles' => RoleTransformer::class,
+    ];
+
+    public $available = [
+        'accounts' => AccountTransformer::class
     ];
 
     /**
      * Transform the resource into an array.
      *
-     * @param \Illuminate\Http\Request $request
-     *
      * @return array
      */
-    public function toArray($request)
+    public function transformResource()
     {
         return [
-            'id'             => $this->id,
-            'name'           => $this->name,
-            'email'          => $this->name,
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->name,
             'email_verified' => $this->email_verified,
-            'gender'         => $this->gender,
-            'provider'       => $this->provider,
-            'roles'          => collect(RoleTransformer::collection($this->whenLoaded('roles'))->serialize())->flatten(),
-            'created_at'     => $this->created_at,
-            'updated_at'     => $this->updated_at,
+            'gender' => $this->gender,
+            'provider' => $this->provider,
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
         ];
+    }
+
+    public function transformRoles($roles)
+    {
+        return collect(RoleTransformer::collection($roles)->serialize())->flatten();
     }
 }
