@@ -9,41 +9,56 @@
 namespace Foundation\Abstracts\Transformers;
 
 use Foundation\Contracts\Transformable;
+use Foundation\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class Transformer.
+ *
+ * @method  array  transformResource
+ * @property string $id
+ * @property string $username
+ * @property string $email
+ * @property string $name
+ * @property string $avatar
+ * @property string $provider
+ */
 abstract class Transformer extends JsonResource implements Transformable
 {
-    use IncludesRelations;
+    use IncludesRelations, HandlesLimit;
 
     public $include = [];
 
     public $available = [];
 
-    public function __construct($resource)
+    public $limit = -1;
+
+    public function __construct($resource, $relations = [])
     {
-        parent::__construct(self::loadRelations($resource));
+        if (!($resource instanceof Model))
+            throw new Exception('Object passed to the transformer resource method is not a eloquent model', 500);
+        $this->resource = $resource;
+        $relations = is_array($relations) ? $relations : [];
+        parent::__construct(self::loadRelations($resource, $relations));
     }
 
-    public static function resource($model): self
+    public static function resource($model, array $relations = []): self
     {
-        return new static($model);
+        return new static($model, $relations);
     }
 
-    private static function loadRelations($resource)
+    public static function collection($resource, array $relations = [])
     {
-        if ($resource instanceof Model || $resource instanceof Collection) {
-            $relations = call_class_function(static::class, 'compileRelations');
-            $resource->loadMissing(array_keys($relations));
-        }
-        return $resource;
+        if (!($resource instanceof Collection))
+            throw new Exception('Object passed to the transformer collection method is not a collection', 500);
+
+        $resource = self::processLimit($resource);
+        $resource = self::loadRelations($resource, $relations);
+        return new AnonymousTransformerCollection($resource, static::class);
     }
 
-    public static function collection($resource)
-    {
-        return new AnonymousTransformerCollection(self::loadRelations($resource), static::class);
-    }
 
     public function serialize()
     {
@@ -52,11 +67,8 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public function toArray($request)
     {
-        return array_merge($this->transformResource(), $this->includeRelations());
-    }
-
-    public function transformResource()
-    {
-        return [];
+        if (!method_exists($this, 'transformResource'))
+            throw new \Exception("transformResource method not set on " . static::class, 500);
+        return array_merge($this->transformResource($this->resource), $this->includeRelations());
     }
 }

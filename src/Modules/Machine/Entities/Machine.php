@@ -2,6 +2,7 @@
 
 namespace Modules\Machine\Entities;
 
+use Carbon\Carbon;
 use Foundation\Contracts\Ownable;
 use Foundation\Traits\ModelFactory;
 use Foundation\Traits\Notifiable;
@@ -16,11 +17,24 @@ use Modules\User\Entities\User;
  *
  * @property string $_id
  * @property string $id
- * @property string $username
- * @property string $email
+ * @property string $user_id
  * @property string $name
- * @property string $avatar
- * @property string $provider
+ * @property string $hostname
+ * @property string $username
+ * @property string $os
+ * @property string $hash
+ * @property bool   $active
+ * @property string $ip_address
+ * @property string $mac_address
+ * @property int    $memory_usage
+ * @property int    $memory_available
+ * @property int    $cpu_usage
+ * @property float  $cpu_clock
+ * @property bool   $online
+ * @property Carbon $last_heartbeat
+ * @property Carbon $created_at
+ * @property Carbon $updated_at
+ * @property Carbon $deleted_at
  */
 class Machine extends MongoModel implements Ownable
 {

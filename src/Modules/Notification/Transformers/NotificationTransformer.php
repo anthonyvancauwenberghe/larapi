@@ -9,28 +9,20 @@
 namespace Modules\Notification\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
+use Illuminate\Notifications\DatabaseNotification;
 
 class NotificationTransformer extends Transformer
 {
-    /**
-     * Transform the resource into an array.
-     *
-     * @param \Illuminate\Http\Request $request
-     *
-     * @return array
-     */
-    public function toArray($request)
+    public function transformResource(DatabaseNotification $notification)
     {
-        $notification = (object) $this->data;
-        $resource = [
-            'id'      => $this->getKey(),
-            'title'   => $notification->title,
-            'message' => $notification->message,
-            'target'  => $notification->target,
-            'tag'     => $notification->tag,
-            'is_read' => isset($this->read_at) ? true : false,
+        $notificationData = (object)$notification->data;
+        return [
+            'id' => $notification->getKey(),
+            'title' => $notificationData->title,
+            'message' => $notificationData->message,
+            'target' => $notificationData->target,
+            'tag' => $notificationData->tag,
+            'is_read' => isset($notification->read_at) ? true : false,
         ];
-
-        return $resource;
     }
 }

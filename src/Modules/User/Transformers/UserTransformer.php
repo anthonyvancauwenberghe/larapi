@@ -11,6 +11,7 @@ namespace Modules\User\Transformers;
 use Foundation\Abstracts\Transformers\Transformer;
 use Modules\Account\Transformers\AccountTransformer;
 use Modules\Authorization\Transformers\RoleTransformer;
+use Modules\User\Entities\User;
 
 class UserTransformer extends Transformer
 {
@@ -27,17 +28,17 @@ class UserTransformer extends Transformer
      *
      * @return array
      */
-    public function transformResource()
+    public function transformResource(User $user)
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->name,
-            'email_verified' => $this->email_verified,
-            'gender' => $this->gender,
-            'provider' => $this->provider,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->name,
+            'email_verified' => $user->email_verified,
+            'gender' => $user->gender,
+            'provider' => $user->provider,
+            'created_at' => $user->created_at,
+            'updated_at' => $user->updated_at,
         ];
     }
 

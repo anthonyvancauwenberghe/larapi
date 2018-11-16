@@ -25,27 +25,27 @@ class MachineTransformer extends Transformer
      *
      * @return array
      */
-    public function transformResource()
+    public function transformResource(Machine $machine)
     {
         return [
-            'id'               => $this->id,
-            'user_id'          => $this->user_id,
-            'name'             => $this->name,
-            'hostname'         => $this->hostname,
-            'username'         => $this->username,
-            'os'               => $this->os,
-            'hash'             => $this->hash,
-            'active'           => $this->active,
-            'ip_address'       => $this->ip_address,
-            'mac_address'      => $this->mac_address,
-            'memory_usage'     => $this->memory_usage,
-            'memory_available' => $this->memory_available,
-            'cpu_usage'        => $this->cpu_usage,
-            'cpu_clock'        => $this->cpu_clock,
-            'online'           => $this->online,
-            'last_heartbeat'   => $this->last_heartbeat ?? null,
-            'created_at'       => $this->created_at,
-            'updated_at'       => $this->updated_at,
+            'id'               => $machine->id,
+            'user_id'          => $machine->user_id,
+            'name'             => $machine->name,
+            'hostname'         => $machine->hostname,
+            'username'         => $machine->username,
+            'os'               => $machine->os,
+            'hash'             => $machine->hash,
+            'active'           => $machine->active,
+            'ip_address'       => $machine->ip_address,
+            'mac_address'      => $machine->mac_address,
+            'memory_usage'     => $machine->memory_usage,
+            'memory_available' => $machine->memory_available,
+            'cpu_usage'        => $machine->cpu_usage,
+            'cpu_clock'        => $machine->cpu_clock,
+            'online'           => $machine->online,
+            'last_heartbeat'   => $machine->last_heartbeat ?? null,
+            'created_at'       => $machine->created_at,
+            'updated_at'       => $machine->updated_at,
         ];
     }
 }

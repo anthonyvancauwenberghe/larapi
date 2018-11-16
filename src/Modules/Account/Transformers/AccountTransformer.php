@@ -10,6 +10,7 @@ namespace Modules\Account\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
 use Foundation\Exceptions\Exception;
+use Modules\Account\Entities\Account;
 use Modules\Machine\Transformers\MachineTransformer;
 use Modules\User\Transformers\UserTransformer;
 
@@ -27,12 +28,12 @@ class AccountTransformer extends Transformer
      *
      * @return array
      */
-    public function transformResource()
+    public function transformResource(Account $account)
     {
         $game = $this->game ?? null;
         switch ($game) {
             case 'OSRS':
-                return $this->OSRSAccountToArray();
+                return $this->OSRSAccountToArray($account);
             case null:
                 return null;
             default:
@@ -40,21 +41,21 @@ class AccountTransformer extends Transformer
         }
     }
 
-    protected function OSRSAccountToArray()
+    protected function OSRSAccountToArray(Account $account)
     {
         return [
-            'id'                    => $this->id,
-            'username'              => $this->username,
-            'password'              => $this->password,
-            'game'                  => $this->game,
-            'bank_pin'              => $this->bank_pin,
-            'location'              => $this->location,
-            'ingame_name'           => $this->ingame_name,
-            'skills'                => $this->skills,
-            'membership_expires_at' => $this->membership_expires_at,
-            'banned_at'             => $this->banned_at,
-            'created_at'            => $this->created_at,
-            'updated_at'            => $this->updated_at,
+            'id'                    => $account->id,
+            'username'              => $account->username,
+            'password'              => $account->password,
+            'game'                  => $account->game,
+            'bank_pin'              => $account->bank_pin,
+            'location'              => $account->location,
+            'ingame_name'           => $account->ingame_name,
+            'skills'                => $account->skills,
+            'membership_expires_at' => $account->membership_expires_at,
+            'banned_at'             => $account->banned_at,
+            'created_at'            => $account->created_at,
+            'updated_at'            => $account->updated_at,
         ];
     }
 }

@@ -10,6 +10,7 @@ namespace Foundation\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Abstracts\Transformers\Transformer;
+use Illuminate\Database\Eloquent\Model;
 use Modules\Machine\Entities\Machine;
 use Modules\Machine\Transformers\MachineTransformer;
 
@@ -37,7 +38,7 @@ class TransformerTest extends TestCase
 
     /*public function testIncludeMethodRelation()
     {
-        $machineResource = MachineTestTransformer::resource($this->machine)->include('user')->serialize();
+        $machineResource = MachineTestTransformer::resource($this->machine,['user'=>UserTestTransformer::class])->serialize();
         $this->assertArrayHasKey('user', $machineResource);
     }
 
@@ -55,17 +56,18 @@ class TransformerTest extends TestCase
     }*/
 }
 
-final class MachineTestModel
+final class MachineTestModel extends Model
 {
     public $user;
 
     public function __construct($user)
     {
         $this->user = $user;
+        parent::__construct([]);
     }
 }
 
-final class UserTestModel
+final class UserTestModel extends Model
 {
 }
 
