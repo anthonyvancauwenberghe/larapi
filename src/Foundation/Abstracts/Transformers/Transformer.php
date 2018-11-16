@@ -18,6 +18,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * Class Transformer.
  *
  * @method  array  transformResource
+ *
  * @property string $id
  * @property string $username
  * @property string $email
@@ -37,8 +38,9 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public function __construct($resource, $relations = [])
     {
-        if (!($resource instanceof Model))
+        if (!($resource instanceof Model)) {
             throw new Exception('Object passed to the transformer resource method is not a eloquent model', 500);
+        }
         $this->resource = $resource;
         $relations = is_array($relations) ? $relations : [];
         parent::__construct(self::loadRelations($resource, $relations));
@@ -51,14 +53,14 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public static function collection($resource, array $relations = [])
     {
-        if (!($resource instanceof Collection))
+        if (!($resource instanceof Collection)) {
             throw new Exception('Object passed to the transformer collection method is not a collection', 500);
-
+        }
         $resource = self::processLimit($resource);
         $resource = self::loadRelations($resource, $relations);
+
         return new AnonymousTransformerCollection($resource, static::class);
     }
-
 
     public function serialize()
     {
@@ -67,8 +69,9 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public function toArray($request)
     {
-        if (!method_exists($this, 'transformResource'))
-            throw new \Exception("transformResource method not set on " . static::class, 500);
+        if (!method_exists($this, 'transformResource')) {
+            throw new \Exception('transformResource method not set on '.static::class, 500);
+        }
         return array_merge($this->transformResource($this->resource), $this->includeRelations());
     }
 }

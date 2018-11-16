@@ -87,10 +87,11 @@ trait IncludesRelations
     private static function loadRelations($resource, $extraRelations)
     {
         if ($resource instanceof Model || $resource instanceof Collection) {
-            $relations = (array)call_class_function(static::class, 'compileRelations');
+            $relations = (array) call_class_function(static::class, 'compileRelations');
             $relations = array_merge($relations, $extraRelations);
             $resource->loadMissing(array_keys($relations));
         }
+
         return $resource;
     }
 }

@@ -15,7 +15,6 @@ use Illuminate\Database\Eloquent\Collection;
  */
 trait HandlesLimit
 {
-
     /**
      * @return int
      */
@@ -23,7 +22,7 @@ trait HandlesLimit
     {
         $request = request();
         if (isset($request->limit) && is_numeric($request->limit)) {
-            return (int)$request->limit;
+            return (int) $request->limit;
         }
 
         return -1;
@@ -34,21 +33,23 @@ trait HandlesLimit
         $requestedLimit = $this->parseRequestLimitParameter();
         $maxLimit = $this->limit;
 
-        if ($maxLimit === -1)
+        if ($maxLimit === -1) {
             return $requestedLimit;
-        elseif ($requestedLimit > $maxLimit) {
+        } elseif ($requestedLimit > $maxLimit) {
             return $maxLimit;
         }
+
         return $requestedLimit;
     }
 
-    private static function processLimit(Collection $resource){
+    private static function processLimit(Collection $resource)
+    {
         $class = static::class;
-        $limit = call_class_function($class,'getLimitParameter');
-        if($limit === -1)
+        $limit = call_class_function($class, 'getLimitParameter');
+        if ($limit === -1) {
             return $resource;
-       return $resource->take((int) $limit);
+        }
+
+        return $resource->take((int) $limit);
     }
-
-
 }

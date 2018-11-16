@@ -72,11 +72,11 @@ class MachineHttpTest extends HttpTest
     public function testFindMachine()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/machines/' . $this->machine->id);
+        $response = $this->http('GET', '/v1/machines/'.$this->machine->id);
         $response->assertStatus(200);
 
         $this->user->syncRoles(Role::GUEST);
-        $response = $this->http('GET', '/v1/machines/' . $this->machine->id);
+        $response = $this->http('GET', '/v1/machines/'.$this->machine->id);
         $response->assertStatus(200);
     }
 
@@ -88,11 +88,11 @@ class MachineHttpTest extends HttpTest
     public function testFindMachineWithRelations()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/machines/' . $this->machine->id, ['include' => 'user']);
+        $response = $this->http('GET', '/v1/machines/'.$this->machine->id, ['include' => 'user']);
         $response->assertStatus(200);
         $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
 
-        $response = $this->http('GET', '/v1/machines/' . $this->machine->id);
+        $response = $this->http('GET', '/v1/machines/'.$this->machine->id);
         $response->assertStatus(200);
         $this->assertArrayNotHasKey('user', $this->decodeHttpResponse($response));
     }
@@ -105,7 +105,7 @@ class MachineHttpTest extends HttpTest
     public function testFindMachineWithFaultyRelations()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/machines/' . $this->machine->id, ['include' => 'userx,blabla,user']);
+        $response = $this->http('GET', '/v1/machines/'.$this->machine->id, ['include' => 'userx,blabla,user']);
         $response->assertStatus(200);
         $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
         $this->assertArrayNotHasKey('userx', $this->decodeHttpResponse($response));
@@ -149,7 +149,7 @@ class MachineHttpTest extends HttpTest
         $user = factory(User::class)->create();
         $machine = factory(Machine::class)->create(['user_id' => $user->id]);
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/machines/' . $machine->id);
+        $response = $this->http('GET', '/v1/machines/'.$machine->id);
         $response->assertStatus(403);
     }
 
@@ -158,14 +158,14 @@ class MachineHttpTest extends HttpTest
         $user = factory(User::class)->create();
         $machine = factory(Machine::class)->create(['user_id' => $user->id]);
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/machines/' . $machine->id);
+        $response = $this->http('DELETE', '/v1/machines/'.$machine->id);
         $response->assertStatus(403);
     }
 
     public function testDeleteMachine()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/machines/' . $this->machine->id);
+        $response = $this->http('DELETE', '/v1/machines/'.$this->machine->id);
         $response->assertStatus(204);
     }
 
@@ -175,7 +175,7 @@ class MachineHttpTest extends HttpTest
         $machine = factory(Machine::class)->create(['user_id' => $user->id]);
 
         $this->user->syncRoles(Role::ADMIN);
-        $response = $this->http('GET', '/v1/machines/' . $machine->id);
+        $response = $this->http('GET', '/v1/machines/'.$machine->id);
         $response->assertStatus(200);
     }
 
@@ -204,7 +204,7 @@ class MachineHttpTest extends HttpTest
     {
         $this->user->syncRoles(Role::USER);
         /* Test response for a normal user */
-        $response = $this->http('PATCH', '/v1/machines/' . $this->machine->id, []);
+        $response = $this->http('PATCH', '/v1/machines/'.$this->machine->id, []);
         $response->assertStatus(200);
 
         /* Test response for a guest user */
@@ -212,7 +212,7 @@ class MachineHttpTest extends HttpTest
         $this->assertFalse($this->user->hasRole(Role::USER));
         $this->assertTrue($this->user->hasRole(Role::GUEST));
 
-        $response = $this->http('PATCH', '/v1/machines/' . $this->machine->id, []);
+        $response = $this->http('PATCH', '/v1/machines/'.$this->machine->id, []);
         $response->assertStatus(403);
     }
 }
