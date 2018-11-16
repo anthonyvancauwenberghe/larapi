@@ -9,10 +9,8 @@
 namespace Foundation\Observers;
 
 use Foundation\Abstracts\Observers\Observer;
-use Foundation\Cache\ModelCache;
 use Foundation\Traits\Cacheable;
 
-//TODO change this to work with the new object modelcache.
 class CacheObserver extends Observer
 {
     /**

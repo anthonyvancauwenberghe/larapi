@@ -55,7 +55,7 @@ abstract class MongoCollectionMigration extends MongoMigration
      */
     final public function down()
     {
-        if (Schema::connection($this->connection)->hasTable($this->collection)) {
+        if (Schema::connection($this->connection)->hasCollection($this->collection)) {
             if (method_exists($this, 'destroy')) {
                 $this->destroy();
             }
