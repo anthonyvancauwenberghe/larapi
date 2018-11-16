@@ -11,8 +11,6 @@ namespace Foundation\Tests;
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Abstracts\Transformers\Transformer;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Machine\Entities\Machine;
-use Modules\Machine\Transformers\MachineTransformer;
 
 class TransformerTest extends TestCase
 {

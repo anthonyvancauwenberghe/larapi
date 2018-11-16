@@ -20,7 +20,7 @@ class UserTransformer extends Transformer
     ];
 
     public $available = [
-        'accounts' => AccountTransformer::class
+        'accounts' => AccountTransformer::class,
     ];
 
     /**
@@ -31,14 +31,14 @@ class UserTransformer extends Transformer
     public function transformResource(User $user)
     {
         return [
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->name,
+            'id'             => $user->id,
+            'name'           => $user->name,
+            'email'          => $user->name,
             'email_verified' => $user->email_verified,
-            'gender' => $user->gender,
-            'provider' => $user->provider,
-            'created_at' => $user->created_at,
-            'updated_at' => $user->updated_at,
+            'gender'         => $user->gender,
+            'provider'       => $user->provider,
+            'created_at'     => $user->created_at,
+            'updated_at'     => $user->updated_at,
         ];
     }
 
