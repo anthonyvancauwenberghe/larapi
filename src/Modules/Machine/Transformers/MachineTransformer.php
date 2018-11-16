@@ -10,14 +10,13 @@ namespace Modules\Machine\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
 use Modules\Account\Transformers\AccountTransformer;
-use Modules\Machine\Entities\Machine;
 use Modules\User\Transformers\UserTransformer;
 
 class MachineTransformer extends Transformer
 {
     public $available = [
-        'user' => UserTransformer::class,
-        'accounts' => AccountTransformer::class
+        'user'     => UserTransformer::class,
+        'accounts' => AccountTransformer::class,
     ];
 
     /**

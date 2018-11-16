@@ -17,7 +17,7 @@ use Modules\User\Transformers\UserTransformer;
 class AccountTransformer extends Transformer
 {
     public $available = [
-        'user' => UserTransformer::class,
+        'user'    => UserTransformer::class,
         'machine' => MachineTransformer::class,
     ];
 
@@ -35,7 +35,7 @@ class AccountTransformer extends Transformer
             case 'OSRS':
                 return $this->OSRSAccountToArray($account);
             case null:
-                return null;
+                return;
             default:
                 throw new Exception('Could not identity account game type');
         }
