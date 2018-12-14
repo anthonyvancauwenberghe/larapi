@@ -71,7 +71,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
 
     private function sendRequest(string $method, string $route, array $payload = [], $authenticated = true): \Illuminate\Foundation\Testing\TestResponse
     {
-        return $this->json($method, env('API_URL').'/'.$route, $payload, $authenticated ? [
+        return $this->json($method, env('API_URL').$route, $payload, $authenticated ? [
             'Authorization' => 'Bearer '.$this->getAuth0Service()->getTestUserToken()->id_token,
         ] : []);
     }

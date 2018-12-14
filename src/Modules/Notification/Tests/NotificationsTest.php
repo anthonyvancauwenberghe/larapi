@@ -43,7 +43,7 @@ class NotificationsTest extends HttpTest
         $this->assertCount(1, $notifications);
         $notification = $this->user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
-        $response = $this->http('POST', 'v1/notifications/'.$notificationId);
+        $response = $this->http('POST', '/v1/notifications/'.$notificationId);
         $response->assertStatus(200);
         $unreadnotifications = User::find($this->user->getKey())->unreadNotifications;
         $this->assertCount(0, $unreadnotifications);
@@ -54,7 +54,7 @@ class NotificationsTest extends HttpTest
         $user = $this->getHttpUser();
         $user->notifyNow(new UserRegisteredNotification($user));
         $user->notifyNow(new UserRegisteredNotification($user));
-        $response = $this->http('GET', 'v1/notifications');
+        $response = $this->http('GET', '/v1/notifications');
         $response->assertStatus(200);
         $notificationsReponse = $this->decodeHttpResponse($response->getContent());
         $notifications = NotificationTransformer::collection(User::find($user->getKey())->notifications)->jsonSerialize();
@@ -67,9 +67,9 @@ class NotificationsTest extends HttpTest
         $user->notifyNow(new UserRegisteredNotification($user));
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
-        $response = $this->http('POST', 'v1/notifications/'.$notificationId);
+        $response = $this->http('POST', '/v1/notifications/'.$notificationId);
         $response->assertStatus(200);
-        $response = $this->http('GET', 'v1/notifications/unread');
+        $response = $this->http('GET', '/v1/notifications/unread');
         $response->assertStatus(200);
         $notifications = NotificationTransformer::collection(User::find($user->getKey())->unreadNotifications)->jsonSerialize();
         $this->assertEquals($notifications, $this->decodeHttpResponse($response->getContent()));
