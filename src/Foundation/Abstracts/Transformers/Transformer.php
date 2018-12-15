@@ -72,6 +72,7 @@ abstract class Transformer extends JsonResource implements Transformable
         if (!method_exists($this, 'transformResource')) {
             throw new \Exception('transformResource method not set on '.static::class, 500);
         }
+
         return array_merge($this->transformResource($this->resource), $this->includeRelations());
     }
 }
