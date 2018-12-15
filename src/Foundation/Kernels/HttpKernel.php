@@ -29,23 +29,23 @@ class HttpKernel extends LaravelHttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \Foundation\Middleware\EncryptCookies::class,
-             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
-             \Illuminate\Session\Middleware\StartSession::class,
-             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-             \Foundation\Middleware\VerifyCsrfToken::class,
-            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            //\Foundation\Middleware\EncryptCookies::class,
+             //\Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+             //\Illuminate\Session\Middleware\StartSession::class,
+             //\Illuminate\View\Middleware\ShareErrorsFromSession::class,
+             //\Foundation\Middleware\VerifyCsrfToken::class,
+            //\Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
 
         'api' => [
-            'throttle:60,1',
-            'bindings',
+            //'throttle:60,1',
+            //'bindings',
             'auth0',
         ],
 
         'api:noauth' => [
-            'throttle:60,1',
-            'bindings',
+            //'throttle:60,1',
+            //'bindings',
         ],
     ];
 

@@ -49,11 +49,11 @@ class AccountHttpTest extends HttpTest
     {
         $this->user->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/accounts');
+        $response->assertStatus(200);
         $this->assertEquals(
             AccountTransformer::collection($this->service->getByUserId($this->user->id))->serialize(),
             $this->decodeHttpResponse($response)
         );
-        $response->assertStatus(200);
     }
 
     /**
