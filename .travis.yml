@@ -7,7 +7,6 @@ services:
 - mongodb
 
 addons:
-  mongodb: '4.1'
   mariadb: '10.4'
   hosts:
   - larapi.test
@@ -33,8 +32,8 @@ cache:
 before_install:
 - mysql -e 'CREATE DATABASE larapi_testing;'
 - echo '' > ./storage/logs/laravel.log
-- pecl install mongodb
-- pecl install redis
+- if [$TRAVIS_PHP_VERSION == "7.2" ]; then pecl install mongodb; fi
+- yes | pecl install redis
 - travis_retry composer self-update
 - cp .env.travis .env
 - composer require wikimedia/composer-merge-plugin --no-scripts --no-update
