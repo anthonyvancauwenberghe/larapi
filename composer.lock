@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "22374b369895c8d6e848167b071b9da6",
+    "content-hash": "9c5f4ec15e3b216cf1a251fe0da3857b",
     "packages": [
         {
             "name": "auth0/auth0-php",
@@ -1103,7 +1103,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                    "role": "Developer"
+                    "role": "developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
