@@ -32,9 +32,9 @@ cache:
 before_install:
 - mysql -e 'CREATE DATABASE larapi_testing;'
 - echo '' > ./storage/logs/laravel.log
-- if [$TRAVIS_PHP_VERSION == "7.2" ]; then pecl install mongodb; fi
-- if [$TRAVIS_PHP_VERSION == "7.2" ]; then pecl install igbinary; fi
-- if [$TRAVIS_PHP_VERSION == "7.2" ]; then yes | pecl install redis; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then pecl install mongodb; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then pecl install igbinary; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then yes | pecl install redis; fi
 - travis_retry composer self-update
 - cp .env.travis .env
 - composer require wikimedia/composer-merge-plugin --no-scripts --no-update
@@ -57,8 +57,8 @@ script:
 - vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
-- if [$TRAVIS_PHP_VERSION == "7.2" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-- if [$TRAVIS_PHP_VERSION == "7.2" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 after_failure:
 - echo --------------- Begin > Laravel.log ---------------
