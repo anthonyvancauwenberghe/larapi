@@ -32,7 +32,7 @@ cache:
 before_install:
 - mysql -e 'CREATE DATABASE larapi_testing;'
 - echo '' > ./storage/logs/laravel.log
-- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then pecl install mongodb; fi
+- pecl install mongodb
 - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then pecl install igbinary; fi
 - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then yes | pecl install redis; fi
 - travis_retry composer self-update
