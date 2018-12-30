@@ -1,7 +1,6 @@
 language: php
 
-dist: trusty
-sudo: false
+dist: xenial
 
 services:
 - redis-server
@@ -22,10 +21,9 @@ matrix:
   include:
     - php: 7.2
     - php: 7.3
-    - php: nightly
     
 allow_failures:
-    - php: nightly
+    - php: 7.3
       
 cache:
   directories:
@@ -53,12 +51,13 @@ before_script:
 - php artisan env:display
 - composer update --lock
 
-script: 
-- if ["$TRAVIS_PHP_VERSION" == "7.2" ]; then vendor/bin/phpunit --coverage-clover=coverage.clover; else vendor/bin/phpunit; fi
+script:
+- echo $TRAVIS_PHP_VERSION
+- vendor/bin/phpunit --coverage-clover=coverage.clover
 
 after_script:
-- if ["$TRAVIS_PHP_VERSION" == "7.2" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
-- if ["$TRAVIS_PHP_VERSION" == "7.2" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
+- if [$TRAVIS_PHP_VERSION == "7.2" ]; then wget https://scrutinizer-ci.com/ocular.phar; fi
+- if [$TRAVIS_PHP_VERSION == "7.2" ]; then php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
 after_failure:
 - echo --------------- Begin > Laravel.log ---------------
