@@ -56,8 +56,7 @@ before_script:
 - composer update --lock
 
 script:
-- echo $TRAVIS_PHP_VERSION
-- vendor/bin/phpunit --coverage-clover=coverage.clover
+- if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then vendor/bin/phpunit --coverage-clover=coverage.clover; else vendor/bin/phpunit; fi
 
 after_script:
 - if [[ ${TRAVIS_PHP_VERSION:0:3} == "7.2" ]]; then wget https://scrutinizer-ci.com/ocular.phar; fi
