@@ -33,7 +33,8 @@ before_install:
 - mysql -e 'CREATE DATABASE larapi_testing;'
 - echo '' > ./storage/logs/laravel.log
 - if [$TRAVIS_PHP_VERSION == "7.2" ]; then pecl install mongodb; fi
-- yes 'n' | pecl install redis
+- if [$TRAVIS_PHP_VERSION == "7.2" ]; then pecl install igbinary; fi
+- if [$TRAVIS_PHP_VERSION == "7.2" ]; then yes | pecl install redis; fi
 - travis_retry composer self-update
 - cp .env.travis .env
 - composer require wikimedia/composer-merge-plugin --no-scripts --no-update
