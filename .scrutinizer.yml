@@ -2,14 +2,18 @@
 build:
   dependencies:
     before:
+    - "pecl uninstall igbinary"
+    - "pecl uninstall redis"
+    - "pecl uninstall mongodb"
+    - "pecl install igbinary"
+    - "yes | pecl install redis"
     - "pecl install mongodb"
-    - "pecl install redis"
     - "cp .env.travis .env"
     - "composer require wikimedia/composer-merge-plugin"
     - "composer update --lock"
     - "composer update --lock"
   environment:
-    mongodb: "4.0"
+    mongodb: "4.1"
     php:
       version: 7.2
   tests:
