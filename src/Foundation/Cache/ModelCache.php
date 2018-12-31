@@ -50,7 +50,7 @@ class ModelCache
 
     public function findBy(string $index, $key, $eagerLoad = true)
     {
-        if (!in_array($index, $this->secondaryIndexes)) {
+        if (! in_array($index, $this->secondaryIndexes)) {
             throw new Exception('provided index does not exist as secondary index on the cache model');
         }
         $modelId = $this->findSecondaryIndex($index, $key);

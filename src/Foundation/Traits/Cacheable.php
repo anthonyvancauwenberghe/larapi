@@ -23,7 +23,7 @@ trait Cacheable
 
     public static function cache(): ModelCache
     {
-        if (!isset(static::$caching)) {
+        if (! isset(static::$caching)) {
             static::$caching = new ModelCache(static::class, get_class_property(static::class, 'secondaryCacheIndexes'), get_class_property(static::class, 'cacheTime'));
         }
 

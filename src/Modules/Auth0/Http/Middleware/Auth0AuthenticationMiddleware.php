@@ -37,7 +37,7 @@ class Auth0AuthenticationMiddleware
             $tokenInfo = $auth0->decodeJWT($accessToken);
             $user = $this->auth0Service->getUserByDecodedJWT($tokenInfo);
 
-            if (!$user) {
+            if (! $user) {
                 return response()->json(['error' => 'Unauthorized user.'], 401);
             }
 

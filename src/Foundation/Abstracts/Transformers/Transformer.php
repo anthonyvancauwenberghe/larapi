@@ -38,7 +38,7 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public function __construct($resource, $relations = [])
     {
-        if (!($resource instanceof Model)) {
+        if (! ($resource instanceof Model)) {
             throw new Exception('Object passed to the transformer resource method is not a eloquent model', 500);
         }
         $this->resource = $resource;
@@ -53,7 +53,7 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public static function collection($resource, array $relations = [])
     {
-        if (!($resource instanceof Collection)) {
+        if (! ($resource instanceof Collection)) {
             throw new Exception('Object passed to the transformer collection method is not a collection', 500);
         }
         $resource = self::processLimit($resource);
@@ -69,7 +69,7 @@ abstract class Transformer extends JsonResource implements Transformable
 
     public function toArray($request)
     {
-        if (!method_exists($this, 'transformResource')) {
+        if (! method_exists($this, 'transformResource')) {
             throw new \Exception('transformResource method not set on '.static::class, 500);
         }
 

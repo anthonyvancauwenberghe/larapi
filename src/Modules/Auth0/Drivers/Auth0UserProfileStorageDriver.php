@@ -76,7 +76,7 @@ class Auth0UserProfileStorageDriver
     {
         $this->loadServices();
 
-        if (!$this->validator->validate($this->profile)) {
+        if (! $this->validator->validate($this->profile)) {
             throw new UnauthorizedException('Invalid profile data found in the access token');
         }
     }
@@ -124,6 +124,6 @@ class Auth0UserProfileStorageDriver
         $user = $this->user->toArray();
         $profile = (array) $this->profile;
 
-        return !array_is_subset_of($profile, $user);
+        return ! array_is_subset_of($profile, $user);
     }
 }

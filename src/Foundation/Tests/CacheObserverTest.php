@@ -19,7 +19,7 @@ class CacheObserverTest extends TestCase
 
     public function testCacheSpeed()
     {
-        $model = Account::create(["testthisshit" => 5]);
+        $model = Account::create(['testthisshit' => 5]);
         \Cache::forever('testmodel', $model);
 
         $time_db_start = microtime(true);
