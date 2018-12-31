@@ -54,7 +54,7 @@ class Auth0Service extends Auth0UserRepository implements Auth0ServiceContract
 
     protected function upsertUser($profile)
     {
-        if (!isset($profile->user_id)) {
+        if (! isset($profile->user_id)) {
             throw new BadRequestHttpException('Missing token information: Auth0 user id is not set');
         }
         $identifier = explode('|', $profile->user_id);

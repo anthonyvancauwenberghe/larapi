@@ -23,7 +23,7 @@ abstract class MongoMigration extends \Illuminate\Database\Migrations\Migration
      */
     public function __construct()
     {
-        if (!isset($this->collection) || $this->collection === '') {
+        if (! isset($this->collection) || $this->collection === '') {
             throw new InternalErrorException('Collection name must be specified on migration: '.get_called_class());
         }
     }
@@ -37,7 +37,7 @@ abstract class MongoMigration extends \Illuminate\Database\Migrations\Migration
      */
     final public function up()
     {
-        if (!Schema::connection($this->connection)->hasTable($this->collection)) {
+        if (! Schema::connection($this->connection)->hasTable($this->collection)) {
             Schema::connection($this->connection)->create($this->collection, function (Blueprint $collection) {
                 $this->migrate($collection);
             });

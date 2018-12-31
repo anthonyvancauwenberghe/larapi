@@ -1,14 +1,14 @@
 <?php
 
 
-if (!function_exists('get_authenticated_user_id')) {
+if (! function_exists('get_authenticated_user_id')) {
     function get_authenticated_user_id()
     {
         return get_authenticated_user()->id;
     }
 }
 
-if (!function_exists('get_authenticated_user')) {
+if (! function_exists('get_authenticated_user')) {
 
     /**
      * @return \Modules\User\Entities\User
@@ -23,10 +23,10 @@ if (!function_exists('get_authenticated_user')) {
     }
 }
 
-if (!function_exists('get_short_class_name')) {
+if (! function_exists('get_short_class_name')) {
     function get_short_class_name($class)
     {
-        if (!is_string($class)) {
+        if (! is_string($class)) {
             $class = get_class($class);
         }
 
@@ -34,7 +34,7 @@ if (!function_exists('get_short_class_name')) {
     }
 }
 
-if (!function_exists('get_random_array_element')) {
+if (! function_exists('get_random_array_element')) {
     function get_random_array_element(array $array)
     {
         if (empty($array)) {
@@ -45,7 +45,7 @@ if (!function_exists('get_random_array_element')) {
         return $array[$randomIndex];
     }
 }
-if (!function_exists('create_multiple_from_factory')) {
+if (! function_exists('create_multiple_from_factory')) {
     function create_multiple_from_factory(string $modelClass, $amount = 1, ?string $state = null)
     {
         if ($amount < 1) {
@@ -62,7 +62,7 @@ if (!function_exists('create_multiple_from_factory')) {
     }
 }
 
-if (!function_exists('create_from_factory')) {
+if (! function_exists('create_from_factory')) {
     function create_from_factory(string $modelClass, ?string $state = null)
     {
         $factory = factory($modelClass);
@@ -75,17 +75,17 @@ if (!function_exists('create_from_factory')) {
     }
 }
 
-if (!function_exists('class_implements_interface')) {
+if (! function_exists('class_implements_interface')) {
     function class_implements_interface($class, $interface)
     {
         return in_array($interface, class_implements($class));
     }
 }
 
-if (!function_exists('class_uses_trait')) {
+if (! function_exists('class_uses_trait')) {
     function class_uses_trait($class, string $trait)
     {
-        if (!is_string($class)) {
+        if (! is_string($class)) {
             $class = get_class($class);
         }
 
@@ -94,14 +94,14 @@ if (!function_exists('class_uses_trait')) {
         return isset($traits[$trait]);
     }
 }
-if (!function_exists('array_keys_exists')) {
+if (! function_exists('array_keys_exists')) {
     function array_keys_exists(array $keys, array $arr)
     {
-        return !array_diff_key(array_flip($keys), $arr);
+        return ! array_diff_key(array_flip($keys), $arr);
     }
 }
 
-if (!function_exists('array_is_subset_of')) {
+if (! function_exists('array_is_subset_of')) {
     function array_is_subset_of(array $subset, array $array, bool $strict = false)
     {
         $arrayAssociative = is_associative_array($array);
@@ -117,8 +117,8 @@ if (!function_exists('array_is_subset_of')) {
             }
 
             return $result;
-        } elseif (($subsetAssociative && !$arrayAssociative) ||
-            (!$subsetAssociative && $arrayAssociative)) {
+        } elseif (($subsetAssociative && ! $arrayAssociative) ||
+            (! $subsetAssociative && $arrayAssociative)) {
             return false;
         }
 
@@ -132,7 +132,7 @@ if (!function_exists('array_is_subset_of')) {
     }
 }
 
-if (!function_exists('is_associative_array')) {
+if (! function_exists('is_associative_array')) {
     function is_associative_array(array $arr)
     {
         if ([] === $arr) {
@@ -143,10 +143,10 @@ if (!function_exists('is_associative_array')) {
     }
 }
 
-if (!function_exists('get_class_property')) {
+if (! function_exists('get_class_property')) {
     function get_class_property($class, string $property)
     {
-        if (!is_string($class)) {
+        if (! is_string($class)) {
             $class = get_class($class);
         }
 
@@ -162,10 +162,10 @@ if (!function_exists('get_class_property')) {
     }
 }
 
-if (!function_exists('call_class_function')) {
+if (! function_exists('call_class_function')) {
     function call_class_function($class, string $methodName)
     {
-        if (!is_string($class)) {
+        if (! is_string($class)) {
             $class = get_class($class);
         }
 
@@ -179,10 +179,10 @@ if (!function_exists('call_class_function')) {
     }
 }
 
-if (!function_exists('get_class_constants')) {
+if (! function_exists('get_class_constants')) {
     function get_class_constants($class)
     {
-        if (!is_string($class)) {
+        if (! is_string($class)) {
             $class = get_class($class);
         }
 

@@ -196,7 +196,7 @@ class BootstrapRegistrarService
      */
     public function loadBootstrapFromCache()
     {
-        if (!isset($this->bootstrap)) {
+        if (! isset($this->bootstrap)) {
             if ($this->cacheExists()) {
                 $this->bootstrap = $this->readFromCache();
             } else {

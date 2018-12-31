@@ -64,7 +64,7 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         $this->bootstrapService = new BootstrapRegistrarService();
 
-        if (!($this->app->environment('production') || $this->app->environment('testing'))) {
+        if (! ($this->app->environment('production') || $this->app->environment('testing'))) {
             $this->bootstrapService->recache();
         }
     }
@@ -126,7 +126,7 @@ class BootstrapServiceProvider extends ServiceProvider
     public function loadFactories()
     {
         foreach ($this->bootstrapService->getFactories() as $factory) {
-            if (!$this->app->environment('production')) {
+            if (! $this->app->environment('production')) {
                 app(Factory::class)->load($factory['path']);
             }
         }
@@ -201,7 +201,7 @@ class BootstrapServiceProvider extends ServiceProvider
 
     private function passedRegistrationCondition($class)
     {
-        if (!class_implements_interface($class, ConditionalAutoRegistration::class)) {
+        if (! class_implements_interface($class, ConditionalAutoRegistration::class)) {
             return true;
         }
 
