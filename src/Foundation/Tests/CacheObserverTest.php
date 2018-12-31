@@ -17,12 +17,13 @@ class CacheObserverTest extends TestCase
         $this->assertEquals($user->toArray(), $user::cache()->findBy('identity_id', $user->identity_id, false)->toArray());
     }
 
-    public function testCacheSpeed(){
-        $model = Account::create(["testthisshit"=>5]);
-        \Cache::put('testmodel',$model);
+    public function testCacheSpeed()
+    {
+        $model = Account::create(["testthisshit" => 5]);
+        \Cache::forever('testmodel', $model);
 
         $time_db_start = microtime(true);
-        for($i=0; $i<1000;$i++){
+        for ($i = 0; $i < 1000; $i++) {
             Account::find($model->id);
         }
         $time_db_end = microtime(true);
@@ -31,7 +32,7 @@ class CacheObserverTest extends TestCase
 
         $time_cache_start = microtime(true);
 
-        for($i=0; $i<1000;$i++){
+        for ($i = 0; $i < 1000; $i++) {
             \Cache::get('testmodel');
         }
         $time_cache_end = microtime(true);
