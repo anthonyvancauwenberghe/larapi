@@ -13,7 +13,7 @@ build:
     - "composer update --lock"
     - "composer update --lock"
   environment:
-    mongodb: "4.1"
+    mongodb: "4.0"
     php:
       version: 7.2
   tests:
