@@ -13,6 +13,6 @@ class ApplicationServiceTest extends TestCase
 {
     public function testSomething()
     {
-
+        $this->assertTrue(true);
     }
 }
