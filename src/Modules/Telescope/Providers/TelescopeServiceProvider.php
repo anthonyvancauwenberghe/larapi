@@ -84,6 +84,6 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider imple
 
     public function registrationCondition(): bool
     {
-        return env('APP_ENV') === 'local';
+        return app()->environment('local');
     }
 }

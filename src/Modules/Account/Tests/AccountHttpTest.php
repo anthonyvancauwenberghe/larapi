@@ -80,14 +80,31 @@ class AccountHttpTest extends HttpTest
     public function testFindAccountWithRelations()
     {
         $this->user->syncRoles(Role::USER);
-        $response = $this->http('GET', '/v1/accounts/'.$this->account->id, ['include' => 'user,machine']);
+        $response = $this->http('GET', '/v1/accounts/'.$this->account->id, ['include' => 'machine,user', 'limit' => 3]);
         $response->assertStatus(200);
+
         $this->assertArrayHasKey('user', $this->decodeHttpResponse($response));
         $this->assertArrayHasKey('machine', $this->decodeHttpResponse($response));
 
         $response = $this->http('GET', '/v1/accounts/'.$this->account->id);
         $response->assertStatus(200);
         $this->assertArrayNotHasKey('user', $this->decodeHttpResponse($response));
+    }
+
+    /**
+     * A basic test example.
+     *
+     * @return void
+     */
+    public function testFindAccountWithoutMachine()
+    {
+        $this->user->syncRoles(Role::USER);
+        $acc = factory(Account::class)->create(['machine_id' => null, 'user_id' => $this->user->id]);
+        $response = $this->http('GET', '/v1/accounts/'.$acc->id, ['include' => 'machine,user', 'limit' => 3]);
+        $response->assertStatus(200);
+
+        $this->assertArrayHasKey('machine', $this->decodeHttpResponse($response));
+        $this->assertEquals(null,$this->decodeHttpResponse($response)['machine']);
     }
 
     public function testUnauthorizedAccessAccount()

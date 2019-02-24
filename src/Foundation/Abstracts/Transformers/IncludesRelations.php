@@ -77,6 +77,8 @@ trait IncludesRelations
                     } elseif ($this->resource->$relation instanceof Collection) {
                         $relations[$relation] = $transformer::collection($this->whenLoaded($relation));
                     }
+                    if($this->resource->$relation == null)
+                        $relations[$relation] = null;
                 }
             }
         }

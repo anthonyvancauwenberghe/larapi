@@ -19,6 +19,6 @@ class HorizonServiceProvider extends ServiceProvider implements ConditionalAutoR
 
     public function registrationCondition(): bool
     {
-        return env('APP_ENV') !== 'testing';
+        return !app()->environment('testing');
     }
 }

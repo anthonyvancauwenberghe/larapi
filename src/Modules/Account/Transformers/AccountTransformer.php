@@ -28,12 +28,12 @@ class AccountTransformer extends Transformer
      *
      * @return array
      */
-    public function transformResource(Account $account)
+    public function transformResource(Account $app)
     {
         $game = $this->game ?? null;
         switch ($game) {
             case 'OSRS':
-                return $this->OSRSAccountToArray($account);
+                return $this->OSRSAccountToArray($app);
             case null:
                 return;
             default:
