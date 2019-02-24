@@ -10,7 +10,6 @@ namespace Modules\Application\Transformers;
 
 use Foundation\Abstracts\Transformers\Transformer;
 use Foundation\Exceptions\Exception;
-use Modules\Account\Entities\Account;
 use Modules\Application\Entities\Application;
 use Modules\Machine\Transformers\MachineTransformer;
 use Modules\User\Transformers\UserTransformer;
@@ -39,7 +38,6 @@ class ApplicationTransformer extends Transformer
                 throw new Exception('Could not identity application type');
         }
     }
-
 
     protected function transformOSRS($app)
     {

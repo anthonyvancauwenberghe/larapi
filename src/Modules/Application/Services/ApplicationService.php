@@ -8,11 +8,8 @@
 
 namespace Modules\Application\Services;
 
-
-
 use Modules\Application\Contracts\ApplicationServiceContract;
 
 class ApplicationService implements ApplicationServiceContract
 {
-
 }

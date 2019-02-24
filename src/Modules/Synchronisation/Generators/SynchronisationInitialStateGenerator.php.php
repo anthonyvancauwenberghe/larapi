@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 24.02.19
- * Time: 18:40
+ * Time: 18:40.
  */
 
 namespace Modules\Synchronisation\Generators;
@@ -27,9 +27,7 @@ class SynchronisationInitialStateGenerator
         $this->applicationState = $applicationState;
     }
 
-    public function generate(){
-
+    public function generate()
+    {
     }
-
-
 }

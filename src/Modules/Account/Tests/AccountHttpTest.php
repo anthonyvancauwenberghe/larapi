@@ -104,7 +104,7 @@ class AccountHttpTest extends HttpTest
         $response->assertStatus(200);
 
         $this->assertArrayHasKey('machine', $this->decodeHttpResponse($response));
-        $this->assertEquals(null,$this->decodeHttpResponse($response)['machine']);
+        $this->assertEquals(null, $this->decodeHttpResponse($response)['machine']);
     }
 
     public function testUnauthorizedAccessAccount()

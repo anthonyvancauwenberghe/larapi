@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 24.02.19
- * Time: 17:50
+ * Time: 17:50.
  */
 
 namespace Modules\Synchronisation\States;
-
 
 class SynchronisationState
 {
@@ -21,5 +20,4 @@ class SynchronisationState
     const SCRIPT_RUNNING = 'script_running';
     const SCRIPT_PAUSED = 'script_paused';
     const SCRIPT_UNSTOPPABLE = 'script_unstoppable';
-
 }
