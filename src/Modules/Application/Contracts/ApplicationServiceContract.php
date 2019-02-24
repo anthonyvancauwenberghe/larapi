@@ -13,5 +13,4 @@ namespace Modules\Application\Contracts;
  */
 interface ApplicationServiceContract
 {
-
 }

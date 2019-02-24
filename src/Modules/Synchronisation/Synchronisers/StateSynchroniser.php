@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 24.02.19
- * Time: 19:11
+ * Time: 19:11.
  */
 
 namespace Modules\Synchronisation\Synchronisers;
-
 
 class StateSynchroniser
 {
@@ -24,8 +23,4 @@ class StateSynchroniser
         $this->initialState = $initialState;
         $this->finalState = $finalState;
     }
-
-
-
-
 }

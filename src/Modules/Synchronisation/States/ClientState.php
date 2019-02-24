@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 24.02.19
- * Time: 15:52
+ * Time: 15:52.
  */
 
 namespace Modules\Synchronisation\States;
-
 
 class ClientState
 {
@@ -20,5 +19,4 @@ class ClientState
 
     protected $script_config;
     protected $proxy;
-
 }

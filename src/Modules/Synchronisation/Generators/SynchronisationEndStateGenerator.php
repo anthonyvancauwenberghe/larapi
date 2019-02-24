@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 24.02.19
- * Time: 18:40
+ * Time: 18:40.
  */
 
 namespace Modules\Synchronisation\Generators;
-
 
 use Modules\Synchronisation\States\ApplicationState;
 use Modules\Synchronisation\States\SynchronisationState;
@@ -27,11 +26,14 @@ class SynchronisationEndStateGenerator
 
     public function generate()
     {
-        if (!$this->machineIsAvailable() && $this->appShouldRun()) {
-            if ($this->applicationState->paused)
+        if (! $this->machineIsAvailable() && $this->appShouldRun()) {
+            if ($this->applicationState->paused) {
                 return SynchronisationState::SCRIPT_PAUSED;
+            }
+
             return SynchronisationState::SCRIPT_RUNNING;
         }
+
         return SynchronisationState::CLIENT_STOPPED;
     }
 
