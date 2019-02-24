@@ -64,7 +64,7 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         $this->bootstrapService = new BootstrapRegistrarService();
 
-        if (!($this->app->environment('production'))) {
+        if (! ($this->app->environment('production'))) {
             $this->bootstrapService->recache();
         }
     }

@@ -3,7 +3,6 @@
 namespace Modules\Application\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Application\Entities\Application;
 
 class ApplicationSeeder extends Seeder
 {
@@ -14,6 +13,5 @@ class ApplicationSeeder extends Seeder
      */
     public function run()
     {
-
     }
 }

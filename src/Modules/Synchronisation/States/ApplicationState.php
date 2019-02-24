@@ -3,11 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 24.02.19
- * Time: 15:52
+ * Time: 15:52.
  */
 
 namespace Modules\Synchronisation\States;
-
 
 use Modules\Application\Entities\Application;
 
@@ -39,6 +38,4 @@ class ApplicationState
         $this->paused = $app->paused;
         $this->active = $app->active;
     }
-
-
 }

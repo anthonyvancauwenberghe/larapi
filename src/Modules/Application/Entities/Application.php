@@ -38,7 +38,7 @@ abstract class Application extends MongoModel implements Ownable, ApplicationAtt
     protected $dates = [
         'created_at',
         'updated_at',
-        'deleted_at'
+        'deleted_at',
     ];
 
     protected static function boot()
