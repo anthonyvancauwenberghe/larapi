@@ -8,50 +8,46 @@
 
 namespace Modules\Notification\Tests;
 
-use Foundation\Abstracts\Tests\HttpTest;
+use Modules\Auth0\Abstracts\Auth0HttpTest;
 use Modules\Notification\Transformers\NotificationTransformer;
+use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
-class NotificationsTest extends HttpTest
+class NotificationsTest extends Auth0HttpTest
 {
-    /**
-     * @var User
-     */
-    protected $user;
 
     protected function seedData()
     {
         parent::seedData();
-        $this->user = $this->getHttpUser();
     }
 
     public function testUserRegisteredEvent()
     {
         /* Remove the http test user from database so it seems like it's being registered */
-        User::destroy($this->user->id);
+        User::destroy($this->getUser()->id);
         $this->expectsEvents(UserRegisteredEvent::class);
 
         /* Creates a new user & therefore a new userregisteredevent is launched */
-        $this->getHttpUser();
+        $this->app->make(UserServiceContract::class)->create(factory(User::class)->raw());
     }
 
     public function testDatabaseNotification()
     {
-        $notifications = User::find($this->user->getKey())->unreadNotifications->toArray();
+        $notifications = User::find($this->getUser()->getKey())->unreadNotifications->toArray();
         $this->assertCount(1, $notifications);
-        $notification = $this->user->unreadNotifications()->first();
+        $notification = $this->getUser()->unreadNotifications()->first();
         $notificationId = $notification->getKey();
         $response = $this->http('POST', '/v1/notifications/'.$notificationId);
         $response->assertStatus(200);
-        $unreadnotifications = User::find($this->user->getKey())->unreadNotifications;
+        $unreadnotifications = User::find($this->getUser()->getKey())->unreadNotifications;
         $this->assertCount(0, $unreadnotifications);
     }
 
     public function testAllNotificationsRoute()
     {
-        $user = $this->getHttpUser();
+        $user = $this->getUser();
         $user->notifyNow(new UserRegisteredNotification($user));
         $user->notifyNow(new UserRegisteredNotification($user));
         $response = $this->http('GET', '/v1/notifications');
@@ -63,7 +59,7 @@ class NotificationsTest extends HttpTest
 
     public function testUnreadNotificationsRoute()
     {
-        $user = $this->getHttpUser();
+        $user = $this->getUser();
         $user->notifyNow(new UserRegisteredNotification($user));
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();

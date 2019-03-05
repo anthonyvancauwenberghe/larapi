@@ -53,7 +53,7 @@ class ApplicationController extends Controller
         $Application = $this->service->find($id);
 
         $this->exists($Application);
-        $this->isOwner($Application);
+        $this->hasAccess($Application);
         $Application = $this->service->update($id, $request->toArray());
 
         return ApplicationTransformer::resource($Application);
@@ -67,7 +67,7 @@ class ApplicationController extends Controller
         $Application = $this->service->find($id);
 
         $this->exists($Application);
-        $this->isOwner($Application);
+        $this->hasAccess($Application);
 
         return ApplicationTransformer::resource($Application);
     }
@@ -80,7 +80,7 @@ class ApplicationController extends Controller
         $Application = $this->service->find($id);
 
         $this->exists($Application);
-        $this->isOwner($Application);
+        $this->hasAccess($Application);
 
         $this->service->delete($Application);
 

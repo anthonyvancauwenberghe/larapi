@@ -30,12 +30,6 @@ class HelpersTest extends TestCase
         $this->assertTrue(class_implements_interface(new self(), \PHPUnit\Framework\Test::class));
     }
 
-    public function testUnauthenticatedUserHelper()
-    {
-        $this->expectException(UnauthorizedHttpException::class);
-        get_authenticated_user();
-    }
-
     public function testAuthenticatedUserHelper()
     {
         $this->actingAs(factory(User::class)->make());

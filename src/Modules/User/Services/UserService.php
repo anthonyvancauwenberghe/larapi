@@ -11,6 +11,7 @@ namespace Modules\User\Services;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
+use Modules\User\Events\UserRegisteredEvent;
 
 class UserService implements UserServiceContract
 {
@@ -45,6 +46,7 @@ class UserService implements UserServiceContract
     {
         $user = User::create($data);
         $user->assignRole(Role::USER);
+        event(new UserRegisteredEvent($user));
 
         return $user;
     }
@@ -64,7 +66,7 @@ class UserService implements UserServiceContract
 
     public function setRoles($id, array $roles): void
     {
-        if (! in_array(Role::USER, $roles)) {
+        if (!in_array(Role::USER, $roles)) {
             $roles[] = Role::USER;
         }
         $this->find($id)->syncRoles($roles);

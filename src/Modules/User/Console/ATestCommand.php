@@ -29,8 +29,6 @@ class ATestCommand extends Command
      */
     public function handle()
     {
-        $user = User::get()->last();
-        event(new UserRegisteredEvent($user));
         $this->info('working');
     }
 }

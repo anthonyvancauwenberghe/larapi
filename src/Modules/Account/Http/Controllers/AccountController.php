@@ -53,7 +53,7 @@ class AccountController extends Controller
         $account = $this->service->find($id);
 
         $this->exists($account);
-        $this->isOwner($account);
+        $this->hasAccess($account);
         $account = $this->service->update($id, $request->toArray());
 
         return AccountTransformer::resource($account);
@@ -67,7 +67,7 @@ class AccountController extends Controller
         $account = $this->service->find($id);
 
         $this->exists($account);
-        $this->isOwner($account);
+        $this->hasAccess($account);
 
         return AccountTransformer::resource($account);
     }
@@ -80,7 +80,7 @@ class AccountController extends Controller
         $account = $this->service->find($id);
 
         $this->exists($account);
-        $this->isOwner($account);
+        $this->hasAccess($account);
 
         $this->service->delete($account);
 

@@ -12,7 +12,5 @@ use Modules\User\Entities\User;
 
 interface Auth0ServiceContract
 {
-    public function getTestUser($roles = null) :User;
 
-    public function getTestUserToken();
 }

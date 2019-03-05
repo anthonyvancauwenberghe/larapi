@@ -12,7 +12,7 @@ use Foundation\Contracts\Ownable;
 
 trait HandlesOwnership
 {
-    public function isOwner(?Ownable $model)
+    public function hasAccess(?Ownable $model)
     {
         $this->authorize('access', $model);
     }

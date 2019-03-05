@@ -8,20 +8,20 @@
 
 namespace Modules\Auth0\Tests;
 
-use Foundation\Abstracts\Tests\HttpTest;
+use Modules\Auth0\Abstracts\Auth0HttpTest;
 use Modules\User\Entities\User;
 
-class Auth0Test extends HttpTest
+final class Auth0Test extends Auth0HttpTest
 {
     public function testUserIdEqualsIdentityId()
     {
-        $user = $this->getHttpUser();
+        $user = $this->getUser();
         $this->assertEquals($user->identity_id, User::find($user->id)->identity_id);
     }
 
     public function testAuthorized()
     {
-        $user = $this->getHttpUser();
+        $user = $this->getUser();
         $userId = $user->getKey();
         $http = $this->http('GET', '/authorized');
         $http->assertStatus(200);

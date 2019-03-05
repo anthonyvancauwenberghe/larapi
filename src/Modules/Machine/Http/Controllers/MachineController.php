@@ -52,7 +52,7 @@ class MachineController extends Controller
     {
         $machine = $this->service->find($id);
 
-        $this->isOwner($machine);
+        $this->hasAccess($machine);
 
         $machine = $this->service->update($id, $request->toArray());
 
@@ -66,7 +66,7 @@ class MachineController extends Controller
     {
         $machine = $this->service->find($id);
 
-        $this->isOwner($machine);
+        $this->hasAccess($machine);
 
         return MachineTransformer::resource($machine);
     }
@@ -78,7 +78,7 @@ class MachineController extends Controller
     {
         $machine = $this->service->find($id);
 
-        $this->isOwner($machine);
+        $this->hasAccess($machine);
 
         $this->service->delete($machine);
 
