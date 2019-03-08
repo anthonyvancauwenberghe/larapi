@@ -2,12 +2,12 @@
 
 namespace Modules\User\Tests;
 
-use Modules\Auth0\Abstracts\Auth0HttpTest;
+use Modules\Auth0\Abstracts\AuthorizedHttpTest;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Entities\User;
 use Modules\User\Transformers\UserTransformer;
 
-class UserHttpTest extends Auth0HttpTest
+class UserHttpTest extends AuthorizedHttpTest
 {
     protected $roles = Role::USER;
 

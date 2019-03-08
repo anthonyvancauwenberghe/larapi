@@ -8,10 +8,10 @@
 
 namespace Modules\Auth0\Tests;
 
-use Modules\Auth0\Abstracts\Auth0HttpTest;
+use Modules\Auth0\Abstracts\AuthorizedHttpTest;
 use Modules\User\Entities\User;
 
-final class Auth0Test extends Auth0HttpTest
+final class AuthorizedTest extends AuthorizedHttpTest
 {
     public function testUserIdEqualsIdentityId()
     {

@@ -1,0 +1,25 @@
+{
+    "name": "deviouspk/Schedule",
+    "description": "",
+    "authors": [
+        {
+            "name": "Arthur Devious",
+            "email": "aamining2@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+
+            ],
+            "aliases": {
+                
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Schedule\\": ""
+        }
+    }
+}

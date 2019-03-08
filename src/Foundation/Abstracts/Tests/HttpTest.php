@@ -26,11 +26,11 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
         return json_decode($content, true);
     }
 
-    protected function http(string $method, string $route, array $payload = [], array $headers = []) : \Illuminate\Foundation\Testing\TestResponse
+    protected function http(string $method, string $route, array $payload = [], array $headers = []) : \Foundation\Abstracts\Tests\TestResponse
     {
         if(!in_array($method,['GET','POST','PATCH','DELETE','PUT']))
             throw new \HttpRequestMethodException("Invalid Http Method");
 
-        return $this->json($method, env('API_URL').$route, $payload, $headers);
+        return new \Foundation\Abstracts\Tests\TestResponse($this->json($method, env('API_URL').$route, $payload, $headers)->baseResponse);
     }
 }

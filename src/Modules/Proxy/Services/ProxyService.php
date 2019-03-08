@@ -32,24 +32,24 @@ class ProxyService implements ProxyServiceContract
 
     public function update($id, $data): Proxy
     {
-        $Proxy = $this->find($id);
-        $Proxy->update($data);
-        event(new ProxyUpdatedEvent($Proxy));
+        $proxy = $this->find($id);
+        $proxy->update($data);
+        event(new ProxyUpdatedEvent($proxy));
 
-        return $Proxy;
+        return $proxy;
     }
 
     public function create($data): Proxy
     {
-        $Proxy = Proxy::create($data);
-        event(new ProxyCreatedEvent($Proxy));
+        $proxy = Proxy::create($data);
+        event(new ProxyCreatedEvent($proxy));
 
-        return $Proxy;
+        return $proxy;
     }
 
     public function delete($id): bool
     {
-        return Proxy::destroy($id);
+        return $this->find($id)->delete();
     }
 
     public function healthCheck($id, $data): void

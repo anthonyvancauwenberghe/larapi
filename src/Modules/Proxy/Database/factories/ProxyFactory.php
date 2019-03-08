@@ -6,7 +6,7 @@ use Modules\Proxy\Entities\Proxy;
 $factory->define(Proxy::class, function (Faker $faker) {
     return [
         'alias' => $faker->userName . " proxy",
-        'user_id' => 1,
+        'user_id' => null,
         'ip_address' => $faker->ipv4,
         'port' => $faker->numberBetween(80, 65000),
         'username' => $faker->unique()->userName,

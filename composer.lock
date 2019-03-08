@@ -799,16 +799,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.2",
+            "version": "v5.8.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca"
+                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca",
-                "reference": "c3b7cbe700efb0f4c9a5359feaedb0a1f0a741ca",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/d36d74acd3added5abbe7e7a84342b54bb0b0521",
+                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521",
                 "shasum": ""
             },
             "require": {
@@ -942,7 +942,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-02-27T14:02:36+00:00"
+            "time": "2019-03-05T13:51:19+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1233,16 +1233,16 @@
         },
         {
             "name": "nwidart/laravel-modules",
-            "version": "4.0.0",
+            "version": "4.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nWidart/laravel-modules.git",
-                "reference": "d487d9be3bfd6b7365678fd805d9ba5f0dd8295c"
+                "reference": "0efd81aef05419a9d032e5bbd7859dd8a67cb7e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/d487d9be3bfd6b7365678fd805d9ba5f0dd8295c",
-                "reference": "d487d9be3bfd6b7365678fd805d9ba5f0dd8295c",
+                "url": "https://api.github.com/repos/nWidart/laravel-modules/zipball/0efd81aef05419a9d032e5bbd7859dd8a67cb7e3",
+                "reference": "0efd81aef05419a9d032e5bbd7859dd8a67cb7e3",
                 "shasum": ""
             },
             "require": {
@@ -1299,7 +1299,7 @@
                 "nwidart",
                 "rad"
             ],
-            "time": "2018-09-30T10:02:46+00:00"
+            "time": "2019-03-04T09:50:46+00:00"
         },
         {
             "name": "opis/closure",
@@ -1409,21 +1409,21 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.8.1",
+            "version": "v1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "57bb5ef079d3724148da3d5c99e30695ab17afda"
+                "reference": "f261f50c84d20b1364723dbd21e668f4e40b2140"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/57bb5ef079d3724148da3d5c99e30695ab17afda",
-                "reference": "57bb5ef079d3724148da3d5c99e30695ab17afda",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/f261f50c84d20b1364723dbd21e668f4e40b2140",
+                "reference": "f261f50c84d20b1364723dbd21e668f4e40b2140",
                 "shasum": ""
             },
             "require": {
                 "paragonie/random_compat": ">=1",
-                "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7"
+                "php": "^5.2.4|^5.3|^5.4|^5.5|^5.6|^7|^8"
             },
             "require-dev": {
                 "phpunit/phpunit": "^3|^4|^5"
@@ -1487,7 +1487,7 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-01-03T21:00:55+00:00"
+            "time": "2019-03-06T17:16:38+00:00"
         },
         {
             "name": "phpoption/phpoption",
@@ -1911,16 +1911,16 @@
         },
         {
             "name": "spatie/laravel-permission",
-            "version": "2.36.0",
+            "version": "2.36.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/laravel-permission.git",
-                "reference": "5bd1e3f212f97d21645ad730c35ec6b81f292d49"
+                "reference": "0d9c442dc4361ce829986697bc436578d816a9ca"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/5bd1e3f212f97d21645ad730c35ec6b81f292d49",
-                "reference": "5bd1e3f212f97d21645ad730c35ec6b81f292d49",
+                "url": "https://api.github.com/repos/spatie/laravel-permission/zipball/0d9c442dc4361ce829986697bc436578d816a9ca",
+                "reference": "0d9c442dc4361ce829986697bc436578d816a9ca",
                 "shasum": ""
             },
             "require": {
@@ -1972,7 +1972,7 @@
                 "security",
                 "spatie"
             ],
-            "time": "2019-03-04T19:19:31+00:00"
+            "time": "2019-03-05T14:58:35+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -3034,16 +3034,16 @@
         },
         {
             "name": "vlucas/phpdotenv",
-            "version": "v3.3.2",
+            "version": "v3.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "1ee9369cfbf26cfcf1f2515d98f15fab54e9647a"
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/1ee9369cfbf26cfcf1f2515d98f15fab54e9647a",
-                "reference": "1ee9369cfbf26cfcf1f2515d98f15fab54e9647a",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/dbcc609971dd9b55f48b8008b553d79fd372ddde",
+                "reference": "dbcc609971dd9b55f48b8008b553d79fd372ddde",
                 "shasum": ""
             },
             "require": {
@@ -3082,7 +3082,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2019-01-30T10:43:17+00:00"
+            "time": "2019-03-06T09:39:45+00:00"
         },
         {
             "name": "wikimedia/composer-merge-plugin",
@@ -3251,16 +3251,16 @@
         },
         {
             "name": "barryvdh/laravel-ide-helper",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barryvdh/laravel-ide-helper.git",
-                "reference": "754bb4d075d7fb2b23b1a416802c0e45884df495"
+                "reference": "725711022be71c6fa2e7bc8f9648bf125986f027"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/754bb4d075d7fb2b23b1a416802c0e45884df495",
-                "reference": "754bb4d075d7fb2b23b1a416802c0e45884df495",
+                "url": "https://api.github.com/repos/barryvdh/laravel-ide-helper/zipball/725711022be71c6fa2e7bc8f9648bf125986f027",
+                "reference": "725711022be71c6fa2e7bc8f9648bf125986f027",
                 "shasum": ""
             },
             "require": {
@@ -3321,7 +3321,7 @@
                 "phpstorm",
                 "sublime"
             ],
-            "time": "2019-02-18T19:54:27+00:00"
+            "time": "2019-03-05T09:24:51+00:00"
         },
         {
             "name": "barryvdh/reflection-docblock",
@@ -4230,16 +4230,16 @@
         },
         {
             "name": "laravel/telescope",
-            "version": "v2.0",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/telescope.git",
-                "reference": "8194db54d1a5982750c3a8f59551355c393c927a"
+                "reference": "2b976e5d6f5273d8ac86e2db9487386dd27a19ef"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/telescope/zipball/8194db54d1a5982750c3a8f59551355c393c927a",
-                "reference": "8194db54d1a5982750c3a8f59551355c393c927a",
+                "url": "https://api.github.com/repos/laravel/telescope/zipball/2b976e5d6f5273d8ac86e2db9487386dd27a19ef",
+                "reference": "2b976e5d6f5273d8ac86e2db9487386dd27a19ef",
                 "shasum": ""
             },
             "require": {
@@ -4289,7 +4289,7 @@
                 "laravel",
                 "monitoring"
             ],
-            "time": "2019-02-26T20:43:16+00:00"
+            "time": "2019-03-05T14:07:56+00:00"
         },
         {
             "name": "mockery/mockery",

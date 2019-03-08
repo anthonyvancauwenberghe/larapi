@@ -8,14 +8,14 @@
 
 namespace Modules\Notification\Tests;
 
-use Modules\Auth0\Abstracts\Auth0HttpTest;
+use Modules\Auth0\Abstracts\AuthorizedHttpTest;
 use Modules\Notification\Transformers\NotificationTransformer;
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
 use Modules\User\Notifications\UserRegisteredNotification;
 
-class NotificationsTest extends Auth0HttpTest
+class NotificationsTest extends AuthorizedHttpTest
 {
 
     protected function seedData()

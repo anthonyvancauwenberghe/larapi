@@ -11,9 +11,10 @@ namespace Modules\Authorization\Attributes;
 use Modules\Account\Permissions\AccountPermissions;
 use Modules\Machine\Permissions\MachinePermissions;
 use Modules\Proxy\Permissions\ProxyPermissions;
+use Modules\Schedule\Permissions\SchedulePermissions;
 use Modules\User\Permissions\UserPermissions;
 
-interface Permissions extends UserPermissions, MachinePermissions, AccountPermissions, ProxyPermissions
+interface Permissions extends UserPermissions, MachinePermissions, AccountPermissions, ProxyPermissions, SchedulePermissions
 {
     const ASSIGN_ROLES = 'role.assign';
 }

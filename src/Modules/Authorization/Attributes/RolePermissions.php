@@ -27,6 +27,18 @@ interface RolePermissions
             Permission::CREATE_MACHINE,
             Permission::UPDATE_MACHINE,
             Permission::DELETE_MACHINE,
+
+            Permission::INDEX_PROXY,
+            Permission::SHOW_PROXY,
+            Permission::CREATE_PROXY,
+            Permission::UPDATE_PROXY,
+            Permission::DELETE_PROXY,
+
+            Permission::INDEX_SCHEDULE,
+            Permission::SHOW_SCHEDULE,
+            Permission::CREATE_SCHEDULE,
+            Permission::UPDATE_SCHEDULE,
+            Permission::DELETE_SCHEDULE
         ],
 
         Role::GUEST => [

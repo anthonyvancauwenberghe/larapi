@@ -2,7 +2,7 @@
 
 namespace Modules\Machine\Tests;
 
-use Modules\Auth0\Abstracts\Auth0HttpTest;
+use Modules\Auth0\Abstracts\AuthorizedHttpTest;
 use Modules\Authorization\Entities\Role;
 use Modules\Machine\Contracts\MachineServiceContract;
 use Modules\Machine\Entities\Machine;
@@ -10,7 +10,7 @@ use Modules\Machine\Services\MachineService;
 use Modules\Machine\Transformers\MachineTransformer;
 use Modules\User\Entities\User;
 
-class MachineHttpTest extends Auth0HttpTest
+class MachineHttpTest extends AuthorizedHttpTest
 {
     protected $roles = Role::USER;
 

@@ -13,14 +13,14 @@ use Auth0\Login\Contract\Auth0UserRepository;
 use Cache;
 use Exception;
 use Foundation\Abstracts\Tests\HttpTest;
+use Foundation\Abstracts\Tests\TestResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ClientException;
-use Illuminate\Foundation\Testing\TestResponse;
 use Modules\Auth0\Services\Auth0Service;
 use Modules\Authorization\Traits\UserTestRoles;
 use Modules\User\Entities\User;
 
-abstract class Auth0HttpTest extends HttpTest
+abstract class AuthorizedHttpTest extends HttpTest
 {
     use UserTestRoles;
     /**
@@ -43,7 +43,7 @@ abstract class Auth0HttpTest extends HttpTest
         return parent::http($method, $route, $payload, $headers);
     }
 
-    protected function httpNoAuth(string $method, string $route, array $payload = [], array $headers = []) : \Illuminate\Foundation\Testing\TestResponse
+    protected function httpNoAuth(string $method, string $route, array $payload = [], array $headers = []) : TestResponse
     {
         return parent::http($method, $route, $payload, $headers);
     }

@@ -20,7 +20,7 @@ trait UserTestRoles
         if (isset($this->roles)) {
             $this->setUserRoles($this->roles);
         } else {
-            $this->setUserRoles(Role::USER);
+            $this->setUserRoles(Role::GUEST);
         }
     }
 

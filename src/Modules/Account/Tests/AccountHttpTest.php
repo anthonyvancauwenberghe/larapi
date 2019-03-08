@@ -6,12 +6,12 @@ use Modules\Account\Contracts\AccountServiceContract;
 use Modules\Account\Entities\Account;
 use Modules\Account\Services\AccountService;
 use Modules\Account\Transformers\AccountTransformer;
-use Modules\Auth0\Abstracts\Auth0HttpTest;
+use Modules\Auth0\Abstracts\AuthorizedHttpTest;
 use Modules\Authorization\Entities\Role;
 use Modules\Machine\Entities\Machine;
 use Modules\User\Entities\User;
 
-class AccountHttpTest extends Auth0HttpTest
+class AccountHttpTest extends AuthorizedHttpTest
 {
     protected $roles = Role::USER;
 
@@ -41,7 +41,6 @@ class AccountHttpTest extends Auth0HttpTest
 
     public function testAllAccounts()
     {
-        $this->getUser()->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/accounts');
         $response->assertStatus(200);
         $this->assertEquals(
@@ -57,7 +56,6 @@ class AccountHttpTest extends Auth0HttpTest
      */
     public function testFindAccount()
     {
-        $this->getUser()->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/accounts/' . $this->account->id);
         $response->assertStatus(200);
 
@@ -73,7 +71,6 @@ class AccountHttpTest extends Auth0HttpTest
      */
     public function testFindAccountWithRelations()
     {
-        $this->getUser()->syncRoles(Role::USER);
         $response = $this->http('GET', '/v1/accounts/' . $this->account->id, ['include' => 'machine,user', 'limit' => 3]);
         $response->assertStatus(200);
 
@@ -92,7 +89,6 @@ class AccountHttpTest extends Auth0HttpTest
      */
     public function testFindAccountWithoutMachine()
     {
-        $this->getUser()->syncRoles(Role::USER);
         $account = factory(Account::class)->create(['machine_id' => null, 'user_id' => $this->getUser()->id]);
         $response = $this->http('GET', '/v1/accounts/' . $account->id, ['include' => 'machine,user', 'limit' => 3]);
         $response->assertStatus(200);
@@ -105,8 +101,7 @@ class AccountHttpTest extends Auth0HttpTest
     {
         $user = factory(User::class)->create();
         $account = factory(Account::class)->create(['user_id' => $user->id]);
-
-        $this->getUser()->syncRoles(Role::USER);
+        
         $response = $this->http('GET', '/v1/accounts/' . $account->id);
         $response->assertStatus(403);
     }
@@ -114,9 +109,9 @@ class AccountHttpTest extends Auth0HttpTest
     public function testUnauthorizedDeleteAccount()
     {
         $user = factory(User::class)->create();
-        $Account = factory(Account::class)->create(['user_id' => $user->id]);
-        $this->getUser()->syncRoles(Role::USER);
-        $response = $this->http('DELETE', '/v1/accounts/' . $Account->id);
+        $account = factory(Account::class)->create(['user_id' => $user->id]);
+        
+        $response = $this->http('DELETE', '/v1/accounts/' . $account->id);
         $response->assertStatus(403);
     }
 
@@ -130,10 +125,10 @@ class AccountHttpTest extends Auth0HttpTest
     public function testAdminAccessAccount()
     {
         $user = factory(User::class)->create();
-        $Account = factory(Account::class)->create(['user_id' => $user->id]);
+        $account = factory(Account::class)->create(['user_id' => $user->id]);
 
         $this->getUser()->syncRoles(Role::ADMIN);
-        $response = $this->http('GET', '/v1/accounts/' . $Account->id);
+        $response = $this->http('GET', '/v1/accounts/' . $account->id);
         $response->assertStatus(200);
     }
 
@@ -144,12 +139,13 @@ class AccountHttpTest extends Auth0HttpTest
      */
     public function testCreateAccount()
     {
-        $this->getUser()->syncRoles(Role::USER);
         $account = Account::fromFactory()->make([
             'user_id' => $this->getUser()->id,
         ]);
+
         $response = $this->http('POST', '/v1/accounts', $account->toArray());
         $response->assertStatus(201);
+
         $this->assertArrayHasKey('username', $this->decodeHttpResponse($response));
         $this->assertArrayHasKey('password', $this->decodeHttpResponse($response));
     }
@@ -161,7 +157,6 @@ class AccountHttpTest extends Auth0HttpTest
      */
     public function testUpdateAccount()
     {
-        $this->getUser()->syncRoles(Role::USER);
         /* Test response for a normal user */
         $response = $this->http('PATCH', '/v1/accounts/' . $this->account->id, []);
         $response->assertStatus(200);
