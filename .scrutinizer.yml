@@ -12,7 +12,10 @@ build:
     - "composer require wikimedia/composer-merge-plugin"
     - "composer update --lock"
     - "composer update --lock"
-    - "npm install -g n"
+    - "sudo npm cache clean -f"
+    - "sudo npm install -g n"
+    - "sudo n stable"
+    - "yarn install"
   environment:
     mongodb: "4.0"
     php:
