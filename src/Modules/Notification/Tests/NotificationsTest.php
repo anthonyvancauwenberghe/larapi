@@ -32,11 +32,6 @@ class NotificationsTest extends AuthorizedHttpTest
         $this->app->make(UserServiceContract::class)->create(factory(User::class)->raw());
     }
 
-    private function createNewUser(): User
-    {
-        return $this->app->make(UserServiceContract::class)->create(factory(User::class)->raw());
-    }
-
     public function testDatabaseNotification()
     {
         $user = $this->getActingUser();

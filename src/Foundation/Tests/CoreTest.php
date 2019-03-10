@@ -11,9 +11,12 @@ namespace Foundation\Tests;
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Core\Larapi;
 use Foundation\Core\Module;
+use Foundation\Traits\DisableRefreshDatabase;
 
 class CoreTest extends TestCase
 {
+    use DisableRefreshDatabase;
+
     public function testGetModules()
     {
         $modules = Larapi::getModules();

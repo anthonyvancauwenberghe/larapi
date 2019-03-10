@@ -11,6 +11,7 @@ namespace Foundation\Tests;
 use Foundation\Abstracts\Tests\CreatesApplication;
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Core\Larapi;
+use Foundation\Traits\DisableRefreshDatabase;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Auth\Access\Authorizable;
@@ -18,6 +19,8 @@ use Modules\User\Entities\User;
 
 class HelpersTest extends TestCase
 {
+    use DisableRefreshDatabase;
+
     const TEST_CONSTANT = 'test';
 
     private $randomTestVariable = 'blablabla';

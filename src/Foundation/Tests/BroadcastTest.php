@@ -8,7 +8,7 @@
 
 namespace Foundation\Tests;
 
-//Tests disabled because need a way to enable pusher without sending messages to test.
+//Tests disabled because need to find a way to enable pusher without sending messages to test.
 /*
 class BroadcastTest extends HttpTest
 {

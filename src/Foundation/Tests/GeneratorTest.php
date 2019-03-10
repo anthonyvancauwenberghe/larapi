@@ -1,8 +1,11 @@
 <?php
 
+namespace Foundation\Tests;
+
 use Foundation\Core\Larapi;
 use Foundation\Generator\Events\FileGeneratedEvent;
 use Foundation\Generator\Managers\GeneratorManager;
+use Foundation\Traits\DisableRefreshDatabase;
 use \Illuminate\Support\Facades\Event;
 
 /**
@@ -13,6 +16,8 @@ use \Illuminate\Support\Facades\Event;
  */
 class GeneratorTest extends \Foundation\Abstracts\Tests\TestCase
 {
+    use DisableRefreshDatabase;
+
     public function testCreateSqlMigration()
     {
         Event::fake();
