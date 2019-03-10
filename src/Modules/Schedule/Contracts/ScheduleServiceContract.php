@@ -10,7 +10,6 @@ namespace Modules\Schedule\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Schedule\Entities\Schedule;
-use Modules\Machine\Entities\Machine;
 
 /**
  * Interface ScheduleServiceContract.

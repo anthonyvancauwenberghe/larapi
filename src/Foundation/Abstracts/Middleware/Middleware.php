@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 22:34
+ * Time: 22:34.
  */
 
 namespace Foundation\Abstracts\Middleware;

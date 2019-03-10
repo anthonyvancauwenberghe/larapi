@@ -9,13 +9,8 @@
 namespace Modules\Auth0\Services;
 
 use Auth0\Login\Repository\Auth0UserRepository;
-use Cache;
-use Foundation\Exceptions\Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use Modules\Auth0\Contracts\Auth0ServiceContract;
 use Modules\Auth0\Drivers\Auth0UserProfileStorageDriver;
-use Modules\Authorization\Entities\Role;
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;

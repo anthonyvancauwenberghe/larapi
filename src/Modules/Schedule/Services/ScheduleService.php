@@ -8,7 +8,6 @@
 
 namespace Modules\Schedule\Services;
 
-use Carbon\Carbon;
 use Modules\Schedule\Contracts\ScheduleServiceContract;
 use Modules\Schedule\Entities\Schedule;
 use Modules\Schedule\Events\ScheduleCreatedEvent;

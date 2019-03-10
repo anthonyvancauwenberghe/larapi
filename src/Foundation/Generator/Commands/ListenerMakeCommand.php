@@ -8,7 +8,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class ListenerMakeCommand extends AbstractGeneratorCommand
 {
-
     /**
      * The console command name.
      *
@@ -42,7 +41,7 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
         return [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
-            'EVENTNAME' => $this->getModuleNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
+            'EVENTNAME' => $this->getModuleNamespace().'\\'.'Events'.'\\'.$this->getEventName(),
             'SHORTEVENTNAME' => $this->getEventName(),
         ];
     }
@@ -50,10 +49,11 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
     protected function getEventName(): string
     {
         return once(function () {
-            $eventName = $this->option('event') ?? $this->ask('What is the name of the event that should be listened on?', false) ?? "null";
+            $eventName = $this->option('event') ?? $this->ask('What is the name of the event that should be listened on?', false) ?? 'null';
             if ($eventName === null) {
-                throw new Exception("Eventname for listener not given");
+                throw new Exception('Eventname for listener not given');
             }
+
             return $eventName;
         });
     }
@@ -62,13 +62,14 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
     {
         return once(function () {
             $option = $this->option('queued');
-            return app()->runningInConsole() && !$option ? $this->confirm('Should the listener be queued?', false) : $option;
+
+            return app()->runningInConsole() && ! $option ? $this->confirm('Should the listener be queued?', false) : $option;
         });
     }
 
     protected function afterGeneration(): void
     {
-        $this->info("don't forget to add the listener to " . $this->getEventName());
+        $this->info("don't forget to add the listener to ".$this->getEventName());
     }
 
     /**
@@ -79,6 +80,7 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
         if ($this->listenerNeedsQueueing()) {
             return '/listener-queued.stub';
         }
+
         return '/listener.stub';
     }
 

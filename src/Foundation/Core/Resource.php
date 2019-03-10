@@ -3,12 +3,10 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 21:51
+ * Time: 21:51.
  */
 
 namespace Foundation\Core;
-
-use Foundation\Exceptions\Exception;
 
 final class Resource
 {
@@ -23,7 +21,7 @@ final class Resource
     protected $subPath;
 
     /**
-     * @var Module $module
+     * @var Module
      */
     protected $module;
 
@@ -33,7 +31,7 @@ final class Resource
     protected $baseClass;
 
     /**
-     * @var File[] $files
+     * @var File[]
      */
     protected $files = [];
 
@@ -59,7 +57,7 @@ final class Resource
     {
         $files = $this->getAllPhpFileNamesWithoutExtension();
         foreach ($files as $file) {
-            $this->files[] = new File($file, $this->getPath() . '/' . $file . '.php', $this);
+            $this->files[] = new File($file, $this->getPath().'/'.$file.'.php', $this);
         }
     }
 
@@ -84,7 +82,7 @@ final class Resource
      */
     public function getPath(): string
     {
-        return $this->module->getPath() . $this->subPath;
+        return $this->module->getPath().$this->subPath;
     }
 
     /**
@@ -92,7 +90,7 @@ final class Resource
      */
     public function getNamespace(): string
     {
-        return $this->module->getNamespace() . str_replace('/', '\\', $this->getSubPath());
+        return $this->module->getNamespace().str_replace('/', '\\', $this->getSubPath());
     }
 
     /**
@@ -100,7 +98,7 @@ final class Resource
      */
     public function amount(): int
     {
-        return sizeof($this->getClasses());
+        return count($this->getClasses());
     }
 
     /**
@@ -111,12 +109,13 @@ final class Resource
         $classes = [];
         foreach ($this->getAllPhpFileNames() as $file) {
             $shortClassName = str_replace('.php', '', $file);
-            $class = $this->getNamespace() . '\\' . $shortClassName;
+            $class = $this->getNamespace().'\\'.$shortClassName;
 
             if ($this->baseClass === null || instance_without_constructor($class) instanceof $this->baseClass) {
                 $classes[] = $class;
             }
         }
+
         return $classes;
     }
 
@@ -135,6 +134,7 @@ final class Resource
         } catch (\ErrorException $e) {
             $fileNames = [];
         }
+
         return $fileNames;
     }
 
@@ -146,6 +146,7 @@ final class Resource
                 $files[] = $file;
             }
         }
+
         return $files;
     }
 
@@ -157,6 +158,7 @@ final class Resource
                 $files[] = str_replace('.php', '', $file);
             }
         }
+
         return $files;
     }
 
@@ -167,7 +169,7 @@ final class Resource
      */
     private function hasPhpExtension(string $fileName): bool
     {
-        return strlen($fileName) > 4 && '.php' === ($fileName[-4] . $fileName[-3] . $fileName[-2] . $fileName[-1]);
+        return strlen($fileName) > 4 && '.php' === ($fileName[-4].$fileName[-3].$fileName[-2].$fileName[-1]);
     }
 
     /**
@@ -193,6 +195,7 @@ final class Resource
                 return $class;
             }
         }
+
         return null;
     }
 }

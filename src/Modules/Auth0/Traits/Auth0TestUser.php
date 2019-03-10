@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 20:08
+ * Time: 20:08.
  */
 
 namespace Modules\Auth0\Traits;
@@ -29,6 +29,7 @@ trait Auth0TestUser
     {
         $auth0 = \App::make('auth0');
         $tokenInfo = $auth0->decodeJWT($this->getUserAuth0Token()->id_token);
+
         return $this->getAuth0Service()->getUserByDecodedJWT($tokenInfo);
     }
 
@@ -37,7 +38,7 @@ trait Auth0TestUser
         return Cache::remember('testing:http_access_token', 60 * 60, function () {
             try {
                 $httpClient = new Client();
-                $response = $httpClient->post(env('AUTH0_DOMAIN') . 'oauth/token', [
+                $response = $httpClient->post(env('AUTH0_DOMAIN').'oauth/token', [
                     'form_params' => [
                         'grant_type' => 'password',
                         'client_id' => env('AUTH0_CLIENT_ID'),
@@ -49,7 +50,7 @@ trait Auth0TestUser
 
                 return json_decode($response->getBody()->getContents());
             } catch (ClientException $exception) {
-                throw new Exception('Could not obtain token from Auth0 at ' . env('AUTH0_DOMAIN') . ' for testing.');
+                throw new Exception('Could not obtain token from Auth0 at '.env('AUTH0_DOMAIN').' for testing.');
             }
         });
     }

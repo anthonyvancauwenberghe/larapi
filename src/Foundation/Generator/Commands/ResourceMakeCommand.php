@@ -64,7 +64,7 @@ class ResourceMakeCommand extends \Nwidart\Modules\Commands\ResourceMakeCommand
 
         $resourcePath = GenerateConfigReader::read('resource');
 
-        return $path . $resourcePath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$resourcePath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

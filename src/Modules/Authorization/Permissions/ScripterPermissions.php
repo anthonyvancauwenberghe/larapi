@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 21:19
+ * Time: 21:19.
  */
 
 namespace Modules\Authorization\Permissions;
@@ -41,7 +41,7 @@ class ScripterPermissions extends AbstractUserPermissions
             Permission::SHOW_SCHEDULE,
             Permission::CREATE_SCHEDULE,
             Permission::UPDATE_SCHEDULE,
-            Permission::DELETE_SCHEDULE
+            Permission::DELETE_SCHEDULE,
         ];
     }
 }

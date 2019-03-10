@@ -46,7 +46,7 @@ class NotificationsTest extends AuthorizedHttpTest
 
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
-        $response = $this->http('POST', '/v1/notifications/' . $notificationId);
+        $response = $this->http('POST', '/v1/notifications/'.$notificationId);
         $response->assertStatus(200);
 
         $user = $user->fresh();
@@ -63,7 +63,7 @@ class NotificationsTest extends AuthorizedHttpTest
         $response->assertStatus(200);
         $notificationsReponse = $this->decodeHttpResponse($response->getContent());
         $notifications = NotificationTransformer::collection(User::find($user->getKey())->notifications)->jsonSerialize();
-        $this->assertEquals($notificationsReponse, (array)$notifications);
+        $this->assertEquals($notificationsReponse, (array) $notifications);
     }
 
     public function testUnreadNotificationsRoute()
@@ -72,7 +72,7 @@ class NotificationsTest extends AuthorizedHttpTest
         $user->notifyNow(new WelcomeUserWebNotification($user));
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
-        $response = $this->http('POST', '/v1/notifications/' . $notificationId);
+        $response = $this->http('POST', '/v1/notifications/'.$notificationId);
         $response->assertStatus(200);
         $response = $this->http('GET', '/v1/notifications/unread');
         $response->assertStatus(200);

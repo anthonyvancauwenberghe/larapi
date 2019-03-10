@@ -6,7 +6,6 @@ use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
 class ControllerMakeCommand extends AbstractGeneratorCommand
 {
-
     /**
      * The console command name.
      *

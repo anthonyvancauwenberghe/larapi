@@ -14,13 +14,13 @@ $factory->define(Schedule::class, function (Faker $faker) {
 
     return [
         Schedule::USER_ID => null,
-        Schedule::ALIAS => $faker->userName . " schedule",
+        Schedule::ALIAS => $faker->userName.' schedule',
         Schedule::TIMEZONE => \Carbon\Carbon::now()->timezone->getName(),
         'times' => $times,
         Schedule::WEEK_DAYS => [
-            WeekDay::MONDAY => WeekDay::fromFactory()->raw()
+            WeekDay::MONDAY => WeekDay::fromFactory()->raw(),
         ],
         Schedule::EXCEPTIONS => [],
-        Schedule::RANDOMIZE => $faker->boolean
+        Schedule::RANDOMIZE => $faker->boolean,
     ];
 });

@@ -38,7 +38,7 @@ interface RolePermissions
             Permission::SHOW_SCHEDULE,
             Permission::CREATE_SCHEDULE,
             Permission::UPDATE_SCHEDULE,
-            Permission::DELETE_SCHEDULE
+            Permission::DELETE_SCHEDULE,
         ],
 
         Role::GUEST => [

@@ -3,8 +3,6 @@
 namespace Modules\User\Console;
 
 use Illuminate\Console\Command;
-use Modules\User\Entities\User;
-use Modules\User\Events\UserRegisteredEvent;
 
 class ATestCommand extends Command
 {

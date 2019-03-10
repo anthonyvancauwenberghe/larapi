@@ -73,7 +73,7 @@ class PolicyMakeCommand extends \Nwidart\Modules\Commands\PolicyMakeCommand
 
         $policyPath = GenerateConfigReader::read('policies');
 
-        return $path . $policyPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$policyPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

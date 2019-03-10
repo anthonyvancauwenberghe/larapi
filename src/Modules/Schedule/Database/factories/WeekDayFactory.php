@@ -14,5 +14,6 @@ $factory->define(WeekDay::class, function (Faker $faker) {
     for ($h = 0; $h < 24; $h++) {
         // if(sizeof($interval)
     }
+
     return [];
 });

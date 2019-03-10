@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 21:51
+ * Time: 21:51.
  */
 
 namespace Foundation\Core;
@@ -22,6 +22,7 @@ class Larapi
         foreach (self::getModuleNames() as $moduleName) {
             $modules[] = self::getModule($moduleName);
         }
+
         return $modules;
     }
 
@@ -33,6 +34,7 @@ class Larapi
     public static function getModule(string $name): Module
     {
         $name = Str::studly($name);
+
         return new Module($name, self::getModulePath($name));
     }
 
@@ -59,17 +61,18 @@ class Larapi
      */
     private static function getModulePath(string $module): string
     {
-        $path = self::getModulesBasePath() . '/' . $module;
+        $path = self::getModulesBasePath().'/'.$module;
         if (file_exists($path)) {
             return $path;
         }
-        throw new \Foundation\Exceptions\Exception("Module not found", 500);
+        throw new \Foundation\Exceptions\Exception('Module not found', 500);
     }
 
     public static function getApiDomainName()
     {
         $apiDomain = str_replace('http://', '', strtolower(env('API_URL')));
         $apiDomain = str_replace('https://', '', $apiDomain);
+
         return $apiDomain;
     }
 }

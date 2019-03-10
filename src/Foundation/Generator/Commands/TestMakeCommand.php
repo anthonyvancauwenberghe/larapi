@@ -56,7 +56,7 @@ class TestMakeCommand extends \Nwidart\Modules\Commands\TestMakeCommand
 
         $testPath = GenerateConfigReader::read('test');
 
-        return $path . $testPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$testPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

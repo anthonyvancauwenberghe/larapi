@@ -42,7 +42,7 @@ class Machine extends MongoModel implements Ownable
     use Notifiable, OwnedByUser, ModelFactory, SoftDeletes;
 
     protected $policies = [
-        MachinePolicy::class
+        MachinePolicy::class,
     ];
 
     protected $observers = [

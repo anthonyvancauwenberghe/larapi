@@ -51,7 +51,7 @@ class FactoryMakeCommand extends AbstractGeneratorCommand
 
     protected function getClassName() :string
     {
-        return $this->getModelName() . 'Factory';
+        return $this->getModelName().'Factory';
     }
 
     protected function stubOptions(): array
@@ -59,7 +59,7 @@ class FactoryMakeCommand extends AbstractGeneratorCommand
         return [
             'CLASS' => $this->getClassName(),
             'MODEL' => $this->getModelName(),
-            'MODEL_NAMESPACE' => $this->getModuleNamespace() . '\\' . 'Entities' . '\\' . $this->getModelName()
+            'MODEL_NAMESPACE' => $this->getModuleNamespace().'\\'.'Entities'.'\\'.$this->getModelName(),
         ];
     }
 

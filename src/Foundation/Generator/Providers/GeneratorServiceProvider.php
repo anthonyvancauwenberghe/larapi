@@ -3,14 +3,14 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 18:23
+ * Time: 18:23.
  */
 
 namespace Foundation\Generator\Providers;
 
-use Foundation\Generator\Commands\EventMakeCommand;
 use Foundation\Generator\Commands\CommandMakeCommand;
 use Foundation\Generator\Commands\ControllerMakeCommand;
+use Foundation\Generator\Commands\EventMakeCommand;
 use Foundation\Generator\Commands\FactoryMakeCommand;
 use Foundation\Generator\Commands\JobMakeCommand;
 use Foundation\Generator\Commands\ListenerMakeCommand;
@@ -24,7 +24,7 @@ class GeneratorServiceProvider extends ServiceProvider
         ControllerMakeCommand::class,
         EventMakeCommand::class,
         JobMakeCommand::class,
-        ListenerMakeCommand::class
+        ListenerMakeCommand::class,
     ];
 
     /**

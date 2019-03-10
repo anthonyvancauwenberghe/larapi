@@ -45,7 +45,6 @@ class BootstrapServiceProvider extends ServiceProvider
         /* Override the seed command with the larapi custom one */
         $this->overrideSeedCommand();
 
-
         /* Register Model Policies */
         $this->loadModelPolicies();
 
@@ -62,7 +61,7 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         $this->bootstrapService = new BootstrapRegistrarService();
 
-        if (!($this->app->environment('production'))) {
+        if (! ($this->app->environment('production'))) {
             $this->bootstrapService->recache();
         }
     }
@@ -116,7 +115,7 @@ class BootstrapServiceProvider extends ServiceProvider
     public function loadFactories()
     {
         foreach ($this->bootstrapService->getFactories() as $factory) {
-            if (!$this->app->environment('production')) {
+            if (! $this->app->environment('production')) {
                 app(Factory::class)->load($factory['path']);
             }
         }
@@ -158,7 +157,7 @@ class BootstrapServiceProvider extends ServiceProvider
             foreach ($model['policies'] as $policy) {
                 Gate::policy($model['class'], $policy);
                 if ($model['ownable']) {
-                    Gate::define('access', OwnershipPolicy::class . '@access');
+                    Gate::define('access', OwnershipPolicy::class.'@access');
                 }
             }
         }

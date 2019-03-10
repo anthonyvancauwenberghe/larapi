@@ -6,9 +6,8 @@ use Foundation\Contracts\Ownable;
 use Foundation\Traits\ModelFactory;
 use Foundation\Traits\OwnedByUser;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
-use Modules\Proxy\Attributes\ProxyAttributes;
-use Modules\Machine\Entities\Machine;
 use Modules\Mongo\Abstracts\MongoModel;
+use Modules\Proxy\Attributes\ProxyAttributes;
 use Modules\Proxy\Policies\ProxyPolicy;
 use Modules\User\Entities\User;
 
@@ -22,7 +21,7 @@ class Proxy extends MongoModel implements Ownable, ProxyAttributes
     use OwnedByUser, ModelFactory, SoftDeletes;
 
     protected $policies = [
-        ProxyPolicy::class
+        ProxyPolicy::class,
     ];
 
     protected $observers = [
@@ -48,7 +47,7 @@ class Proxy extends MongoModel implements Ownable, ProxyAttributes
         'updated_at',
         'deleted_at',
         'last_alive_at',
-        'last_checked_at'
+        'last_checked_at',
     ];
 
     public function user()

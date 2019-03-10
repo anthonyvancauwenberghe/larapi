@@ -37,7 +37,7 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
         ModelFactory;
 
     protected $policies = [
-        UserPolicy::class
+        UserPolicy::class,
     ];
 
     protected $observers = [
