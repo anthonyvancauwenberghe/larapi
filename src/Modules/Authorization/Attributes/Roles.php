@@ -11,7 +11,7 @@ namespace Modules\Authorization\Attributes;
 interface Roles
 {
     const ADMIN = 'admin';
-    const USER = 'user';
+    const MEMBER = 'user';
     const GUEST = 'guest';
     const SCRIPTER = 'scripter';
     const TRUSTED_SCRIPTER = 'scripter.trusted';

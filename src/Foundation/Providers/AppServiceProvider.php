@@ -2,6 +2,7 @@
 
 namespace Foundation\Providers;
 
+use Foundation\Generator\Providers\GeneratorServiceProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         if (env('APP_ENV') === 'local') {
             $this->registerLocalPackages();
+            $this->registerGeneratorServiceProvider();
         }
     }
 
@@ -32,5 +34,10 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->register(\Nwidart\Modules\LaravelModulesServiceProvider::class);
         $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+    }
+
+    private function registerGeneratorServiceProvider()
+    {
+        $this->app->register(GeneratorServiceProvider::class);
     }
 }

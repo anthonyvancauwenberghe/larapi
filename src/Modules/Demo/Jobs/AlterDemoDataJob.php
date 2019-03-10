@@ -12,13 +12,15 @@ use Foundation\Abstracts\Jobs\Job;
 use Modules\Account\Contracts\AccountServiceContract;
 use Modules\Account\Services\AccountService;
 use Modules\Auth0\Contracts\Auth0ServiceContract;
-use Modules\Authorization\Entities\Role;
+use Modules\Auth0\Services\Auth0Service;
+use Modules\Auth0\Traits\Auth0TestUser;
 use Modules\Machine\Contracts\MachineServiceContract;
 use Modules\Machine\Services\MachineService;
-use Modules\User\Entities\User;
 
 class AlterDemoDataJob extends Job
 {
+    use Auth0TestUser;
+
     /**
      * @var MachineService
      */
@@ -30,7 +32,7 @@ class AlterDemoDataJob extends Job
     protected $accountService;
 
     /**
-     * @var Auth0ServiceContract
+     * @var Auth0Service
      */
     protected $userService;
 
@@ -48,7 +50,7 @@ class AlterDemoDataJob extends Job
 
     protected function alterMachineData()
     {
-        foreach ($this->machineService->getByUserId($this->userService->getTestUser(Role::ADMIN)) as $machine) {
+        foreach ($this->machineService->getByUserId($this->getTestUser()->id) as $machine) {
             $this->machineService->heartbeat($machine, [
                 'cpu_usage'    => rand(0, 100),
                 'memory_usage' => rand(1, $machine->memory_available),
@@ -59,7 +61,7 @@ class AlterDemoDataJob extends Job
 
     protected function alterAccountData()
     {
-        foreach ($this->accountService->getByUserId($this->userService->getTestUser(Role::ADMIN)) as $account) {
+        foreach ($this->accountService->getByUserId($this->getTestUser()->id) as $account) {
             $this->accountService->heartbeat($account, [
                 'cpu_usage'    => rand(0, 100),
                 'memory_usage' => rand(1, $account->memory_available),

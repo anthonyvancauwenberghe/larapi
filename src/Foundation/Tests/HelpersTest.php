@@ -10,11 +10,11 @@ namespace Foundation\Tests;
 
 use Foundation\Abstracts\Tests\CreatesApplication;
 use Foundation\Abstracts\Tests\TestCase;
+use Foundation\Core\Larapi;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use Modules\User\Entities\User;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class HelpersTest extends TestCase
 {
@@ -174,5 +174,10 @@ class HelpersTest extends TestCase
     {
         $this->assertArrayHasKey('TEST_CONSTANT', get_class_constants(static::class));
         $this->assertEquals(self::TEST_CONSTANT, get_class_constants(static::class)['TEST_CONSTANT']);
+    }
+
+    public function testInstanceWithoutConstructor()
+    {
+        $this->assertInstanceOf(Larapi::class, instance_without_constructor(Larapi::class));
     }
 }

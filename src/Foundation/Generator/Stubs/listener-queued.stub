@@ -3,12 +3,10 @@
 namespace $NAMESPACE$;
 
 use $EVENTNAME$;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Foundation\Abstracts\Listeners\QueuedListener;
 
-class $CLASS$ implements ShouldQueue
+class $CLASS$ extends QueuedListener
 {
-    use InteractsWithQueue;
 
     /**
      * Create the event listener.
@@ -26,8 +24,22 @@ class $CLASS$ implements ShouldQueue
      * @param  $SHORTEVENTNAME$  $event
      * @return void
      */
-    public function handle($SHORTEVENTNAME$ $event)
+    public function handle($SHORTEVENTNAME$ $event) :void
     {
         //
     }
+
+
+    /**
+     * Handle the event.
+     *
+     * @param  $SHORTEVENTNAME$  $event
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed($SHORTEVENTNAME$ $event, $exception) :void
+    {
+        //
+    }
+
 }

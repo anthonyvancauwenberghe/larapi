@@ -7,8 +7,6 @@ use Foundation\Console\BootstrapClearCacheCommand;
 use Foundation\Console\ClearModelsCacheCommand;
 use Foundation\Console\DatabaseResetCommand;
 use Foundation\Console\DisplayEnvCommand;
-use Foundation\Generator\Commands\CommandMakeCommand;
-use Foundation\Generator\Commands\FactoryMakeCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as LaravelConsoleKernel;
 use Modules\Demo\Jobs\AlterDemoDataJob;
@@ -25,10 +23,7 @@ class ConsoleKernel extends LaravelConsoleKernel
         BootstrapClearCacheCommand::class,
         DatabaseResetCommand::class,
         ClearModelsCacheCommand::class,
-        DisplayEnvCommand::class,
-
-        FactoryMakeCommand::class,
-        CommandMakeCommand::class
+        DisplayEnvCommand::class
     ];
 
     /**

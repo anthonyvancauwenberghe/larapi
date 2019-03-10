@@ -45,7 +45,7 @@ class UserService implements UserServiceContract
     public function create($data): User
     {
         $user = User::create($data);
-        $user->assignRole(Role::USER);
+        $user->assignRole(Role::MEMBER);
         event(new UserRegisteredEvent($user));
 
         return $user;
@@ -59,15 +59,15 @@ class UserService implements UserServiceContract
     public function newUser($data): User
     {
         $user = new User($data);
-        $user->assignRole(Role::USER);
+        $user->assignRole(Role::MEMBER);
 
         return $user;
     }
 
     public function setRoles($id, array $roles): void
     {
-        if (!in_array(Role::USER, $roles)) {
-            $roles[] = Role::USER;
+        if (!in_array(Role::MEMBER, $roles)) {
+            $roles[] = Role::MEMBER;
         }
         $this->find($id)->syncRoles($roles);
     }

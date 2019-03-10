@@ -9,7 +9,7 @@ use Modules\User\Transformers\UserTransformer;
 
 class UserHttpTest extends AuthorizedHttpTest
 {
-    protected $roles = Role::USER;
+    protected $roles = Role::MEMBER;
 
     protected $users;
 

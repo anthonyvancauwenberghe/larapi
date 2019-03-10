@@ -2,29 +2,17 @@
 
 namespace Foundation\Generator\Commands;
 
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
-class ControllerMakeCommand extends \Nwidart\Modules\Commands\ControllerMakeCommand
+class ControllerMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    /**
-     * The name of argument being used.
-     *
-     * @var string
-     */
-    protected $argumentName = 'controller';
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-controller';
+    protected $name = 'larapi:make:controller';
 
     /**
      * The console command description.
@@ -34,105 +22,32 @@ class ControllerMakeCommand extends \Nwidart\Modules\Commands\ControllerMakeComm
     protected $description = 'Generate new restful controller for the specified module.';
 
     /**
-     * Get controller name.
+     * The name of the generated resource.
      *
-     * @return string
+     * @var string
      */
-    public function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $controllerPath = GenerateConfigReader::read('controller');
-
-        return $path . $controllerPath->getPath() . '/' . $this->getControllerName() . '.php';
-    }
+    protected $generatorName = 'controller';
 
     /**
-     * @return string
+     * The stub name.
+     *
+     * @var string
      */
-    protected function getTemplateContents()
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub($this->getStubName(), [
-            'MODULENAME'        => $module->getStudlyName(),
-            'CONTROLLERNAME'    => $this->getControllerName(),
-            'NAMESPACE'         => $module->getStudlyName(),
-            'CLASS_NAMESPACE'   => $this->getClassNamespace($module),
-            'CLASS'             => $this->getControllerNameWithoutNamespace(),
-            'LOWER_NAME'        => $module->getLowerName(),
-            'MODULE'            => $this->getModuleName(),
-            'NAME'              => $this->getModuleName(),
-            'STUDLY_NAME'       => $module->getStudlyName(),
-            'MODULE_NAMESPACE'  => $this->laravel['modules']->config('namespace'),
-        ]))->render();
-    }
+    protected $stub = 'controller.stub';
 
     /**
-     * Get the console command arguments.
+     * The file path.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $filePath = '/Http/Controllers';
+
+    protected function stubOptions(): array
     {
         return [
-            ['controller', InputArgument::REQUIRED, 'The name of the controller class.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClassName(),
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['plain', 'p', InputOption::VALUE_NONE, 'Generate a plain controller', null],
-            ['api', null, InputOption::VALUE_NONE, 'Exclude the create and edit methods from the controller.'],
-        ];
-    }
-
-    /**
-     * @return array|string
-     */
-    protected function getControllerName()
-    {
-        $controller = studly_case($this->argument('controller'));
-
-        if (str_contains(strtolower($controller), 'controller') === false) {
-            $controller .= 'Controller';
-        }
-
-        return $controller;
-    }
-
-    /**
-     * @return array|string
-     */
-    private function getControllerNameWithoutNamespace()
-    {
-        return class_basename($this->getControllerName());
-    }
-
-    public function getDefaultNamespace() : string
-    {
-        return $this->laravel['modules']->config('paths.generator.controller.path', 'Http/Controllers');
-    }
-
-    /**
-     * Get the stub file name based on the options
-     * @return string
-     */
-    private function getStubName()
-    {
-        if ($this->option('plain') === true) {
-            $stub = '/controller-plain.stub';
-        } elseif ($this->option('api') === true) {
-            $stub = '/controller-api.stub';
-        } else {
-            $stub = '/controller.stub';
-        }
-
-        return $stub;
-    }
 }

@@ -1,21 +1,25 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: anthony
- * Date: 22-10-18
- * Time: 20:02.
+ * User: arthur
+ * Date: 09.03.19
+ * Time: 21:19
  */
 
-namespace Modules\Authorization\Attributes;
+namespace Modules\Authorization\Permissions;
 
+
+use Modules\Authorization\Abstracts\AbstractUserPermissions;
 use Modules\Authorization\Entities\Permission;
 use Modules\Authorization\Entities\Role;
 
-interface RolePermissions
+class ScripterPermissions extends AbstractUserPermissions
 {
-    const RELATIONS = [
-        Role::MEMBER => [
+    protected $role = Role::MEMBER;
 
+    public function getPermissions(): array
+    {
+        return [
             Permission::INDEX_ACCOUNT,
             Permission::SHOW_ACCOUNT,
             Permission::CREATE_ACCOUNT,
@@ -39,21 +43,8 @@ interface RolePermissions
             Permission::CREATE_SCHEDULE,
             Permission::UPDATE_SCHEDULE,
             Permission::DELETE_SCHEDULE
-        ],
+        ];
+    }
 
-        Role::GUEST => [
-            Permission::INDEX_ACCOUNT,
-            Permission::SHOW_ACCOUNT,
-            Permission::INDEX_MACHINE,
-            Permission::SHOW_MACHINE,
-        ],
 
-        Role::SCRIPTER => [
-
-        ],
-
-        Role::TRUSTED_SCRIPTER => [
-
-        ],
-    ];
 }

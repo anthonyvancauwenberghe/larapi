@@ -8,9 +8,8 @@
 
 namespace Foundation\Abstracts\Listeners;
 
-use Illuminate\Queue\InteractsWithQueue;
 
-abstract class Listener implements ListenerContract
+abstract class Listener
 {
-    use InteractsWithQueue;
+
 }

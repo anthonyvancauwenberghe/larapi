@@ -181,8 +181,8 @@ if (!function_exists('get_class_property')) {
     }
 }
 
-if (!function_exists('call_class_function')) {
-    function call_class_function($class, string $methodName)
+if (!function_exists('instance_without_constructor')) {
+    function instance_without_constructor($class)
     {
         if (!is_string($class)) {
             $class = get_class($class);
@@ -194,7 +194,14 @@ if (!function_exists('call_class_function')) {
             return;
         }
 
-        return $reflectionClass->newInstanceWithoutConstructor()->$methodName();
+        return $reflectionClass->newInstanceWithoutConstructor();
+    }
+}
+
+if (!function_exists('call_class_function')) {
+    function call_class_function($class, string $methodName)
+    {
+        return instance_without_constructor($class)->$methodName();
     }
 }
 

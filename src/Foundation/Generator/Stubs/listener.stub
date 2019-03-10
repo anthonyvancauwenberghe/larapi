@@ -5,9 +5,11 @@ namespace $NAMESPACE$;
 use $EVENTNAME$;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Foundation\Abstracts\Listeners\Listener;
 
-class $CLASS$
+class $CLASS$ extends Listener
 {
+
     /**
      * Create the event listener.
      *
@@ -21,11 +23,25 @@ class $CLASS$
     /**
      * Handle the event.
      *
-     * @param $SHORTEVENTNAME$ $event
+     * @param  $SHORTEVENTNAME$  $event
      * @return void
      */
-    public function handle($SHORTEVENTNAME$ $event)
+    public function handle($SHORTEVENTNAME$ $event) :void
     {
         //
     }
+
+
+    /**
+     * Handle the event.
+     *
+     * @param  $SHORTEVENTNAME$  $event
+     * @param  \Exception  $exception
+     * @return void
+     */
+    public function failed($SHORTEVENTNAME$ $event, $exception) :void
+    {
+        //
+    }
+
 }

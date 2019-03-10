@@ -1,11 +1,10 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace Modules\Proxy\Listeners;
 
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Modules\Proxy\Events\ProxyUpdatedEvent;
 
-class $CLASS$
+class ProxyUpdatedListener
 {
     /**
      * Create the event listener.
@@ -20,10 +19,10 @@ class $CLASS$
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param ProxyUpdatedEvent $event
      * @return void
      */
-    public function handle($event)
+    public function handle(ProxyUpdatedEvent $event)
     {
         //
     }

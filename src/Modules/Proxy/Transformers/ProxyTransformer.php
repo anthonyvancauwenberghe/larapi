@@ -8,6 +8,7 @@
 
 namespace Modules\Proxy\Transformers;
 
+use Carbon\Carbon;
 use Foundation\Abstracts\Transformers\Transformer;
 use Foundation\Exceptions\Exception;
 use Modules\Proxy\Entities\Proxy;
@@ -37,6 +38,7 @@ class ProxyTransformer extends Transformer
             'username' => $proxy->username,
             'password' => $proxy->password,
             'type' => $proxy->type,
+            'online' => $proxy->online,
             'monitor' => $proxy->monitor,
             'anonimity_level' => $proxy->anonimity_level,
             'last_alive_at' => $proxy->last_alive_at,

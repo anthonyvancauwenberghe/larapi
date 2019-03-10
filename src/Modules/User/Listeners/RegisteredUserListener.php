@@ -21,7 +21,7 @@ class RegisteredUserListener extends Listener
     public function handle($event): void
     {
         $event->user->notify(new UserRegisteredNotification($event->user));
-        $event->user->syncRoles(Role::USER);
+        $event->user->syncRoles(Role::MEMBER);
     }
 
     /**

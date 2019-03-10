@@ -1,11 +1,12 @@
 <?php
 
-namespace $NAMESPACE$;
+namespace Modules\Proxy\Listeners;
 
+use Modules\Proxy\Events\ProxyUpdatedEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class $CLASS$ implements ShouldQueue
+class ProxyDeletedListener implements ShouldQueue
 {
     use InteractsWithQueue;
 
@@ -22,10 +23,10 @@ class $CLASS$ implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  ProxyUpdatedEvent  $event
      * @return void
      */
-    public function handle($event)
+    public function handle(ProxyUpdatedEvent $event)
     {
         //
     }

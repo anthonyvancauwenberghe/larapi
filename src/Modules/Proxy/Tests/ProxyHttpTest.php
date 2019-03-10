@@ -14,7 +14,7 @@ use Modules\User\Entities\User;
 
 class ProxyHttpTest extends AuthorizedHttpTest
 {
-    protected $roles = Role::USER;
+    protected $roles = Role::MEMBER;
 
     /**
      * @var Proxy
@@ -142,7 +142,7 @@ class ProxyHttpTest extends AuthorizedHttpTest
 
         /* Test response for a guest user */
         $this->getUser()->syncRoles(Role::GUEST);
-        $this->assertFalse($this->getUser()->hasRole(Role::USER));
+        $this->assertFalse($this->getUser()->hasRole(Role::MEMBER));
         $this->assertTrue($this->getUser()->hasRole(Role::GUEST));
 
         $response = $this->http('PATCH', '/v1/proxies/' . $this->proxy->id, []);

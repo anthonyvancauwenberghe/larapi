@@ -13,7 +13,7 @@ use Modules\User\Entities\User;
 
 class AccountHttpTest extends AuthorizedHttpTest
 {
-    protected $roles = Role::USER;
+    protected $roles = Role::MEMBER;
 
     /**
      * @var Account
@@ -117,7 +117,7 @@ class AccountHttpTest extends AuthorizedHttpTest
 
     public function testDeleteAccount()
     {
-        $this->getUser()->syncRoles(Role::USER);
+        $this->getUser()->syncRoles(Role::MEMBER);
         $response = $this->http('DELETE', '/v1/accounts/' . $this->account->id);
         $response->assertStatus(204);
     }
@@ -163,7 +163,7 @@ class AccountHttpTest extends AuthorizedHttpTest
 
         /* Test response for a guest user */
         $this->getUser()->syncRoles(Role::GUEST);
-        $this->assertFalse($this->getUser()->hasRole(Role::USER));
+        $this->assertFalse($this->getUser()->hasRole(Role::MEMBER));
         $this->assertTrue($this->getUser()->hasRole(Role::GUEST));
 
         $response = $this->http('PATCH', '/v1/accounts/' . $this->account->id, []);

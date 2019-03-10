@@ -6,8 +6,10 @@ use Auth0\Login\Contract\Auth0UserRepository;
 use Auth0\SDK\Exception\CoreException;
 use Auth0\SDK\Exception\InvalidTokenException;
 use Closure;
+use Foundation\Abstracts\Middleware\Middleware;
+use Illuminate\Http\Request;
 
-class Auth0AuthenticationMiddleware
+class Auth0AuthenticationMiddleware extends Middleware
 {
     protected $auth0Service;
 
@@ -27,7 +29,7 @@ class Auth0AuthenticationMiddleware
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $auth0 = \App::make('auth0');
 

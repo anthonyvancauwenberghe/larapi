@@ -2,25 +2,19 @@
 
 namespace Foundation\Generator\Commands;
 
-use Nwidart\Modules\Module;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Exceptions\Exception;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class ListenerMakeCommand extends \Nwidart\Modules\Commands\ListenerMakeCommand
+class ListenerMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    protected $argumentName = 'name';
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-listener';
+    protected $name = 'larapi:make:listener';
 
     /**
      * The console command description.
@@ -30,16 +24,61 @@ class ListenerMakeCommand extends \Nwidart\Modules\Commands\ListenerMakeCommand
     protected $description = 'Create a new event listener class for the specified module';
 
     /**
-     * Get the console command arguments.
+     * The name of the generated resource.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $generatorName = 'listener';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Listeners';
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the command.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClassName(),
+            'EVENTNAME' => $this->getModuleNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
+            'SHORTEVENTNAME' => $this->getEventName(),
         ];
+    }
+
+    protected function getEventName(): string
+    {
+        return once(function () {
+            $eventName = $this->option('event') ?? $this->ask('What is the name of the event that should be listened on?', false) ?? "null";
+            if ($eventName === null)
+                throw new Exception("Eventname for listener not given");
+            return $eventName;
+        });
+    }
+
+    protected function listenerNeedsQueueing(): bool
+    {
+        return once(function () {
+            $option = $this->option('queued');
+            return app()->runningInConsole() && !$option ? $this->confirm('Should the listener be queued?', false) : $option;
+        });
+    }
+
+    protected function afterGeneration(): void
+    {
+        $this->info("don't forget to add the listener to " . $this->getEventName());
+    }
+
+    /**
+     * @return string
+     */
+    protected function stubName(): string
+    {
+        if ($this->listenerNeedsQueueing()) {
+            return '/listener-queued.stub';
+        }
+        return '/listener.stub';
     }
 
     /**
@@ -53,70 +92,5 @@ class ListenerMakeCommand extends \Nwidart\Modules\Commands\ListenerMakeCommand
             ['event', 'e', InputOption::VALUE_OPTIONAL, 'The event class being listened for.'],
             ['queued', null, InputOption::VALUE_NONE, 'Indicates the event listener should be queued.'],
         ];
-    }
-
-    protected function getTemplateContents()
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub($this->getStubName(), [
-            'NAMESPACE' => $this->getNamespace($module),
-            'EVENTNAME' => $this->getEventName($module),
-            'SHORTEVENTNAME' => $this->option('event'),
-            'CLASS' => $this->getClass(),
-        ]))->render();
-    }
-
-    private function getNamespace($module)
-    {
-        $listenerPath = GenerateConfigReader::read('listener');
-
-        $namespace = str_replace('/', '\\', $listenerPath->getPath());
-
-        return $this->getClassNamespace($module) . "\\" . $namespace;
-    }
-
-    protected function getEventName(Module $module)
-    {
-        $eventPath = GenerateConfigReader::read('event');
-
-        return $this->getClassNamespace($module) . "\\" . $eventPath->getPath() . "\\" . $this->option('event');
-    }
-
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $listenerPath = GenerateConfigReader::read('listener');
-
-        return $path . $listenerPath->getPath() . '/' . $this->getFileName() . '.php';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getFileName()
-    {
-        return studly_case($this->argument('name'));
-    }
-
-    /**
-     * @return string
-     */
-    protected function getStubName(): string
-    {
-        if ($this->option('queued')) {
-            if ($this->option('event')) {
-                return '/listener-queued.stub';
-            }
-
-            return '/listener-queued-duck.stub';
-        }
-
-        if ($this->option('event')) {
-            return '/listener.stub';
-        }
-
-        return '/listener-duck.stub';
     }
 }
