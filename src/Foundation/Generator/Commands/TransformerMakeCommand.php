@@ -9,7 +9,7 @@ use Nwidart\Modules\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class ResourceMakeCommand extends \Nwidart\Modules\Commands\ResourceMakeCommand
+class TransformerMakeCommand extends \Nwidart\Modules\Commands\ResourceMakeCommand
 {
     use ModuleCommandTrait;
 

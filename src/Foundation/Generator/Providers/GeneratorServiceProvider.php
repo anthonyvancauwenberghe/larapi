@@ -14,6 +14,12 @@ use Foundation\Generator\Commands\EventMakeCommand;
 use Foundation\Generator\Commands\FactoryMakeCommand;
 use Foundation\Generator\Commands\JobMakeCommand;
 use Foundation\Generator\Commands\ListenerMakeCommand;
+use Foundation\Generator\Commands\MiddlewareMakeCommand;
+use Foundation\Generator\Commands\MigrationMakeCommand;
+use Foundation\Generator\Commands\NotificationMakeCommand;
+use Foundation\Generator\Commands\ProviderMakeCommand;
+use Foundation\Generator\Events\FileGeneratedEvent;
+use Foundation\Generator\Listeners\CreateGeneratedFile;
 use Illuminate\Support\ServiceProvider;
 
 class GeneratorServiceProvider extends ServiceProvider
@@ -25,6 +31,10 @@ class GeneratorServiceProvider extends ServiceProvider
         EventMakeCommand::class,
         JobMakeCommand::class,
         ListenerMakeCommand::class,
+        MiddlewareMakeCommand::class,
+        MigrationMakeCommand::class,
+        ProviderMakeCommand::class,
+        NotificationMakeCommand::class
     ];
 
     /**
@@ -34,6 +44,7 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        \Event::listen(FileGeneratedEvent::class, CreateGeneratedFile::class);
     }
 
     /**
@@ -44,5 +55,6 @@ class GeneratorServiceProvider extends ServiceProvider
     public function register()
     {
         $this->commands($this->commands);
+
     }
 }

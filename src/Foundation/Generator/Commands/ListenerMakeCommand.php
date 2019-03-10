@@ -41,7 +41,7 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
         return [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
-            'EVENTNAME' => $this->getModuleNamespace().'\\'.'Events'.'\\'.$this->getEventName(),
+            'EVENTNAME' => $this->getModule()->getNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
             'SHORTEVENTNAME' => $this->getEventName(),
         ];
     }
@@ -62,14 +62,16 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
     {
         return once(function () {
             $option = $this->option('queued');
+            if ($option !== null)
+                $option = (bool)$option;
 
-            return app()->runningInConsole() && ! $option ? $this->confirm('Should the listener be queued?', false) : $option;
+            return $option === null ? $this->confirm('Should the listener be queued?', false) : $option;
         });
     }
 
     protected function afterGeneration(): void
     {
-        $this->info("don't forget to add the listener to ".$this->getEventName());
+        $this->info("don't forget to add the listener to " . $this->getEventName());
     }
 
     /**
@@ -78,10 +80,10 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
     protected function stubName(): string
     {
         if ($this->listenerNeedsQueueing()) {
-            return '/listener-queued.stub';
+            return 'listener-queued.stub';
         }
 
-        return '/listener.stub';
+        return 'listener.stub';
     }
 
     /**
@@ -93,7 +95,7 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
     {
         return [
             ['event', 'e', InputOption::VALUE_OPTIONAL, 'The event class being listened for.'],
-            ['queued', null, InputOption::VALUE_NONE, 'Indicates the event listener should be queued.'],
+            ['queued', null, InputOption::VALUE_OPTIONAL, 'Indicates the event listener should be queued.'],
         ];
     }
 }

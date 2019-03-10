@@ -36,6 +36,7 @@ class ProxyTransformer extends Transformer
             'username' => $proxy->username,
             'password' => $proxy->password,
             'type' => $proxy->type,
+            'uptime' => $proxy->uptime,
             'online' => $proxy->online,
             'monitor' => $proxy->monitor,
             'anonimity_level' => $proxy->anonimity_level,

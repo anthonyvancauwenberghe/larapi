@@ -2,25 +2,20 @@
 
 namespace Foundation\Generator\Commands;
 
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use function GuzzleHttp\Psr7\str;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Migrations\NameParser;
-use Nwidart\Modules\Support\Migrations\SchemaParser;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class MigrationMakeCommand extends \Nwidart\Modules\Commands\MigrationMakeCommand
+class MigrationMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-migration';
+    protected $name = 'larapi:make:migration';
 
     /**
      * The console command description.
@@ -30,16 +25,33 @@ class MigrationMakeCommand extends \Nwidart\Modules\Commands\MigrationMakeComman
     protected $description = 'Create a new migration for the specified module.';
 
     /**
-     * Get the console command arguments.
+     * The name of the generated resource.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $generatorName = 'migration';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Database/Migrations';
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The migration name will be created.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be created.'],
+            'CLASS' => $this->getClassName(),
+            'NAMESPACE' => $this->getClassNamespace(),
+            "TABLE" => $this->getTableName()
         ];
+    }
+
+    protected function getTableName(): string
+    {
+        return once(function () {
+            return $this->option('table') ?? $this->ask('What is the name of the table/collection?', strtolower(Str::plural($this->getModuleName())));
+        });
     }
 
     /**
@@ -50,61 +62,32 @@ class MigrationMakeCommand extends \Nwidart\Modules\Commands\MigrationMakeComman
     protected function getOptions()
     {
         return [
-            ['fields', null, InputOption::VALUE_OPTIONAL, 'The specified fields table.', null],
-            ['plain', null, InputOption::VALUE_NONE, 'Create plain migration.'],
+            ['mongo', null, InputOption::VALUE_OPTIONAL, 'Mongo migration.', null],
+            ['table', null, InputOption::VALUE_OPTIONAL, 'Name of the table/collection.', null],
         ];
     }
 
-    /**
-     * Get schema parser.
-     *
-     * @return SchemaParser
-     */
-    public function getSchemaParser()
+    protected function isMongoMigration(): bool
     {
-        return new SchemaParser($this->option('fields'));
+        return once(function () {
+            $option = $this->option('mongo');
+            if ($option !== null)
+                $option = (bool)$option;
+
+            return $option === null ? $this->confirm('Is this migration for a mongodb database?', false) : $option;
+        });
     }
 
     /**
-     * @throws \InvalidArgumentException
-     *
-     * @return mixed
+     * @return string
      */
-    protected function getTemplateContents()
+    protected function stubName(): string
     {
-        $parser = new NameParser($this->argument('name'));
-
-        if ($parser->isCreate()) {
-            return Stub::create('/migration/create.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields' => $this->getSchemaParser()->render(),
-            ]);
-        } elseif ($parser->isAdd()) {
-            return Stub::create('/migration/add.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields_up' => $this->getSchemaParser()->up(),
-                'fields_down' => $this->getSchemaParser()->down(),
-            ]);
-        } elseif ($parser->isDelete()) {
-            return Stub::create('/migration/delete.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields_down' => $this->getSchemaParser()->up(),
-                'fields_up' => $this->getSchemaParser()->down(),
-            ]);
-        } elseif ($parser->isDrop()) {
-            return Stub::create('/migration/drop.stub', [
-                'class' => $this->getClass(),
-                'table' => $parser->getTableName(),
-                'fields' => $this->getSchemaParser()->render(),
-            ]);
+        if ($this->isMongoMigration()) {
+            return 'migration-mongo.stub';
         }
 
-        return Stub::create('/migration/plain.stub', [
-            'class' => $this->getClass(),
-        ]);
+        return 'migration.stub';
     }
 
     /**
@@ -112,19 +95,15 @@ class MigrationMakeCommand extends \Nwidart\Modules\Commands\MigrationMakeComman
      */
     protected function getDestinationFilePath()
     {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $generatorPath = GenerateConfigReader::read('migration');
-
-        return $path.$generatorPath->getPath().'/'.$this->getFileName().'.php';
+        return $this->getModule()->getPath() . $this->filePath . '/' . $this->getDestinationFileName() . '.php';
     }
 
     /**
      * @return string
      */
-    private function getFileName()
+    private function getDestinationFileName()
     {
-        return date('Y_m_d_His_').$this->getSchemaName();
+        return date('Y_m_d_His_') . $this->getSchemaName();
     }
 
     /**
@@ -132,31 +111,12 @@ class MigrationMakeCommand extends \Nwidart\Modules\Commands\MigrationMakeComman
      */
     private function getSchemaName()
     {
-        return $this->argument('name');
-    }
-
-    /**
-     * @return string
-     */
-    private function getClassName()
-    {
-        return Str::studly($this->argument('name'));
-    }
-
-    public function getClass()
-    {
-        return $this->getClassName();
-    }
-
-    /**
-     * Run the command.
-     */
-    public function handle()
-    {
-        parent::handle();
-
-        if (app()->environment() === 'testing') {
-            return;
+        $schemaName = "";
+        $splittedInCapsName = $pieces = preg_split('/(?=[A-Z])/', $this->getClassName());
+        foreach ($splittedInCapsName as $word) {
+            $schemaName = $schemaName . $word . '_';
         }
+
+        return strtolower(rtrim($schemaName, '_'));
     }
 }

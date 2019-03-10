@@ -2,29 +2,17 @@
 
 namespace Foundation\Generator\Commands;
 
-use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
-class MiddlewareMakeCommand extends \Nwidart\Modules\Commands\MiddlewareMakeCommand
+class MiddlewareMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    /**
-     * The name of argument name.
-     *
-     * @var string
-     */
-    protected $argumentName = 'name';
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-middleware';
+    protected $name = 'larapi:make:middleware';
 
     /**
      * The console command description.
@@ -33,54 +21,44 @@ class MiddlewareMakeCommand extends \Nwidart\Modules\Commands\MiddlewareMakeComm
      */
     protected $description = 'Create a new middleware class for the specified module.';
 
-    public function getDefaultNamespace() : string
-    {
-        return $this->laravel['modules']->config('paths.generator.filter.path', 'Http/Middleware');
-    }
+    /**
+     * The name of the generated resource.
+     *
+     * @var string
+     */
+    protected $generatorName = 'middleware';
 
     /**
-     * Get the console command arguments.
+     * The stub name.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $stub = 'middleware.stub';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Http/Middleware';
+
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the command.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'CLASS' => $this->getClassName(),
+            'NAMESPACE' => $this->getClassNamespace(),
         ];
     }
 
     /**
-     * @return mixed
+     * Get the console command options.
+     *
+     * @return array
      */
-    protected function getTemplateContents()
+    protected function getOptions()
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub('/middleware.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
-        ]))->render();
+        return [];
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $middlewarePath = GenerateConfigReader::read('filter');
-
-        return $path.$middlewarePath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
-    }
 }

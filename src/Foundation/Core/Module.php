@@ -9,6 +9,7 @@
 namespace Foundation\Core;
 
 use Foundation\Abstracts\Events\Event;
+use Foundation\Abstracts\Jobs\Job;
 use Foundation\Abstracts\Listeners\Listener;
 use Foundation\Abstracts\Middleware\Middleware;
 use Foundation\Abstracts\Observers\Observer;
@@ -156,6 +157,11 @@ final class Module
     public function getControllers()
     {
         return new Resource('controllers', '/Http/Controllers', $this, Controller::class);
+    }
+
+    public function getJobs()
+    {
+        return new Resource('jobs', '/Jobs', $this, Job::class);
     }
 
     public function getNamespace(): string

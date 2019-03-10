@@ -2,23 +2,17 @@
 
 namespace Foundation\Generator\Commands;
 
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
-final class NotificationMakeCommand extends \Illuminate\Foundation\Console\NotificationMakeCommand
+final class NotificationMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-notification';
-
-    protected $argumentName = 'name';
+    protected $name = 'larapi:make:notification';
 
     /**
      * The console command description.
@@ -27,58 +21,32 @@ final class NotificationMakeCommand extends \Illuminate\Foundation\Console\Notif
      */
     protected $description = 'Create a new notification class for the specified module.';
 
-    public function getDefaultNamespace() : string
-    {
-        return $this->laravel['modules']->config('paths.generator.notifications.path', 'Notifications');
-    }
-
     /**
-     * Get template contents.
+     * The name of the generated resource.
      *
-     * @return string
+     * @var string
      */
-    protected function getTemplateContents()
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub('/notification.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
-        ]))->render();
-    }
+    protected $generatorName = 'notification';
 
     /**
-     * Get the destination file path.
+     * The stub name.
      *
-     * @return string
+     * @var string
      */
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $notificationPath = GenerateConfigReader::read('notifications');
-
-        return $path.$notificationPath->getPath().'/'.$this->getFileName().'.php';
-    }
+    protected $stub = 'notification.stub';
 
     /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return studly_case($this->argument('name'));
-    }
-
-    /**
-     * Get the console command arguments.
+     * The file path.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $filePath = '/Notifications';
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the notification class.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClassName(),
         ];
     }
 }

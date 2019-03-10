@@ -8,6 +8,9 @@
 
 namespace Foundation\Generator\Abstracts;
 
+use Foundation\Core\Larapi;
+use Foundation\Core\Module;
+use Foundation\Generator\Events\FileGeneratedEvent;
 use Foundation\Generator\Support\Stub;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Commands\GeneratorCommand;
@@ -41,7 +44,31 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
      */
     protected function getDestinationFilePath()
     {
-        return $this->getModulePath().$this->filePath.'/'.$this->getFileName();
+        return $this->getModule()->getPath() . $this->filePath . '/' . $this->getFileName();
+    }
+
+    protected function getTemplateContents(){
+
+    }
+
+    public function handle()
+    {
+        $this->beforeGeneration();
+        $path = str_replace('\\', '/', $this->getDestinationFilePath());
+
+        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
+            $this->laravel['files']->makeDirectory($dir, 0777, true);
+        }
+
+        if(file_exists($path)){
+            $this->error("File : {$path} already exists.");
+        }
+
+        $this->info("Created : {$path}");
+
+        event(new FileGeneratedEvent($this->getDestinationFilePath(), $this->stubName(), $this->stubOptions()));
+
+        $this->afterGeneration();
     }
 
     /**
@@ -49,12 +76,14 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
      */
     protected function getFileName()
     {
-        return $this->getClassName().'.php';
+        return $this->getClassName() . '.php';
     }
 
-    protected function getModulePath(): string
+    protected function getModule(): Module
     {
-        return get_module_path($this->getModuleName());
+        return once(function () {
+            return Larapi::getModule($this->getModuleName());
+        });
     }
 
     protected function getModuleName(): string
@@ -66,7 +95,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
 
     private function askModuleName(): string
     {
-        $moduleName = $this->argument('module') ?? $this->ask('For what module would you like to generate a '.$this->getGeneratorName().'.');
+        $moduleName = $this->argument('module') ?? $this->ask('For what module would you like to generate a ' . $this->getGeneratorName() . '.');
 
         if ($moduleName === null) {
             throw new \Exception('Name of module not set.');
@@ -83,25 +112,10 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
      */
     public function getClassNamespace($module = null): string
     {
-        return $this->getModuleNamespace().str_replace('/', '\\', $this->filePath);
+        return $this->getModule()->getNamespace() . str_replace('/', '\\', $this->filePath);
     }
 
-    protected function getModuleNamespace(): string
-    {
-        return 'Modules'.'\\'.$this->getModuleName();
-    }
 
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
-    {
-        $this->beforeGeneration();
-        $stub = (new Stub($this->stubName(), $this->stubOptions()))->render();
-        $this->afterGeneration();
-
-        return $stub;
-    }
 
     protected function beforeGeneration(): void
     {
@@ -122,10 +136,10 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
 
     private function askClassName(): string
     {
-        $className = $this->argument('name') ?? $this->ask('Specify the name of the '.$this->getGeneratorName().'.');
+        $className = $this->argument('name') ?? $this->ask('Specify the name of the ' . $this->getGeneratorName() . '.');
 
         if ($className === null) {
-            throw new \Exception('Name of '.$this->getGeneratorName().' not set.');
+            throw new \Exception('Name of ' . $this->getGeneratorName() . ' not set.');
         }
 
         return $className;
@@ -140,7 +154,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     {
         return [
             ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
-            ['name', InputArgument::OPTIONAL, 'The name of the '.$this->getGeneratorName().'.'],
+            ['name', InputArgument::OPTIONAL, 'The name of the ' . $this->getGeneratorName() . '.'],
         ];
     }
 
@@ -151,9 +165,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
      */
     protected function getOptions()
     {
-        return [
-
-        ];
+        return [];
     }
 
     protected function getGeneratorName(): string

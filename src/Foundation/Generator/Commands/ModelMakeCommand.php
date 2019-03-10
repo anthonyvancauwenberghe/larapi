@@ -2,30 +2,22 @@
 
 namespace Foundation\Generator\Commands;
 
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Support\Config\GenerateConfigReader;
 use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
+class ModelMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    /**
-     * The name of argument name.
-     *
-     * @var string
-     */
-    protected $argumentName = 'model';
 
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-model';
+    protected $name = 'larapi:make:model';
 
     /**
      * The console command description.
@@ -84,7 +76,7 @@ class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
     protected function getOptions()
     {
         return [
-            ['fillable', null, InputOption::VALUE_OPTIONAL, 'The fillable attributes.', null],
+            ['fillable', null, InputOption::VALUE_IS_ARRAY, 'The fillable attributes.', null],
             ['migration', 'm', InputOption::VALUE_NONE, 'Flag to create associated migrations', null],
         ];
     }

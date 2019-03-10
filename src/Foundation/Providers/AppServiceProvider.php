@@ -26,6 +26,9 @@ class AppServiceProvider extends ServiceProvider
     {
         if (env('APP_ENV') === 'local') {
             $this->registerLocalPackages();
+        }
+
+        if (env('APP_ENV') !== 'production') {
             $this->registerGeneratorServiceProvider();
         }
     }

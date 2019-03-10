@@ -59,7 +59,7 @@ class FactoryMakeCommand extends AbstractGeneratorCommand
         return [
             'CLASS' => $this->getClassName(),
             'MODEL' => $this->getModelName(),
-            'MODEL_NAMESPACE' => $this->getModuleNamespace().'\\'.'Entities'.'\\'.$this->getModelName(),
+            'MODEL_NAMESPACE' => $this->getModule()->getNamespace().'\\'.'Entities'.'\\'.$this->getModelName(),
         ];
     }
 
