@@ -10,4 +10,6 @@
 
 ## About Larapi
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d7afbe618919445b9011feddc6dda45d)](https://app.codacy.com/app/deviouspk/larapi?utm_source=github.com&utm_medium=referral&utm_content=deviouspk/larapi&utm_campaign=Badge_Grade_Dashboard)
+
 > **Note:** This repository is an abstraction layer over the core code of the Laravel Modules framework by Nwidart . If you want to build an application using Laravel 5, visit the main [Laravel repository](https://github.com/laravel/laravel).
