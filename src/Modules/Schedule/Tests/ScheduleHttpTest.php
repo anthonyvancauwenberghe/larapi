@@ -29,7 +29,7 @@ class ScheduleHttpTest extends AuthorizedHttpTest
     protected function seedData()
     {
         parent::seedData();
-        $this->schedule = factory(Schedule::class)->create(['user_id' => $this->getUser()->id]);
+        $this->schedule = factory(Schedule::class)->create(['user_id' => $this->getActingUser()->id]);
         $this->service = $this->app->make(ScheduleServiceContract::class);
     }
 
@@ -38,13 +38,13 @@ class ScheduleHttpTest extends AuthorizedHttpTest
         $response = $this->http('GET', '/v1/schedules');
         $response->assertStatus(200);
         $this->assertEquals(
-            ScheduleTransformer::collection($this->service->getByUserId($this->getUser()->id))->serialize(),
+            ScheduleTransformer::collection($this->service->getByUserId($this->getActingUser()->id))->serialize(),
             $response->decode()
         );
     }
 
     public function testAllSchedulesAsAdmin(){
-        $this->getUser()->syncRoles(Role::ADMIN);
+        $this->getActingUser()->syncRoles(Role::ADMIN);
         $this->testAllSchedules();
     }
 
@@ -58,7 +58,7 @@ class ScheduleHttpTest extends AuthorizedHttpTest
         $response = $this->http('GET', '/v1/schedules/' . $this->schedule->id);
         $response->assertStatus(200);
 
-        $this->getUser()->syncRoles(Role::GUEST);
+        $this->getActingUser()->syncRoles(Role::GUEST);
         $response = $this->http('GET', '/v1/schedules/' . $this->schedule->id);
         $response->assertStatus(403);
     }
@@ -110,7 +110,7 @@ class ScheduleHttpTest extends AuthorizedHttpTest
         $user = factory(User::class)->create();
         $Schedule = factory(Schedule::class)->create(['user_id' => $user->id]);
 
-        $this->getUser()->syncRoles(Role::ADMIN);
+        $this->getActingUser()->syncRoles(Role::ADMIN);
         $response = $this->http('GET', '/v1/schedules/' . $Schedule->id);
         $response->assertStatus(200);
     }
@@ -123,7 +123,7 @@ class ScheduleHttpTest extends AuthorizedHttpTest
     public function testCreateSchedule()
     {
         $schedule = Schedule::fromFactory()->make([
-            'user_id' => $this->getUser()->id,
+            'user_id' => $this->getActingUser()->id,
         ]);
         $response = $this->http('POST', '/v1/schedules', $schedule->toArray());
         $response->assertStatus(201);
@@ -143,9 +143,9 @@ class ScheduleHttpTest extends AuthorizedHttpTest
         $response->assertStatus(200);
 
         /* Test response for a guest user */
-        $this->getUser()->syncRoles(Role::GUEST);
-        $this->assertFalse($this->getUser()->hasRole(Role::MEMBER));
-        $this->assertTrue($this->getUser()->hasRole(Role::GUEST));
+        $this->getActingUser()->syncRoles(Role::GUEST);
+        $this->assertFalse($this->getActingUser()->hasRole(Role::MEMBER));
+        $this->assertTrue($this->getActingUser()->hasRole(Role::GUEST));
 
         $response = $this->http('PATCH', '/v1/schedules/' . $this->schedule->id, []);
         $response->assertStatus(403);

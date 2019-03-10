@@ -7,6 +7,7 @@ use Foundation\Traits\ModelFactory;
 use Foundation\Traits\OwnedByUser;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Modules\Account\Attributes\AccountAttributes;
+use Modules\Account\Policies\AccountPolicy;
 use Modules\Machine\Entities\Machine;
 use Modules\Mongo\Abstracts\MongoModel;
 use Modules\User\Entities\User;
@@ -19,6 +20,14 @@ use Modules\User\Entities\User;
 class Account extends MongoModel implements Ownable, AccountAttributes
 {
     use OwnedByUser, ModelFactory, SoftDeletes;
+
+    protected $policies = [
+        AccountPolicy::class
+    ];
+
+    protected $observers = [
+
+    ];
 
     /**
      * @var string

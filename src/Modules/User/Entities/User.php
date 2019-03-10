@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Modules\Authorization\Traits\HasRoles;
 use Modules\Notification\Traits\ReceivesWebNotifications;
+use Modules\User\Policies\UserPolicy;
 
 /**
  * Class User.
@@ -34,6 +35,14 @@ class User extends Model implements AuthorizableContract, AuthenticatableContrac
         HasRoles,
         ReceivesWebNotifications,
         ModelFactory;
+
+    protected $policies = [
+        UserPolicy::class
+    ];
+
+    protected $observers = [
+
+    ];
 
     protected $guard_name = 'api';
 

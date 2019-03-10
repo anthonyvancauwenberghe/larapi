@@ -15,13 +15,13 @@ final class AuthorizedTest extends AuthorizedHttpTest
 {
     public function testUserIdEqualsIdentityId()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
         $this->assertEquals($user->identity_id, User::find($user->id)->identity_id);
     }
 
     public function testAuthorized()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
         $userId = $user->getKey();
         $http = $this->http('GET', '/authorized');
         $http->assertStatus(200);

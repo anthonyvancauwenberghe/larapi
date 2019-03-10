@@ -8,6 +8,8 @@
 
 namespace Foundation\Core;
 
+use Foundation\Exceptions\Exception;
+
 final class Resource
 {
     /**
@@ -33,7 +35,7 @@ final class Resource
     /**
      * @var File[] $files
      */
-    protected $files;
+    protected $files = [];
 
     /**
      * LarapiModule constructor.
@@ -57,7 +59,7 @@ final class Resource
     {
         $files = $this->getAllPhpFileNamesWithoutExtension();
         foreach ($files as $file) {
-            $this->files[] = new File($file, $this->getPath() . '\\' . $file . '.php', $this);
+            $this->files[] = new File($file, $this->getPath() . '/' . $file . '.php', $this);
         }
     }
 
@@ -127,7 +129,12 @@ final class Resource
 
     public function getAllFileNames()
     {
-        return array_diff(scandir($this->getPath()), ['..', '.']);
+        try {
+            $fileNames = array_diff(scandir($this->getPath()), ['..', '.']);
+        } Catch(\ErrorException $e){
+            $fileNames = [];
+        }
+        return $fileNames;
     }
 
     public function getAllPhpFileNames()

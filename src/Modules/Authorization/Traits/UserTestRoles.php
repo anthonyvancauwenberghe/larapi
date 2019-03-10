@@ -13,7 +13,7 @@ use Modules\Authorization\Entities\Role;
 
 trait UserTestRoles
 {
-    public function setup(): void
+    public function setUp(): void
     {
         parent::setUp();
 
@@ -27,6 +27,6 @@ trait UserTestRoles
 
     protected function setUserRoles($roles)
     {
-        $this->getUser()->syncRoles($roles);
+        $this->getActingUser()->syncRoles($roles);
     }
 }

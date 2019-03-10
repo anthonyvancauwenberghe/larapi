@@ -71,16 +71,17 @@ final class Module
 
     public function getConfigs()
     {
-        return new Resource('configs', '/Configs', $this);
+        return new Resource('configs', '/Config', $this);
     }
 
-    public function getFactories(){
-        return new Resource('factories', '/Listeners', $this);
+    public function getFactories()
+    {
+        return new Resource('factories', '/Database/factories', $this);
     }
 
     public function getEvents()
     {
-        return new Resource('events', '/Listeners', $this, Event::class);
+        return new Resource('events', '/Events', $this, Event::class);
     }
 
     public function getRoutes()
@@ -90,7 +91,7 @@ final class Module
 
     public function getServices()
     {
-        return new Resource('services', '/Listeners', $this, Service::class);
+        return new Resource('services', '/Services', $this, Service::class);
     }
 
     public function getPolicies()
@@ -98,51 +99,63 @@ final class Module
         return new Resource('policies', '/Policies', $this, Policy::class);
     }
 
-    public function getTransformers(){
+    public function getTransformers()
+    {
         return new Resource('transformers', '/Transformers', $this, JsonResource::class);
     }
 
-    public function getProviders(){
+    public function getServiceProviders()
+    {
         return new Resource('providers', '/Providers', $this, ServiceProvider::class);
     }
 
-    public function getMigrations(){
+    public function getMigrations()
+    {
         return new Resource('migrations', '/Database/Migrations', $this, Migration::class);
     }
 
-    public function getModels(){
+    public function getModels()
+    {
         return new Resource('models', '/Entities', $this, Model::class);
     }
 
-    public function getObservers(){
+    public function getObservers()
+    {
         return new Resource('observers', '/Observers', $this, Observer::class);
     }
 
-    public function getSeeders(){
+    public function getSeeders()
+    {
         return new Resource('seeders', '/Database/Seeders', $this, Seeder::class);
     }
 
-    public function getRequests(){
+    public function getRequests()
+    {
         return new Resource('requests', '/Http/Requests', $this, Request::class);
     }
 
-    public function getMiddleWare(){
+    public function getMiddleWare()
+    {
         return new Resource('middleware', '/Http/Middleware', $this, MiddleWare::class);
     }
 
-    public function getTests(){
+    public function getTests()
+    {
         return new Resource('tests', '/Tests', $this, TestCase::class);
     }
 
-    public function getCommands(){
+    public function getCommands()
+    {
         return new Resource('commands', '/Console', $this, Command::class);
     }
 
-    public function getNotifications(){
+    public function getNotifications()
+    {
         return new Resource('notifications', '/Notifications', $this, Notification::class);
     }
 
-    public function getControllers(){
+    public function getControllers()
+    {
         return new Resource('controllers', '/Http/Controllers', $this, Controller::class);
     }
 
@@ -151,7 +164,8 @@ final class Module
         return 'Modules' . '\\' . $this->getName();
     }
 
-    public function getMainModel(){
+    public function getMainModel()
+    {
         return $this->getModels()->getClassByName($this->getName());
     }
 }

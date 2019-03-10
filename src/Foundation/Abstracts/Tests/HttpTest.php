@@ -29,7 +29,7 @@ abstract class HttpTest extends \Foundation\Abstracts\Tests\TestCase
     protected function http(string $method, string $route, array $payload = [], array $headers = []) : \Foundation\Abstracts\Tests\TestResponse
     {
         if(!in_array($method,['GET','POST','PATCH','DELETE','PUT']))
-            throw new \HttpRequestMethodException("Invalid Http Method");
+            throw new \Exception("Invalid Http Method");
 
         return new \Foundation\Abstracts\Tests\TestResponse($this->json($method, env('API_URL').$route, $payload, $headers)->baseResponse);
     }

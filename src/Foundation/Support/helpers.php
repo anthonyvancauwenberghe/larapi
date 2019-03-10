@@ -191,8 +191,10 @@ if (!function_exists('instance_without_constructor')) {
         try {
             $reflectionClass = new \ReflectionClass($class);
         } catch (ReflectionException $e) {
-            return;
+            return null;
         }
+        if ($reflectionClass->isAbstract())
+            return null;
 
         return $reflectionClass->newInstanceWithoutConstructor();
     }

@@ -3,13 +3,9 @@
 namespace Foundation\Providers;
 
 use Foundation\Console\SeedCommand;
-use Foundation\Contracts\ConditionalAutoRegistration;
-use Foundation\Contracts\ModelPolicyContract;
-use Foundation\Contracts\Ownable;
 use Foundation\Observers\CacheObserver;
 use Foundation\Policies\OwnershipPolicy;
 use Foundation\Services\BootstrapRegistrarService;
-use Foundation\Traits\Cacheable;
 use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
@@ -49,10 +45,12 @@ class BootstrapServiceProvider extends ServiceProvider
         /* Override the seed command with the larapi custom one */
         $this->overrideSeedCommand();
 
-        $this->loadOwnershipPolicies();
 
-        /* Register Policies after ownership policies otherwise they would not get overriden */
-        $this->loadPolicies();
+        /* Register Model Policies */
+        $this->loadModelPolicies();
+
+        /* Register Model Observers */
+        $this->loadModelObservers();
 
         /* Register all Module Service providers.
         ** Always load at the end so the user has the ability to override certain functionality
@@ -64,40 +62,36 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         $this->bootstrapService = new BootstrapRegistrarService();
 
-        if (! ($this->app->environment('production'))) {
+        if (!($this->app->environment('production'))) {
             $this->bootstrapService->recache();
         }
     }
 
     private function loadCommands()
     {
-        $this->commands($this->bootstrapService->getCommands());
+        foreach ($this->bootstrapService->getCommands() as $command) {
+            $this->commands($command['class']);
+        }
     }
+
 
     private function loadRoutes()
     {
+        $moduleModel = null;
         foreach ($this->bootstrapService->getRoutes() as $route) {
-            $path = $route['path'];
-            $fileNameArray = explode('.', $route['filename']);
-            $routePrefix = $fileNameArray[0];
-            $version = $fileNameArray[1];
-
-            if ($version === 'php') {
-                $prefix = $routePrefix;
-            } else {
-                $prefix = $version.'/'.$routePrefix;
-            }
-
             Route::group([
-                'prefix'     => $prefix,
-                'namespace'  => $route['controller'],
-                'domain'     => $route['domain'],
+                'prefix' => $route['prefix'],
+                'namespace' => $route['controller_namespace'],
+                'domain' => $route['domain'],
                 'middleware' => ['api'],
-            ], function () use ($path) {
-                require $path;
+            ], function () use ($route) {
+                require $route['path'];
             });
-            Route::model($route['module'], $route['model']);
+            if ($moduleModel !== $route['module_model'])
+                Route::model(strtolower(get_short_class_name($route['module_model'])), $route['module_model']);
+            $moduleModel = $route['module_model'];
         }
+
     }
 
     /**
@@ -108,13 +102,8 @@ class BootstrapServiceProvider extends ServiceProvider
     protected function loadConfigs()
     {
         foreach ($this->bootstrapService->getConfigs() as $config) {
-            if (isset($config['filename']) && is_string($config['filename'])) {
-                $fileName = $config['filename'];
-                $configName = strtolower(explode('.', $fileName)[0]);
-                $this->mergeConfigFrom(
-                    $config['path'], $configName
-                );
-            }
+            $this->mergeConfigFrom(
+                $config['path'], $config['name']);
         }
     }
 
@@ -126,7 +115,7 @@ class BootstrapServiceProvider extends ServiceProvider
     public function loadFactories()
     {
         foreach ($this->bootstrapService->getFactories() as $factory) {
-            if (! $this->app->environment('production')) {
+            if (!$this->app->environment('production')) {
                 app(Factory::class)->load($factory['path']);
             }
         }
@@ -144,15 +133,6 @@ class BootstrapServiceProvider extends ServiceProvider
         }
     }
 
-    private function loadPolicies()
-    {
-        foreach ($this->bootstrapService->getPolicies() as $policy) {
-            if (class_implements_interface($policy['class'], ModelPolicyContract::class)) {
-                Gate::policy($policy['model'], $policy['class']);
-            }
-        }
-    }
-
     private function overrideSeedCommand()
     {
         $app = $this->app;
@@ -165,18 +145,29 @@ class BootstrapServiceProvider extends ServiceProvider
     private function loadCacheObservers()
     {
         foreach ($this->bootstrapService->getModels() as $model) {
-            if (class_uses_trait($model, Cacheable::class)) {
-                $model::observe(CacheObserver::class);
+            if ($model['cacheable']) {
+                $model['class']::observe(CacheObserver::class);
             }
         }
     }
 
-    private function loadOwnershipPolicies()
+    private function loadModelPolicies()
     {
         foreach ($this->bootstrapService->getModels() as $model) {
-            if (class_implements_interface($model, Ownable::class)) {
-                Gate::policy($model, OwnershipPolicy::class);
-                Gate::define('access', OwnershipPolicy::class.'@access');
+            foreach ($model['policies'] as $policy) {
+                Gate::policy($model['class'], $policy);
+                if ($model['ownable']) {
+                    Gate::define('access', OwnershipPolicy::class . '@access');
+                }
+            }
+        }
+    }
+
+    private function loadModelObservers()
+    {
+        foreach ($this->bootstrapService->getModels() as $model) {
+            foreach ($model['observers'] as $observer) {
+                $model['class']::observe($observer);
             }
         }
     }
@@ -184,9 +175,7 @@ class BootstrapServiceProvider extends ServiceProvider
     private function loadServiceProviders()
     {
         foreach ($this->bootstrapService->getProviders() as $provider) {
-            if ($this->passedRegistrationCondition($provider)) {
-                $this->app->register($provider);
-            }
+            $this->app->register($provider['class']);
         }
     }
 
@@ -197,14 +186,5 @@ class BootstrapServiceProvider extends ServiceProvider
                 Event::listen($event['class'], $listener);
             }
         }
-    }
-
-    private function passedRegistrationCondition($class)
-    {
-        if (! class_implements_interface($class, ConditionalAutoRegistration::class)) {
-            return true;
-        }
-
-        return call_class_function($class, 'registrationCondition');
     }
 }

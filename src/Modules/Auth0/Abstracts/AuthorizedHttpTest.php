@@ -36,8 +36,15 @@ abstract class AuthorizedHttpTest extends HttpTest
         return parent::http($method, $route, $payload, $headers);
     }
 
-    protected function setUser($user)
+    protected function actingUser()
     {
-        parent::setUser($this->getTestUser());
+        return $this->getTestUser();
+    }
+
+    public function actingAs($user, $driver = null)
+    {
+        if (!$user->is($this->getTestUser()))
+            throw new \Foundation\Exceptions\Exception("cannot set another user for authorized http tests. Sync other roles/permissions instead.");
+        parent::actingAs($user, $driver);
     }
 }

@@ -9,6 +9,7 @@ use Foundation\Traits\Notifiable;
 use Foundation\Traits\OwnedByUser;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Modules\Account\Entities\Account;
+use Modules\Machine\Policies\MachinePolicy;
 use Modules\Mongo\Abstracts\MongoModel;
 use Modules\User\Entities\User;
 
@@ -39,6 +40,14 @@ use Modules\User\Entities\User;
 class Machine extends MongoModel implements Ownable
 {
     use Notifiable, OwnedByUser, ModelFactory, SoftDeletes;
+
+    protected $policies = [
+        MachinePolicy::class
+    ];
+
+    protected $observers = [
+
+    ];
 
     /**
      * @var string

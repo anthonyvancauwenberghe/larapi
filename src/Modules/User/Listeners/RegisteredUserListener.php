@@ -11,16 +11,16 @@ namespace Modules\User\Listeners;
 use Foundation\Abstracts\Listeners\Listener;
 use Modules\Authorization\Entities\Role;
 use Modules\User\Events\UserRegisteredEvent;
-use Modules\User\Notifications\UserRegisteredNotification;
+use Modules\User\Notifications\WelcomeUserWebNotification;
 
 class RegisteredUserListener extends Listener
 {
     /**
      * @param UserRegisteredEvent $event
      */
-    public function handle($event): void
+    public function handle(UserRegisteredEvent $event): void
     {
-        $event->user->notify(new UserRegisteredNotification($event->user));
+        $event->user->notify(new WelcomeUserWebNotification($event->user));
         $event->user->syncRoles(Role::MEMBER);
     }
 
@@ -28,7 +28,7 @@ class RegisteredUserListener extends Listener
      * @param UserRegisteredEvent $event
      * @param $exception
      */
-    public function failed($event, $exception): void
+    public function failed(UserRegisteredEvent $event, $exception): void
     {
     }
 }

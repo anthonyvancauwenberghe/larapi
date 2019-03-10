@@ -10,7 +10,7 @@ namespace Modules\User\Notifications;
 
 use Modules\Notification\Abstracts\WebNotification;
 
-class UserRegisteredNotification extends WebNotification
+class WelcomeUserWebNotification extends WebNotification
 {
     protected function title(): string
     {

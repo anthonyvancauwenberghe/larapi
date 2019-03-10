@@ -30,7 +30,7 @@ abstract class TestCase extends BaseTestCase
         $this->userService = $this->app->make(UserServiceContract::class);
         $this->app->make(AuthorizationContract::class)->clearPermissionCache();
         $this->app->make(\Spatie\Permission\PermissionRegistrar::class)->registerPermissions();
-        $this->setUser($this->getRandomUser());
+        $this->actingAs($this->actingUser());
         $this->seedData();
     }
 
@@ -43,9 +43,14 @@ abstract class TestCase extends BaseTestCase
         return $this->userService->create(factory(User::class)->raw());
     }
 
-    protected function setUser($user)
+    protected function actingUser()
     {
-        $this->actingAs($user);
+        return $this->getRandomUser();
+    }
+
+    public function actingAs($user, $driver = null)
+    {
+        parent::actingAs($user, $driver);
     }
 
     private function getRandomUser(): User
@@ -62,11 +67,11 @@ abstract class TestCase extends BaseTestCase
     protected function actAsRandomUser(): User
     {
         $user = $this->getRandomUser();
-        $this->setUser($user);
+        $this->actingAs($user);
         return $user;
     }
 
-    protected function getUser(): User
+    protected function getActingUser(): User
     {
         return auth()->user();
     }

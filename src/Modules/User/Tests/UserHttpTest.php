@@ -26,7 +26,7 @@ class UserHttpTest extends AuthorizedHttpTest
      */
     public function testGetUser()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
         $http = $this->http('GET', '/v1/users/me');
         $http->assertStatus(200);
         $userTransformer = UserTransformer::resource($user)->serialize();
@@ -41,7 +41,7 @@ class UserHttpTest extends AuthorizedHttpTest
      */
     public function testAssignRole()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
 
         $this->assertFalse($user->hasRole(Role::ADMIN));
 

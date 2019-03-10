@@ -36,7 +36,7 @@ class SeedCommand extends \Illuminate\Database\Console\Seeds\SeedCommand
 
         Model::unguarded(function () {
             foreach ($this->getSeeders() as $seeder) {
-                $seeder = $this->laravel->make($seeder);
+                $seeder = $this->laravel->make($seeder['class']);
                 if (! isset($seeder->enabled) || $seeder->enabled) {
                     $seeder->__invoke();
                 }

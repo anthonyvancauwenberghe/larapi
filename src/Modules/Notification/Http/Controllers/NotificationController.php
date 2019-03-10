@@ -10,10 +10,16 @@ namespace Modules\Notification\Http\Controllers;
 
 use Illuminate\Routing\Controller;
 use Modules\Notification\Contracts\NotificationServiceContract;
+use Modules\Notification\Services\NotificationService;
 use Modules\Notification\Transformers\NotificationTransformer;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class NotificationController extends Controller
 {
+
+    /**
+     * @var NotificationService
+     */
     protected $service;
 
     /**
@@ -38,6 +44,9 @@ class NotificationController extends Controller
 
     public function read($id)
     {
+        if (!$this->service->find($id)->notifiable()->is(auth()->user()))
+            throw new NotFoundHttpException("notification not found");
+
         $this->service->markAsRead($id);
 
         return response()->json([
@@ -47,6 +56,9 @@ class NotificationController extends Controller
 
     public function unread($id)
     {
+        if (!$this->service->find($id)->notifiable()->is(auth()->user()))
+            throw new NotFoundHttpException("notification not found");
+
         $this->service->markAsUnread($id);
 
         return response()->json([

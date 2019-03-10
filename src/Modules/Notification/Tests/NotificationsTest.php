@@ -13,7 +13,7 @@ use Modules\Notification\Transformers\NotificationTransformer;
 use Modules\User\Contracts\UserServiceContract;
 use Modules\User\Entities\User;
 use Modules\User\Events\UserRegisteredEvent;
-use Modules\User\Notifications\UserRegisteredNotification;
+use Modules\User\Notifications\WelcomeUserWebNotification;
 
 class NotificationsTest extends AuthorizedHttpTest
 {
@@ -26,45 +26,54 @@ class NotificationsTest extends AuthorizedHttpTest
     public function testUserRegisteredEvent()
     {
         /* Remove the http test user from database so it seems like it's being registered */
-        User::destroy($this->getUser()->id);
+        User::destroy($this->getActingUser()->id);
         $this->expectsEvents(UserRegisteredEvent::class);
 
         /* Creates a new user & therefore a new userregisteredevent is launched */
         $this->app->make(UserServiceContract::class)->create(factory(User::class)->raw());
     }
 
-    //TODO FIX THIS
-    /*public function testDatabaseNotification()
+    private function createNewUser(): User
     {
-        $notifications = User::find($this->getUser()->getKey())->unreadNotifications->toArray();
+        return $this->app->make(UserServiceContract::class)->create(factory(User::class)->raw());
+    }
+
+    public function testDatabaseNotification()
+    {
+        $user = $this->getActingUser();
+
+        $notifications = $user->unreadNotifications->toArray();
         $this->assertCount(1, $notifications);
-        $notification = $this->getUser()->unreadNotifications()->first();
+
+        $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
-        $response = $this->http('POST', '/v1/notifications/'.$notificationId);
+        $response = $this->http('POST', '/v1/notifications/' . $notificationId);
         $response->assertStatus(200);
-        $unreadnotifications = User::find($this->getUser()->getKey())->unreadNotifications;
+
+        $user = $user->fresh();
+        $unreadnotifications = $user->unreadNotifications;
         $this->assertCount(0, $unreadnotifications);
-    }*/
+    }
 
     public function testAllNotificationsRoute()
     {
-        $user = $this->getUser();
-        $user->notifyNow(new UserRegisteredNotification($user));
-        $user->notifyNow(new UserRegisteredNotification($user));
+        $user = $this->getActingUser();
+        $user->notifyNow(new WelcomeUserWebNotification($user));
+        $user->notifyNow(new WelcomeUserWebNotification($user));
         $response = $this->http('GET', '/v1/notifications');
         $response->assertStatus(200);
         $notificationsReponse = $this->decodeHttpResponse($response->getContent());
         $notifications = NotificationTransformer::collection(User::find($user->getKey())->notifications)->jsonSerialize();
-        $this->assertEquals($notificationsReponse, (array) $notifications);
+        $this->assertEquals($notificationsReponse, (array)$notifications);
     }
 
     public function testUnreadNotificationsRoute()
     {
-        $user = $this->getUser();
-        $user->notifyNow(new UserRegisteredNotification($user));
+        $user = $this->getActingUser();
+        $user->notifyNow(new WelcomeUserWebNotification($user));
         $notification = $user->unreadNotifications()->first();
         $notificationId = $notification->getKey();
-        $response = $this->http('POST', '/v1/notifications/'.$notificationId);
+        $response = $this->http('POST', '/v1/notifications/' . $notificationId);
         $response->assertStatus(200);
         $response = $this->http('GET', '/v1/notifications/unread');
         $response->assertStatus(200);

@@ -29,7 +29,7 @@ class ProxyHttpTest extends AuthorizedHttpTest
     protected function seedData()
     {
         parent::seedData();
-        $this->proxy = factory(Proxy::class)->create(['user_id' => $this->getUser()->id]);
+        $this->proxy = factory(Proxy::class)->create(['user_id' => $this->getActingUser()->id]);
         $this->service = $this->app->make(ProxyServiceContract::class);
     }
 
@@ -38,13 +38,13 @@ class ProxyHttpTest extends AuthorizedHttpTest
         $response = $this->http('GET', '/v1/proxies');
         $response->assertStatus(200);
         $this->assertEquals(
-            ProxyTransformer::collection($this->service->getByUserId($this->getUser()->id))->serialize(),
+            ProxyTransformer::collection($this->service->getByUserId($this->getActingUser()->id))->serialize(),
             $response->decode()
         );
     }
 
     public function testAllProxiesAsAdmin(){
-        $this->getUser()->syncRoles(Role::ADMIN);
+        $this->getActingUser()->syncRoles(Role::ADMIN);
         $this->testAllProxies();
     }
 
@@ -58,7 +58,7 @@ class ProxyHttpTest extends AuthorizedHttpTest
         $response = $this->http('GET', '/v1/proxies/' . $this->proxy->id);
         $response->assertStatus(200);
 
-        $this->getUser()->syncRoles(Role::GUEST);
+        $this->getActingUser()->syncRoles(Role::GUEST);
         $response = $this->http('GET', '/v1/proxies/' . $this->proxy->id);
         $response->assertStatus(403);
     }
@@ -108,7 +108,7 @@ class ProxyHttpTest extends AuthorizedHttpTest
         $user = factory(User::class)->create();
         $Proxy = factory(Proxy::class)->create(['user_id' => $user->id]);
 
-        $this->getUser()->syncRoles(Role::ADMIN);
+        $this->getActingUser()->syncRoles(Role::ADMIN);
         $response = $this->http('GET', '/v1/proxies/' . $Proxy->id);
         $response->assertStatus(200);
     }
@@ -121,7 +121,7 @@ class ProxyHttpTest extends AuthorizedHttpTest
     public function testCreateProxy()
     {
         $proxy = Proxy::fromFactory()->make([
-            'user_id' => $this->getUser()->id,
+            'user_id' => $this->getActingUser()->id,
         ]);
         $response = $this->http('POST', '/v1/proxies', $proxy->toArray());
         $response->assertStatus(201);
@@ -141,9 +141,9 @@ class ProxyHttpTest extends AuthorizedHttpTest
         $response->assertStatus(200);
 
         /* Test response for a guest user */
-        $this->getUser()->syncRoles(Role::GUEST);
-        $this->assertFalse($this->getUser()->hasRole(Role::MEMBER));
-        $this->assertTrue($this->getUser()->hasRole(Role::GUEST));
+        $this->getActingUser()->syncRoles(Role::GUEST);
+        $this->assertFalse($this->getActingUser()->hasRole(Role::MEMBER));
+        $this->assertTrue($this->getActingUser()->hasRole(Role::GUEST));
 
         $response = $this->http('PATCH', '/v1/proxies/' . $this->proxy->id, []);
         $response->assertStatus(403);

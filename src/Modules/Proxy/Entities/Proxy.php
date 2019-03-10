@@ -9,6 +9,7 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Modules\Proxy\Attributes\ProxyAttributes;
 use Modules\Machine\Entities\Machine;
 use Modules\Mongo\Abstracts\MongoModel;
+use Modules\Proxy\Policies\ProxyPolicy;
 use Modules\User\Entities\User;
 
 /**
@@ -19,6 +20,14 @@ use Modules\User\Entities\User;
 class Proxy extends MongoModel implements Ownable, ProxyAttributes
 {
     use OwnedByUser, ModelFactory, SoftDeletes;
+
+    protected $policies = [
+        ProxyPolicy::class
+    ];
+
+    protected $observers = [
+
+    ];
 
     /**
      * @var string

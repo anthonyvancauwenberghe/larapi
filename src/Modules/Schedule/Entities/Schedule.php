@@ -9,6 +9,7 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 use Modules\Schedule\Attributes\ScheduleAttributes;
 use Modules\Machine\Entities\Machine;
 use Modules\Mongo\Abstracts\MongoModel;
+use Modules\Schedule\Policies\SchedulePolicy;
 use Modules\User\Entities\User;
 
 /**
@@ -19,6 +20,14 @@ use Modules\User\Entities\User;
 class Schedule extends MongoModel implements Ownable, ScheduleAttributes
 {
     use OwnedByUser, ModelFactory, SoftDeletes;
+
+    protected $policies = [
+        SchedulePolicy::class
+    ];
+
+    protected $observers = [
+
+    ];
 
     /**
      * @var string

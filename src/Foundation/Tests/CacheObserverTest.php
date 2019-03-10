@@ -10,7 +10,7 @@ class CacheObserverTest extends TestCase
 {
     public function testCache()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
         $user->fresh();
         unset($user->role_ids);
         unset($user->unreadNotifications);
@@ -45,7 +45,7 @@ class CacheObserverTest extends TestCase
 
     public function testClearModelsCache()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
 
         $this->assertNotNull($user::cache()->find($user->id));
         ModelCache::clearAll();
@@ -54,7 +54,7 @@ class CacheObserverTest extends TestCase
 
     public function testClearSpecificModelCache()
     {
-        $user = $this->getUser();
+        $user = $this->getActingUser();
         $this->assertNotNull($user::cache()->find($user->id));
         $user::cache()->clearModelCache();
         $this->assertNull($user::cache()->find($user->id));
