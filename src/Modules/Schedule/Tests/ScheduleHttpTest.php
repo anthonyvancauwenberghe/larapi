@@ -11,7 +11,6 @@ use Modules\Authorization\Entities\Role;
 use Modules\Machine\Entities\Machine;
 use Modules\User\Entities\User;
 
-
 class ScheduleHttpTest extends AuthorizedHttpTest
 {
     protected $roles = Role::MEMBER;
@@ -43,7 +42,8 @@ class ScheduleHttpTest extends AuthorizedHttpTest
         );
     }
 
-    public function testAllSchedulesAsAdmin(){
+    public function testAllSchedulesAsAdmin()
+    {
         $this->getActingUser()->syncRoles(Role::ADMIN);
         $this->testAllSchedules();
     }

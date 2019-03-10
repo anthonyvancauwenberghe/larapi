@@ -15,7 +15,7 @@ $factory->define(Proxy::class, function (Faker $faker) {
         'type' => get_random_array_element(["SOCKS5","SOCKS4","HTTP","HTTPS"]),
         'monitor' => $faker->boolean,
         'anonimity_level' => get_random_array_element(["ELITE","ANONYMOUS","TRANSPARANT"]),
-        'last_alive_at' => \Carbon\Carbon::now()->subMinutes($faker->numberBetween(0,24*60)),
-        'last_checked_at' => \Carbon\Carbon::now()->subMinutes($faker->numberBetween(0,24*60))
+        'last_alive_at' => \Carbon\Carbon::now()->subMinutes($faker->numberBetween(0, 24*60)),
+        'last_checked_at' => \Carbon\Carbon::now()->subMinutes($faker->numberBetween(0, 24*60))
     ];
 });

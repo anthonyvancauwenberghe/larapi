@@ -72,5 +72,4 @@ final class File
     {
         return $this->resource->getModule();
     }
-
 }

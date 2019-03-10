@@ -8,7 +8,6 @@
 
 namespace Modules\Authorization\Traits;
 
-
 use Modules\Authorization\Entities\Role;
 
 trait UserTestRoles

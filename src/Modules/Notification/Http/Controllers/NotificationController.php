@@ -44,8 +44,9 @@ class NotificationController extends Controller
 
     public function read($id)
     {
-        if (!$this->service->find($id)->notifiable()->is(auth()->user()))
+        if (!$this->service->find($id)->notifiable()->is(auth()->user())) {
             throw new NotFoundHttpException("notification not found");
+        }
 
         $this->service->markAsRead($id);
 
@@ -56,8 +57,9 @@ class NotificationController extends Controller
 
     public function unread($id)
     {
-        if (!$this->service->find($id)->notifiable()->is(auth()->user()))
+        if (!$this->service->find($id)->notifiable()->is(auth()->user())) {
             throw new NotFoundHttpException("notification not found");
+        }
 
         $this->service->markAsUnread($id);
 

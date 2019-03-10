@@ -17,7 +17,6 @@ use Modules\User\Notifications\WelcomeUserWebNotification;
 
 class NotificationsTest extends AuthorizedHttpTest
 {
-
     protected function seedData()
     {
         parent::seedData();

@@ -8,7 +8,6 @@
 
 namespace Modules\Auth0\Abstracts;
 
-
 use Auth0\Login\Contract\Auth0UserRepository;
 use Cache;
 use Exception;
@@ -43,8 +42,9 @@ abstract class AuthorizedHttpTest extends HttpTest
 
     public function actingAs($user, $driver = null)
     {
-        if (!$user->is($this->getTestUser()))
+        if (!$user->is($this->getTestUser())) {
             throw new \Foundation\Exceptions\Exception("cannot set another user for authorized http tests. Sync other roles/permissions instead.");
+        }
         parent::actingAs($user, $driver);
     }
 }

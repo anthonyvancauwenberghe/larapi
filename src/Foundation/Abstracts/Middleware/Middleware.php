@@ -8,7 +8,6 @@
 
 namespace Foundation\Abstracts\Middleware;
 
-
 use Closure;
 use Illuminate\Http\Request;
 
@@ -22,5 +21,5 @@ abstract class Middleware
      *
      * @return mixed
      */
-    public abstract function handle(Request $request, Closure $next);
+    abstract public function handle(Request $request, Closure $next);
 }

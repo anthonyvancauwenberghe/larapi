@@ -44,7 +44,7 @@ class FactoryMakeCommand extends AbstractGeneratorCommand
 
     protected function getModelName(): string
     {
-        return once(function (){
+        return once(function () {
             return $this->option('model') ?? $this->anticipate('For what model would you like to generate a factory?', [$this->getModuleName()], $this->getModuleName());
         });
     }

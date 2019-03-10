@@ -52,5 +52,4 @@ interface ScheduleServiceContract
      * @return bool
      */
     public function delete($id): bool;
-
 }

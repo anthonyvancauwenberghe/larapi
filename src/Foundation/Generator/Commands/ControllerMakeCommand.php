@@ -49,5 +49,4 @@ class ControllerMakeCommand extends AbstractGeneratorCommand
             'CLASS' => $this->getClassName(),
         ];
     }
-
 }

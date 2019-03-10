@@ -60,7 +60,7 @@ class JobMakeCommand extends AbstractGeneratorCommand
     {
         return once(function () {
             $option = $this->option('sync');
-            return app()->runningInConsole() && !$option ? $this->confirm('Should the job run Synchronously?',false) : $option;
+            return app()->runningInConsole() && !$option ? $this->confirm('Should the job run Synchronously?', false) : $option;
         });
     }
 

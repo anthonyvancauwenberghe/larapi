@@ -28,6 +28,4 @@ class TestResponse extends ParentTestResponse
     {
         return json_decode($this->getContent(), true)['data'] ?? json_decode($this->getContent(), true);
     }
-
-
 }

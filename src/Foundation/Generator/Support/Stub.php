@@ -8,7 +8,6 @@
 
 namespace Foundation\Generator\Support;
 
-
 class Stub extends \Nwidart\Modules\Support\Stub
 {
     /**

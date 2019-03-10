@@ -55,5 +55,4 @@ class Schedule extends MongoModel implements Ownable, ScheduleAttributes
     {
         return $this->belongsTo(User::class);
     }
-
 }

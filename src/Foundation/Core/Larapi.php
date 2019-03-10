@@ -8,7 +8,6 @@
 
 namespace Foundation\Core;
 
-
 use Illuminate\Support\Str;
 
 class Larapi

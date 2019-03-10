@@ -69,6 +69,6 @@ class CommandMakeCommand extends AbstractGeneratorCommand
      */
     private function getCommandName()
     {
-        return $this->option('command') ?? str_replace('command','',strtolower($this->getModuleName()) . ':' . strtolower($this->getClassName()));
+        return $this->option('command') ?? str_replace('command', '', strtolower($this->getModuleName()) . ':' . strtolower($this->getClassName()));
     }
 }

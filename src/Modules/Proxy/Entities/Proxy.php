@@ -55,5 +55,4 @@ class Proxy extends MongoModel implements Ownable, ProxyAttributes
     {
         return $this->belongsTo(User::class);
     }
-
 }

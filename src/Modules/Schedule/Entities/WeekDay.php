@@ -20,5 +20,4 @@ use Modules\User\Entities\User;
 class WeekDay implements WeekDaysAttributes
 {
     use ModelFactory;
-
 }

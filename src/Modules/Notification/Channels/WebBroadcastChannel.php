@@ -28,7 +28,9 @@ class WebBroadcastChannel extends BroadcastChannel
         $message = $this->getData($notifiable, $notification);
 
         $event = new WebNotificationEvent(
-            $notifiable, $notification, is_array($message) ? $message : $message->data
+            $notifiable,
+            $notification,
+            is_array($message) ? $message : $message->data
         );
 
         if ($message instanceof BroadcastMessage) {

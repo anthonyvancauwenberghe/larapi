@@ -113,8 +113,9 @@ final class Resource
             $shortClassName = str_replace('.php', '', $file);
             $class = $this->getNamespace() . '\\' . $shortClassName;
 
-            if ($this->baseClass === null || instance_without_constructor($class) instanceof $this->baseClass)
+            if ($this->baseClass === null || instance_without_constructor($class) instanceof $this->baseClass) {
                 $classes[] = $class;
+            }
         }
         return $classes;
     }
@@ -131,7 +132,7 @@ final class Resource
     {
         try {
             $fileNames = array_diff(scandir($this->getPath()), ['..', '.']);
-        } Catch(\ErrorException $e){
+        } catch (\ErrorException $e) {
             $fileNames = [];
         }
         return $fileNames;
@@ -188,11 +189,10 @@ final class Resource
     public function getClassByName(string $className): ?string
     {
         foreach ($this->getClasses() as $class) {
-            if (strtolower((get_short_class_name($class)) === strtolower($className)))
+            if (strtolower((get_short_class_name($class)) === strtolower($className))) {
                 return $class;
+            }
         }
         return null;
     }
-
-
 }

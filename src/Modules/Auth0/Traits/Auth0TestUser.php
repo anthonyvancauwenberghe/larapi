@@ -20,7 +20,7 @@ trait Auth0TestUser
 {
     private function getAuth0Service() : Auth0Service
     {
-        return once(function (){
+        return once(function () {
             return app()->make(Auth0ServiceContract::class);
         });
     }

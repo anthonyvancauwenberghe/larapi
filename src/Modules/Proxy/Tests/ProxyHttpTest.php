@@ -11,7 +11,6 @@ use Modules\Authorization\Entities\Role;
 use Modules\Machine\Entities\Machine;
 use Modules\User\Entities\User;
 
-
 class ProxyHttpTest extends AuthorizedHttpTest
 {
     protected $roles = Role::MEMBER;
@@ -43,7 +42,8 @@ class ProxyHttpTest extends AuthorizedHttpTest
         );
     }
 
-    public function testAllProxiesAsAdmin(){
+    public function testAllProxiesAsAdmin()
+    {
         $this->getActingUser()->syncRoles(Role::ADMIN);
         $this->testAllProxies();
     }

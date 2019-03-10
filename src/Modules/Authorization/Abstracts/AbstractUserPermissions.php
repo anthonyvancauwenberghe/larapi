@@ -8,14 +8,13 @@
 
 namespace Modules\Authorization\Abstracts;
 
-
 use Foundation\Exceptions\Exception;
 
 abstract class AbstractUserPermissions
 {
     protected $role;
 
-    public abstract function getPermissions(): array;
+    abstract public function getPermissions(): array;
 
     public function getRole(): string
     {

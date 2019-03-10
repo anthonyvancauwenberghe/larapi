@@ -8,7 +8,6 @@
 
 namespace Foundation\Generator\Providers;
 
-
 use Foundation\Generator\Commands\EventMakeCommand;
 use Foundation\Generator\Commands\CommandMakeCommand;
 use Foundation\Generator\Commands\ControllerMakeCommand;
@@ -17,10 +16,8 @@ use Foundation\Generator\Commands\JobMakeCommand;
 use Foundation\Generator\Commands\ListenerMakeCommand;
 use Illuminate\Support\ServiceProvider;
 
-
 class GeneratorServiceProvider extends ServiceProvider
 {
-
     protected $commands = [
         FactoryMakeCommand::class,
         CommandMakeCommand::class,

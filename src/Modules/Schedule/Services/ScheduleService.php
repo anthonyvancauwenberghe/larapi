@@ -16,7 +16,6 @@ use Modules\Schedule\Events\ScheduleUpdatedEvent;
 
 class ScheduleService implements ScheduleServiceContract
 {
-
     public function getByUserId($userId)
     {
         return Schedule::where('user_id', $userId)->get();

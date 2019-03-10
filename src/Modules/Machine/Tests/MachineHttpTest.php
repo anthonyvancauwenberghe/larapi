@@ -191,7 +191,7 @@ class MachineHttpTest extends AuthorizedHttpTest
         ]);
         $response = $this->http('POST', '/v1/machines', $machine);
         $response->assertStatus(201);
-       //TODO REPLACE DEPRECATED METHOD $this->assertArraySubset($machine, $this->decodeHttpResponse($response));
+        //TODO REPLACE DEPRECATED METHOD $this->assertArraySubset($machine, $this->decodeHttpResponse($response));
     }
 
     /**

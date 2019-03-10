@@ -76,6 +76,4 @@ class Auth0Service extends Auth0UserRepository implements Auth0ServiceContract
 
         return $user;
     }
-
-
 }

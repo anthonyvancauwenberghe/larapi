@@ -74,7 +74,6 @@ class BootstrapServiceProvider extends ServiceProvider
         }
     }
 
-
     private function loadRoutes()
     {
         $moduleModel = null;
@@ -87,11 +86,11 @@ class BootstrapServiceProvider extends ServiceProvider
             ], function () use ($route) {
                 require $route['path'];
             });
-            if ($moduleModel !== $route['module_model'])
+            if ($moduleModel !== $route['module_model']) {
                 Route::model(strtolower(get_short_class_name($route['module_model'])), $route['module_model']);
+            }
             $moduleModel = $route['module_model'];
         }
-
     }
 
     /**
@@ -103,7 +102,9 @@ class BootstrapServiceProvider extends ServiceProvider
     {
         foreach ($this->bootstrapService->getConfigs() as $config) {
             $this->mergeConfigFrom(
-                $config['path'], $config['name']);
+                $config['path'],
+                $config['name']
+            );
         }
     }
 

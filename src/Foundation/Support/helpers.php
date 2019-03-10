@@ -193,8 +193,9 @@ if (!function_exists('instance_without_constructor')) {
         } catch (ReflectionException $e) {
             return null;
         }
-        if ($reflectionClass->isAbstract())
+        if ($reflectionClass->isAbstract()) {
             return null;
+        }
 
         return $reflectionClass->newInstanceWithoutConstructor();
     }

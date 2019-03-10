@@ -8,8 +8,6 @@
 
 namespace Foundation\Abstracts\Services;
 
-
 class Service
 {
-
 }

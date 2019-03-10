@@ -8,8 +8,6 @@
 
 namespace Foundation\Abstracts\Listeners;
 
-
 abstract class Listener
 {
-
 }

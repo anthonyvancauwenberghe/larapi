@@ -14,11 +14,11 @@ use Foundation\Core\Module;
 
 class CoreTest extends TestCase
 {
-
-    public function testGetModules(){
+    public function testGetModules()
+    {
         $modules = Larapi::getModules();
-        foreach($modules as $module){
-            $this->assertInstanceOf(Module::class,$module);
+        foreach ($modules as $module) {
+            $this->assertInstanceOf(Module::class, $module);
         }
     }
 
@@ -28,14 +28,16 @@ class CoreTest extends TestCase
         $this->assertContains('User', $moduleNames);
     }
 
-    public function testUserNamespace(){
+    public function testUserNamespace()
+    {
         $module = Larapi::getModule('user');
-        $this->assertEquals('Modules\User',$module->getNamespace());
+        $this->assertEquals('Modules\User', $module->getNamespace());
     }
 
-    public function testAmountOfUserModels(){
+    public function testAmountOfUserModels()
+    {
         $module = Larapi::getModule('user');
 
-        $this->assertEquals(1,$module->getModels()->amount());
+        $this->assertEquals(1, $module->getModels()->amount());
     }
 }

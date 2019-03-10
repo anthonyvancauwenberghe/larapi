@@ -51,8 +51,9 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
     {
         return once(function () {
             $eventName = $this->option('event') ?? $this->ask('What is the name of the event that should be listened on?', false) ?? "null";
-            if ($eventName === null)
+            if ($eventName === null) {
                 throw new Exception("Eventname for listener not given");
+            }
             return $eventName;
         });
     }

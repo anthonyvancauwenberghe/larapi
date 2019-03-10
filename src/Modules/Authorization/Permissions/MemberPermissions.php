@@ -8,7 +8,6 @@
 
 namespace Modules\Authorization\Permissions;
 
-
 use Modules\Authorization\Abstracts\AbstractUserPermissions;
 use Modules\Authorization\Entities\Permission;
 use Modules\Authorization\Entities\Role;
@@ -45,6 +44,4 @@ class MemberPermissions extends AbstractUserPermissions
             Permission::DELETE_SCHEDULE
         ];
     }
-
-
 }

@@ -8,7 +8,6 @@
 
 namespace Foundation\Generator\Abstracts;
 
-
 use Foundation\Generator\Support\Stub;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Commands\GeneratorCommand;
@@ -70,8 +69,9 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     {
         $moduleName = $this->argument('module') ?? $this->ask('For what module would you like to generate a ' . $this->getGeneratorName() . '.');
 
-        if ($moduleName === null)
+        if ($moduleName === null) {
             throw new \Exception("Name of module not set.");
+        }
 
         return $moduleName;
     }
@@ -112,7 +112,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     {
     }
 
-    protected abstract function stubOptions(): array;
+    abstract protected function stubOptions(): array;
 
 
     protected function getClassName(): string
@@ -124,9 +124,11 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
 
     private function askClassName(): string
     {
-        $className = $this->argument('name') ?? $this->ask('Specify the name of the ' . $this->getGeneratorName() . '.');;
-        if ($className === null)
+        $className = $this->argument('name') ?? $this->ask('Specify the name of the ' . $this->getGeneratorName() . '.');
+        ;
+        if ($className === null) {
             throw new \Exception("Name of " . $this->getGeneratorName() . " not set.");
+        }
 
         return $className;
     }

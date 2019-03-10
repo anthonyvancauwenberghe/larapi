@@ -58,5 +58,4 @@ interface ProxyServiceContract
      * @param $data
      */
     public function healthCheck($id, $data): void;
-
 }

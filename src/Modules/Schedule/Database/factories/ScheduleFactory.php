@@ -2,10 +2,9 @@
 
 use Faker\Generator as Faker;
 use Modules\Schedule\Entities\Schedule;
- use Modules\Schedule\Entities\WeekDay;
+use Modules\Schedule\Entities\WeekDay;
 
- $factory->define(Schedule::class, function (Faker $faker) {
-
+$factory->define(Schedule::class, function (Faker $faker) {
     $times = [];
     for ($d = 0; $d < 7; $d++) {
         for ($h = 0; $h < 24; $h++) {
