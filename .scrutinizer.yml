@@ -2,7 +2,6 @@
 build:
   dependencies:
     before:
-    - "sudo apt-get install nodejs"
     - "yarn install --force"
     - "pecl uninstall igbinary"
     - "pecl uninstall redis"
@@ -16,6 +15,7 @@ build:
     - "composer update --lock"
   environment:
     mongodb: "4.0"
+    node: "10"
     php:
       version: 7.2
   tests:
