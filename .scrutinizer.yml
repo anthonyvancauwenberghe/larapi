@@ -2,7 +2,6 @@
 build:
   dependencies:
     before:
-    - "yarn install --force"
     - "pecl uninstall igbinary"
     - "pecl uninstall redis"
     - "pecl uninstall mongodb"
