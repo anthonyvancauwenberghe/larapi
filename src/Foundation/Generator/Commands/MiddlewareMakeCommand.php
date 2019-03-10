@@ -73,7 +73,7 @@ class MiddlewareMakeCommand extends \Nwidart\Modules\Commands\MiddlewareMakeComm
 
         $middlewarePath = GenerateConfigReader::read('filter');
 
-        return $path . $middlewarePath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$middlewarePath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

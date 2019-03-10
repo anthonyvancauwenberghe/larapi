@@ -66,7 +66,7 @@ class UserService implements UserServiceContract
 
     public function setRoles($id, array $roles): void
     {
-        if (!in_array(Role::MEMBER, $roles)) {
+        if (! in_array(Role::MEMBER, $roles)) {
             $roles[] = Role::MEMBER;
         }
         $this->find($id)->syncRoles($roles);

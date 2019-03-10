@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 05.03.19
- * Time: 13:08
+ * Time: 13:08.
  */
 
 namespace Modules\Authorization\Traits;
@@ -22,7 +22,6 @@ trait UserTestRoles
             $this->setUserRoles(Role::GUEST);
         }
     }
-
 
     protected function setUserRoles($roles)
     {

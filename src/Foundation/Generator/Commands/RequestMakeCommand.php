@@ -73,7 +73,7 @@ class RequestMakeCommand extends \Nwidart\Modules\Commands\RequestMakeCommand
 
         $requestPath = GenerateConfigReader::read('request');
 
-        return $path . $requestPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$requestPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

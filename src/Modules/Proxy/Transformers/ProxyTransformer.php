@@ -8,17 +8,15 @@
 
 namespace Modules\Proxy\Transformers;
 
-use Carbon\Carbon;
 use Foundation\Abstracts\Transformers\Transformer;
 use Foundation\Exceptions\Exception;
 use Modules\Proxy\Entities\Proxy;
-use Modules\Machine\Transformers\MachineTransformer;
 use Modules\User\Transformers\UserTransformer;
 
 class ProxyTransformer extends Transformer
 {
     public $available = [
-        'user' => UserTransformer::class
+        'user' => UserTransformer::class,
     ];
 
     /**

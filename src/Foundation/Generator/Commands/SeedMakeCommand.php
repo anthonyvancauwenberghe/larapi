@@ -86,7 +86,7 @@ class SeedMakeCommand extends \Nwidart\Modules\Commands\SeedMakeCommand
 
         $seederPath = GenerateConfigReader::read('seeder');
 
-        return $path . $seederPath->getPath() . '/' . $this->getSeederName() . '.php';
+        return $path.$seederPath->getPath().'/'.$this->getSeederName().'.php';
     }
 
     /**
@@ -98,7 +98,7 @@ class SeedMakeCommand extends \Nwidart\Modules\Commands\SeedMakeCommand
     {
         $end = $this->option('master') ? 'DatabaseSeeder' : 'TableSeeder';
 
-        return Str::studly($this->argument('name')) . $end;
+        return Str::studly($this->argument('name')).$end;
     }
 
     /**

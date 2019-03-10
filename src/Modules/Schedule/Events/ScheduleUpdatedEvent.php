@@ -18,7 +18,7 @@ use Modules\Schedule\Transformers\ScheduleTransformer;
 class ScheduleUpdatedEvent extends Event implements ShouldBroadcast
 {
     public $listeners = [
-        ScheduleUpdatedListener::class
+        ScheduleUpdatedListener::class,
     ];
 
     /**

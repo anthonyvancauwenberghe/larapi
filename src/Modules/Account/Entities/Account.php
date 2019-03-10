@@ -22,7 +22,7 @@ class Account extends MongoModel implements Ownable, AccountAttributes
     use OwnedByUser, ModelFactory, SoftDeletes;
 
     protected $policies = [
-        AccountPolicy::class
+        AccountPolicy::class,
     ];
 
     protected $observers = [

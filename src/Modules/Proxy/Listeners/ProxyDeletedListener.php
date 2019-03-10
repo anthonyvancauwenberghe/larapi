@@ -2,9 +2,9 @@
 
 namespace Modules\Proxy\Listeners;
 
-use Modules\Proxy\Events\ProxyUpdatedEvent;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Modules\Proxy\Events\ProxyUpdatedEvent;
 
 class ProxyDeletedListener implements ShouldQueue
 {

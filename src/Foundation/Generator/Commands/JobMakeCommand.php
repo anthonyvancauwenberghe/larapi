@@ -7,7 +7,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class JobMakeCommand extends AbstractGeneratorCommand
 {
-
     /**
      * The console command name.
      *
@@ -60,7 +59,8 @@ class JobMakeCommand extends AbstractGeneratorCommand
     {
         return once(function () {
             $option = $this->option('sync');
-            return app()->runningInConsole() && !$option ? $this->confirm('Should the job run Synchronously?', false) : $option;
+
+            return app()->runningInConsole() && ! $option ? $this->confirm('Should the job run Synchronously?', false) : $option;
         });
     }
 
@@ -72,6 +72,7 @@ class JobMakeCommand extends AbstractGeneratorCommand
         if ($this->isJobSynchronous()) {
             return 'job.stub';
         }
+
         return 'job-queued.stub';
     }
 }

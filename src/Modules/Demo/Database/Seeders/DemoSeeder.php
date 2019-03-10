@@ -26,7 +26,6 @@ class DemoSeeder extends Seeder
      */
     public $enabled = false;
 
-
     /**
      * @var Auth0Service
      */

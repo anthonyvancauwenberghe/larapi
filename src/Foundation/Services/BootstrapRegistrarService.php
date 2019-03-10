@@ -18,7 +18,6 @@ use Foundation\Traits\Cacheable;
 
 class BootstrapRegistrarService
 {
-
     /**
      * @var string
      */
@@ -41,7 +40,7 @@ class BootstrapRegistrarService
      */
     private function storeInCache($data)
     {
-        file_put_contents($this->getCachePath(), '<?php return ' . var_export($data, true) . ';');
+        file_put_contents($this->getCachePath(), '<?php return '.var_export($data, true).';');
     }
 
     /**
@@ -70,7 +69,7 @@ class BootstrapRegistrarService
      */
     private function getCachePath(): string
     {
-        return app()->bootstrapPath() . '/cache/' . $this->cacheFile;
+        return app()->bootstrapPath().'/cache/'.$this->cacheFile;
     }
 
     public function bootstrap()
@@ -92,7 +91,7 @@ class BootstrapRegistrarService
     {
         foreach ($module->getCommands()->getClasses() as $commandClass) {
             $this->bootstrap['commands'][] = [
-                'class' => $commandClass
+                'class' => $commandClass,
             ];
         }
     }
@@ -105,7 +104,7 @@ class BootstrapRegistrarService
                 'controller_namespace' => $module->getControllers()->getNamespace(),
                 'domain' => Larapi::getApiDomainName(),
                 'path' => $file->getPath(),
-                'module_model' => $module->getMainModel()
+                'module_model' => $module->getMainModel(),
             ];
         }
     }
@@ -115,7 +114,8 @@ class BootstrapRegistrarService
         $prefixArray = explode('.', $fileName);
         $prefixVersion = $prefixArray[1];
         $prefixRoute = $prefixArray[0];
-        return $prefixVersion . '/' . $prefixRoute;
+
+        return $prefixVersion.'/'.$prefixRoute;
     }
 
     private function bootstrapConfigs(\Foundation\Core\Module $module)
@@ -123,7 +123,7 @@ class BootstrapRegistrarService
         foreach ($module->getConfigs()->getFiles() as $file) {
             $this->bootstrap['configs'][] = [
                 'name' => $file->getName(),
-                'path' => $file->getPath()
+                'path' => $file->getPath(),
             ];
         }
     }
@@ -131,14 +131,14 @@ class BootstrapRegistrarService
     private function bootstrapFactories(\Foundation\Core\Module $module)
     {
         $this->bootstrap['factories'][] = [
-            'path' => $module->getFactories()->getPath()
+            'path' => $module->getFactories()->getPath(),
         ];
     }
 
     private function bootstrapMigrations(\Foundation\Core\Module $module)
     {
         $this->bootstrap['migrations'][] = [
-            'path' => $module->getMigrations()->getPath()
+            'path' => $module->getMigrations()->getPath(),
         ];
     }
 
@@ -159,7 +159,7 @@ class BootstrapRegistrarService
                 'observers' => $this->extractObserversFromModel($modelClass),
                 'policies' => $this->extractPoliciesFromModel($modelClass),
                 'cacheable' => class_uses_trait($modelClass, Cacheable::class),
-                'ownable' => class_implements_interface($modelClass, Ownable::class)
+                'ownable' => class_implements_interface($modelClass, Ownable::class),
             ];
         }
     }
@@ -172,6 +172,7 @@ class BootstrapRegistrarService
                 $observers[] = $observerClass;
             }
         }
+
         return $observers;
     }
 
@@ -183,16 +184,16 @@ class BootstrapRegistrarService
                 $policies[] = $policyClass;
             }
         }
+
         return $policies;
     }
-
 
     private function bootstrapProviders(\Foundation\Core\Module $module)
     {
         foreach ($module->getServiceProviders()->getClasses() as $serviceProviderClass) {
             if ($this->passedRegistrationCondition($serviceProviderClass)) {
                 $this->bootstrap['providers'][] = [
-                    'class' => $serviceProviderClass
+                    'class' => $serviceProviderClass,
                 ];
             }
         }
@@ -200,7 +201,7 @@ class BootstrapRegistrarService
 
     private function passedRegistrationCondition($class)
     {
-        if (!class_implements_interface($class, ConditionalAutoRegistration::class)) {
+        if (! class_implements_interface($class, ConditionalAutoRegistration::class)) {
             return true;
         }
 
@@ -218,7 +219,7 @@ class BootstrapRegistrarService
             }
             $this->bootstrap['events'][] = [
                 'class' => $eventClass,
-                'listeners' => $listeners
+                'listeners' => $listeners,
             ];
         }
     }
@@ -228,7 +229,7 @@ class BootstrapRegistrarService
      */
     public function loadBootstrapFromCache()
     {
-        if (!isset($this->bootstrap)) {
+        if (! isset($this->bootstrap)) {
             if ($this->cacheExists()) {
                 $this->bootstrap = $this->readFromCache();
             } else {
@@ -242,6 +243,7 @@ class BootstrapRegistrarService
     public function loadNewBootstrap()
     {
         $this->bootstrap();
+
         return $this->bootstrap;
     }
 

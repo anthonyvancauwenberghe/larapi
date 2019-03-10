@@ -61,6 +61,7 @@ abstract class TestCase extends BaseTestCase
         } else {
             $user = $users->random();
         }
+
         return $user;
     }
 
@@ -68,6 +69,7 @@ abstract class TestCase extends BaseTestCase
     {
         $user = $this->getRandomUser();
         $this->actingAs($user);
+
         return $user;
     }
 

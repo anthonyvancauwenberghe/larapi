@@ -44,7 +44,7 @@ class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
     /**
      * Create a proper migration name:
      * ProductDetail: product_details
-     * Product: products
+     * Product: products.
      * @return string
      */
     private function createMigrationName()
@@ -53,8 +53,8 @@ class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
 
         $string = '';
         foreach ($pieces as $i => $piece) {
-            if ($i+1 < count($pieces)) {
-                $string .= strtolower($piece) . '_';
+            if ($i + 1 < count($pieces)) {
+                $string .= strtolower($piece).'_';
             } else {
                 $string .= Str::plural(strtolower($piece));
             }
@@ -90,12 +90,12 @@ class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
     }
 
     /**
-     * Create the migration file with the given model if migration flag was used
+     * Create the migration file with the given model if migration flag was used.
      */
     private function handleOptionalMigrationOption()
     {
         if ($this->option('migration') === true) {
-            $migrationName = 'create_' . $this->createMigrationName() . '_table';
+            $migrationName = 'create_'.$this->createMigrationName().'_table';
             $this->call('module:make-migration', ['name' => $migrationName, 'module' => $this->argument('module')]);
         }
     }
@@ -128,7 +128,7 @@ class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
 
         $modelPath = GenerateConfigReader::read('model');
 
-        return $path . $modelPath->getPath() . '/' . $this->getModelName() . '.php';
+        return $path.$modelPath->getPath().'/'.$this->getModelName().'.php';
     }
 
     /**
@@ -146,7 +146,7 @@ class ModelMakeCommand extends \Nwidart\Modules\Commands\ModelMakeCommand
     {
         $fillable = $this->option('fillable');
 
-        if (!is_null($fillable)) {
+        if (! is_null($fillable)) {
             $arrays = explode(',', $fillable);
 
             return json_encode($arrays);

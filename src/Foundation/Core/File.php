@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 21:51
+ * Time: 21:51.
  */
 
 namespace Foundation\Core;
@@ -21,7 +21,7 @@ final class File
     protected $path;
 
     /**
-     * @var Resource $resource
+     * @var resource
      */
     protected $resource;
 
@@ -57,12 +57,12 @@ final class File
      */
     public function getNamespace(): string
     {
-        return $this->resource->getNamespace() . '\\' . $this->getName();
+        return $this->resource->getNamespace().'\\'.$this->getName();
     }
 
     public function getFileName(): string
     {
-        return $this->getName() . '.php';
+        return $this->getName().'.php';
     }
 
     /**

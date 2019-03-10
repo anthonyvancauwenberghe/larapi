@@ -58,7 +58,7 @@ final class NotificationMakeCommand extends \Illuminate\Foundation\Console\Notif
 
         $notificationPath = GenerateConfigReader::read('notifications');
 
-        return $path . $notificationPath->getPath() . '/' . $this->getFileName() . '.php';
+        return $path.$notificationPath->getPath().'/'.$this->getFileName().'.php';
     }
 
     /**

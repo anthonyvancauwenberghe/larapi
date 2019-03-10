@@ -3,7 +3,7 @@
  * Created by PhpStorm.
  * User: arthur
  * Date: 09.03.19
- * Time: 21:51
+ * Time: 21:51.
  */
 
 namespace Foundation\Core;
@@ -62,7 +62,6 @@ final class Module
     {
         return $this->path;
     }
-
 
     public function getListeners()
     {
@@ -161,7 +160,7 @@ final class Module
 
     public function getNamespace(): string
     {
-        return 'Modules' . '\\' . $this->getName();
+        return 'Modules'.'\\'.$this->getName();
     }
 
     public function getMainModel()

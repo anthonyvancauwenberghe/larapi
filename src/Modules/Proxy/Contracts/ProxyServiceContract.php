@@ -10,7 +10,6 @@ namespace Modules\Proxy\Contracts;
 
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Proxy\Entities\Proxy;
-use Modules\Machine\Entities\Machine;
 
 /**
  * Interface ProxyServiceContract.

@@ -6,7 +6,6 @@ use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
 class EventMakeCommand extends AbstractGeneratorCommand
 {
-
     /**
      * The console command name.
      *
