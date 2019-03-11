@@ -2,29 +2,16 @@
 
 namespace Foundation\Generator\Commands;
 
-use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
-class RuleMakeCommand extends \Nwidart\Modules\Commands\RuleMakeCommand
+class RuleMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    /**
-     * The name of argument name.
-     *
-     * @var string
-     */
-    protected $argumentName = 'name';
-
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:make-rule';
+    protected $name = 'larapi:make:rule';
 
     /**
      * The console command description.
@@ -33,54 +20,32 @@ class RuleMakeCommand extends \Nwidart\Modules\Commands\RuleMakeCommand
      */
     protected $description = 'Create a new validation rule for the specified module.';
 
-    public function getDefaultNamespace() : string
-    {
-        return $this->laravel['modules']->config('paths.generator.rules.path', 'Rules');
-    }
+    /**
+     * The name of the generated resource.
+     *
+     * @var string
+     */
+    protected $generatorName = 'rule';
 
     /**
-     * Get the console command arguments.
+     * The stub name.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $stub = 'rule.stub';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Rules';
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the rule class.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClassName(),
         ];
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub('/rule.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
-        ]))->render();
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $rulePath = GenerateConfigReader::read('rules');
-
-        return $path.$rulePath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
     }
 }

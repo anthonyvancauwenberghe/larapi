@@ -25,6 +25,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Notifications\Notification;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Validation\Rule;
 
 final class Module
 {
@@ -132,6 +133,11 @@ final class Module
     public function getRequests()
     {
         return new Resource('requests', '/Http/Requests', $this, Request::class);
+    }
+
+    public function getRules()
+    {
+        return new Resource('rules', '/Rules', $this, Rule::class);
     }
 
     public function getMiddleWare()

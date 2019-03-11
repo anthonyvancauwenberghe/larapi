@@ -11,7 +11,7 @@ namespace Foundation\Generator\Abstracts;
 use Foundation\Core\Larapi;
 use Foundation\Core\Module;
 use Foundation\Generator\Events\FileGeneratedEvent;
-use Foundation\Generator\Support\Stub;
+use Illuminate\Contracts\Filesystem\FileExistsException;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Commands\GeneratorCommand;
 use Symfony\Component\Console\Input\InputArgument;
@@ -47,26 +47,30 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
         return $this->getModule()->getPath() . $this->filePath . '/' . $this->getFileName();
     }
 
-    protected function getTemplateContents(){
+    protected function getTemplateContents()
+    {
 
     }
 
     public function handle()
     {
-        $this->beforeGeneration();
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
         if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
             $this->laravel['files']->makeDirectory($dir, 0777, true);
         }
 
-        if(file_exists($path)){
+        if (file_exists($path) && !app()->environment('testing')) {
             $this->error("File : {$path} already exists.");
+            throw new FileExistsException();
         }
+        $stubName = $this->stubName();
+        $stubOptions = $this->stubOptions();
 
+        $this->beforeGeneration();
+
+        event(new FileGeneratedEvent($path, $stubName, $stubOptions, static::class));
         $this->info("Created : {$path}");
-
-        event(new FileGeneratedEvent($this->getDestinationFilePath(), $this->stubName(), $this->stubOptions()));
 
         $this->afterGeneration();
     }
@@ -95,7 +99,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
 
     private function askModuleName(): string
     {
-        $moduleName = $this->argument('module') ?? $this->ask('For what module would you like to generate a ' . $this->getGeneratorName() . '.');
+        $moduleName = $this->argument('module') ?? $this->anticipate('For what module would you like to generate a ' . $this->getGeneratorName() . '.', Larapi::getModuleNames());
 
         if ($moduleName === null) {
             throw new \Exception('Name of module not set.');
@@ -114,7 +118,6 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     {
         return $this->getModule()->getNamespace() . str_replace('/', '\\', $this->filePath);
     }
-
 
 
     protected function beforeGeneration(): void

@@ -103,20 +103,6 @@ class MigrationMakeCommand extends AbstractGeneratorCommand
      */
     private function getDestinationFileName()
     {
-        return date('Y_m_d_His_') . $this->getSchemaName();
-    }
-
-    /**
-     * @return array|string
-     */
-    private function getSchemaName()
-    {
-        $schemaName = "";
-        $splittedInCapsName = $pieces = preg_split('/(?=[A-Z])/', $this->getClassName());
-        foreach ($splittedInCapsName as $word) {
-            $schemaName = $schemaName . $word . '_';
-        }
-
-        return strtolower(rtrim($schemaName, '_'));
+        return date('Y_m_d_His_') . split_caps_to_underscore($this->getClassName());
     }
 }

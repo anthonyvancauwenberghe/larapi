@@ -2,85 +2,43 @@
 
 namespace Foundation\Generator\Commands;
 
-use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
-class PolicyMakeCommand extends \Nwidart\Modules\Commands\PolicyMakeCommand
+class PolicyMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    /**
-     * The name of argument name.
-     *
-     * @var string
-     */
-    protected $argumentName = 'name';
-
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'module:make-policy';
+    protected $name = 'larapi:make:policy';
 
     /**
-     * The console command description.
+     * The name of the generated resource.
      *
      * @var string
      */
-    protected $description = 'Create a new policy class for the specified module.';
-
-    public function getDefaultNamespace() : string
-    {
-        return $this->laravel['modules']->config('paths.generator.policies.path', 'Policies');
-    }
+    protected $generatorName = 'policy';
 
     /**
-     * Get the console command arguments.
+     * The stub name.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $stub = 'policy.stub';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Policies';
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the policy class.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClassName(),
         ];
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub('/policy.plain.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
-        ]))->render();
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $policyPath = GenerateConfigReader::read('policies');
-
-        return $path.$policyPath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
     }
 }

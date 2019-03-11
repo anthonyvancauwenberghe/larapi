@@ -4,42 +4,42 @@ namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 
-class RequestMakeCommand extends AbstractGeneratorCommand
+class SeederMakeCommand extends AbstractGeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make:request';
+    protected $name = 'larapi:make:seeder';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new form request class for the specified module.';
+    protected $description = 'Generate new seeder for the specified module.';
 
     /**
      * The name of the generated resource.
      *
      * @var string
      */
-    protected $generatorName = 'request';
+    protected $generatorName = 'seeder';
 
     /**
      * The stub name.
      *
      * @var string
      */
-    protected $stub = 'request.stub';
+    protected $stub = 'seeder.stub';
 
     /**
      * The file path.
      *
      * @var string
      */
-    protected $filePath = '/Http/Requests';
+    protected $filePath = '/Database/Seeders';
 
     protected function stubOptions(): array
     {

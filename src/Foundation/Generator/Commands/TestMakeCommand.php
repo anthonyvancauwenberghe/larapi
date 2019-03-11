@@ -2,68 +2,88 @@
 
 namespace Foundation\Generator\Commands;
 
-use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Exceptions\Exception;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Symfony\Component\Console\Input\InputOption;
 
-class TestMakeCommand extends \Nwidart\Modules\Commands\TestMakeCommand
+class TestMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
-
-    protected $argumentName = 'name';
-    protected $name = 'module:make-test';
-    protected $description = 'Create a new test class for the specified module.';
-
-    public function getDefaultNamespace() : string
-    {
-        return $this->laravel['modules']->config('paths.generator.test.path', 'Tests');
-    }
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'larapi:make:test';
 
     /**
-     * Get the console command arguments.
+     * The console command description.
      *
-     * @return array
+     * @var string
      */
-    protected function getArguments()
+    protected $description = 'Create a new test class for the specified module.';
+
+    /**
+     * The name of the generated resource.
+     *
+     * @var string
+     */
+    protected $generatorName = 'test';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Tests';
+
+    protected $types = [
+        "unit",
+        "http",
+        "service"
+    ];
+
+    protected function stubOptions(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the form request class.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+            'NAMESPACE' => $this->getClassNamespace(),
+            'CLASS' => $this->getClassName()
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
+    protected function getType(): string
     {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
+        return once(function () {
+            $testType = $this->option('type') ?? $this->anticipate('What type of test would you like to create?', $this->types);
+            if ($testType === null) {
+                throw new Exception('type for test not specified');
+            }
 
-        return (new Stub('/unit-test.stub', [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
-        ]))->render();
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $testPath = GenerateConfigReader::read('test');
-
-        return $path.$testPath->getPath().'/'.$this->getFileName().'.php';
+            return $testType;
+        });
     }
 
     /**
      * @return string
      */
-    private function getFileName()
+    protected function stubName(): string
     {
-        return Str::studly($this->argument('name'));
+        $type = $this->getType();
+
+        if (in_array($type, $this->types))
+            return "$type-test.stub";
+
+        throw new Exception("Test type not supported");
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['type', null, InputOption::VALUE_OPTIONAL, 'Indicates the type of the test.']
+        ];
     }
 }

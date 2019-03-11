@@ -15,34 +15,41 @@ use Foundation\Abstracts\Events\Event;
  * Class FileGeneratedEvent
  * @package Foundation\Generator\Events
  */
-class FileGeneratedEvent extends Event
+final class FileGeneratedEvent extends Event
 {
     /**
      * @var string
      */
-    public $filePath;
+    protected $filePath;
 
     /**
      * @var string
      */
-    public $stubName;
+    protected $stubName;
 
     /**
      * @var array
      */
-    public $stubOptions;
+    protected $stubOptions;
+
+    /**
+     * @var string
+     */
+    protected $generationClass;
 
     /**
      * FileGeneratedEvent constructor.
      * @param string $filePath
      * @param string $stubName
      * @param array $stubOptions
+     * @param string $generationClass
      */
-    public function __construct(string $filePath, string $stubName, array $stubOptions)
+    public function __construct(string $filePath, string $stubName, array $stubOptions, string $generationClass)
     {
         $this->filePath = $filePath;
         $this->stubName = $stubName;
         $this->stubOptions = $stubOptions;
+        $this->generationClass = $generationClass;
     }
 
     /**
@@ -68,4 +75,14 @@ class FileGeneratedEvent extends Event
     {
         return $this->stubOptions;
     }
+
+    /**
+     * @return string
+     */
+    public function getGenerationClass(): string
+    {
+        return $this->generationClass;
+    }
+
+
 }

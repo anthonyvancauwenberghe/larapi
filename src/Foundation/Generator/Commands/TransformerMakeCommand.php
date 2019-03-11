@@ -2,99 +2,73 @@
 
 namespace Foundation\Generator\Commands;
 
-use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Nwidart\Modules\Traits\ModuleCommandTrait;
-use Symfony\Component\Console\Input\InputArgument;
+use Foundation\Core\Larapi;
+use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
-class TransformerMakeCommand extends \Nwidart\Modules\Commands\ResourceMakeCommand
+class TransformerMakeCommand extends AbstractGeneratorCommand
 {
-    use ModuleCommandTrait;
+    /**
+     * The console command name.
+     *
+     * @var string
+     */
+    protected $name = 'larapi:make:transformer';
 
-    protected $argumentName = 'name';
-    protected $name = 'larapi:make-resource';
-    protected $description = 'Create a new resource class for the specified module.';
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
+    protected $description = 'Create a new transformer class for the specified module.';
 
-    public function getDefaultNamespace() : string
+    /**
+     * The name of the generated resource.
+     *
+     * @var string
+     */
+    protected $generatorName = 'transformer';
+
+    /**
+     * The stub name.
+     *
+     * @var string
+     */
+    protected $stub = 'transformer.stub';
+
+    /**
+     * The file path.
+     *
+     * @var string
+     */
+    protected $filePath = '/Transformers';
+
+    protected function getModelName(): string
     {
-        return $this->laravel['modules']->config('paths.generator.resource.path', 'Transformers');
+        return once(function () {
+            return $this->option('model') ?? $this->anticipate('For what model would you like to generate a transformer?', Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension(), $this->getModuleName());
+        });
+    }
+
+    protected function stubOptions(): array
+    {
+        return [
+            'CLASS' => $this->getClassName(),
+            'NAMESPACE' => $this->getClassNamespace(),
+            'MODEL' => $this->getModelName(),
+            'MODEL_NAMESPACE' => $this->getModule()->getNamespace().'\\'.'Entities'.'\\'.$this->getModelName(),
+        ];
     }
 
     /**
-     * Get the console command arguments.
+     * Get the console command options.
      *
      * @return array
      */
-    protected function getArguments()
-    {
-        return [
-            ['name', InputArgument::REQUIRED, 'The name of the resource class.'],
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
-        ];
-    }
-
     protected function getOptions()
     {
         return [
-            ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection.'],
+            ['model', null, InputOption::VALUE_OPTIONAL, 'The Model name for the transformer.', null],
         ];
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getTemplateContents()
-    {
-        $module = $this->laravel['modules']->findOrFail($this->getModuleName());
-
-        return (new Stub($this->getStubName(), [
-            'NAMESPACE' => $this->getClassNamespace($module),
-            'CLASS'     => $this->getClass(),
-        ]))->render();
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function getDestinationFilePath()
-    {
-        $path = $this->laravel['modules']->getModulePath($this->getModuleName());
-
-        $resourcePath = GenerateConfigReader::read('resource');
-
-        return $path.$resourcePath->getPath().'/'.$this->getFileName().'.php';
-    }
-
-    /**
-     * @return string
-     */
-    private function getFileName()
-    {
-        return Str::studly($this->argument('name'));
-    }
-
-    /**
-     * Determine if the command is generating a resource collection.
-     *
-     * @return bool
-     */
-    protected function collection() : bool
-    {
-        return $this->option('collection') ||
-            Str::endsWith($this->argument('name'), 'Collection');
-    }
-
-    /**
-     * @return string
-     */
-    protected function getStubName(): string
-    {
-        if ($this->collection()) {
-            return '/resource-collection.stub';
-        }
-
-        return '/resource.stub';
     }
 }

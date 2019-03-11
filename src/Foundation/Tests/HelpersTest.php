@@ -183,4 +183,8 @@ class HelpersTest extends TestCase
     {
         $this->assertInstanceOf(Larapi::class, instance_without_constructor(Larapi::class));
     }
+
+    public function testSplitCapitalStringToUnderscores(){
+        $this->assertEquals("proxy_uptime_collection", split_caps_to_underscore("ProxyUptimeCollection"));
+    }
 }
