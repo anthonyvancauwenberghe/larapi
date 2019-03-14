@@ -2,11 +2,13 @@
 
 namespace Foundation\Generator\Commands;
 
-use Foundation\Exceptions\Exception;
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
-use Symfony\Component\Console\Input\InputOption;
+use Foundation\Core\Larapi;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\ListenerGeneratedEvent;
+use Foundation\Generator\Support\InputOption;
 
-class ListenerMakeCommand extends AbstractGeneratorCommand
+
+class ListenerMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -36,6 +38,13 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
      */
     protected $filePath = '/Listeners';
 
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = ListenerGeneratedEvent::class;
+
     protected function stubOptions(): array
     {
         return [
@@ -44,29 +53,6 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
             'EVENTNAME' => $this->getModule()->getNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
             'SHORTEVENTNAME' => $this->getEventName(),
         ];
-    }
-
-    protected function getEventName(): string
-    {
-        return once(function () {
-            $eventName = $this->option('event') ?? $this->ask('What is the name of the event that should be listened on?', false) ?? 'null';
-            if ($eventName === null) {
-                throw new Exception('Eventname for listener not given');
-            }
-
-            return $eventName;
-        });
-    }
-
-    protected function listenerNeedsQueueing(): bool
-    {
-        return once(function () {
-            $option = $this->option('queued');
-            if ($option !== null)
-                $option = (bool)$option;
-
-            return $option === null ? $this->confirm('Should the listener be queued?', false) : $option;
-        });
     }
 
     protected function afterGeneration(): void
@@ -91,11 +77,12 @@ class ListenerMakeCommand extends AbstractGeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function setOptions(): array
     {
+
         return [
-            ['event', 'e', InputOption::VALUE_OPTIONAL, 'The event class being listened for.'],
-            ['queued', null, InputOption::VALUE_OPTIONAL, 'Indicates the event listener should be queued.'],
+            ['event', Larapi::getModule($this->getModuleName())->getEvents()->getAllPhpFileNamesWithoutExtension(), InputOption::VALUE_OPTIONAL, 'What is the name of the event that should be listened on?.', null],
+            ['queued', null, InputOption::VALUE_IS_BOOL, 'Should the listener be queued?', null],
         ];
     }
 }

@@ -1,18 +1,21 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
-| API Routes
+| $MODULE_NAME$ API Routes
 |--------------------------------------------------------------------------
 |
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
+| Here is where you can register all API routes for the module $MODULE_NAME$. These
+| routes are automatically loaded by the Larapi framework and assigned to the "api" middleware group.
+| Enjoy building your API!
 |
 */
 
-Route::middleware('auth:api')->get('/$LOWER_NAME$', function (Request $request) {
-    return $request->user();
-});
+use Modules\Authorization\Entities\Permission;
+
+Route::get('/{id}', '$MODULE_NAME$Controller@show')->middleware(['permission:'.Permission::SHOW_$CAPS_MODULE_NAME$]);
+Route::patch('/{id}', '$MODULE_NAME$Controller@update')->middleware(['permission:'.Permission::UPDATE_$CAPS_MODULE_NAME$]);
+Route::delete('/{id}', 'A$MODULE_NAME$Controller@destroy')->middleware(['permission:'.Permission::DELETE_$CAPS_MODULE_NAME$]);
+
+Route::post('/', '$MODULE_NAME$Controller@store')->middleware(['permission:'.Permission::CREATE_$CAPS_MODULE_NAME$]);
+Route::get('/', '$MODULE_NAME$Controller@index')->middleware(['permission:'.Permission::INDEX_$CAPS_MODULE_NAME$]);

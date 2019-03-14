@@ -10,13 +10,16 @@ namespace Foundation\Generator\Abstracts;
 
 use Foundation\Core\Larapi;
 use Foundation\Core\Module;
-use Foundation\Generator\Events\FileGeneratedEvent;
+use Foundation\Exceptions\Exception;
+use Foundation\Generator\Support\InputOption;
+use Foundation\Generator\Support\Stub;
+use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileExistsException;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Commands\GeneratorCommand;
+use ReflectionClass;
 use Symfony\Component\Console\Input\InputArgument;
 
-abstract class AbstractGeneratorCommand extends GeneratorCommand
+abstract class AbstractGeneratorCommand extends Command
 {
     /**
      * The name of the generated resource.
@@ -40,36 +43,53 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     protected $filePath;
 
     /**
-     * @return mixed
+     * The event that will fire when the file is created.
+     *
+     * @var string
      */
-    protected function getDestinationFilePath()
+    protected $event;
+
+
+    /**
+     * The data that is inputted from the options.
+     *
+     * @var array
+     */
+    protected $optionData = [];
+
+    /**
+     * @return string
+     */
+    protected function getDestinationFilePath(): string
     {
         return $this->getModule()->getPath() . $this->filePath . '/' . $this->getFileName();
     }
 
-    protected function getTemplateContents()
-    {
-
-    }
 
     public function handle()
     {
+
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
-        if (!$this->laravel['files']->isDirectory($dir = dirname($path))) {
-            $this->laravel['files']->makeDirectory($dir, 0777, true);
-        }
+        if ($this->option('overwrite'))
+            unlink($path);
 
         if (file_exists($path) && !app()->environment('testing')) {
             $this->error("File : {$path} already exists.");
             throw new FileExistsException();
         }
-        $stubName = $this->stubName();
-        $stubOptions = $this->stubOptions();
+
+        $this->handleOptions();
+
+        $stub = new Stub($this->stubName(), array_merge($this->defaultStubOptions(), $this->stubOptions()));
+
 
         $this->beforeGeneration();
 
-        event(new FileGeneratedEvent($path, $stubName, $stubOptions, static::class));
+        if ($this->event === null)
+            throw new Exception("No Generator event specified on " . static::class);
+
+        event(new $this->event($path, $stub));
         $this->info("Created : {$path}");
 
         $this->afterGeneration();
@@ -102,7 +122,8 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
         $moduleName = $this->argument('module') ?? $this->anticipate('For what module would you like to generate a ' . $this->getGeneratorName() . '.', Larapi::getModuleNames());
 
         if ($moduleName === null) {
-            throw new \Exception('Name of module not set.');
+            $this->error('module not specified');
+            throw new \Exception('Name of module not specified.');
         }
 
         return $moduleName;
@@ -114,7 +135,7 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
      *
      * @return string
      */
-    public function getClassNamespace($module = null): string
+    public function getClassNamespace(): string
     {
         return $this->getModule()->getNamespace() . str_replace('/', '\\', $this->filePath);
     }
@@ -129,6 +150,56 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     }
 
     abstract protected function stubOptions(): array;
+
+    protected final function defaultStubOptions(): array
+    {
+        return [
+            "MODULE" => $this->getModuleName()
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    final protected function getOptions()
+    {
+        $options = $this->setOptions();
+        $options[] = ['overwrite', null, InputOption::VALUE_NONE, 'Overwrite this file if it already exists?'];
+
+        foreach ($options as $key => $option) {
+            $options[$key][1] = null;
+        }
+        return $options;
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    final protected function getArguments()
+    {
+        return array_merge([
+            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
+        ],
+            $this->setArguments());
+    }
+
+    /**
+     * Set the console command arguments.
+     *
+     * @return array
+     */
+    protected abstract function setArguments(): array;
+
+    /**
+     * Set the console command options.
+     *
+     * @return array
+     */
+    protected abstract function setOptions(): array;
 
     protected function getClassName(): string
     {
@@ -148,29 +219,6 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
         return $className;
     }
 
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getArguments()
-    {
-        return [
-            ['module', InputArgument::OPTIONAL, 'The name of module will be used.'],
-            ['name', InputArgument::OPTIONAL, 'The name of the ' . $this->getGeneratorName() . '.'],
-        ];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
-    }
-
     protected function getGeneratorName(): string
     {
         return $this->generatorName ?? 'class';
@@ -183,5 +231,59 @@ abstract class AbstractGeneratorCommand extends GeneratorCommand
     protected function stubName()
     {
         return $this->stub;
+    }
+
+    protected function handleOptions()
+    {
+        foreach ($this->setOptions() as $option) {
+            $type = $option[2] === InputOption::VALUE_IS_BOOL ? InputOption::VALUE_OPTIONAL : $option[2];
+            $this->addOption($option[0], $option[1], $type, $option[3], $option[4] ?? null);
+            $this->optionData[$option[0]] = $this->buildInputOption($option[0], $option[1], $option[2], $option[3], $option[4] ?? null);
+        }
+    }
+
+    private function buildInputOption($key, $shortcut, $type, $question, $default)
+    {
+
+        $originalOptions = $this->getOriginalOptionInput();
+        if ($type === InputOption::VALUE_NONE) {
+            return $this->option($key);
+        } elseif ($type === InputOption::VALUE_OPTIONAL || $type === InputOption::VALUE_IS_BOOL) {
+            if ($type !== InputOption::VALUE_IS_BOOL && ($input = $this->option($key)) !== null) {
+                if (is_bool($default))
+                    return (bool)$input;
+                return $input;
+            } else {
+                if ($this->isShortcutBool($shortcut))
+                    return $this->confirm($question, $default);
+                else if (is_array($shortcut))
+                    return $this->anticipate($question, $shortcut, $default);
+                else
+                    return $this->ask($question, $default);
+            }
+
+        }
+
+        throw new Exception("input option not supported");
+    }
+
+    private function getOriginalOptionInput()
+    {
+        $reflection = new ReflectionClass($this->input);
+        $property = $reflection->getProperty('options');
+        $property->setAccessible(true);
+        return $property->getValue($this->input);
+    }
+
+    private function isShortcutBool($shortcut)
+    {
+        return is_bool($shortcut) || (is_array($shortcut) && is_bool($shortcut[0]));
+    }
+
+    public function __call($method, $parameters)
+    {
+        $key = str_replace('get', '', $method);
+        if (array_key_exists(strtolower($method), $this->optionData))
+            return $this->optionData[$key];
     }
 }

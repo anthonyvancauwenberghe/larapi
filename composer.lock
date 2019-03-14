@@ -921,16 +921,16 @@
         },
         {
             "name": "hhxsv5/laravel-s",
-            "version": "v3.3.10",
+            "version": "v3.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hhxsv5/laravel-s.git",
-                "reference": "21edcf4e4da8c745894169623dd64d05db2ac51f"
+                "reference": "793f3be340bd85e4fd3bc2dcb1832848576536d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hhxsv5/laravel-s/zipball/21edcf4e4da8c745894169623dd64d05db2ac51f",
-                "reference": "21edcf4e4da8c745894169623dd64d05db2ac51f",
+                "url": "https://api.github.com/repos/hhxsv5/laravel-s/zipball/793f3be340bd85e4fd3bc2dcb1832848576536d9",
+                "reference": "793f3be340bd85e4fd3bc2dcb1832848576536d9",
                 "shasum": ""
             },
             "require": {
@@ -988,27 +988,27 @@
                 "udp",
                 "websocket"
             ],
-            "time": "2019-02-22T05:07:54+00:00"
+            "time": "2019-03-11T14:28:22+00:00"
         },
         {
             "name": "jenssegers/mongodb",
-            "version": "v3.5.0",
+            "version": "v3.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jenssegers/laravel-mongodb.git",
-                "reference": "58972584d1b5ea61101a9aaa80c84e22f19d1daa"
+                "reference": "bdb15c948cb1f3d703df0996753d7e5336950bee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jenssegers/laravel-mongodb/zipball/58972584d1b5ea61101a9aaa80c84e22f19d1daa",
-                "reference": "58972584d1b5ea61101a9aaa80c84e22f19d1daa",
+                "url": "https://api.github.com/repos/jenssegers/laravel-mongodb/zipball/bdb15c948cb1f3d703df0996753d7e5336950bee",
+                "reference": "bdb15c948cb1f3d703df0996753d7e5336950bee",
                 "shasum": ""
             },
             "require": {
-                "illuminate/container": "^5.6",
-                "illuminate/database": "^5.6",
-                "illuminate/events": "^5.6",
-                "illuminate/support": "^5.6",
+                "illuminate/container": "^5.8",
+                "illuminate/database": "^5.8",
+                "illuminate/events": "^5.8",
+                "illuminate/support": "^5.8",
                 "mongodb/mongodb": "^1.0.0"
             },
             "require-dev": {
@@ -1057,7 +1057,7 @@
                 "mongo",
                 "mongodb"
             ],
-            "time": "2019-02-27T16:24:21+00:00"
+            "time": "2019-03-12T06:49:10+00:00"
         },
         {
             "name": "laravel/framework",

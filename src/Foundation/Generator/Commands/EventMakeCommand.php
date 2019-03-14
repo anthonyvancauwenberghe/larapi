@@ -2,9 +2,10 @@
 
 namespace Foundation\Generator\Commands;
 
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\EventGeneratedEvent;
 
-class EventMakeCommand extends AbstractGeneratorCommand
+class EventMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -40,6 +41,13 @@ class EventMakeCommand extends AbstractGeneratorCommand
      * @var string
      */
     protected $filePath = '/Events';
+
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = EventGeneratedEvent::class;
 
     protected function stubOptions(): array
     {

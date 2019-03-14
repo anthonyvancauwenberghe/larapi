@@ -3,11 +3,13 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\MigrationGeneratedEvent;
 use function GuzzleHttp\Psr7\str;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
-class MigrationMakeCommand extends AbstractGeneratorCommand
+class MigrationMakeCommand extends ClassGeneratorCommand
 {
 
     /**
@@ -38,6 +40,13 @@ class MigrationMakeCommand extends AbstractGeneratorCommand
      */
     protected $filePath = '/Database/Migrations';
 
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = MigrationGeneratedEvent::class;
+
     protected function stubOptions(): array
     {
         return [
@@ -59,7 +68,7 @@ class MigrationMakeCommand extends AbstractGeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function setOptions() :array
     {
         return [
             ['mongo', null, InputOption::VALUE_OPTIONAL, 'Mongo migration.', null],
@@ -93,7 +102,7 @@ class MigrationMakeCommand extends AbstractGeneratorCommand
     /**
      * @return mixed
      */
-    protected function getDestinationFilePath()
+    protected function getDestinationFilePath() :string
     {
         return $this->getModule()->getPath() . $this->filePath . '/' . $this->getDestinationFileName() . '.php';
     }

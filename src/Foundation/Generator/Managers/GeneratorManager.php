@@ -9,168 +9,275 @@
 namespace Foundation\Generator\Managers;
 
 
+use Illuminate\Support\Str;
+
+/**
+ * Class GeneratorManager
+ * @package Foundation\Generator\Managers
+ */
 class GeneratorManager
 {
-    public static function createMigration(string $moduleName, string $migrationName, string $tableName, bool $mongo = false)
+
+    /**
+     * @var string
+     */
+    protected $moduleName;
+
+    /**
+     * GeneratorManager constructor.
+     * @param string $module
+     */
+    protected function __construct(string $module)
+    {
+        $this->moduleName = $module;
+    }
+
+
+    /**
+     * @param string $moduleName
+     * @return GeneratorManager
+     */
+    public static function module(string $moduleName)
+    {
+        return new GeneratorManager($moduleName);
+    }
+
+    /**
+     * @param $options
+     * @return mixed
+     */
+    protected function createOptions($options)
+    {
+        $options['module']=  Str::studly($this->moduleName);
+        return $options;
+    }
+
+    /**
+     * @param string $migrationName
+     * @param string $tableName
+     * @param bool $mongo
+     */
+    public function createMigration(string $migrationName, string $tableName, bool $mongo = false)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $migrationName,
             "--table" => $tableName,
             "--mongo" => $mongo
         ];
-        \Artisan::call("larapi:make:migration", $options);
+        \Artisan::call("larapi:make:migration", $this->createOptions($options));
     }
 
-    public static function createController(string $moduleName, string $controllerName)
+    /**
+     * @param string $controllerName
+     */
+    public function createController(string $controllerName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $controllerName,
         ];
-        \Artisan::call("larapi:make:controller", $options);
+        \Artisan::call("larapi:make:controller", $this->createOptions($options));
     }
 
-    public static function createPolicy(string $moduleName, string $policyName)
+    /**
+     * @param string $policyName
+     */
+    public function createPolicy(string $policyName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $policyName,
         ];
-        \Artisan::call("larapi:make:policy", $options);
+        \Artisan::call("larapi:make:policy", $this->createOptions($options));
     }
 
-    public static function createEvent(string $moduleName, string $eventName)
+    /**
+     * @param string $eventName
+     */
+    public function createEvent(string $eventName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $eventName,
         ];
-        \Artisan::call("larapi:make:event", $options);
+        \Artisan::call("larapi:make:event", $this->createOptions($options));
     }
 
-    public static function createNotification(string $moduleName, string $notificationName)
+    /**
+     * @param string $notificationName
+     */
+    public function createNotification(string $notificationName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $notificationName,
         ];
-        \Artisan::call("larapi:make:notification", $options);
+        \Artisan::call("larapi:make:notification", $this->createOptions($options));
     }
 
-    public static function createServiceProvider(string $moduleName, string $providerName)
+    /**
+     * @param string $providerName
+     */
+    public function createServiceProvider(string $providerName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $providerName,
         ];
-        \Artisan::call("larapi:make:provider", $options);
+        \Artisan::call("larapi:make:provider", $this->createOptions($options));
     }
 
-    public static function createSeeder(string $moduleName, string $seederName)
+    /**
+     * @param string $seederName
+     */
+    public function createSeeder(string $seederName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $seederName,
         ];
-        \Artisan::call("larapi:make:seeder", $options);
+        \Artisan::call("larapi:make:seeder", $this->createOptions($options));
     }
 
-    public static function createMiddleware(string $moduleName, string $middlewareName)
+    /**
+     * @param string $middlewareName
+     */
+    public function createMiddleware(string $middlewareName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $middlewareName,
         ];
-        \Artisan::call("larapi:make:middleware", $options);
+        \Artisan::call("larapi:make:middleware", $this->createOptions($options));
     }
 
-    public static function createRequest(string $moduleName, string $requestName)
+    /**
+     * @param string $requestName
+     */
+    public function createRequest(string $requestName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $requestName,
         ];
-        \Artisan::call("larapi:make:request", $options);
+        \Artisan::call("larapi:make:request", $this->createOptions($options));
     }
 
-    public static function createRule(string $moduleName, string $ruleName)
+    /**
+     * @param string $ruleName
+     */
+    public function createRule(string $ruleName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $ruleName,
         ];
-        \Artisan::call("larapi:make:rule", $options);
+        \Artisan::call("larapi:make:rule", $this->createOptions($options));
     }
 
-    public static function createTest(string $moduleName, string $testName, string $type)
+    /**
+     * @param string $moduleName
+     */
+    public function createRoute()
     {
         $options = [
-            "module" => $moduleName,
+
+        ];
+        \Artisan::call("larapi:make:route", $this->createOptions($options));
+    }
+
+    /**
+     * @param string $moduleName
+     */
+    public function createComposer()
+    {
+        $options = [
+
+        ];
+        \Artisan::call("larapi:make:composer", $this->createOptions($options));
+    }
+
+    /**
+     * @param string $testName
+     * @param string $type
+     */
+    public function createTest(string $testName, string $type)
+    {
+        $options = [
             "name" => $testName,
             "--type" => $type
         ];
-        \Artisan::call("larapi:make:test", $options);
+        \Artisan::call("larapi:make:test", $this->createOptions($options));
     }
 
-    public static function createFactory(string $moduleName, string $modelName)
+    /**
+     * @param string $modelName
+     */
+    public function createFactory(string $modelName)
     {
         $options = [
-            "module" => $moduleName,
             "--model" => $modelName,
         ];
-        \Artisan::call("larapi:make:factory", $options);
+        \Artisan::call("larapi:make:factory", $this->createOptions($options));
     }
 
-    public static function createTransformer(string $moduleName, string $transformerName, string $modelName)
+    /**
+     * @param string $transformerName
+     * @param string $modelName
+     */
+    public function createTransformer(string $transformerName, string $modelName)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $transformerName,
             "--model" => $modelName,
         ];
-        \Artisan::call("larapi:make:transformer", $options);
+        \Artisan::call("larapi:make:transformer", $this->createOptions($options));
     }
 
-    public static function createListener(string $moduleName, string $listenerName, string $eventName, bool $queued = false)
+    /**
+     * @param string $listenerName
+     * @param string $eventName
+     * @param bool $queued
+     */
+    public function createListener(string $listenerName, string $eventName, bool $queued = false)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $listenerName,
             "--event" => $eventName,
             "--queued" => $queued
         ];
-        \Artisan::call("larapi:make:listener", $options);
+        \Artisan::call("larapi:make:listener", $this->createOptions($options));
     }
 
-    public static function createJob(string $moduleName, string $jobName, bool $sync = false)
+    /**
+     * @param string $jobName
+     * @param bool $sync
+     */
+    public function createJob(string $jobName, bool $sync = false)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $jobName,
             "--sync" => $sync
         ];
-        \Artisan::call("larapi:make:job", $options);
+        \Artisan::call("larapi:make:job", $this->createOptions($options));
     }
 
-    public static function createCommand(string $moduleName, string $jobName, string $commandName = null)
+    /**
+     * @param string $jobName
+     * @param string|null $commandName
+     */
+    public function createCommand(string $name, ?string $commandName = null)
     {
         $options = [
-            "module" => $moduleName,
-            "name" => $jobName,
+            "name" => $name,
             "--command" => $commandName
         ];
-        \Artisan::call("larapi:make:command", $options);
+        \Artisan::call("larapi:make:command", $this->createOptions($options));
     }
 
-    public static function createModel(string $moduleName, string $modelName, bool $mongo=false, bool $migration = true)
+    /**
+     * @param string $modelName
+     * @param bool $mongo
+     * @param bool $migration
+     */
+    public function createModel(string $modelName, bool $mongo = false, bool $migration = true)
     {
         $options = [
-            "module" => $moduleName,
             "name" => $modelName,
             "--mongo" => $mongo,
             "--migration" => $migration
         ];
-        \Artisan::call("larapi:make:model", $options);
+        \Artisan::call("larapi:make:model", $this->createOptions($options));
     }
 }

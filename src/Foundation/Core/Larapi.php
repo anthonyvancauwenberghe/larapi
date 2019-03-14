@@ -57,15 +57,10 @@ class Larapi
     /**
      * @param string $module
      * @return string
-     * @throws \Foundation\Exceptions\Exception
      */
     private static function getModulePath(string $module): string
     {
-        $path = self::getModulesBasePath().'/'.$module;
-        if (file_exists($path)) {
-            return $path;
-        }
-        throw new \Foundation\Exceptions\Exception('Module not found', 500);
+        return self::getModulesBasePath().'/'.$module;
     }
 
     public static function getApiDomainName()

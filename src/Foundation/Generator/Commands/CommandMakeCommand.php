@@ -3,9 +3,11 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\CommandGeneratedEvent;
 use Symfony\Component\Console\Input\InputOption;
 
-class CommandMakeCommand extends AbstractGeneratorCommand
+class CommandMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -36,6 +38,13 @@ class CommandMakeCommand extends AbstractGeneratorCommand
     protected $stub = 'command.stub';
 
     /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = CommandGeneratedEvent::class;
+
+    /**
      * The file path.
      *
      * @var string
@@ -56,7 +65,7 @@ class CommandMakeCommand extends AbstractGeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function setOptions(): array
     {
         return [
             ['command', null, InputOption::VALUE_OPTIONAL, 'The terminal command that should be assigned.', null],
@@ -68,6 +77,6 @@ class CommandMakeCommand extends AbstractGeneratorCommand
      */
     private function getCommandName()
     {
-        return $this->option('command') ?? str_replace('command', '', strtolower($this->getModuleName()).':'.strtolower($this->getClassName()));
+        return $this->option('command') ?? str_replace('command', '', strtolower($this->getModuleName()) . ':' . strtolower($this->getClassName()));
     }
 }

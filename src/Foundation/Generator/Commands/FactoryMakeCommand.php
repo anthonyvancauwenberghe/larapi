@@ -3,9 +3,11 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\FactoryGeneratedEvent;
 use Symfony\Component\Console\Input\InputOption;
 
-class FactoryMakeCommand extends AbstractGeneratorCommand
+class FactoryMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -42,6 +44,13 @@ class FactoryMakeCommand extends AbstractGeneratorCommand
      */
     protected $filePath = '/Database/factories';
 
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = FactoryGeneratedEvent::class;
+
     protected function getModelName(): string
     {
         return once(function () {
@@ -68,7 +77,7 @@ class FactoryMakeCommand extends AbstractGeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function setOptions() :array
     {
         return [
             ['model', null, InputOption::VALUE_OPTIONAL, 'The Model name for the factory.', null],

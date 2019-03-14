@@ -4,9 +4,11 @@ namespace Foundation\Generator\Commands;
 
 use Foundation\Core\Larapi;
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\TransformerGeneratedEvent;
 use Symfony\Component\Console\Input\InputOption;
 
-class TransformerMakeCommand extends AbstractGeneratorCommand
+class TransformerMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -43,6 +45,13 @@ class TransformerMakeCommand extends AbstractGeneratorCommand
      */
     protected $filePath = '/Transformers';
 
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = TransformerGeneratedEvent::class;
+
     protected function getModelName(): string
     {
         return once(function () {
@@ -65,7 +74,7 @@ class TransformerMakeCommand extends AbstractGeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function setOptions() :array
     {
         return [
             ['model', null, InputOption::VALUE_OPTIONAL, 'The Model name for the transformer.', null],

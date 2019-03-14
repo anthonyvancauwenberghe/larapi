@@ -2,9 +2,10 @@
 
 namespace Foundation\Generator\Commands;
 
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\ControllerGeneratedEvent;
 
-class ControllerMakeCommand extends AbstractGeneratorCommand
+class ControllerMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -33,6 +34,13 @@ class ControllerMakeCommand extends AbstractGeneratorCommand
      * @var string
      */
     protected $stub = 'controller.stub';
+
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = ControllerGeneratedEvent::class;
 
     /**
      * The file path.

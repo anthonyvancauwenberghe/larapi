@@ -8,10 +8,11 @@
 
 namespace Foundation\Abstracts\Events;
 
+use Foundation\Contracts\EventContract;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-abstract class Event
+abstract class Event implements EventContract
 {
     use SerializesModels, Dispatchable;
 }

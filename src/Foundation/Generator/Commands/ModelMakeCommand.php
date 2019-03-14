@@ -3,6 +3,8 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\ModelGeneratedEvent;
 use Foundation\Generator\Managers\GeneratorManager;
 use Illuminate\Support\Str;
 use Nwidart\Modules\Support\Config\GenerateConfigReader;
@@ -10,7 +12,7 @@ use Nwidart\Modules\Support\Stub;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
-class ModelMakeCommand extends AbstractGeneratorCommand
+class ModelMakeCommand extends ClassGeneratorCommand
 {
 
     /**
@@ -41,6 +43,13 @@ class ModelMakeCommand extends AbstractGeneratorCommand
      */
     protected $filePath = '/Entities';
 
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = ModelGeneratedEvent::class;
+
     protected function stubOptions(): array
     {
         return [
@@ -54,7 +63,7 @@ class ModelMakeCommand extends AbstractGeneratorCommand
      *
      * @return array
      */
-    protected function getOptions()
+    protected function setOptions(): array
     {
         return [
             ['mongo', null, InputOption::VALUE_OPTIONAL, 'Mongo model.', null],
@@ -77,14 +86,12 @@ class ModelMakeCommand extends AbstractGeneratorCommand
     {
         if ($this->needsMigration()) {
             if ($this->isMongoModel()) {
-                GeneratorManager::createMigration(
-                    $this->getModuleName(),
+                GeneratorManager::module($this->getModuleName())->createMigration(
                     "Create" . ucfirst($this->getClassName()) . "Collection",
                     strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
                     true);
             } else {
-                GeneratorManager::createMigration(
-                    $this->getModuleName(),
+                GeneratorManager::module($this->getModuleName())->createMigration(
                     "Create" . ucfirst($this->getClassName() . "Table"),
                     strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
                     false);

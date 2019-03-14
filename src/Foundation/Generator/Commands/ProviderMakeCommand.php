@@ -3,8 +3,10 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\ProviderGeneratedEvent;
 
-class ProviderMakeCommand extends AbstractGeneratorCommand
+class ProviderMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -40,6 +42,13 @@ class ProviderMakeCommand extends AbstractGeneratorCommand
      * @var string
      */
     protected $filePath = '/Providers';
+
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = ProviderGeneratedEvent::class;
 
     protected function stubOptions(): array
     {

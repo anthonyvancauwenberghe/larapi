@@ -3,8 +3,10 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\RuleGeneratedEvent;
 
-class RuleMakeCommand extends AbstractGeneratorCommand
+class RuleMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -40,6 +42,13 @@ class RuleMakeCommand extends AbstractGeneratorCommand
      * @var string
      */
     protected $filePath = '/Rules';
+
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = RuleGeneratedEvent::class;
 
     protected function stubOptions(): array
     {

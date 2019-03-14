@@ -9,6 +9,7 @@
 namespace Foundation\Generator\Providers;
 
 use Foundation\Generator\Commands\CommandMakeCommand;
+use Foundation\Generator\Commands\ComposerMakeCommand;
 use Foundation\Generator\Commands\ControllerMakeCommand;
 use Foundation\Generator\Commands\EventMakeCommand;
 use Foundation\Generator\Commands\FactoryMakeCommand;
@@ -21,11 +22,12 @@ use Foundation\Generator\Commands\NotificationMakeCommand;
 use Foundation\Generator\Commands\PolicyMakeCommand;
 use Foundation\Generator\Commands\ProviderMakeCommand;
 use Foundation\Generator\Commands\RequestMakeCommand;
+use Foundation\Generator\Commands\RouteMakeCommand;
 use Foundation\Generator\Commands\RuleMakeCommand;
 use Foundation\Generator\Commands\SeederMakeCommand;
 use Foundation\Generator\Commands\TestMakeCommand;
 use Foundation\Generator\Commands\TransformerMakeCommand;
-use Foundation\Generator\Events\FileGeneratedEvent;
+use Foundation\Generator\Contracts\ResourceGenerationContract;
 use Foundation\Generator\Listeners\CreateGeneratedFile;
 use Illuminate\Support\ServiceProvider;
 
@@ -49,7 +51,9 @@ class GeneratorServiceProvider extends ServiceProvider
         TransformerMakeCommand::class,
         RequestMakeCommand::class,
         SeederMakeCommand::class,
-        RuleMakeCommand::class
+        RuleMakeCommand::class,
+        ComposerMakeCommand::class,
+        RouteMakeCommand::class
     ];
 
     /**
@@ -59,7 +63,7 @@ class GeneratorServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Event::listen(FileGeneratedEvent::class, CreateGeneratedFile::class);
+        \Event::listen(ResourceGenerationContract::class, CreateGeneratedFile::class);
     }
 
     /**

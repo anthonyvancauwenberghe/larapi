@@ -17,6 +17,15 @@ class Stub extends \Nwidart\Modules\Support\Stub
      */
     public function getPath()
     {
-        return get_foundation_path().'/Generator/Stubs/'.$this->path;
+        return get_foundation_path() . '/Generator/Stubs/' . $this->path;
+    }
+
+    public function getName()
+    {
+        return $this->path;
+    }
+
+    public function getOptions() :array {
+        return $this->getReplaces();
     }
 }

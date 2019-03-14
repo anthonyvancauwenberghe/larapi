@@ -58,6 +58,7 @@ class AccountHttpTest extends AuthorizedHttpTest
     {
         $response = $this->http('GET', '/v1/accounts/'.$this->account->id);
         $response->assertStatus(200);
+        $this->assertEquals(AccountTransformer::resource(Account::find($this->account->id))->serialize(),$response->decode());
 
         $this->getActingUser()->syncRoles(Role::GUEST);
         $response = $this->http('GET', '/v1/accounts/'.$this->account->id);

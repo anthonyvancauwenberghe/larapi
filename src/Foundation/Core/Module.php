@@ -172,11 +172,21 @@ final class Module
 
     public function getNamespace(): string
     {
-        return 'Modules'.'\\'.$this->getName();
+        return 'Modules' . '\\' . $this->getName();
     }
 
     public function getMainModel()
     {
         return $this->getModels()->getClassByName($this->getName());
+    }
+
+    public function exists(): bool
+    {
+        return file_exists($this->getPath());
+    }
+
+    public function doesNotExist()
+    {
+        return !$this->exists();
     }
 }

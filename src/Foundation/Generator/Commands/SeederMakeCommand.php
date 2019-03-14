@@ -3,8 +3,10 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\SeederGeneratedEvent;
 
-class SeederMakeCommand extends AbstractGeneratorCommand
+class SeederMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
@@ -40,6 +42,13 @@ class SeederMakeCommand extends AbstractGeneratorCommand
      * @var string
      */
     protected $filePath = '/Database/Seeders';
+
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = SeederGeneratedEvent::class;
 
     protected function stubOptions(): array
     {

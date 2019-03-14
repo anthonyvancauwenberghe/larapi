@@ -2,9 +2,10 @@
 
 namespace Foundation\Generator\Commands;
 
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
+use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\MiddlewareGeneratedEvent;
 
-class MiddlewareMakeCommand extends AbstractGeneratorCommand
+class MiddlewareMakeCommand extends ClassGeneratorCommand
 {
 
     /**
@@ -42,6 +43,13 @@ class MiddlewareMakeCommand extends AbstractGeneratorCommand
      */
     protected $filePath = '/Http/Middleware';
 
+    /**
+     * The event that will fire when the file is created.
+     *
+     * @var string
+     */
+    protected $event = MiddlewareGeneratedEvent::class;
+
 
     protected function stubOptions(): array
     {
@@ -49,16 +57,6 @@ class MiddlewareMakeCommand extends AbstractGeneratorCommand
             'CLASS' => $this->getClassName(),
             'NAMESPACE' => $this->getClassNamespace(),
         ];
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [];
     }
 
 }
