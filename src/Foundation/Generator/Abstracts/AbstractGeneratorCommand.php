@@ -68,13 +68,9 @@ abstract class AbstractGeneratorCommand extends Command
 
     public function handle()
     {
-
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
-        if ($this->option('overwrite'))
-            unlink($path);
-
-        if (file_exists($path) && !app()->environment('testing')) {
+        if (file_exists($path) && !$this->isOverwriteable()) {
             $this->error("File : {$path} already exists.");
             throw new FileExistsException();
         }
@@ -101,6 +97,13 @@ abstract class AbstractGeneratorCommand extends Command
     protected function getFileName()
     {
         return $this->getClassName() . '.php';
+    }
+
+    protected function isOverwriteable() :bool
+    {
+        $overWriteable = $this->option('overwrite');
+
+        return $overWriteable ?? false;
     }
 
     protected function getModule(): Module
@@ -167,10 +170,6 @@ abstract class AbstractGeneratorCommand extends Command
     {
         $options = $this->setOptions();
         $options[] = ['overwrite', null, InputOption::VALUE_NONE, 'Overwrite this file if it already exists?'];
-
-        foreach ($options as $key => $option) {
-            $options[$key][1] = null;
-        }
         return $options;
     }
 
@@ -235,11 +234,20 @@ abstract class AbstractGeneratorCommand extends Command
 
     protected function handleOptions()
     {
-        foreach ($this->setOptions() as $option) {
-            $type = $option[2] === InputOption::VALUE_IS_BOOL ? InputOption::VALUE_OPTIONAL : $option[2];
-            $this->addOption($option[0], $option[1], $type, $option[3], $option[4] ?? null);
-            $this->optionData[$option[0]] = $this->buildInputOption($option[0], $option[1], $option[2], $option[3], $option[4] ?? null);
+        foreach ($this->getOptions() as $option) {
+            $method = 'handle' . ucfirst(strtolower($option[0])) . 'Option';
+            $originalInput = $this->getOriginalOptionInput();
+            if (isset($originalInput[$option[0]])) {
+                $this->optionData[$option[0]] = $originalInput[$option[0]];
+            } else {
+                $this->optionData[$option[0]] = method_exists($this, $method) ? $this->$method($option[1], $option[2], $option[3], $option[4]) : $this->option($option[0]);
+            }
         }
+    }
+
+    protected function getOption(string $name)
+    {
+        return $this->optionData[$name];
     }
 
     private function buildInputOption($key, $shortcut, $type, $question, $default)

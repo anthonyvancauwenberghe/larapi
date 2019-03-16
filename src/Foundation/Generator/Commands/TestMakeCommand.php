@@ -3,7 +3,6 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Exceptions\Exception;
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 use Foundation\Generator\Abstracts\ClassGeneratorCommand;
 use Foundation\Generator\Events\TestGeneratedEvent;
 use Symfony\Component\Console\Input\InputOption;
@@ -62,11 +61,7 @@ class TestMakeCommand extends ClassGeneratorCommand
 
     protected function getType(): string
     {
-        $type = $this->option('type') ?? $this->anticipate('What type of test would you like to create?', $this->types);
-        if ($type === null) {
-            throw new Exception('type for test not specified');
-        }
-        return $type;
+        return $this->getOption('type');
     }
 
     /**
@@ -90,7 +85,12 @@ class TestMakeCommand extends ClassGeneratorCommand
     protected function setOptions(): array
     {
         return [
-            ['type', null, InputOption::VALUE_OPTIONAL, 'Indicates the type of the test.']
+            ['type', $this->types, InputOption::VALUE_OPTIONAL, 'Indicates the type of the test.', $this->types[0]]
         ];
+    }
+
+    protected function handleTypeOption($shortcut, $type, $question, $default)
+    {
+        return $this->anticipate('What is the type of the test?', $this->types, $default);
     }
 }

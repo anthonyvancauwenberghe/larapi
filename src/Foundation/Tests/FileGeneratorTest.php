@@ -42,21 +42,27 @@ class FileGeneratorTest extends TestCase
     {
         parent::setUp();
 
-        /* Do not remove this line. It prevents the listener that generates the file from executing */
+        /* Do not remove this line. It prevents the listener that generates the files from executing */
         Event::fake();
+    }
+
+    protected function getModuleGenerator(string $moduleName) :GeneratorManager{
+       return GeneratorManager::module($moduleName,true);
     }
 
     public function testCreateSqlMigration()
     {
-        GeneratorManager::module('User')->createMigration("CreateUserTable", 'users', false);
+        $moduleName = 'User';
+        $this->getModuleGenerator($moduleName)->createMigration("CreateUserTable", 'users', false);
 
-        $module = Larapi::getModule("User");
+        $module = Larapi::getModule($moduleName);
         $expectedDirectoryPath = $module->getMigrations()->getPath();
         $expectedStubName = "migration.stub";
         $expectedStubOptions = [
             'CLASS' => 'CreateUserTable',
             'NAMESPACE' => $module->getMigrations()->getNamespace(),
-            'TABLE' => 'users'
+            'TABLE' => 'users',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
@@ -69,7 +75,7 @@ class FileGeneratorTest extends TestCase
 
     public function testCreateMongoMigration()
     {
-        GeneratorManager::module('User')->createMigration("CreateUserCollection", 'users', true);
+        $this->getModuleGenerator('User')->createMigration("CreateUserCollection", 'users', true);
         $event = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
         $this->assertNotNull($event);
         $this->assertEquals("migration-mongo.stub", $event->getStub()->getName());
@@ -78,14 +84,15 @@ class FileGeneratorTest extends TestCase
     public function testCreateFactory()
     {
         $moduleName = "User";
-        GeneratorManager::module($moduleName)->createFactory( "User");
+        $this->getModuleGenerator($moduleName)->createFactory( "User");
 
         $expectedFileName = Larapi::getModule($moduleName)->getFactories()->getPath() . '/UserFactory.php';
         $expectedStubName = "factory.stub";
         $expectedStubOptions = [
             'CLASS' => 'UserFactory',
             'MODEL' => 'User',
-            'MODEL_NAMESPACE' => 'Modules\User\Entities\User'
+            'MODEL_NAMESPACE' => 'Modules\User\Entities\User',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(FactoryGeneratedEvent::class);
@@ -99,13 +106,14 @@ class FileGeneratorTest extends TestCase
     public function testCreateController()
     {
         $moduleName = "User";
-        GeneratorManager::module($moduleName)->createController( "UserController");
+        $this->getModuleGenerator($moduleName)->createController( "UserController");
 
         $expectedFileName = Larapi::getModule($moduleName)->getControllers()->getPath() . '/UserController.php';
         $expectedStubName = "controller.stub";
         $expectedStubOptions = [
             'CLASS' => 'UserController',
-            'NAMESPACE' => 'Modules\User\Http\Controllers'
+            'NAMESPACE' => 'Modules\User\Http\Controllers',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(ControllerGeneratedEvent::class);
@@ -119,7 +127,7 @@ class FileGeneratorTest extends TestCase
     public function testCreateListener()
     {
         $moduleName = "User";
-        GeneratorManager::module($moduleName)->createListener("SendWelcomeMail", "UserRegisteredEvent");
+        $this->getModuleGenerator($moduleName)->createListener("SendWelcomeMail", "UserRegisteredEvent");
 
         $expectedFileName = Larapi::getModule($moduleName)->getListeners()->getPath() . '/SendWelcomeMail.php';
         $expectedStubName = "listener.stub";
@@ -128,6 +136,7 @@ class FileGeneratorTest extends TestCase
             'NAMESPACE' => 'Modules\User\Listeners',
             'EVENTNAME' => 'Modules\User\Events\UserRegisteredEvent',
             'SHORTEVENTNAME' => 'UserRegisteredEvent',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
@@ -141,7 +150,7 @@ class FileGeneratorTest extends TestCase
     public function testCreateQueuedListener()
     {
         $moduleName = "User";
-        GeneratorManager::module($moduleName)->createListener("SendWelcomeMail", "UserRegisteredEvent", true);
+        $this->getModuleGenerator($moduleName)->createListener("SendWelcomeMail", "UserRegisteredEvent", true);
         $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
 
         $this->assertNotNull($event);
@@ -152,13 +161,14 @@ class FileGeneratorTest extends TestCase
     {
         $moduleName = "User";
         $fileName = "RandomUserJob";
-        GeneratorManager::module($moduleName)->createJob($fileName, false);
+        $this->getModuleGenerator($moduleName)->createJob($fileName, false);
 
         $expectedFileName = Larapi::getModule($moduleName)->getJobs()->getPath() . "/$fileName.php";
         $expectedStubName = "job-queued.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Jobs',
-            'CLASS' => 'RandomUserJob'
+            'CLASS' => 'RandomUserJob',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(JobGeneratedEvent::class);
@@ -171,8 +181,8 @@ class FileGeneratorTest extends TestCase
 
     public function testCreateSynchronousJob()
     {
-        $moduleName = "user";
-        GeneratorManager::module($moduleName)->createJob( "AJob", true);
+        $moduleName = "User";
+        $this->getModuleGenerator($moduleName)->createJob( "AJob", true);
         $event = $this->getFirstDispatchedEvent(JobGeneratedEvent::class);
 
         $this->assertNotNull($event);
@@ -185,14 +195,15 @@ class FileGeneratorTest extends TestCase
         $fileName = "RandomCommand";
         $commandName = "user:dosomethingrandom";
 
-        GeneratorManager::module($moduleName)->createCommand($fileName, $commandName);
+        $this->getModuleGenerator($moduleName)->createCommand($fileName, $commandName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getCommands()->getPath() . "/$fileName.php";
         $expectedStubName = "command.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Console',
             'CLASS' => 'RandomCommand',
-            'COMMAND_NAME' => $commandName
+            'COMMAND_NAME' => $commandName,
+            'MODULE' => 'User'
         ];
 
         /* @var CommandGeneratedEvent $event */
@@ -201,6 +212,7 @@ class FileGeneratorTest extends TestCase
         $this->assertNotNull($event);
         $this->assertEquals($expectedFileName, $event->getFilePath());
         $this->assertEquals($expectedStubName, $event->getStub()->getName());
+        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
 
         $this->assertEquals($commandName,$event->getConsoleCommand());
         //$this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
@@ -211,13 +223,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "RandomMiddleware";
 
-        GeneratorManager::module($moduleName)->createMiddleware($fileName);
+        $this->getModuleGenerator($moduleName)->createMiddleware($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getMiddleWare()->getPath() . "/$fileName.php";
         $expectedStubName = "middleware.stub";
         $expectedStubOptions = [
             'CLASS' => 'RandomMiddleware',
-            'NAMESPACE' => 'Modules\User\Http\Middleware'
+            'NAMESPACE' => 'Modules\User\Http\Middleware',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(MiddlewareGeneratedEvent::class);
@@ -233,13 +246,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "RandomServiceProvider";
 
-        GeneratorManager::module($moduleName)->createServiceProvider($fileName);
+        $this->getModuleGenerator($moduleName)->createServiceProvider($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getServiceProviders()->getPath() . "/$fileName.php";
         $expectedStubName = "provider.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Providers',
-            'CLASS' => 'RandomServiceProvider'
+            'CLASS' => 'RandomServiceProvider',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(ProviderGeneratedEvent::class);
@@ -255,13 +269,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "RandomNotification";
 
-        GeneratorManager::module($moduleName)->createNotification($fileName);
+        $this->getModuleGenerator($moduleName)->createNotification($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getNotifications()->getPath() . "/$fileName.php";
         $expectedStubName = "notification.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Notifications',
-            'CLASS' => 'RandomNotification'
+            'CLASS' => 'RandomNotification',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(NotificationGeneratedEvent::class);
@@ -277,13 +292,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "Address";
 
-        GeneratorManager::module($moduleName)->createModel($fileName, false, true);
+        $this->getModuleGenerator($moduleName)->createModel($fileName, false, true);
 
         $expectedFileName = Larapi::getModule($moduleName)->getModels()->getPath() . "/$moduleName$fileName.php";
         $expectedStubName = "model.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Entities',
-            'CLASS' => 'UserAddress'
+            'CLASS' => 'UserAddress',
+            'MODULE' => 'User'
         ];
 
         $modelEvent = $this->getFirstDispatchedEvent(ModelGeneratedEvent::class);
@@ -296,7 +312,8 @@ class FileGeneratorTest extends TestCase
         $expectedStubOptions = [
             'CLASS' => 'CreateUserAddressTable',
             'NAMESPACE' => 'Modules\User\Database\Migrations',
-            'TABLE' => 'user_addresses'
+            'TABLE' => 'user_addresses',
+            'MODULE' => 'User'
         ];
 
         $migrationEvent = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
@@ -310,13 +327,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "UserOwnershipPolicy";
 
-        GeneratorManager::module($moduleName)->createPolicy($fileName);
+        $this->getModuleGenerator($moduleName)->createPolicy($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getPolicies()->getPath() . "/$fileName.php";
         $expectedStubName = "policy.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Policies',
-            'CLASS' => 'UserOwnershipPolicy'
+            'CLASS' => 'UserOwnershipPolicy',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(PolicyGeneratedEvent::class);
@@ -332,7 +350,7 @@ class FileGeneratorTest extends TestCase
         $model = "User";
         $fileName = "BlablaTransformer";
 
-        GeneratorManager::module($moduleName)->createTransformer($fileName, $model);
+        $this->getModuleGenerator($moduleName)->createTransformer($fileName, $model);
 
         $expectedFileName = Larapi::getModule($moduleName)->getTransformers()->getPath() . "/$fileName.php";
         $expectedStubName = "transformer.stub";
@@ -340,7 +358,8 @@ class FileGeneratorTest extends TestCase
             'NAMESPACE' => 'Modules\User\Transformers',
             'CLASS' => 'BlablaTransformer',
             'MODEL' => 'User',
-            'MODEL_NAMESPACE' => 'Modules\User\Entities\User'
+            'MODEL_NAMESPACE' => 'Modules\User\Entities\User',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(TransformerGeneratedEvent::class);
@@ -353,15 +372,17 @@ class FileGeneratorTest extends TestCase
     public function testCreateUnitTest()
     {
         $moduleName = "User";
-        $fileName = "BlablaUnitTest";
+        $fileName = "AUserUnitTest";
 
-        GeneratorManager::module($moduleName)->createTest($fileName, 'unit');
+        $this->getModuleGenerator($moduleName)->createTest($fileName, 'unit');
 
         $expectedFileName = Larapi::getModule($moduleName)->getTests()->getPath() . "/$fileName.php";
         $expectedStubName = "unit-test.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Tests',
-            'CLASS' => 'BlablaUnitTest'
+            'CLASS' => $fileName,
+            'MODULE' => $moduleName,
+            'TYPE' => 'unit'
         ];
 
         $event = $this->getFirstDispatchedEvent(TestGeneratedEvent::class);
@@ -374,15 +395,16 @@ class FileGeneratorTest extends TestCase
     public function testCreateRequest()
     {
         $moduleName = "User";
-        $fileName = "BlablaRequest";
+        $fileName = "ARequest";
 
-        GeneratorManager::module($moduleName)->createRequest($fileName);
+        $this->getModuleGenerator($moduleName)->createRequest($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getRequests()->getPath() . "/$fileName.php";
         $expectedStubName = "request.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Http\Requests',
-            'CLASS' => 'BlablaRequest'
+            'CLASS' => $fileName,
+            'MODULE' => $moduleName
         ];
 
         $event = $this->getFirstDispatchedEvent(RequestGeneratedEvent::class);
@@ -397,13 +419,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "BlalkaRule";
 
-        GeneratorManager::module($moduleName)->createRule($fileName);
+        $this->getModuleGenerator($moduleName)->createRule($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getRules()->getPath() . "/$fileName.php";
         $expectedStubName = "rule.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Rules',
-            'CLASS' => 'BlalkaRule'
+            'CLASS' => 'BlalkaRule',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(RuleGeneratedEvent::class);
@@ -418,13 +441,14 @@ class FileGeneratorTest extends TestCase
         $moduleName = "User";
         $fileName = "BlablaSeeder";
 
-        GeneratorManager::module($moduleName)->createSeeder($fileName);
+        $this->getModuleGenerator($moduleName)->createSeeder($fileName);
 
         $expectedFileName = Larapi::getModule($moduleName)->getSeeders()->getPath() . "/$fileName.php";
         $expectedStubName = "seeder.stub";
         $expectedStubOptions = [
             'NAMESPACE' => 'Modules\User\Database\Seeders',
-            'CLASS' => 'BlablaSeeder'
+            'CLASS' => 'BlablaSeeder',
+            'MODULE' => 'User'
         ];
 
         $event = $this->getFirstDispatchedEvent(SeederGeneratedEvent::class);
@@ -439,14 +463,15 @@ class FileGeneratorTest extends TestCase
         $moduleName = "Demo";
         $routename = strtolower(Str::plural($moduleName)) . '.v1';
 
-        GeneratorManager::module($moduleName)->createRoute();
+        $this->getModuleGenerator($moduleName)->createRoute();
 
         $expectedFileName = Larapi::getModule($moduleName)->getRoutes()->getPath() . "/$routename.php";
         $expectedStubName = "route.stub";
         $expectedStubOptions = [
             'MODULE_NAME' => 'Demo',
             'CAPS_MODULE_NAME' => 'DEMO',
-            'VERSION' => 'v1'
+            'VERSION' => 'v1',
+            'MODULE' => 'Demo'
         ];
 
         $event = $this->getFirstDispatchedEvent(RouteGeneratedEvent::class);
@@ -460,14 +485,15 @@ class FileGeneratorTest extends TestCase
     {
         $moduleName = "Demo";
 
-        GeneratorManager::module($moduleName)->createComposer();
+        $this->getModuleGenerator($moduleName)->createComposer();
 
         $expectedFileName = Larapi::getModule($moduleName)->getPath() . "/composer.json";
         $expectedStubName = "composer.stub";
         $expectedStubOptions = [
             'LOWER_MODULE_NAME' => 'demo',
             'AUTHOR_NAME' => 'arthur devious',
-            'AUTHOR_MAIL' => 'aamining2@gmail.com'
+            'AUTHOR_MAIL' => 'aamining2@gmail.com',
+            'MODULE' => 'Demo'
         ];
 
         $event = $this->getFirstDispatchedEvent(ComposerGeneratedEvent::class);

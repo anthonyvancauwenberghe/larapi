@@ -2,7 +2,6 @@
 
 namespace Foundation\Generator\Commands;
 
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 use Foundation\Generator\Abstracts\ClassGeneratorCommand;
 use Foundation\Generator\Events\SeederGeneratedEvent;
 

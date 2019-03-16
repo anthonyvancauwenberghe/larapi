@@ -24,31 +24,43 @@ class GeneratorManager
     protected $moduleName;
 
     /**
+     * @var bool
+     */
+    protected $overwrite;
+
+    /**
      * GeneratorManager constructor.
      * @param string $module
      */
-    protected function __construct(string $module)
+    protected function __construct(string $module, bool $overwrite = false)
     {
         $this->moduleName = $module;
+        $this->overwrite = $overwrite;
     }
-
 
     /**
      * @param string $moduleName
      * @return GeneratorManager
      */
-    public static function module(string $moduleName)
+    public static function module(string $moduleName, bool $overwrite = false)
     {
-        return new GeneratorManager($moduleName);
+        return new GeneratorManager($moduleName, $overwrite);
+    }
+
+    protected function call(string $commandName, $options)
+    {
+        \Artisan::call("larapi:make:$commandName", $this->alterOptions($options));
     }
 
     /**
      * @param $options
      * @return mixed
      */
-    protected function createOptions($options)
+    protected function alterOptions($options)
     {
-        $options['module']=  Str::studly($this->moduleName);
+        $options['module'] = Str::studly($this->moduleName);
+        if ($this->overwrite)
+            $options['--overwrite'] = null;
         return $options;
     }
 
@@ -64,7 +76,7 @@ class GeneratorManager
             "--table" => $tableName,
             "--mongo" => $mongo
         ];
-        \Artisan::call("larapi:make:migration", $this->createOptions($options));
+        $this->call('migration', $options);
     }
 
     /**
@@ -75,7 +87,7 @@ class GeneratorManager
         $options = [
             "name" => $controllerName,
         ];
-        \Artisan::call("larapi:make:controller", $this->createOptions($options));
+        $this->call('controller', $options);
     }
 
     /**
@@ -86,7 +98,7 @@ class GeneratorManager
         $options = [
             "name" => $policyName,
         ];
-        \Artisan::call("larapi:make:policy", $this->createOptions($options));
+        $this->call('policy', $options);
     }
 
     /**
@@ -97,7 +109,7 @@ class GeneratorManager
         $options = [
             "name" => $eventName,
         ];
-        \Artisan::call("larapi:make:event", $this->createOptions($options));
+        $this->call('event', $options);
     }
 
     /**
@@ -108,7 +120,7 @@ class GeneratorManager
         $options = [
             "name" => $notificationName,
         ];
-        \Artisan::call("larapi:make:notification", $this->createOptions($options));
+        $this->call('notification', $options);
     }
 
     /**
@@ -119,7 +131,7 @@ class GeneratorManager
         $options = [
             "name" => $providerName,
         ];
-        \Artisan::call("larapi:make:provider", $this->createOptions($options));
+        $this->call('provider', $options);
     }
 
     /**
@@ -130,7 +142,7 @@ class GeneratorManager
         $options = [
             "name" => $seederName,
         ];
-        \Artisan::call("larapi:make:seeder", $this->createOptions($options));
+        $this->call('seeder', $options);
     }
 
     /**
@@ -141,7 +153,7 @@ class GeneratorManager
         $options = [
             "name" => $middlewareName,
         ];
-        \Artisan::call("larapi:make:middleware", $this->createOptions($options));
+        $this->call('middleware', $options);
     }
 
     /**
@@ -152,7 +164,7 @@ class GeneratorManager
         $options = [
             "name" => $requestName,
         ];
-        \Artisan::call("larapi:make:request", $this->createOptions($options));
+        $this->call('request', $options);
     }
 
     /**
@@ -163,7 +175,7 @@ class GeneratorManager
         $options = [
             "name" => $ruleName,
         ];
-        \Artisan::call("larapi:make:rule", $this->createOptions($options));
+        $this->call('rule', $options);
     }
 
     /**
@@ -174,7 +186,7 @@ class GeneratorManager
         $options = [
 
         ];
-        \Artisan::call("larapi:make:route", $this->createOptions($options));
+        $this->call('route', $options);
     }
 
     /**
@@ -185,7 +197,7 @@ class GeneratorManager
         $options = [
 
         ];
-        \Artisan::call("larapi:make:composer", $this->createOptions($options));
+        $this->call('composer', $options);
     }
 
     /**
@@ -198,7 +210,7 @@ class GeneratorManager
             "name" => $testName,
             "--type" => $type
         ];
-        \Artisan::call("larapi:make:test", $this->createOptions($options));
+        $this->call('test', $options);
     }
 
     /**
@@ -209,7 +221,7 @@ class GeneratorManager
         $options = [
             "--model" => $modelName,
         ];
-        \Artisan::call("larapi:make:factory", $this->createOptions($options));
+        $this->call('factory', $options);
     }
 
     /**
@@ -222,7 +234,7 @@ class GeneratorManager
             "name" => $transformerName,
             "--model" => $modelName,
         ];
-        \Artisan::call("larapi:make:transformer", $this->createOptions($options));
+        $this->call('transformer', $options);
     }
 
     /**
@@ -237,7 +249,7 @@ class GeneratorManager
             "--event" => $eventName,
             "--queued" => $queued
         ];
-        \Artisan::call("larapi:make:listener", $this->createOptions($options));
+        $this->call('listener', $options);
     }
 
     /**
@@ -250,7 +262,7 @@ class GeneratorManager
             "name" => $jobName,
             "--sync" => $sync
         ];
-        \Artisan::call("larapi:make:job", $this->createOptions($options));
+        $this->call('job', $options);
     }
 
     /**
@@ -263,7 +275,7 @@ class GeneratorManager
             "name" => $name,
             "--command" => $commandName
         ];
-        \Artisan::call("larapi:make:command", $this->createOptions($options));
+        $this->call('command', $options);
     }
 
     /**
@@ -278,6 +290,6 @@ class GeneratorManager
             "--mongo" => $mongo,
             "--migration" => $migration
         ];
-        \Artisan::call("larapi:make:model", $this->createOptions($options));
+        $this->call('model', $options);
     }
 }

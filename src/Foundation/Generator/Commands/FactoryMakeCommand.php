@@ -2,6 +2,7 @@
 
 namespace Foundation\Generator\Commands;
 
+use Foundation\Core\Larapi;
 use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
 use Foundation\Generator\Abstracts\ClassGeneratorCommand;
 use Foundation\Generator\Events\FactoryGeneratedEvent;
@@ -82,5 +83,9 @@ class FactoryMakeCommand extends ClassGeneratorCommand
         return [
             ['model', null, InputOption::VALUE_OPTIONAL, 'The Model name for the factory.', null],
         ];
+    }
+
+    protected function handleCommandOption($shortcut, $type, $question, $default){
+        return $this->anticipate('What is the name of the model?', Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension(),Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension()[0]);
     }
 }

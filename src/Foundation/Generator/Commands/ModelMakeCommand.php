@@ -66,32 +66,39 @@ class ModelMakeCommand extends ClassGeneratorCommand
     protected function setOptions(): array
     {
         return [
-            ['mongo', null, InputOption::VALUE_OPTIONAL, 'Mongo model.', null],
-            ['migration', null, InputOption::VALUE_OPTIONAL, 'Create migration for the model.', null],
+            ['mongo', null, InputOption::VALUE_OPTIONAL, 'Mongo model.', false],
+            ['migration', null, InputOption::VALUE_OPTIONAL, 'Create migration for the model.', true],
         ];
+    }
+
+    protected function handleMongoOption($shortcut, $type, $question, $default){
+        return $this->confirm('Is this model for a mongodb database?', $default);
     }
 
     protected function isMongoModel(): bool
     {
-        return once(function () {
-            $option = $this->option('mongo');
-            if ($option !== null)
-                $option = (bool)$option;
+        return $this->getOption('mongo');
+    }
 
-            return $option === null ? $this->confirm('Is this model for a mongodb database?', false) : $option;
-        });
+    protected function handleMigrationOption($shortcut, $type, $question, $default){
+        return $this->confirm('Do you want to create a migration for this model?', $default);
+    }
+
+    protected function needsMigration(): bool
+    {
+        return $this->getOption('migration');
     }
 
     public function afterGeneration(): void
     {
         if ($this->needsMigration()) {
             if ($this->isMongoModel()) {
-                GeneratorManager::module($this->getModuleName())->createMigration(
+                GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())->createMigration(
                     "Create" . ucfirst($this->getClassName()) . "Collection",
                     strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
                     true);
             } else {
-                GeneratorManager::module($this->getModuleName())->createMigration(
+                GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())->createMigration(
                     "Create" . ucfirst($this->getClassName() . "Table"),
                     strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
                     false);
@@ -106,17 +113,6 @@ class ModelMakeCommand extends ClassGeneratorCommand
             return $class;
         }
         return ucfirst($this->getModuleName()) . ucfirst($class);
-    }
-
-    protected function needsMigration(): bool
-    {
-        return once(function () {
-            $option = $this->option('migration');
-            if ($option !== null)
-                $option = (bool)$option;
-
-            return $option === null ? $this->confirm('Do you want to create a migration for this model?', true) : $option;
-        });
     }
 
     /**

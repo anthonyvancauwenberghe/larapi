@@ -51,7 +51,7 @@ class ListenerMakeCommand extends ClassGeneratorCommand
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
             'EVENTNAME' => $this->getModule()->getNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
-            'SHORTEVENTNAME' => $this->getEventName(),
+            'SHORTEVENTNAME' => $this->getEventName()
         ];
     }
 
@@ -65,11 +65,21 @@ class ListenerMakeCommand extends ClassGeneratorCommand
      */
     protected function stubName(): string
     {
-        if ($this->listenerNeedsQueueing()) {
+        if ($this->needsQueing()) {
             return 'listener-queued.stub';
         }
 
         return 'listener.stub';
+    }
+
+    protected function needsQueing(): bool
+    {
+        return $this->getOption('queued');
+    }
+
+    protected function getEventName(): string
+    {
+        return $this->getOption('event');
     }
 
     /**
@@ -79,10 +89,19 @@ class ListenerMakeCommand extends ClassGeneratorCommand
      */
     protected function setOptions(): array
     {
-
         return [
-            ['event', Larapi::getModule($this->getModuleName())->getEvents()->getAllPhpFileNamesWithoutExtension(), InputOption::VALUE_OPTIONAL, 'What is the name of the event that should be listened on?.', null],
-            ['queued', null, InputOption::VALUE_IS_BOOL, 'Should the listener be queued?', null],
+            ['event', null, InputOption::VALUE_OPTIONAL, 'What is the name of the event that should be listened on?', null],
+            ['queued', null, InputOption::VALUE_OPTIONAL, 'Should the listener be queued?', false],
         ];
+    }
+
+    protected function handleEventOption($shortcut, $type, $question, $default)
+    {
+        return $this->anticipate($question, Larapi::getModule($this->getModuleName())->getEvents()->getAllPhpFileNamesWithoutExtension(), $default);
+    }
+
+    protected function handleQueuedOption($shortcut, $type, $question, $default)
+    {
+        return $this->confirm($question, $default);
     }
 }

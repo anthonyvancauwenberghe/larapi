@@ -75,8 +75,12 @@ class CommandMakeCommand extends ClassGeneratorCommand
     /**
      * @return string
      */
-    private function getCommandName()
+    protected function getCommandName()
     {
-        return $this->option('command') ?? str_replace('command', '', strtolower($this->getModuleName()) . ':' . strtolower($this->getClassName()));
+        return $this->getOption('command');
+    }
+
+    protected function handleCommandOption($shortcut, $type, $question, $default){
+        return $this->ask('What is the name of the terminal command?',str_replace('command', '', strtolower($this->getModuleName()) . ':' . strtolower($this->getClassName())));
     }
 }

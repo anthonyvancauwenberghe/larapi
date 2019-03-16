@@ -29,6 +29,9 @@ class CreateGeneratedFile extends Listener
      */
     public function handle(ResourceGenerationContract $event)
     {
+        if (file_exists($event->getFilePath()))
+            unlink($event->getFilePath());
+
         (new FileGenerator(
             $event->getFilePath(),
             $event->getStub()->render()
