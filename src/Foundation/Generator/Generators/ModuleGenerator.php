@@ -32,7 +32,7 @@ use Nwidart\Modules\Exceptions\FileAlreadyExistException;
  * @method void addRoute()
  * @method void addComposer()
  * @method void addTest(string $name, string $type)
- * @method void addFactory(string $name)
+ * @method void addFactory(string $modelName)
  * @method void addTransformer(string $name, string $model)
  * @method void addListener(string $name, string $event, bool $queued = false)
  * @method void addJob(string $name, bool $sync = false)

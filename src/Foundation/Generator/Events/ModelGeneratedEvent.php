@@ -18,5 +18,11 @@ use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
  */
 class ModelGeneratedEvent extends ResourceGeneratedEvent
 {
+    public function isMongoModel(){
+        return $this->getStub()->getOptions()['MONGO'];
+    }
 
+    public function includesMigration(){
+        return $this->getStub()->getOptions()['MIGRATION'];
+    }
 }

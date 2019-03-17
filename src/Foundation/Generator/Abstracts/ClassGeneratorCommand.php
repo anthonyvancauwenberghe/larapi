@@ -31,6 +31,39 @@ abstract class ClassGeneratorCommand extends AbstractGeneratorCommand
         ];
     }
 
+    protected function handleNameArgument()
+    {
+        return $this->ask('Specify the name of the ' . $this->getGeneratorName() . '.');
+    }
+
+    /**
+     * @return string
+     */
+    protected function getFileName() :string
+    {
+        return $this->getClassName() . '.php';
+    }
+
+    /**
+     * Get class namespace.
+     *
+     *
+     * @return string
+     */
+    public function getClassNamespace(): string
+    {
+        return $this->getModule()->getNamespace() . str_replace('/', '\\', $this->filePath);
+    }
+
+    protected function getClassName(){
+        $className = $this->getArgument('name');
+        if($className===null){
+            $this->error('class name not specified');
+            throw new \Exception('Name of ' . $this->getGeneratorName() . ' not set.');
+        }
+        return $className;
+    }
+
     /**
      * Get the console command options.
      *

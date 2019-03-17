@@ -71,7 +71,7 @@ class ComposerMakeCommand extends FileGeneratorCommand
         return 'aamining2@gmail.com';
     }
 
-    protected function getFileName()
+    protected function getFileName() :string
     {
         return 'composer.json';
     }

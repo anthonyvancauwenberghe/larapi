@@ -73,7 +73,7 @@ class RouteMakeCommand extends FileGeneratorCommand
     }
 
 
-    protected function getFileName()
+    protected function getFileName() :string
     {
         return strtolower(Str::plural($this->getModuleName())).'.'.$this->getVersion() . '.php';
     }

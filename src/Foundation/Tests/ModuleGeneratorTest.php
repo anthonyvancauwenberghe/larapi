@@ -10,6 +10,9 @@ namespace Foundation\Tests;
 
 use Foundation\Generator\Events\CommandGeneratedEvent;
 use Foundation\Generator\Events\ControllerGeneratedEvent;
+use Foundation\Generator\Events\EventGeneratedEvent;
+use Foundation\Generator\Events\ListenerGeneratedEvent;
+use Foundation\Generator\Events\ModelGeneratedEvent;
 use Foundation\Generator\Events\TestGeneratedEvent;
 use Foundation\Generator\Generators\ModuleGenerator;
 use Foundation\Traits\DisableRefreshDatabase;
@@ -42,7 +45,6 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
         Event::fake();
     }
 
-
     /**
      *
      */
@@ -58,15 +60,31 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
 
     public function testModuleGeneration()
     {
+        $this->generator->addController('AController');
 
+        $this->generator->addModel('AModel', true, true);
 
-        $this->generator->addController($controller = 'AController');
+        $this->generator->addTest('AServiceTest', 'service');
+        $this->generator->addTest('AHttpTest', 'http');
+        $this->generator->addTest('AUnitTest', 'unit');
 
-        $this->generator->addTest($serviceTest = 'AServiceTest', $serviceType ='service');
-        $this->generator->addTest($httpTest = 'AHttpTest', $httpType ='http');
-        $this->generator->addTest($unitTest = 'AUnitTest', $unitType ='unit');
+        $this->generator->addCommand('ACommand', 'command:dosomething');
 
-        $this->generator->addCommand($command = 'ACommand', $commandName = 'command:dosomething');
+        $this->generator->addEvent('AEvent');
+
+        $this->generator->addListener('AListener', 'AEvent');
+
+        $this->generator->addRequest('ARequest');
+
+        $this->generator->addRoute();
+
+        $this->generator->addComposer();
+
+        $this->generator->addMiddleware('AMiddleware');
+
+        $this->generator->addPolicy('APolicy');
+
+        $this->generator->addFactory('AModel');
 
 
         $this->generator->generate();
@@ -74,32 +92,46 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
         /* @var ControllerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ControllerGeneratedEvent::class);
         $this->assertNotNull($event);
-        $this->assertEquals($controller, $event->getClassName());
+        $this->assertEquals("AController", $event->getClassName());
 
+        /* @var ModelGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ModelGeneratedEvent::class);
+        Event::assertDispatched(ModelGeneratedEvent::class, 1);
+        $this->assertNotNull($event);
+        $this->assertEquals("AModel", $event->getClassName());
+        $this->assertTrue($event->isMongoModel());
+        $this->assertTrue($event->includesMigration());
 
-        Event::assertDispatched(TestGeneratedEvent::class, 3);
 
         /* @var TestGeneratedEvent[] $events */
         $events = $this->getDispatchedEvents(TestGeneratedEvent::class);
         $this->assertNotEmpty($events);
 
-        //TODO FIX TESTS!
-        /*$this->assertEquals($events[0]->getClassName(),$serviceTest);
-        $this->assertEquals($events[0]->getType(),$serviceType);
+        $this->assertEquals($events[0]->getClassName(), "AServiceTest");
+        $this->assertEquals($events[0]->getType(), "service");
 
-        $this->assertEquals($events[1]->getClassName(),$httpTest);
-        $this->assertEquals($events[1]->getType(),$httpType);
+        $this->assertEquals($events[1]->getClassName(), "AHttpTest");
+        $this->assertEquals($events[1]->getType(), "http");
 
-        $this->assertEquals($events[2]->getClassName(),$unitTest);
-        $this->assertEquals($events[2]->getType(),$unitType);*/
+        $this->assertEquals($events[2]->getClassName(), "AUnitTest");
+        $this->assertEquals($events[2]->getType(), "unit");
 
         Event::assertDispatched(CommandGeneratedEvent::class, 1);
 
         /* @var CommandGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(CommandGeneratedEvent::class);
-        $this->assertEquals($commandName, $event->getConsoleCommand());
+        $this->assertEquals("ACommand", $event->getClassName());
+        $this->assertEquals("command:dosomething", $event->getConsoleCommand());
         $this->assertNotNull($event);
 
+        /* @var EventGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(EventGeneratedEvent::class);
+        $this->assertEquals("AEvent", $event->getClassName());
+        $this->assertNotNull($event);
 
+        /* @var ListenerGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
+        $this->assertEquals("AListener", $event->getClassName());
+        $this->assertNotNull($event);
     }
 }

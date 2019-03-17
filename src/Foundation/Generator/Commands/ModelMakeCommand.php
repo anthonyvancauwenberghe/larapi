@@ -7,9 +7,6 @@ use Foundation\Generator\Abstracts\ClassGeneratorCommand;
 use Foundation\Generator\Events\ModelGeneratedEvent;
 use Foundation\Generator\Managers\GeneratorManager;
 use Illuminate\Support\Str;
-use Nwidart\Modules\Support\Config\GenerateConfigReader;
-use Nwidart\Modules\Support\Stub;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 class ModelMakeCommand extends ClassGeneratorCommand
@@ -55,6 +52,8 @@ class ModelMakeCommand extends ClassGeneratorCommand
         return [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
+            'MONGO' => $this->isMongoModel(),
+            'MIGRATION' => $this->needsMigration()
         ];
     }
 
@@ -108,11 +107,12 @@ class ModelMakeCommand extends ClassGeneratorCommand
 
     protected function getClassName(): string
     {
-        $class = parent::getClassName();
+        return parent::getClassName();
+/*        $class = parent::getClassName();
         if (strtolower($class) === strtolower($this->getModuleName())) {
             return $class;
         }
-        return ucfirst($this->getModuleName()) . ucfirst($class);
+        return ucfirst($this->getModuleName()) . ucfirst($class);*/
     }
 
     /**

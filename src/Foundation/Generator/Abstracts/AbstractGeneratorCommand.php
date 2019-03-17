@@ -15,7 +15,6 @@ use Foundation\Generator\Support\InputOption;
 use Foundation\Generator\Support\Stub;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileExistsException;
-use Illuminate\Support\Str;
 use ReflectionClass;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -58,16 +57,16 @@ abstract class AbstractGeneratorCommand extends Command
     protected $optionData = [];
 
     /**
-     * @return string
+     * The data that is inputted from the arguments.
+     *
+     * @var array
      */
-    protected function getDestinationFilePath(): string
-    {
-        return $this->getModule()->getPath() . $this->filePath . '/' . $this->getFileName();
-    }
-
+    protected $argumentData = [];
 
     public function handle()
     {
+        $this->handleArguments();
+
         $path = str_replace('\\', '/', $this->getDestinationFilePath());
 
         if (file_exists($path) && !$this->isOverwriteable()) {
@@ -94,55 +93,25 @@ abstract class AbstractGeneratorCommand extends Command
     /**
      * @return string
      */
-    protected function getFileName()
+    protected function getDestinationFilePath(): string
     {
-        return $this->getClassName() . '.php';
+        return $this->getModule()->getPath() . $this->filePath . '/' . $this->getFileName();
     }
 
-    protected function isOverwriteable() :bool
-    {
-        $overWriteable = $this->option('overwrite');
+    /**
+     * @return string
+     */
+    protected abstract function getFileName(): string;
 
-        return $overWriteable ?? false;
+    protected function isOverwriteable(): bool
+    {
+        return $this->option('overwrite') ??false;
     }
 
     protected function getModule(): Module
     {
-        return once(function () {
-            return Larapi::getModule($this->getModuleName());
-        });
+        return Larapi::getModule($this->getModuleName());
     }
-
-    protected function getModuleName(): string
-    {
-        return once(function () {
-            return Str::studly($this->askModuleName());
-        });
-    }
-
-    private function askModuleName(): string
-    {
-        $moduleName = $this->argument('module') ?? $this->anticipate('For what module would you like to generate a ' . $this->getGeneratorName() . '.', Larapi::getModuleNames());
-
-        if ($moduleName === null) {
-            $this->error('module not specified');
-            throw new \Exception('Name of module not specified.');
-        }
-
-        return $moduleName;
-    }
-
-    /**
-     * Get class namespace.
-     *
-     *
-     * @return string
-     */
-    public function getClassNamespace(): string
-    {
-        return $this->getModule()->getNamespace() . str_replace('/', '\\', $this->filePath);
-    }
-
 
     protected function beforeGeneration(): void
     {
@@ -200,23 +169,6 @@ abstract class AbstractGeneratorCommand extends Command
      */
     protected abstract function setOptions(): array;
 
-    protected function getClassName(): string
-    {
-        return once(function () {
-            return Str::studly($this->askClassName());
-        });
-    }
-
-    private function askClassName(): string
-    {
-        $className = $this->argument('name') ?? $this->ask('Specify the name of the ' . $this->getGeneratorName() . '.');
-
-        if ($className === null) {
-            throw new \Exception('Name of ' . $this->getGeneratorName() . ' not set.');
-        }
-
-        return $className;
-    }
 
     protected function getGeneratorName(): string
     {
@@ -240,39 +192,46 @@ abstract class AbstractGeneratorCommand extends Command
             if (isset($originalInput[$option[0]])) {
                 $this->optionData[$option[0]] = $originalInput[$option[0]];
             } else {
-                $this->optionData[$option[0]] = method_exists($this, $method) ? $this->$method($option[1], $option[2], $option[3], $option[4]) : $this->option($option[0]);
+                $this->optionData[$option[0]] = method_exists($this, $method) ? $this->$method($option[1], $option[2], $option[3], $option[4] ?? null) : $this->option($option[0]);
             }
         }
+    }
+
+    protected function handleModuleArgument()
+    {
+        return $this->anticipate('For what module would you like to generate a ' . $this->getGeneratorName() . '.', Larapi::getModuleNames());
+    }
+
+    protected function getModuleName(){
+        $moduleName = $this->getArgument('module');
+        if($moduleName===null){
+            $this->error('module not specified');
+            throw new \Exception('Name of module not specified.');
+        }
+        return $moduleName;
+    }
+
+    protected function handleArguments()
+    {
+        foreach ($this->getArguments() as $argument) {
+            $method = 'handle' . ucfirst(strtolower($argument[0])) . 'Argument';
+            $originalInput = $this->getOriginalArgumentInput();
+            if (isset($originalInput[$argument[0]])) {
+                $this->argumentData[$argument[0]] = $originalInput[$argument[0]];
+            } else {
+                $this->argumentData[$argument[0]] = method_exists($this, $method) ? $this->$method($argument[1], $argument[2], $argument[3] ?? null) : $this->option($argument[0]);
+            }
+        }
+    }
+
+    protected function getArgument(string $argument)
+    {
+        return $this->argumentData[$argument];
     }
 
     protected function getOption(string $name)
     {
         return $this->optionData[$name];
-    }
-
-    private function buildInputOption($key, $shortcut, $type, $question, $default)
-    {
-
-        $originalOptions = $this->getOriginalOptionInput();
-        if ($type === InputOption::VALUE_NONE) {
-            return $this->option($key);
-        } elseif ($type === InputOption::VALUE_OPTIONAL || $type === InputOption::VALUE_IS_BOOL) {
-            if ($type !== InputOption::VALUE_IS_BOOL && ($input = $this->option($key)) !== null) {
-                if (is_bool($default))
-                    return (bool)$input;
-                return $input;
-            } else {
-                if ($this->isShortcutBool($shortcut))
-                    return $this->confirm($question, $default);
-                else if (is_array($shortcut))
-                    return $this->anticipate($question, $shortcut, $default);
-                else
-                    return $this->ask($question, $default);
-            }
-
-        }
-
-        throw new Exception("input option not supported");
     }
 
     private function getOriginalOptionInput()
@@ -283,9 +242,12 @@ abstract class AbstractGeneratorCommand extends Command
         return $property->getValue($this->input);
     }
 
-    private function isShortcutBool($shortcut)
+    private function getOriginalArgumentInput()
     {
-        return is_bool($shortcut) || (is_array($shortcut) && is_bool($shortcut[0]));
+        $reflection = new ReflectionClass($this->input);
+        $property = $reflection->getProperty('arguments');
+        $property->setAccessible(true);
+        return $property->getValue($this->input);
     }
 
     public function __call($method, $parameters)
