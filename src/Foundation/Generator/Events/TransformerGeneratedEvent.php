@@ -18,5 +18,10 @@ use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
  */
 class TransformerGeneratedEvent extends ResourceGeneratedEvent
 {
-
+    public function getModel(){
+        return $this->getStubOption("model");
+    }
+    public function getModelNamespace(){
+        return $this->getStubOption("model_namespace");
+    }
 }

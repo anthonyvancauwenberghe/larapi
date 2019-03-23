@@ -36,5 +36,5 @@ interface ResourceGenerationContract
     /**
      * @return string|null
      */
-    public function getModule(): string;
+    public function getModuleName(): string;
 }

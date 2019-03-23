@@ -4,6 +4,8 @@ namespace Foundation\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Core\Larapi;
+use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
+use Foundation\Generator\Contracts\ResourceGenerationContract;
 use Foundation\Generator\Events\CommandGeneratedEvent;
 use Foundation\Generator\Events\ComposerGeneratedEvent;
 use Foundation\Generator\Events\ControllerGeneratedEvent;
@@ -14,12 +16,14 @@ use Foundation\Generator\Events\MiddlewareGeneratedEvent;
 use Foundation\Generator\Events\MigrationGeneratedEvent;
 use Foundation\Generator\Events\ModelGeneratedEvent;
 use Foundation\Generator\Events\NotificationGeneratedEvent;
+use Foundation\Generator\Events\PermissionGeneratedEvent;
 use Foundation\Generator\Events\PolicyGeneratedEvent;
 use Foundation\Generator\Events\ProviderGeneratedEvent;
 use Foundation\Generator\Events\RequestGeneratedEvent;
 use Foundation\Generator\Events\RouteGeneratedEvent;
 use Foundation\Generator\Events\RuleGeneratedEvent;
 use Foundation\Generator\Events\SeederGeneratedEvent;
+use Foundation\Generator\Events\ServiceGeneratedEvent;
 use Foundation\Generator\Events\TestGeneratedEvent;
 use Foundation\Generator\Events\TransformerGeneratedEvent;
 use Foundation\Generator\Managers\GeneratorManager;
@@ -53,412 +57,502 @@ class FileGeneratorTest extends TestCase
 
     public function testCreateSqlMigration()
     {
-        $moduleName = 'User';
-        $this->getModuleGenerator($moduleName)->createMigration("CreateUserTable", 'users', false);
+        $module = 'User';
+        $class = "CreateUserTable";
+        $table = "users";
+        $mongo = false;
+        $this->getModuleGenerator($module)->createMigration($class, $table, $mongo);
 
-        $module = Larapi::getModule($moduleName);
-        $expectedDirectoryPath = $module->getMigrations()->getPath();
-        $expectedStubName = "migration.stub";
-        $expectedStubOptions = [
-            'CLASS' => 'CreateUserTable',
-            'NAMESPACE' => $module->getMigrations()->getNamespace(),
-            'TABLE' => 'users',
-            'MODULE' => 'User'
-        ];
+        $stub = "migration.stub";
+        $table = "users";
 
+        /* @var MigrationGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
-
         $this->assertNotNull($event);
-        $this->assertStringContainsString($expectedDirectoryPath, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertEquals($module, $event->getModuleName());
+        $this->assertEquals($stub, $event->getStub()->getName());
+        $this->assertEquals($class, $event->getClassName());
+        $this->assertEquals($table, $event->getTableName());
+        $this->assertEquals($mongo,$event->isMongoMigration());
     }
 
     public function testCreateMongoMigration()
     {
-        $this->getModuleGenerator('User')->createMigration("CreateUserCollection", 'users', true);
+        $module = 'User';
+        $class = "CreateUserTable";
+        $table = "users";
+        $mongo = true;
+        $this->getModuleGenerator($module)->createMigration($class, $table, $mongo);
+
+        $stub = "migration-mongo.stub";
+        $table = "users";
+
+        /* @var MigrationGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
         $this->assertNotNull($event);
-        $this->assertEquals("migration-mongo.stub", $event->getStub()->getName());
+        $this->assertEquals($module, $event->getModuleName());
+        $this->assertEquals($stub, $event->getStub()->getName());
+        $this->assertEquals($class, $event->getClassName());
+        $this->assertEquals($table, $event->getTableName());
+        $this->assertEquals($mongo,$event->isMongoMigration());
     }
 
     public function testCreateFactory()
     {
-        $moduleName = "User";
-        $this->getModuleGenerator($moduleName)->createFactory("User");
+        $module = "User";
+        $model = $module;
+        $class = $model . "Factory";
+        $this->getModuleGenerator($module)->createFactory($module);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getFactories()->getPath() . '/UserFactory.php';
-        $expectedStubName = "factory.stub";
-        $expectedStubOptions = [
-            'CLASS' => 'UserFactory',
-            'MODEL' => 'User',
-            'MODEL_NAMESPACE' => 'Modules\User\Entities\User',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getFactories()->getPath() . "/$class.php";
+        $stub = "factory.stub";
+        $modelNamespace  = "Modules\User\Entities\User";
 
+        /* @var FactoryGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(FactoryGeneratedEvent::class);
+        $this->assertFileBasics(
+            $event,
+            $module,
+            $stub,
+            $path);
+        $this->assertEquals($class,$event->getClassName());
+        $this->assertEquals($model,$event->getModel());
+        $this->assertEquals($modelNamespace,$event->getModelNamespace());
 
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
     }
 
     public function testCreateController()
     {
-        $moduleName = "User";
-        $this->getModuleGenerator($moduleName)->createController("UserController");
+        $module = "User";
+        $class = "UserController";
+        $this->getModuleGenerator($module)->createController($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getControllers()->getPath() . '/UserController.php';
-        $expectedStubName = "controller.stub";
-        $expectedStubOptions = [
-            'CLASS' => 'UserController',
-            'NAMESPACE' => 'Modules\User\Http\Controllers',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getControllers()->getPath() . "/$class.php";
+        $stub = "controller.stub";
+        $namespace = "Modules\User\Http\Controllers";
 
+        /* @var ControllerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ControllerGeneratedEvent::class);
-
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateListener()
     {
-        $moduleName = "User";
-        $this->getModuleGenerator($moduleName)->createListener("SendWelcomeMail", "UserRegisteredEvent");
+        $module = "User";
+        $class = "SendWelcomeMail";
+        $eventClass = "UserRegisteredEvent";
+        $queued = false;
+        $this->getModuleGenerator($module)->createListener($class, $eventClass, $queued);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getListeners()->getPath() . '/SendWelcomeMail.php';
-        $expectedStubName = "listener.stub";
-        $expectedStubOptions = [
-            'CLASS' => 'SendWelcomeMail',
-            'NAMESPACE' => 'Modules\User\Listeners',
-            'EVENTNAME' => 'Modules\User\Events\UserRegisteredEvent',
-            'SHORTEVENTNAME' => 'UserRegisteredEvent',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getListeners()->getPath() . '/SendWelcomeMail.php';
+        $stub = "listener.stub";
+        $namespace = "Modules\User\Listeners";
+        $eventNamespace = "Modules\User\Events\UserRegisteredEvent";
 
+        /* @var ListenerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
-
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($queued, $event->isQueued());
+        $this->assertEquals($eventClass, $event->getEvent());
+        $this->assertEquals($eventNamespace, $event->getEventNamespace());
     }
 
     public function testCreateQueuedListener()
     {
-        $moduleName = "User";
-        $this->getModuleGenerator($moduleName)->createListener("SendWelcomeMail", "UserRegisteredEvent", true);
-        $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
+        $module = "User";
+        $class = "SendWelcomeMail";
+        $eventClass = "UserRegisteredEvent";
+        $queued = true;
+        $this->getModuleGenerator($module)->createListener($class, $eventClass, $queued);
 
-        $this->assertNotNull($event);
-        $this->assertEquals("listener-queued.stub", $event->getStub()->getName());
+        $path = Larapi::getModule($module)->getListeners()->getPath() . '/SendWelcomeMail.php';
+        $stub = "listener-queued.stub";
+        $namespace = "Modules\User\Listeners";
+        $eventNamespace = "Modules\User\Events\UserRegisteredEvent";
+
+        /* @var ListenerGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($queued, $event->isQueued());
+        $this->assertEquals($eventClass, $event->getEvent());
+        $this->assertEquals($eventNamespace, $event->getEventNamespace());
     }
 
     public function testCreateJob()
     {
-        $moduleName = "User";
-        $fileName = "RandomUserJob";
-        $this->getModuleGenerator($moduleName)->createJob($fileName, false);
+        $module = "User";
+        $class = "RandomUserJob";
+        $synchronous = false;
 
-        $expectedFileName = Larapi::getModule($moduleName)->getJobs()->getPath() . "/$fileName.php";
-        $expectedStubName = "job-queued.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Jobs',
-            'CLASS' => 'RandomUserJob',
-            'MODULE' => 'User'
-        ];
+        $this->getModuleGenerator($module)->createJob($class, $synchronous);
 
+        $path = Larapi::getModule($module)->getJobs()->getPath() . "/$class.php";
+        $stub = "job-queued.stub";
+        $namespace = "Modules\User\Jobs";
+
+        /* @var JobGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(JobGeneratedEvent::class);
-
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($synchronous, $event->isSynchronous());
     }
 
     public function testCreateSynchronousJob()
     {
-        $moduleName = "User";
-        $this->getModuleGenerator($moduleName)->createJob("AJob", true);
-        $event = $this->getFirstDispatchedEvent(JobGeneratedEvent::class);
+        $module = "User";
+        $class = "RandomUserJob";
+        $synchronous = true;
 
-        $this->assertNotNull($event);
-        $this->assertEquals("job.stub", $event->getStub()->getName());
+        $this->getModuleGenerator($module)->createJob($class, $synchronous);
+
+        $path = Larapi::getModule($module)->getJobs()->getPath() . "/$class.php";
+        $stub = "job.stub";
+        $namespace = "Modules\User\Jobs";
+
+        /* @var JobGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(JobGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($synchronous, $event->isSynchronous());
     }
 
     public function testCreateCommand()
     {
-        $moduleName = "User";
-        $fileName = "RandomCommand";
-        $commandName = "user:dosomethingrandom";
+        $module = "User";
+        $class = "RandomCommand";
+        $consoleCommand = "user:dosomethingrandom";
 
-        $this->getModuleGenerator($moduleName)->createCommand($fileName, $commandName);
+        $this->getModuleGenerator($module)->createCommand($class, $consoleCommand);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getCommands()->getPath() . "/$fileName.php";
-        $expectedStubName = "command.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Console',
-            'CLASS' => 'RandomCommand',
-            'COMMAND_NAME' => $commandName,
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getCommands()->getPath() . "/$class.php";
+        $stub = "command.stub";
+        $namespace = "Modules\User\Console";
+
 
         /* @var CommandGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(CommandGeneratedEvent::class);
-
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
-
-        $this->assertEquals($commandName, $event->getConsoleCommand());
-        //$this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($consoleCommand, $event->getConsoleCommand());
     }
 
     public function testCreateMiddleware()
     {
-        $moduleName = "User";
-        $fileName = "RandomMiddleware";
+        $module = "User";
+        $class = "RandomMiddleware";
 
-        $this->getModuleGenerator($moduleName)->createMiddleware($fileName);
+        $this->getModuleGenerator($module)->createMiddleware($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getMiddleWare()->getPath() . "/$fileName.php";
-        $expectedStubName = "middleware.stub";
-        $expectedStubOptions = [
-            'CLASS' => 'RandomMiddleware',
-            'NAMESPACE' => 'Modules\User\Http\Middleware',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getMiddleWare()->getPath() . "/$class.php";
+        $stub = "middleware.stub";
+        $namespace = "Modules\User\Http\Middleware";
 
+        /* @var MiddlewareGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(MiddlewareGeneratedEvent::class);
-
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateProvider()
     {
-        $moduleName = "User";
-        $fileName = "RandomServiceProvider";
+        $module = "User";
+        $class = "RandomServiceProvider";
 
-        $this->getModuleGenerator($moduleName)->createServiceProvider($fileName);
+        $this->getModuleGenerator($module)->createServiceProvider($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getServiceProviders()->getPath() . "/$fileName.php";
-        $expectedStubName = "provider.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Providers',
-            'CLASS' => 'RandomServiceProvider',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getServiceProviders()->getPath() . "/$class.php";
+        $stub = "provider.stub";
+        $namespace = "Modules\User\Providers";
 
+        /* @var ProviderGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ProviderGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+    }
 
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+    public function testCreateService()
+    {
+        $module = "User";
+        $class = "UserService";
+
+        $this->getModuleGenerator($module)->createService($class);
+
+        $path = Larapi::getModule($module)->getServices()->getPath() . "/$class.php";
+        $stub = "service.stub";
+        $namespace = "Modules\User\Services";
+
+        /* @var ServiceGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ServiceGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateNotification()
     {
-        $moduleName = "User";
-        $fileName = "RandomNotification";
+        $module = "User";
+        $class = "RandomNotification";
 
-        $this->getModuleGenerator($moduleName)->createNotification($fileName);
+        $this->getModuleGenerator($module)->createNotification($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getNotifications()->getPath() . "/$fileName.php";
-        $expectedStubName = "notification.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Notifications',
-            'CLASS' => 'RandomNotification',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getNotifications()->getPath() . "/$class.php";
+        $stub = "notification.stub";
+        $namespace = "Modules\User\Notifications";
 
+        /* @var NotificationGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(NotificationGeneratedEvent::class);
-
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateModel()
     {
-        $moduleName = "User";
-        $fileName = "Address";
+        $module = "User";
+        $modelName = "Address";
+        $class = $module . $modelName;
+        $needsMigration = true;
+        $isMongoModel = false;
 
-        $this->getModuleGenerator($moduleName)->createModel($moduleName . $fileName, false, true);
+        $this->getModuleGenerator($module)->createModel($class, $isMongoModel, $needsMigration);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getModels()->getPath() . "/$moduleName$fileName.php";
-        $expectedStubName = "model.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Entities',
-            'CLASS' => 'UserAddress',
-            'MODULE' => 'User',
-            'MONGO' => false,
-            'MIGRATION' => true
-        ];
+        $path = Larapi::getModule($module)->getModels()->getPath() . "/$module$modelName.php";
+        $stub = "model.stub";
+        $namespace = "Modules\User\Entities";
 
-        $modelEvent = $this->getFirstDispatchedEvent(ModelGeneratedEvent::class);
-        $this->assertNotNull($modelEvent);
-        $this->assertEquals($expectedFileName, $modelEvent->getFilePath());
-        $this->assertEquals($expectedStubName, $modelEvent->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $modelEvent->getStub()->getOptions());
+        /* @var ModelGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ModelGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
 
-        $expectedStubName = "migration.stub";
-        $expectedStubOptions = [
-            'CLASS' => 'CreateUserAddressTable',
-            'NAMESPACE' => 'Modules\User\Database\Migrations',
-            'TABLE' => 'user_addresses',
-            'MODULE' => 'User'
-        ];
+        $stub = "migration.stub";
+        $table = "user_addresses";
+        $migrationClass = "CreateUserAddressTable";
 
-        $migrationEvent = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
-        $this->assertNotNull($migrationEvent);
-        $this->assertEquals($expectedStubName, $migrationEvent->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $migrationEvent->getStub()->getOptions());
+        /* @var MigrationGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(MigrationGeneratedEvent::class);
+        $this->assertNotNull($event);
+        $this->assertEquals($module, $event->getModuleName());
+        $this->assertEquals($stub, $event->getStub()->getName());
+        $this->assertEquals($migrationClass, $event->getClassName());
+        $this->assertEquals($table, $event->getTableName());
     }
 
     public function testCreatePolicy()
     {
-        $moduleName = "User";
-        $fileName = "UserOwnershipPolicy";
+        $module = "User";
+        $class = "UserOwnershipPolicy";
 
-        $this->getModuleGenerator($moduleName)->createPolicy($fileName);
+        $this->getModuleGenerator($module)->createPolicy($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getPolicies()->getPath() . "/$fileName.php";
-        $expectedStubName = "policy.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Policies',
-            'CLASS' => 'UserOwnershipPolicy',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getPolicies()->getPath() . "/$class.php";
+        $stub = "policy.stub";
+        $namespace = "Modules\User\Policies";
 
+        /* @var PolicyGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(PolicyGeneratedEvent::class);
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateTransformer()
     {
-        $moduleName = "User";
+        $module = "User";
         $model = "User";
-        $fileName = "BlablaTransformer";
+        $class = "BlablaTransformer";
 
-        $this->getModuleGenerator($moduleName)->createTransformer($fileName, $model);
+        $this->getModuleGenerator($module)->createTransformer($class, $model);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getTransformers()->getPath() . "/$fileName.php";
-        $expectedStubName = "transformer.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Transformers',
-            'CLASS' => 'BlablaTransformer',
-            'MODEL' => 'User',
-            'MODEL_NAMESPACE' => 'Modules\User\Entities\User',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getTransformers()->getPath() . "/$class.php";
+        $stub = "transformer.stub";
+        $namespace = "Modules\User\Transformers";
+        $modelNamespace = "Modules\User\Entities\User";
 
+        /* @var TransformerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(TransformerGeneratedEvent::class);
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($model, $event->getModel());
+        $this->assertEquals($modelNamespace, $event->getModelNamespace());
     }
 
     public function testCreateUnitTest()
     {
-        $moduleName = "User";
-        $fileName = "AUserUnitTest";
+        $module = "User";
+        $class = "AUserUnitTest";
 
-        $this->getModuleGenerator($moduleName)->createTest($fileName, 'unit');
+        $this->getModuleGenerator($module)->createTest($class, 'unit');
 
-        $expectedFileName = Larapi::getModule($moduleName)->getTests()->getPath() . "/$fileName.php";
-        $expectedStubName = "unit-test.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Tests',
-            'CLASS' => $fileName,
-            'MODULE' => $moduleName,
-            'TYPE' => 'unit'
-        ];
+        $path = Larapi::getModule($module)->getTests()->getPath() . "/$class.php";
+        $stub = "unit-test.stub";
+        $namespace = "Modules\User\Tests";
+        $type = "unit";
 
+        /* @var TestGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(TestGeneratedEvent::class);
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+        $this->assertEquals($type, $event->getType());
     }
 
     public function testCreateRequest()
     {
-        $moduleName = "User";
-        $fileName = "ARequest";
+        $module = "User";
+        $class = "ARequest";
 
-        $this->getModuleGenerator($moduleName)->createRequest($fileName);
+        $this->getModuleGenerator($module)->createRequest($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getRequests()->getPath() . "/$fileName.php";
-        $expectedStubName = "request.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Http\Requests',
-            'CLASS' => $fileName,
-            'MODULE' => $moduleName
-        ];
+        $path = Larapi::getModule($module)->getRequests()->getPath() . "/$class.php";
+        $stub = "request.stub";
+        $namespace = "Modules\User\Http\Requests";
 
+        /* @var RequestGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(RequestGeneratedEvent::class);
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateRule()
     {
-        $moduleName = "User";
+        $module = "User";
         $fileName = "BlalkaRule";
 
-        $this->getModuleGenerator($moduleName)->createRule($fileName);
+        $this->getModuleGenerator($module)->createRule($fileName);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getRules()->getPath() . "/$fileName.php";
-        $expectedStubName = "rule.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Rules',
-            'CLASS' => 'BlalkaRule',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getRules()->getPath() . "/$fileName.php";
+        $stub = "rule.stub";
+        $class = "BlalkaRule";
+        $namespace = "Modules\User\Rules";
 
+        /* @var RuleGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(RuleGeneratedEvent::class);
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateSeeder()
     {
-        $moduleName = "User";
-        $fileName = "BlablaSeeder";
+        $module = "User";
+        $class = "BlablaSeeder";
 
-        $this->getModuleGenerator($moduleName)->createSeeder($fileName);
+        $this->getModuleGenerator($module)->createSeeder($class);
 
-        $expectedFileName = Larapi::getModule($moduleName)->getSeeders()->getPath() . "/$fileName.php";
-        $expectedStubName = "seeder.stub";
-        $expectedStubOptions = [
-            'NAMESPACE' => 'Modules\User\Database\Seeders',
-            'CLASS' => 'BlablaSeeder',
-            'MODULE' => 'User'
-        ];
+        $path = Larapi::getModule($module)->getSeeders()->getPath() . "/$class.php";
+        $stub = "seeder.stub";
+        $namespace = "Modules\User\Database\Seeders";
 
+        /* @var SeederGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(SeederGeneratedEvent::class);
-        $this->assertNotNull($event);
-        $this->assertEquals($expectedFileName, $event->getFilePath());
-        $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+    }
+
+    public function testCreatePermission()
+    {
+        $module = "User";
+        $class = "UserPermission";
+
+        $this->getModuleGenerator($module)->createPermission($class);
+
+        $path = Larapi::getModule($module)->getPermissions()->getPath() . "/$class.php";
+        $stub = "permission.stub";
+        $namespace = "Modules\User\Permissions";
+
+        /* @var PermissionGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(PermissionGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
     }
 
     public function testCreateRoute()
@@ -470,18 +564,15 @@ class FileGeneratorTest extends TestCase
 
         $expectedFileName = Larapi::getModule($moduleName)->getRoutes()->getPath() . "/$routename.php";
         $expectedStubName = "route.stub";
-        $expectedStubOptions = [
-            'MODULE_NAME' => 'Demo',
-            'CAPS_MODULE_NAME' => 'DEMO',
-            'VERSION' => 'v1',
-            'MODULE' => 'Demo'
-        ];
+        $expectedVersion = "v1";
 
+        /* @var RouteGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(RouteGeneratedEvent::class);
         $this->assertNotNull($event);
+
         $this->assertEquals($expectedFileName, $event->getFilePath());
         $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertEquals($expectedVersion, $event->getVersion());
     }
 
     public function testCreateComposer()
@@ -492,18 +583,41 @@ class FileGeneratorTest extends TestCase
 
         $expectedFileName = Larapi::getModule($moduleName)->getPath() . "/composer.json";
         $expectedStubName = "composer.stub";
-        $expectedStubOptions = [
-            'LOWER_MODULE_NAME' => 'demo',
-            'AUTHOR_NAME' => 'arthur devious',
-            'AUTHOR_MAIL' => 'aamining2@gmail.com',
-            'MODULE' => 'Demo'
-        ];
+        $authorName = 'arthur devious';
+        $authorMail = 'aamining2@gmail.com';
 
+        /* @var ComposerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ComposerGeneratedEvent::class);
         $this->assertNotNull($event);
+
         $this->assertEquals($expectedFileName, $event->getFilePath());
         $this->assertEquals($expectedStubName, $event->getStub()->getName());
-        $this->assertEquals($expectedStubOptions, $event->getStub()->getOptions());
+        $this->assertEquals($authorName, $event->getAuthorName());
+        $this->assertEquals($authorMail, $event->getAuthorMail());
     }
 
+
+    /**
+     * @param ResourceGenerationContract $event
+     * @param string $module
+     * @param $stub
+     * @param string $class
+     * @param string $namespace
+     * @param string $path
+     */
+    private function assertClassBasics(?ResourceGenerationContract $event, string $module, $stub, string $class, string $namespace, string $path)
+    {
+        $this->assertFileBasics($event, $module, $stub, $path);
+        $this->assertEquals($namespace, $event->getNamespace());
+        $this->assertEquals($class, $event->getClassName());
+        $this->assertEquals($path, $event->getFilePath());
+    }
+
+    private function assertFileBasics(?ResourceGenerationContract $event, string $module, $stub, string $path)
+    {
+        $this->assertNotNull($event);
+        $this->assertEquals($module, $event->getModuleName());
+        $this->assertEquals($stub, $event->getStub()->getName());
+        $this->assertEquals($path, $event->getFilePath());
+    }
 }

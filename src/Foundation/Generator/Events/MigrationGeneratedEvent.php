@@ -9,7 +9,6 @@
 namespace Foundation\Generator\Events;
 
 
-
 use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
 
 /**
@@ -18,5 +17,12 @@ use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
  */
 class MigrationGeneratedEvent extends ResourceGeneratedEvent
 {
+    public function getTableName()
+    {
+        return $this->getStubOption("table");
+    }
 
+    public function isMongoMigration(){
+        return $this->getStubOption("mongo");
+    }
 }

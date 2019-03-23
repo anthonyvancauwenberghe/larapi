@@ -18,5 +18,7 @@ use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
  */
 class RouteGeneratedEvent extends ResourceGeneratedEvent
 {
-
+    public function getVersion(){
+        return $this->getStubOption("version");
+    }
 }

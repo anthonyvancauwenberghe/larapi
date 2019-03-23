@@ -19,6 +19,6 @@ class CommandGeneratedEvent extends ResourceGeneratedEvent
 {
     public function getConsoleCommand()
     {
-        return $this->getStub()->getOptions()["COMMAND_NAME"];
+        return $this->getStubOption("command_name");
     }
 }

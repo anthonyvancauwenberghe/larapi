@@ -50,8 +50,9 @@ class ListenerMakeCommand extends ClassGeneratorCommand
         return [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
-            'EVENTNAME' => $this->getModule()->getNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
-            'SHORTEVENTNAME' => $this->getEventName()
+            'EVENT_NAMESPACE' => $this->getModule()->getNamespace() . '\\' . 'Events' . '\\' . $this->getEventName(),
+            'EVENT' => $this->getEventName(),
+            'QUEUED' => $this->needsQueing()
         ];
     }
 

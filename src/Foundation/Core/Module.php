@@ -100,6 +100,11 @@ final class Module
         return new Resource('policies', '/Policies', $this, Policy::class);
     }
 
+    public function getPermissions()
+    {
+        return new Resource('permissions', '/Permissions', $this);
+    }
+
     public function getTransformers()
     {
         return new Resource('transformers', '/Transformers', $this, JsonResource::class);

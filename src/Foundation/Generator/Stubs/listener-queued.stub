@@ -2,7 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use $EVENTNAME$;
+use $EVENT_NAMESPACE$;
 use Foundation\Abstracts\Listeners\QueuedListener;
 
 class $CLASS$ extends QueuedListener
@@ -21,10 +21,10 @@ class $CLASS$ extends QueuedListener
     /**
      * Handle the event.
      *
-     * @param  $SHORTEVENTNAME$  $event
+     * @param  $EVENT$  $event
      * @return void
      */
-    public function handle($SHORTEVENTNAME$ $event) :void
+    public function handle($EVENT$ $event) :void
     {
         //
     }
@@ -33,11 +33,11 @@ class $CLASS$ extends QueuedListener
     /**
      * Handle the event.
      *
-     * @param  $SHORTEVENTNAME$  $event
+     * @param  $EVENT$  $event
      * @param  \Exception  $exception
      * @return void
      */
-    public function failed($SHORTEVENTNAME$ $event, $exception) :void
+    public function failed($EVENT$ $event, $exception) :void
     {
         //
     }

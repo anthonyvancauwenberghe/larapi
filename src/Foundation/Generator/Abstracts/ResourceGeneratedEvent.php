@@ -62,7 +62,7 @@ abstract class ResourceGeneratedEvent extends Event implements ResourceGeneratio
      */
     public function getNamespace(): ?string
     {
-        return $this->getStub()->getOptions()["NAMESPACE"] ?? null;
+        return $this->getStubOption("namespace");
     }
 
     /**
@@ -70,15 +70,20 @@ abstract class ResourceGeneratedEvent extends Event implements ResourceGeneratio
      */
     public function getClassName(): ?string
     {
-        return $this->getStub()->getOptions()["CLASS"] ?? null;
+        return $this->getStubOption("class");
     }
 
     /**
      * @return string|null
      */
-    public function getModule(): string
+    public function getModuleName(): string
     {
-        return $this->getStub()->getOptions()["MODULE"];
+        return $this->getStubOption("module");
+    }
+
+    public function getStubOption(string $option)
+    {
+        return $this->getStub()->getOptions()[strtoupper($option)] ?? null;
     }
 
 }

@@ -19,6 +19,6 @@ class JobGeneratedEvent extends ResourceGeneratedEvent
 {
     public function isSynchronous(): bool
     {
-        return $this->getStub()->getOptions()['sync'];
+        return $this->getStubOption('sync');
     }
 }

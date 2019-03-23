@@ -49,6 +49,7 @@ class JobMakeCommand extends ClassGeneratorCommand
         return [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
+            'SYNC'  => $this->isJobSynchronous()
         ];
     }
 

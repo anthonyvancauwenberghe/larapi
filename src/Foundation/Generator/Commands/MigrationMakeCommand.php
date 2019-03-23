@@ -52,7 +52,8 @@ class MigrationMakeCommand extends ClassGeneratorCommand
         return [
             'CLASS' => $this->getClassName(),
             'NAMESPACE' => $this->getClassNamespace(),
-            "TABLE" => $this->getTableName()
+            "TABLE" => $this->getTableName(),
+            "MONGO" => $this->isMongoMigration()
         ];
     }
 

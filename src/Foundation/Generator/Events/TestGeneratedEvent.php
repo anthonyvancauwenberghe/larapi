@@ -19,6 +19,6 @@ use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
 class TestGeneratedEvent extends ResourceGeneratedEvent
 {
     public function getType(){
-        return $this->getStub()->getOptions()['TYPE'];
+        return $this->getStubOption("type");
     }
 }

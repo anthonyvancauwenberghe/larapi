@@ -18,5 +18,15 @@ use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
  */
 class ListenerGeneratedEvent extends ResourceGeneratedEvent
 {
+    public function getEvent(){
+        return $this->getStubOption("event");
+    }
 
+    public function getEventNamespace(){
+        return $this->getStubOption("event_namespace");
+    }
+
+    public function isQueued(){
+        return $this->getStubOption("queued");
+    }
 }
