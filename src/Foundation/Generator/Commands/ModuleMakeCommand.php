@@ -2,19 +2,19 @@
 
 namespace Foundation\Generator\Commands;
 
+use Foundation\Core\Larapi;
+use Foundation\Generator\Generators\DefaultModuleGenerator;
 use Illuminate\Console\Command;
-use Nwidart\Modules\Generators\ModuleGenerator;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
-class ModuleMakeCommand extends \Nwidart\Modules\Commands\ModuleMakeCommand
+class ModuleMakeCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make-module';
+    protected $name = 'larapi:make:module';
 
     /**
      * The console command description.
@@ -28,17 +28,19 @@ class ModuleMakeCommand extends \Nwidart\Modules\Commands\ModuleMakeCommand
      */
     public function handle()
     {
-        $names = $this->argument('name');
+        $moduleName = ucfirst(strtolower($this->argument('name')));
 
-        foreach ($names as $name) {
-            with(new ModuleGenerator($name))
-                ->setFilesystem($this->laravel['files'])
-                ->setModule($this->laravel['modules'])
-                ->setConfig($this->laravel['config'])
-                ->setConsole($this)
-                ->setForce($this->option('force'))
-                ->setPlain($this->option('plain'))
-                ->generate();
+        $this->handleExistingModule($moduleName);
+
+        $generator = new DefaultModuleGenerator($moduleName);
+        $generator->generate();
+    }
+
+    protected function handleExistingModule($moduleName)
+    {
+        if (Larapi::getModule($moduleName)->exists()) {
+            $this->error('Module already exists. Please delete it first.');
+            exit();
         }
     }
 
@@ -50,15 +52,7 @@ class ModuleMakeCommand extends \Nwidart\Modules\Commands\ModuleMakeCommand
     protected function getArguments()
     {
         return [
-            ['name', InputArgument::IS_ARRAY, 'The names of modules will be created.'],
-        ];
-    }
-
-    protected function getOptions()
-    {
-        return [
-            ['plain', 'p', InputOption::VALUE_NONE, 'Generate a plain module (without some resources).'],
-            ['force', null, InputOption::VALUE_NONE, 'Force the operation to run when the module already exists.'],
+            ['name', InputArgument::REQUIRED, 'The name of the module that will be created.'],
         ];
     }
 }

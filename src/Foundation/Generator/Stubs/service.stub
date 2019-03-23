@@ -1,0 +1,45 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\$MODULE$\Entities\$MODULE$;
+use Modules\$MODULE$\Events\$MODULE$WasCreatedEvent;
+use Modules\$MODULE$\Events\$MODULE$WasUpdatedEvent;
+use Modules\$MODULE$\Events\$MODULE$WasDeletedEvent;
+
+class $CLASS$
+{
+    public function resolve($id): ?$MODULE$
+    {
+        if ($id instanceof $MODULE$) {
+            return $id;
+        }
+
+        return $MODULE$::find($id);
+    }
+
+    public function update($id, array $data): $MODULE$
+    {
+        $$LOWER_MODULE$ = $this->resolve($id);
+        $$LOWER_MODULE$->update($data);
+        event(new $MODULE$WasUpdatedEvent($$LOWER_MODULE$));
+
+        return $$LOWER_MODULE$;
+    }
+
+    public function create(array $data): $MODULE$
+    {
+        $$LOWER_MODULE$ = $MODULE$::create($data);
+        event(new $MODULE$WasCreatedEvent($$LOWER_MODULE$));
+        return $$LOWER_MODULE$;
+    }
+
+    public function delete($id): bool
+    {
+        $$LOWER_MODULE$ = $this->resolve($id);
+        $deleted = $$LOWER_MODULE$->delete();
+        if($deleted)
+            event(new $MODULE$WasDeletedEvent($$LOWER_MODULE$));
+        return $deleted;
+    }
+}

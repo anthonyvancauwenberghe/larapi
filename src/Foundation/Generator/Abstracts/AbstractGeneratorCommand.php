@@ -11,12 +11,13 @@ namespace Foundation\Generator\Abstracts;
 use Foundation\Core\Larapi;
 use Foundation\Core\Module;
 use Foundation\Exceptions\Exception;
-use Foundation\Generator\Support\InputOption;
 use Foundation\Generator\Support\Stub;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Filesystem\FileExistsException;
+use Illuminate\Support\Str;
 use ReflectionClass;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 abstract class AbstractGeneratorCommand extends Command
 {
@@ -66,18 +67,16 @@ abstract class AbstractGeneratorCommand extends Command
     public function handle()
     {
         $this->handleArguments();
+        $this->handleOptions();
 
-        $path = str_replace('\\', '/', $this->getDestinationFilePath());
+        $path = $this->getFilteredPath();
 
         if (file_exists($path) && !$this->isOverwriteable()) {
             $this->error("File : {$path} already exists.");
             throw new FileExistsException();
         }
 
-        $this->handleOptions();
-
         $stub = new Stub($this->stubName(), array_merge($this->defaultStubOptions(), $this->stubOptions()));
-
 
         $this->beforeGeneration();
 
@@ -88,6 +87,11 @@ abstract class AbstractGeneratorCommand extends Command
         $this->info("Created : {$path}");
 
         $this->afterGeneration();
+    }
+
+    private function getFilteredPath(): string
+    {
+        return str_replace('\\', '/', $this->getDestinationFilePath());
     }
 
     /**
@@ -105,7 +109,7 @@ abstract class AbstractGeneratorCommand extends Command
 
     protected function isOverwriteable(): bool
     {
-        return $this->option('overwrite') ??false;
+        return $this->getOption('overwrite');
     }
 
     protected function getModule(): Module
@@ -126,7 +130,10 @@ abstract class AbstractGeneratorCommand extends Command
     protected final function defaultStubOptions(): array
     {
         return [
-            "MODULE" => $this->getModuleName()
+            "LOWER_MODULE" => strtolower($this->getModuleName()),
+            "MODULE" => $this->getModuleName(),
+            "PLURAL_MODULE" => Str::plural($this->getModuleName()),
+            "PLURAL_LOWER_MODULE" => strtolower(Str::plural($this->getModuleName()))
         ];
     }
 
@@ -202,9 +209,10 @@ abstract class AbstractGeneratorCommand extends Command
         return $this->anticipate('For what module would you like to generate a ' . $this->getGeneratorName() . '.', Larapi::getModuleNames());
     }
 
-    protected function getModuleName(){
+    protected function getModuleName()
+    {
         $moduleName = $this->getArgument('module');
-        if($moduleName===null){
+        if ($moduleName === null) {
             $this->error('module not specified');
             throw new \Exception('Name of module not specified.');
         }
@@ -255,5 +263,13 @@ abstract class AbstractGeneratorCommand extends Command
         $key = str_replace('get', '', $method);
         if (array_key_exists(strtolower($method), $this->optionData))
             return $this->optionData[$key];
+    }
+
+    protected function handleOverwriteOption($shortcut, $type, $question, $default)
+    {
+        if (file_exists($this->getFilteredPath())) {
+            return $this->confirm('The file exists already. Would you like to overwrite it?', false);
+        }
+        return false;
     }
 }

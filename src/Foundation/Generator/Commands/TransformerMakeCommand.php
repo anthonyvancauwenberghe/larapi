@@ -52,19 +52,13 @@ class TransformerMakeCommand extends ClassGeneratorCommand
      */
     protected $event = TransformerGeneratedEvent::class;
 
-    protected function getModelName(): string
-    {
-        return once(function () {
-            return $this->option('model') ?? $this->anticipate('For what model would you like to generate a transformer?', Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension(), $this->getModuleName());
-        });
-    }
-
     protected function stubOptions(): array
     {
         return [
             'CLASS' => $this->getClassName(),
             'NAMESPACE' => $this->getClassNamespace(),
             'MODEL' => $this->getModelName(),
+            "LOWER_MODEL" => strtolower($this->getModelName()),
             'MODEL_NAMESPACE' => $this->getModule()->getNamespace().'\\'.'Entities'.'\\'.$this->getModelName(),
         ];
     }
@@ -79,5 +73,14 @@ class TransformerMakeCommand extends ClassGeneratorCommand
         return [
             ['model', null, InputOption::VALUE_OPTIONAL, 'The Model name for the transformer.', null],
         ];
+    }
+
+    protected function getModelName(): string
+    {
+        return $this->getOption("model");
+    }
+
+    protected function handleModelOption(){
+        return $this->anticipate('For what model would you like to generate a transformer?', Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension(), $this->getModuleName());
     }
 }

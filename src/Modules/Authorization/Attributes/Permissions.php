@@ -9,6 +9,7 @@
 namespace Modules\Authorization\Attributes;
 
 use Modules\Account\Permissions\AccountPermissions;
+use Modules\Client\Permissions\ClientPermission;
 use Modules\Machine\Permissions\MachinePermissions;
 use Modules\Proxy\Permissions\ProxyPermissions;
 use Modules\Schedule\Permissions\SchedulePermissions;

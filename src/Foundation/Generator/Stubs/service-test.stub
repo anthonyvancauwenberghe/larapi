@@ -2,18 +2,28 @@
 
 namespace $NAMESPACE$;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Foundation\Abstracts\Tests\TestCase;
 
 class $CLASS$ extends TestCase
 {
+    /**
+     * @var $MODULE$[]
+     */
+    protected $models;
+
+    protected function seedData()
+    {
+        parent::seedData();
+        $this->models = $MODULE$::fromFactory(5)->create();
+    }
+
     /**
      * A basic test example.
      *
      * @return void
      */
-    public function testExample()
+    public function test$MODULE$Creation()
     {
-        $this->assertTrue(true);
+        $this->assertNotEmpty($this->models->toArray());
     }
 }

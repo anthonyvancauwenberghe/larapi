@@ -95,10 +95,11 @@ class OwnershipPolicy extends Policy implements ModelPolicyContract
         return true;
     }
 
-    /*
+    /**
      * @param User $user
      * @param $ability
-     * @return null
+     *
+     * @return bool|null
     */
     public function before($user, $ability)
     {

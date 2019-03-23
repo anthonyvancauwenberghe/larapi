@@ -91,6 +91,28 @@ class GeneratorManager
     }
 
     /**
+     * @param string $serviceName
+     */
+    public function createService(string $serviceName)
+    {
+        $options = [
+            "name" => $serviceName,
+        ];
+        $this->call('service', $options);
+    }
+
+    /**
+     * @param string $serviceName
+     */
+    public function createServiceContract(string $serviceContractName)
+    {
+        $options = [
+            "name" => $serviceContractName,
+        ];
+        $this->call('service-contract', $options);
+    }
+
+    /**
      * @param string $policyName
      */
     public function createPolicy(string $policyName)
@@ -179,6 +201,28 @@ class GeneratorManager
     }
 
     /**
+     * @param string $exceptionName
+     */
+    public function createException(string $exceptionName)
+    {
+        $options = [
+            "name" => $exceptionName,
+        ];
+        $this->call('exception', $options);
+    }
+
+    /**
+     * @param string $permissionName
+     */
+    public function createPermission(string $permissionName)
+    {
+        $options = [
+            "name" => $permissionName,
+        ];
+        $this->call('permission', $options);
+    }
+
+    /**
      * @param string $moduleName
      */
     public function createRoute()
@@ -194,10 +238,7 @@ class GeneratorManager
      */
     public function createComposer()
     {
-        $options = [
-
-        ];
-        $this->call('composer', $options);
+        $this->call('composer', []);
     }
 
     /**
@@ -283,7 +324,7 @@ class GeneratorManager
      * @param bool $mongo
      * @param bool $migration
      */
-    public function createModel(string $modelName, bool $mongo = false, bool $migration = true)
+    public function createModel(string $modelName, ?bool $mongo = false, ?bool $migration = true)
     {
         $options = [
             "name" => $modelName,
@@ -292,4 +333,6 @@ class GeneratorManager
         ];
         $this->call('model', $options);
     }
+
+
 }

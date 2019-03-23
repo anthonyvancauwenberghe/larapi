@@ -2,9 +2,46 @@
 
 namespace $NAMESPACE$;
 
-use Illuminate\Database\Eloquent\Model;
+use Modules\Mongo\Abstracts\MongoModel as Model;
+use Modules\$MODULE$\Policies\$CLASS$Policy;
+use Foundation\Traits\ModelFactory;
+use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
+/**
+ * Class $CLASS$.
+ *
+ * @property string $_id
+ */
 class $CLASS$ extends Model
 {
+    use ModelFactory, SoftDeletes;
 
+    protected $policies = [
+        $CLASS$Policy::class,
+    ];
+
+    protected $observers = [
+
+    ];
+
+    /**
+     * @var string
+     */
+    protected $collection = '$PLURAL_LOWER_MODULE$';
+
+    /**
+     * @var array
+     */
+    protected $guarded = [];
+
+    /**
+     * @var array
+     */
+    protected $casts = [];
+
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'deleted_at',
+    ];
 }

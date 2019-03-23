@@ -2,8 +2,7 @@
 
 namespace $NAMESPACE$;
 
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Foundation\Abstracts\Tests\TestCase;
 
 class $CLASS$ extends TestCase
 {

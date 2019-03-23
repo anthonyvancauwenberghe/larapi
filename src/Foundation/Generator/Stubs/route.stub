@@ -12,10 +12,13 @@
 */
 
 use Modules\Authorization\Entities\Permission;
+use Modules\$MODULE_NAME$\Permissions\$MODULE_NAME$Permission;
 
-Route::get('/{id}', '$MODULE_NAME$Controller@show')->middleware(['permission:'.Permission::SHOW_$CAPS_MODULE_NAME$]);
-Route::patch('/{id}', '$MODULE_NAME$Controller@update')->middleware(['permission:'.Permission::UPDATE_$CAPS_MODULE_NAME$]);
-Route::delete('/{id}', 'A$MODULE_NAME$Controller@destroy')->middleware(['permission:'.Permission::DELETE_$CAPS_MODULE_NAME$]);
+Route::get('/', '$MODULE_NAME$Controller@index')->middleware(['permission:'.$MODULE_NAME$Permission::INDEX_$CAPS_MODULE_NAME$]);
+Route::get('/{id}', '$MODULE_NAME$Controller@show')->middleware(['permission:'.$MODULE_NAME$Permission::SHOW_$CAPS_MODULE_NAME$]);
+Route::post('/', '$MODULE_NAME$Controller@store')->middleware(['permission:'.$MODULE_NAME$Permission::CREATE_$CAPS_MODULE_NAME$]);
+Route::patch('/{id}', '$MODULE_NAME$Controller@update')->middleware(['permission:'.$MODULE_NAME$Permission::UPDATE_$CAPS_MODULE_NAME$]);
+Route::delete('/{id}', '$MODULE_NAME$Controller@destroy')->middleware(['permission:'.$MODULE_NAME$Permission::DELETE_$CAPS_MODULE_NAME$]);
 
-Route::post('/', '$MODULE_NAME$Controller@store')->middleware(['permission:'.Permission::CREATE_$CAPS_MODULE_NAME$]);
-Route::get('/', '$MODULE_NAME$Controller@index')->middleware(['permission:'.Permission::INDEX_$CAPS_MODULE_NAME$]);
+
+

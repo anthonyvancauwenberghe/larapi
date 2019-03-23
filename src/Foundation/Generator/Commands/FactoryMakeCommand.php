@@ -3,12 +3,11 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Core\Larapi;
-use Foundation\Generator\Abstracts\AbstractGeneratorCommand;
-use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Abstracts\FileGeneratorCommand;
 use Foundation\Generator\Events\FactoryGeneratedEvent;
 use Symfony\Component\Console\Input\InputOption;
 
-class FactoryMakeCommand extends ClassGeneratorCommand
+class FactoryMakeCommand extends FileGeneratorCommand
 {
     /**
      * The console command name.
@@ -52,16 +51,9 @@ class FactoryMakeCommand extends ClassGeneratorCommand
      */
     protected $event = FactoryGeneratedEvent::class;
 
-    protected function getModelName(): string
+    protected function getClassName(): string
     {
-        return once(function () {
-            return $this->option('model') ?? $this->anticipate('For what model would you like to generate a factory?', [$this->getModuleName()], $this->getModuleName());
-        });
-    }
-
-    protected function getClassName() :string
-    {
-        return $this->getModelName().'Factory';
+        return $this->getModelName() . 'Factory';
     }
 
     protected function stubOptions(): array
@@ -69,7 +61,7 @@ class FactoryMakeCommand extends ClassGeneratorCommand
         return [
             'CLASS' => $this->getClassName(),
             'MODEL' => $this->getModelName(),
-            'MODEL_NAMESPACE' => $this->getModule()->getNamespace().'\\'.'Entities'.'\\'.$this->getModelName(),
+            'MODEL_NAMESPACE' => $this->getModule()->getNamespace() . '\\' . 'Entities' . '\\' . $this->getModelName(),
         ];
     }
 
@@ -78,14 +70,25 @@ class FactoryMakeCommand extends ClassGeneratorCommand
      *
      * @return array
      */
-    protected function setOptions() :array
+    protected function setOptions(): array
     {
         return [
             ['model', null, InputOption::VALUE_OPTIONAL, 'The Model name for the factory.', null],
         ];
     }
 
-    protected function handleCommandOption($shortcut, $type, $question, $default){
-        return $this->anticipate('What is the name of the model?', Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension(),Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension()[0]);
+    protected function handleModelOption($shortcut, $type, $question, $default)
+    {
+        return $this->anticipate('For what model would you like to generate a factory?', Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension(), Larapi::getModule($this->getModuleName())->getModels()->getAllPhpFileNamesWithoutExtension()[0] ?? "");
+    }
+
+    protected function getModelName() :string
+    {
+        return $this->getOption('model');
+    }
+
+    protected function getFileName(): string
+    {
+        return $this->getClassName().'.php';
     }
 }

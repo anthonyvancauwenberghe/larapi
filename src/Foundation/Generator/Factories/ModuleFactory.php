@@ -6,7 +6,7 @@
  * Time: 16:01
  */
 
-namespace Foundation\Generator\Generators;
+namespace Foundation\Generator\Factories;
 
 
 use Foundation\Core\Larapi;
@@ -38,9 +38,13 @@ use Nwidart\Modules\Exceptions\FileAlreadyExistException;
  * @method void addJob(string $name, bool $sync = false)
  * @method void addCommand(string $name, ?string $commandName = null)
  * @method void addModel(string $name, bool $mongo = false, bool $migration = true)
+ * @method void addService(string $name)
+ * @method void addServiceContract(string $name)
+ * @method void addException(string $name)
+ * @method void addPermission(string $name)
  *
  */
-class ModuleGenerator
+class ModuleFactory
 {
 
     /**
@@ -95,7 +99,7 @@ class ModuleGenerator
 
     }
 
-    public function generate()
+    public function build()
     {
         foreach ($this->pipeline as $command) {
             $manager = GeneratorManager::module($this->getModule()->getName());
@@ -139,6 +143,4 @@ class ModuleGenerator
     {
         return $this->pipeline;
     }
-
-
 }

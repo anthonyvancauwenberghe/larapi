@@ -5,6 +5,7 @@ namespace Foundation\Generator\Commands;
 use Foundation\Exceptions\Exception;
 use Foundation\Generator\Abstracts\ClassGeneratorCommand;
 use Foundation\Generator\Events\TestGeneratedEvent;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class TestMakeCommand extends ClassGeneratorCommand
@@ -55,7 +56,8 @@ class TestMakeCommand extends ClassGeneratorCommand
         return [
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
-            'TYPE' => $this->getType()
+            'TYPE' => $this->getType(),
+            'PLURAL_LOWER_MODULE' => strtolower(Str::plural($this->getModuleName()))
         ];
     }
 

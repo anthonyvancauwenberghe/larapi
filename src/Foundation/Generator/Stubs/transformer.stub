@@ -2,18 +2,33 @@
 
 namespace $NAMESPACE$;
 
-use Illuminate\Http\Resources\Json\Resource;
+use Foundation\Abstracts\Transformers\Transformer;
+use Foundation\Exceptions\Exception;
+use Modules\$MODULE$\Entities\$MODEL$;
 
-class $CLASS$ extends Resource
+class $CLASS$ extends Transformer
 {
+
+    /**
+     * Determines wich relations can be requested with the resource.
+     *
+     * @var array
+     */
+    public $available = [];
+
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request
+     * @throws Exception
+     *
      * @return array
      */
-    public function toArray($request)
+    public function transformResource($MODULE$ $$LOWER_MODEL$)
     {
-        return parent::toArray($request);
+        return [
+            'id' => $$LOWER_MODEL$->id,
+            'created_at' => $$LOWER_MODEL$->created_at,
+            'updated_at' => $$LOWER_MODEL$->updated_at,
+        ];
     }
 }

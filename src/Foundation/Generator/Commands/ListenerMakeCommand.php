@@ -5,7 +5,7 @@ namespace Foundation\Generator\Commands;
 use Foundation\Core\Larapi;
 use Foundation\Generator\Abstracts\ClassGeneratorCommand;
 use Foundation\Generator\Events\ListenerGeneratedEvent;
-use Foundation\Generator\Support\InputOption;
+use Symfony\Component\Console\Input\InputOption;
 
 
 class ListenerMakeCommand extends ClassGeneratorCommand

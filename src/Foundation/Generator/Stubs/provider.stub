@@ -3,15 +3,20 @@
 namespace $NAMESPACE$;
 
 use Illuminate\Support\ServiceProvider;
+use Modules\$MODULE$\Contracts\$MODULE$ServiceContract;
+use Modules\$MODULE$\Services\$MODULE$Service;
 
 class $CLASS$ extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
+     * Boot the service provider.
      *
-     * @var bool
+     * @return void
      */
-    protected $defer = false;
+    public function boot()
+    {
+       //
+    }
 
     /**
      * Register the service provider.
@@ -20,16 +25,9 @@ class $CLASS$ extends ServiceProvider
      */
     public function register()
     {
-        //
-    }
-
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-        return [];
+        $this->app->bind(
+                    $MODULE$ServiceContract::class,
+                    $MODULE$Service::class
+                );
     }
 }

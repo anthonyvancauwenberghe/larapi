@@ -13,8 +13,10 @@ use Foundation\Generator\Events\ControllerGeneratedEvent;
 use Foundation\Generator\Events\EventGeneratedEvent;
 use Foundation\Generator\Events\ListenerGeneratedEvent;
 use Foundation\Generator\Events\ModelGeneratedEvent;
+use Foundation\Generator\Events\ProviderGeneratedEvent;
+use Foundation\Generator\Events\ServiceGeneratedEvent;
 use Foundation\Generator\Events\TestGeneratedEvent;
-use Foundation\Generator\Generators\ModuleGenerator;
+use Foundation\Generator\Factories\ModuleFactory;
 use Foundation\Traits\DisableRefreshDatabase;
 use Foundation\Traits\DispatchedEvents;
 use Illuminate\Support\Facades\Event;
@@ -27,11 +29,10 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
 {
     use DisableRefreshDatabase, DispatchedEvents;
 
-
     /**
-     * @var ModuleGenerator
+     * @var ModuleFactory
      */
-    protected $generator;
+    protected $moduleFactory;
 
     /**
      * @throws \Nwidart\Modules\Exceptions\FileAlreadyExistException
@@ -39,7 +40,7 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
     public function setUp(): void
     {
         parent::setUp();
-        $this->generator = new ModuleGenerator("ARandomTestModule");
+        $this->moduleFactory = new ModuleFactory("ARandomTestModule");
 
         /* Do not remove this line. It prevents the listener that generates the file from executing */
         Event::fake();
@@ -50,9 +51,9 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
      */
     public function testPiping()
     {
-        $this->generator->addController('TestController');
-        $this->generator->addTest('ServiceTest', 'service');
-        $pipeline = $this->generator->getPipeline();
+        $this->moduleFactory->addController('TestController');
+        $this->moduleFactory->addTest('ServiceTest', 'service');
+        $pipeline = $this->moduleFactory->getPipeline();
 
         $this->assertIsArray($pipeline);
         $this->assertEquals('Controller', $pipeline[0]['name']);
@@ -60,34 +61,39 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
 
     public function testModuleGeneration()
     {
-        $this->generator->addController('AController');
+        $this->moduleFactory->addController('AController');
 
-        $this->generator->addModel('AModel', true, true);
+        $this->moduleFactory->addModel('AModel', true, true);
 
-        $this->generator->addTest('AServiceTest', 'service');
-        $this->generator->addTest('AHttpTest', 'http');
-        $this->generator->addTest('AUnitTest', 'unit');
+        $this->moduleFactory->addTest('AServiceTest', 'service');
+        $this->moduleFactory->addTest('AHttpTest', 'http');
+        $this->moduleFactory->addTest('AUnitTest', 'unit');
 
-        $this->generator->addCommand('ACommand', 'command:dosomething');
+        $this->moduleFactory->addCommand('ACommand', 'command:dosomething');
 
-        $this->generator->addEvent('AEvent');
+        $this->moduleFactory->addEvent('WasCreatedEvent');
+        $this->moduleFactory->addEvent('WasUpdatedEvent');
+        $this->moduleFactory->addEvent('WasDeletedEvent');
 
-        $this->generator->addListener('AListener', 'AEvent');
+        $this->moduleFactory->addListener('AListener', 'WasCreatedEvent');
 
-        $this->generator->addRequest('ARequest');
+        $this->moduleFactory->addService('AService');
 
-        $this->generator->addRoute();
+        $this->moduleFactory->addRequest('ARequest');
 
-        $this->generator->addComposer();
+        $this->moduleFactory->addRoute();
 
-        $this->generator->addMiddleware('AMiddleware');
+        $this->moduleFactory->addComposer();
 
-        $this->generator->addPolicy('APolicy');
+        $this->moduleFactory->addMiddleware('AMiddleware');
 
-        $this->generator->addFactory('AModel');
+        $this->moduleFactory->addPolicy('APolicy');
 
+        $this->moduleFactory->addFactory('AModel');
 
-        $this->generator->generate();
+        $this->moduleFactory->addServiceProvider('AServiceProvider');
+
+        $this->moduleFactory->build();
 
         /* @var ControllerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ControllerGeneratedEvent::class);
@@ -125,13 +131,24 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
         $this->assertNotNull($event);
 
         /* @var EventGeneratedEvent $event */
+        Event::assertDispatched(EventGeneratedEvent::class, 3);
         $event = $this->getFirstDispatchedEvent(EventGeneratedEvent::class);
-        $this->assertEquals("AEvent", $event->getClassName());
+        $this->assertEquals("WasCreatedEvent", $event->getClassName());
         $this->assertNotNull($event);
 
         /* @var ListenerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ListenerGeneratedEvent::class);
         $this->assertEquals("AListener", $event->getClassName());
+        $this->assertNotNull($event);
+
+        /* @var ServiceGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ServiceGeneratedEvent::class);
+        $this->assertEquals("AService", $event->getClassName());
+        $this->assertNotNull($event);
+
+        /* @var ProviderGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(ProviderGeneratedEvent::class);
+        $this->assertEquals("AServiceProvider", $event->getClassName());
         $this->assertNotNull($event);
     }
 }

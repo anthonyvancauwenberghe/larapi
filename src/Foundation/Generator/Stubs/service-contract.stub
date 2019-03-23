@@ -1,0 +1,16 @@
+<?php
+
+namespace $NAMESPACE$;
+
+use Modules\$MODULE$\Entities\$MODULE$;
+
+interface $CLASS$
+{
+    public function resolve($id): ?$MODULE$;
+
+    public function update($id, array $data): $MODULE$;
+
+    public function create(array $data): $MODULE$;
+
+    public function delete($id): bool;
+}

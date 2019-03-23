@@ -2,20 +2,30 @@
 
 namespace $NAMESPACE$;
 
-use Illuminate\Queue\SerializesModels;
+use Foundation\Abstracts\Events\Event;
+use Modules\$MODULE$\Entities\$MODULE$;
 
-class $CLASS$
+class $CLASS$ extends Event
 {
-    use SerializesModels;
+
+    /**
+     * The listeners that will be fired when the event is dispatched.
+     * @var array
+     */
+    public $listeners = [];
+
+    /**
+     * @var $MODULE$
+     */
+    public $$LOWER_MODULE$;
 
     /**
      * Create a new event instance.
      *
-     * @return void
      */
-    public function __construct()
+    public function __construct($MODULE$ $$LOWER_MODULE$)
     {
-        //
+        $this->$LOWER_MODULE$ = $$LOWER_MODULE$;
     }
 
     /**

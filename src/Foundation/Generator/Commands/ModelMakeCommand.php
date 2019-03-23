@@ -105,16 +105,6 @@ class ModelMakeCommand extends ClassGeneratorCommand
         }
     }
 
-    protected function getClassName(): string
-    {
-        return parent::getClassName();
-/*        $class = parent::getClassName();
-        if (strtolower($class) === strtolower($this->getModuleName())) {
-            return $class;
-        }
-        return ucfirst($this->getModuleName()) . ucfirst($class);*/
-    }
-
     /**
      * @return string
      */

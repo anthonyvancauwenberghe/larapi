@@ -16,13 +16,13 @@ class ProxyServiceTest extends TestCase
     /**
      * @var Proxy[]
      */
-    protected $proxys;
+    protected $proxies;
 
     protected function seedData()
     {
         parent::seedData();
         $this->user = $this->actAsRandomUser();
-        $this->proxys = Proxy::fromFactory(5)->create(['user_id' => $this->user->id]);
+        $this->proxies = Proxy::fromFactory(5)->create(['user_id' => $this->user->id]);
     }
 
     /**
@@ -30,9 +30,9 @@ class ProxyServiceTest extends TestCase
      *
      * @return void
      */
-    public function testUserProxys()
+    public function testUserProxies()
     {
-        $Proxys = $this->proxys->toArray();
+        $Proxys = $this->proxies->toArray();
 
         $this->assertNotEmpty($Proxys);
     }
