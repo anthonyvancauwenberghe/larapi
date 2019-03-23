@@ -11,10 +11,10 @@
 |
 */
 
-use Modules\Authorization\Entities\Permission;
+use \Modules\Schedule\Permissions\SchedulePermissions;
 
-Route::get('/{id}', 'ScheduleController@show')->middleware(['permission:'.Permission::SHOW_SCHEDULE]);
-Route::patch('/{id}', 'ScheduleController@update')->middleware(['permission:'.Permission::UPDATE_SCHEDULE]);
-Route::delete('/{id}', 'ScheduleController@destroy')->middleware(['permission:'.Permission::DELETE_SCHEDULE]);
-Route::post('/', 'ScheduleController@store')->middleware(['permission:'.Permission::CREATE_SCHEDULE]);
-Route::get('/', 'ScheduleController@index')->middleware(['permission:'.Permission::INDEX_SCHEDULE]);
+Route::get('/{id}', 'ScheduleController@show')->middleware(['permission:'.SchedulePermissions::SHOW_SCHEDULE]);
+Route::patch('/{id}', 'ScheduleController@update')->middleware(['permission:'.SchedulePermissions::UPDATE_SCHEDULE]);
+Route::delete('/{id}', 'ScheduleController@destroy')->middleware(['permission:'.SchedulePermissions::DELETE_SCHEDULE]);
+Route::post('/', 'ScheduleController@store')->middleware(['permission:'.SchedulePermissions::CREATE_SCHEDULE]);
+Route::get('/', 'ScheduleController@index')->middleware(['permission:'.SchedulePermissions::INDEX_SCHEDULE]);

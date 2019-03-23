@@ -8,6 +8,7 @@
 
 namespace Foundation\Generator\Providers;
 
+use Foundation\Generator\Commands\AttributeMakeCommand;
 use Foundation\Generator\Commands\CommandMakeCommand;
 use Foundation\Generator\Commands\ComposerMakeCommand;
 use Foundation\Generator\Commands\ControllerMakeCommand;
@@ -63,7 +64,8 @@ class GeneratorServiceProvider extends ServiceProvider
         ServiceContractMakeCommand::class,
         ModuleMakeCommand::class,
         ExceptionMakeCommand::class,
-        PermissionMakeCommand::class
+        PermissionMakeCommand::class,
+        AttributeMakeCommand::class
     ];
 
     /**

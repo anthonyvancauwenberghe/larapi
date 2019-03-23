@@ -70,7 +70,8 @@ class ModelMakeCommand extends ClassGeneratorCommand
         ];
     }
 
-    protected function handleMongoOption($shortcut, $type, $question, $default){
+    protected function handleMongoOption($shortcut, $type, $question, $default)
+    {
         return $this->confirm('Is this model for a mongodb database?', $default);
     }
 
@@ -79,7 +80,8 @@ class ModelMakeCommand extends ClassGeneratorCommand
         return $this->getOption('mongo');
     }
 
-    protected function handleMigrationOption($shortcut, $type, $question, $default){
+    protected function handleMigrationOption($shortcut, $type, $question, $default)
+    {
         return $this->confirm('Do you want to create a migration for this model?', $default);
     }
 
@@ -92,17 +94,21 @@ class ModelMakeCommand extends ClassGeneratorCommand
     {
         if ($this->needsMigration()) {
             if ($this->isMongoModel()) {
-                GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())->createMigration(
-                    "Create" . ucfirst($this->getClassName()) . "Collection",
-                    strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
-                    true);
+                GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())
+                    ->createMigration(
+                        "Create" . ucfirst($this->getClassName()) . "Collection",
+                        strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
+                        true);
             } else {
-                GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())->createMigration(
-                    "Create" . ucfirst($this->getClassName() . "Table"),
-                    strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
-                    false);
+                GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())
+                    ->createMigration(
+                        "Create" . ucfirst($this->getClassName() . "Table"),
+                        strtolower(split_caps_to_underscore(Str::plural($this->getClassName()))),
+                        false);
             }
         }
+        GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())
+            ->createAttribute($this->getClassName() . "Attributes");
     }
 
     /**

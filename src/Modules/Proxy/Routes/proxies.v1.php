@@ -11,11 +11,11 @@
 |
 */
 
-use Modules\Authorization\Entities\Permission;
+use \Modules\Proxy\Permissions\ProxyPermissions;
 
-Route::get('/{id}', 'ProxyController@show')->middleware(['permission:'.Permission::SHOW_PROXY]);
-Route::patch('/{id}', 'ProxyController@update')->middleware(['permission:'.Permission::UPDATE_PROXY]);
-Route::delete('/{id}', 'ProxyController@destroy')->middleware(['permission:'.Permission::DELETE_PROXY]);
+Route::get('/{id}', 'ProxyController@show')->middleware(['permission:'.ProxyPermissions::SHOW_PROXY]);
+Route::patch('/{id}', 'ProxyController@update')->middleware(['permission:'.ProxyPermissions::UPDATE_PROXY]);
+Route::delete('/{id}', 'ProxyController@destroy')->middleware(['permission:'.ProxyPermissions::DELETE_PROXY]);
 
-Route::post('/', 'ProxyController@store')->middleware(['permission:'.Permission::CREATE_PROXY]);
-Route::get('/', 'ProxyController@index')->middleware(['permission:'.Permission::INDEX_PROXY]);
+Route::post('/', 'ProxyController@store')->middleware(['permission:'.ProxyPermissions::CREATE_PROXY]);
+Route::get('/', 'ProxyController@index')->middleware(['permission:'.ProxyPermissions::INDEX_PROXY]);

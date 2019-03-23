@@ -4,6 +4,7 @@ namespace $NAMESPACE$;
 
 use Modules\Mongo\Abstracts\MongoModel as Model;
 use Modules\$MODULE$\Policies\$CLASS$Policy;
+use Modules\$MODULE$\Attributes\$CLASS$Attributes;
 use Foundation\Traits\ModelFactory;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
 
@@ -12,7 +13,7 @@ use Jenssegers\Mongodb\Eloquent\SoftDeletes;
  *
  * @property string $_id
  */
-class $CLASS$ extends Model
+class $CLASS$ extends Model implements $CLASS$Attributes
 {
     use ModelFactory, SoftDeletes;
 

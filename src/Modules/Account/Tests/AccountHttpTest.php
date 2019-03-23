@@ -62,7 +62,7 @@ class AccountHttpTest extends AuthorizedHttpTest
 
         $this->getActingUser()->syncRoles(Role::GUEST);
         $response = $this->http('GET', '/v1/accounts/'.$this->account->id);
-        $response->assertStatus(200);
+        $response->assertStatus(403);
     }
 
     /**

@@ -3,10 +3,9 @@
 namespace Modules\Authorization\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\Authorization\Attributes\Permissions;
-use Modules\Authorization\Attributes\RolePermissions;
 use Modules\Authorization\Contracts\AuthorizationContract;
-use Modules\Authorization\Entities\Role;
+use Modules\Authorization\Managers\PermissionManager;
+use Modules\Authorization\Managers\RoleManager;
 use Modules\Authorization\Services\AuthorizationService;
 
 class AuthorizationSeeder extends Seeder
@@ -40,24 +39,14 @@ class AuthorizationSeeder extends Seeder
 
     protected function createPermissions(): void
     {
-        $permissions = get_class_constants(Permissions::class);
+        $permissions = PermissionManager::getAllPermissions();
         $this->service->createPermissions(collect($permissions)->flatten()->toArray());
     }
 
     protected function createRoles(): void
     {
-        $roles = RolePermissions::RELATIONS;
-        foreach ($roles as $role => $permissions) {
-            $this->service->createRole(strtolower($role), $permissions);
+        foreach (RoleManager::ROLES as $role) {
+            $this->service->createRole(strtolower($role::getRoleName()), $role::getPermissions());
         }
-
-        $this->createAdminRole();
-    }
-
-    protected function createAdminRole()
-    {
-        /* Create the admin role with all possible permissions */
-        $permissions = get_class_constants(Permissions::class);
-        $this->service->createRole(Role::ADMIN, collect($permissions)->flatten()->toArray());
     }
 }

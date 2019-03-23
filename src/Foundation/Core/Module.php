@@ -80,6 +80,11 @@ final class Module
         return new Resource('factories', '/Database/factories', $this);
     }
 
+    public function getAttributes()
+    {
+        return new Resource('attributes', '/Attributes', $this);
+    }
+
     public function getEvents()
     {
         return new Resource('events', '/Events', $this, Event::class);

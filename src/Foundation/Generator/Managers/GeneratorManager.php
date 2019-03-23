@@ -91,6 +91,17 @@ class GeneratorManager
     }
 
     /**
+     * @param string $modelName
+     */
+    public function createAttribute(string $attributeName)
+    {
+        $options = [
+            "name" => $attributeName,
+        ];
+        $this->call('attribute', $options);
+    }
+
+    /**
      * @param string $serviceName
      */
     public function createService(string $serviceName)

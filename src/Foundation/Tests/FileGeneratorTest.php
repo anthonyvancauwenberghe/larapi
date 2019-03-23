@@ -6,6 +6,7 @@ use Foundation\Abstracts\Tests\TestCase;
 use Foundation\Core\Larapi;
 use Foundation\Generator\Abstracts\ResourceGeneratedEvent;
 use Foundation\Generator\Contracts\ResourceGenerationContract;
+use Foundation\Generator\Events\AttributeGeneratedEvent;
 use Foundation\Generator\Events\CommandGeneratedEvent;
 use Foundation\Generator\Events\ComposerGeneratedEvent;
 use Foundation\Generator\Events\ControllerGeneratedEvent;
@@ -133,6 +134,27 @@ class FileGeneratorTest extends TestCase
 
         /* @var ControllerGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(ControllerGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+    }
+
+    public function testCreateAttribute()
+    {
+        $module = "User";
+        $class = "UserAttribute";
+        $this->getModuleGenerator($module)->createAttribute($class);
+
+        $path = Larapi::getModule($module)->getAttributes()->getPath() . "/$class.php";
+        $stub = "attribute.stub";
+        $namespace = "Modules\User\Attributes";
+
+        /* @var AttributeGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(AttributeGeneratedEvent::class);
         $this->assertClassBasics(
             $event,
             $module,

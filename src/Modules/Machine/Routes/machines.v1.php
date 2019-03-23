@@ -12,10 +12,11 @@
 */
 
 use Modules\Authorization\Entities\Permission;
+use \Modules\Machine\Permissions\MachinePermissions;
 
-Route::get('/{id}', 'MachineController@show')->middleware(['permission:'.Permission::SHOW_MACHINE]);
-Route::patch('/{id}', 'MachineController@update')->middleware(['permission:'.Permission::UPDATE_MACHINE]);
-Route::delete('/{id}', 'MachineController@destroy')->middleware(['permission:'.Permission::DELETE_MACHINE]);
+Route::get('/{id}', 'MachineController@show')->middleware(['permission:'.MachinePermissions::SHOW_MACHINE]);
+Route::patch('/{id}', 'MachineController@update')->middleware(['permission:'.MachinePermissions::UPDATE_MACHINE]);
+Route::delete('/{id}', 'MachineController@destroy')->middleware(['permission:'.MachinePermissions::DELETE_MACHINE]);
 
-Route::post('/', 'MachineController@store')->middleware(['permission:'.Permission::CREATE_MACHINE]);
-Route::get('/', 'MachineController@index')->middleware(['permission:'.Permission::SHOW_MACHINE]);
+Route::post('/', 'MachineController@store')->middleware(['permission:'.MachinePermissions::CREATE_MACHINE]);
+Route::get('/', 'MachineController@index')->middleware(['permission:'.MachinePermissions::SHOW_MACHINE]);

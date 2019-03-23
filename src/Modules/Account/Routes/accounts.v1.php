@@ -11,11 +11,10 @@
 |
 */
 
-use Modules\Authorization\Entities\Permission;
+use \Modules\Account\Permissions\AccountPermissions;
 
-Route::get('/{id}', 'AccountController@show')->middleware(['permission:'.Permission::SHOW_ACCOUNT]);
-Route::patch('/{id}', 'AccountController@update')->middleware(['permission:'.Permission::UPDATE_ACCOUNT]);
-Route::delete('/{id}', 'AccountController@destroy')->middleware(['permission:'.Permission::DELETE_ACCOUNT]);
-
-Route::post('/', 'AccountController@store')->middleware(['permission:'.Permission::CREATE_ACCOUNT]);
-Route::get('/', 'AccountController@index')->middleware(['permission:'.Permission::INDEX_ACCOUNT]);
+Route::get('/{id}', 'AccountController@show')->middleware(['permission:'.AccountPermissions::SHOW_ACCOUNT]);
+Route::patch('/{id}', 'AccountController@update')->middleware(['permission:'.AccountPermissions::UPDATE_ACCOUNT]);
+Route::delete('/{id}', 'AccountController@destroy')->middleware(['permission:'.AccountPermissions::DELETE_ACCOUNT]);
+Route::post('/', 'AccountController@store')->middleware(['permission:'.AccountPermissions::CREATE_ACCOUNT]);
+Route::get('/', 'AccountController@index')->middleware(['permission:'.AccountPermissions::INDEX_ACCOUNT]);
