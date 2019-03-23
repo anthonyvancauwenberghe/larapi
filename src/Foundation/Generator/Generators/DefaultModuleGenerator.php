@@ -72,7 +72,7 @@ class DefaultModuleGenerator
 
         $this->moduleFactory->addServiceProvider($this->moduleName . 'ServiceProvider');
 
-        $this->moduleFactory->addRoute();
+        $this->moduleFactory->addRoute('v1');
 
         $this->moduleFactory->addComposer();
 

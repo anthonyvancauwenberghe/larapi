@@ -74,7 +74,7 @@ class TestMakeCommand extends ClassGeneratorCommand
         $type = $this->getType();
 
         if (in_array($type, $this->types))
-            return "$type-test.stub";
+            return "test-" . $type . ".stub";
 
         throw new Exception("Test type not supported");
     }

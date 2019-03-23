@@ -14,6 +14,7 @@ use Modules\Authorization\Entities\Role;
 use Modules\Machine\Permissions\MachinePermissions;
 use Modules\Proxy\Permissions\ProxyPermissions;
 use Modules\Schedule\Permissions\SchedulePermissions;
+use Modules\Script\Permissions\ScriptPermission;
 
 class MemberRole extends AbstractRole
 {
@@ -43,5 +44,11 @@ class MemberRole extends AbstractRole
         SchedulePermissions::CREATE_SCHEDULE,
         SchedulePermissions::UPDATE_SCHEDULE,
         SchedulePermissions::DELETE_SCHEDULE,
+
+        ScriptPermission::CREATE_SCRIPT,
+        ScriptPermission::INDEX_SCRIPT,
+        ScriptPermission::SHOW_SCRIPT,
+        ScriptPermission::UPDATE_SCRIPT,
+        ScriptPermission::DELETE_SCRIPT
     ];
 }

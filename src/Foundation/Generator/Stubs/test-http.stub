@@ -11,7 +11,7 @@ use Modules\$MODULE$\Transformers\$MODULE$Transformer;
 
 class $MODULE$HttpTest extends AuthorizedHttpTest
 {
-    protected $roles = Role::MEMBER;
+    protected $roles = Role::ADMIN;
 
     /**
      * @var $MODULE$
@@ -26,7 +26,7 @@ class $MODULE$HttpTest extends AuthorizedHttpTest
     protected function seedData()
     {
         parent::seedData();
-        $this->model = factory($MODULE$::class)->create();
+        $this->model = factory($MODULE$::class)->create(['user_id' => $this->getActingUser()->id]);
         $this->service = $this->app->make($MODULE$ServiceContract::class);
     }
 

@@ -7,18 +7,20 @@ use Modules\$MODULE$\Policies\$CLASS$Policy;
 use Modules\$MODULE$\Attributes\$CLASS$Attributes;
 use Foundation\Traits\ModelFactory;
 use Jenssegers\Mongodb\Eloquent\SoftDeletes;
+use Foundation\Contracts\Ownable;
+use Foundation\Traits\OwnedByUser;
 
 /**
  * Class $CLASS$.
  *
- * @property string $_id
+ * @property string $id
  */
-class $CLASS$ extends Model implements $CLASS$Attributes
+class $CLASS$ extends Model implements $CLASS$Attributes, Ownable
 {
-    use ModelFactory, SoftDeletes;
+    use ModelFactory, SoftDeletes, OwnedByUser;
 
     protected $policies = [
-        $CLASS$Policy::class,
+        $CLASS$Policy::class
     ];
 
     protected $observers = [

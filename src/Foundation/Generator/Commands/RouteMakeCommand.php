@@ -63,8 +63,7 @@ class RouteMakeCommand extends FileGeneratorCommand
     }
 
     protected function getVersion() :string {
-        //TODO IMPLEMENT ASKING FOR VERSION
-        return 'v1';
+        return $this->getOption('versioning');
     }
 
     protected function afterGeneration(): void
@@ -72,11 +71,20 @@ class RouteMakeCommand extends FileGeneratorCommand
         $this->info("Don't forget to add permissions to the Permission model!");
     }
 
+    protected function handleVersioningOption($shortcut, $type, $question, $default){
+        return $this->anticipate('What is the version of the route?',['v1','v2','v3','v4','v5'],$default);
+    }
+
+    protected function setOptions(): array
+    {
+        return [
+            ['versioning', null, InputOption::VALUE_OPTIONAL, 'The route version', 'v1'],
+        ];
+    }
 
     protected function getFileName() :string
     {
         return strtolower(Str::plural($this->getModuleName())).'.'.$this->getVersion() . '.php';
     }
-
 
 }

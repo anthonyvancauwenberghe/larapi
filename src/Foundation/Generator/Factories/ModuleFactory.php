@@ -29,7 +29,7 @@ use Nwidart\Modules\Exceptions\FileAlreadyExistException;
  * @method void addMiddleware(string $name)
  * @method void addRequest(string $name)
  * @method void addRule(string $name)
- * @method void addRoute()
+ * @method void addRoute(string $version)
  * @method void addComposer()
  * @method void addTest(string $name, string $type)
  * @method void addFactory(string $modelName)

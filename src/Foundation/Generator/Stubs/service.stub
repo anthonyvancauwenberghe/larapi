@@ -6,9 +6,15 @@ use Modules\$MODULE$\Entities\$MODULE$;
 use Modules\$MODULE$\Events\$MODULE$WasCreatedEvent;
 use Modules\$MODULE$\Events\$MODULE$WasUpdatedEvent;
 use Modules\$MODULE$\Events\$MODULE$WasDeletedEvent;
+use Modules\$MODULE$\Contracts\$CLASS$Contract;
+use Illuminate\Database\Eloquent\Collection;
 
-class $CLASS$
+class $CLASS$ implements $CLASS$Contract
 {
+    /**
+     * @param $id
+     * @return $MODULE$|null
+     */
     public function resolve($id): ?$MODULE$
     {
         if ($id instanceof $MODULE$) {
@@ -18,6 +24,19 @@ class $CLASS$
         return $MODULE$::find($id);
     }
 
+    /**
+     * @param $userId
+     * @return $MODULE$[]
+     */
+    public function getByUserId($userId): Collection
+    {
+        return $MODULE$::where('user_id', $userId)->get();
+    }
+
+    /**
+     * @param $id
+     * @return $MODULE$|null
+     */
     public function update($id, array $data): $MODULE$
     {
         $$LOWER_MODULE$ = $this->resolve($id);
@@ -27,6 +46,10 @@ class $CLASS$
         return $$LOWER_MODULE$;
     }
 
+    /**
+     * @param $id
+     * @return $MODULE$
+     */
     public function create(array $data): $MODULE$
     {
         $$LOWER_MODULE$ = $MODULE$::create($data);
@@ -34,6 +57,10 @@ class $CLASS$
         return $$LOWER_MODULE$;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     */
     public function delete($id): bool
     {
         $$LOWER_MODULE$ = $this->resolve($id);

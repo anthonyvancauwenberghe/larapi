@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8aa82d6f708e0b7aeb2967518ccb5b06",
+    "content-hash": "228b5f472ad7f8f45ffd754e9dbe71bd",
     "packages": [
         {
             "name": "auth0/auth0-php",
@@ -103,16 +103,16 @@
         },
         {
             "name": "composer/semver",
-            "version": "1.4.2",
+            "version": "1.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/semver.git",
-                "reference": "c7cb9a2095a074d131b65a8a0cd294479d785573"
+                "reference": "46d9139568ccb8d9e7cdd4539cab7347568a5e2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/semver/zipball/c7cb9a2095a074d131b65a8a0cd294479d785573",
-                "reference": "c7cb9a2095a074d131b65a8a0cd294479d785573",
+                "url": "https://api.github.com/repos/composer/semver/zipball/46d9139568ccb8d9e7cdd4539cab7347568a5e2e",
+                "reference": "46d9139568ccb8d9e7cdd4539cab7347568a5e2e",
                 "shasum": ""
             },
             "require": {
@@ -161,7 +161,7 @@
                 "validation",
                 "versioning"
             ],
-            "time": "2016-08-30T16:08:34+00:00"
+            "time": "2019-03-19T17:25:45+00:00"
         },
         {
             "name": "composer/xdebug-handler",
@@ -504,16 +504,16 @@
         },
         {
             "name": "erusev/parsedown",
-            "version": "1.7.1",
+            "version": "v1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/erusev/parsedown.git",
-                "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1"
+                "reference": "d60bcdc46978357759ecb13cb4b078da783f8faf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/erusev/parsedown/zipball/92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
-                "reference": "92e9c27ba0e74b8b028b111d1b6f956a15c01fc1",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/d60bcdc46978357759ecb13cb4b078da783f8faf",
+                "reference": "d60bcdc46978357759ecb13cb4b078da783f8faf",
                 "shasum": ""
             },
             "require": {
@@ -546,7 +546,7 @@
                 "markdown",
                 "parser"
             ],
-            "time": "2018-03-08T01:11:30+00:00"
+            "time": "2019-03-17T17:19:46+00:00"
         },
         {
             "name": "fideloper/proxy",
@@ -921,16 +921,16 @@
         },
         {
             "name": "hhxsv5/laravel-s",
-            "version": "v3.4.0",
+            "version": "v3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hhxsv5/laravel-s.git",
-                "reference": "793f3be340bd85e4fd3bc2dcb1832848576536d9"
+                "reference": "a480b38a927b5cc96a9782df56be9377555d9817"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hhxsv5/laravel-s/zipball/793f3be340bd85e4fd3bc2dcb1832848576536d9",
-                "reference": "793f3be340bd85e4fd3bc2dcb1832848576536d9",
+                "url": "https://api.github.com/repos/hhxsv5/laravel-s/zipball/a480b38a927b5cc96a9782df56be9377555d9817",
+                "reference": "a480b38a927b5cc96a9782df56be9377555d9817",
                 "shasum": ""
             },
             "require": {
@@ -968,7 +968,7 @@
                     "email": "hhxsv5@sina.com"
                 }
             ],
-            "description": "🚀LaravelS is a glue that is used to quickly integrate Swoole into Laravel or Lumen and then give them better performance and more possibilities.",
+            "description": "?LaravelS is a glue that is used to quickly integrate Swoole into Laravel or Lumen and then give them better performance and more possibilities.",
             "homepage": "https://github.com/hhxsv5/laravel-s",
             "keywords": [
                 "async",
@@ -988,7 +988,7 @@
                 "udp",
                 "websocket"
             ],
-            "time": "2019-03-11T14:28:22+00:00"
+            "time": "2019-03-19T08:03:06+00:00"
         },
         {
             "name": "jenssegers/mongodb",
@@ -1061,16 +1061,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.3",
+            "version": "v5.8.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521"
+                "reference": "f12c7baf9ceee80b131e06a01d3221d9a2488670"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d36d74acd3added5abbe7e7a84342b54bb0b0521",
-                "reference": "d36d74acd3added5abbe7e7a84342b54bb0b0521",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f12c7baf9ceee80b131e06a01d3221d9a2488670",
+                "reference": "f12c7baf9ceee80b131e06a01d3221d9a2488670",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1204,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-03-05T13:51:19+00:00"
+            "time": "2019-03-21T16:54:38+00:00"
         },
         {
             "name": "league/flysystem",
@@ -1435,16 +1435,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.14.2",
+            "version": "2.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "a1f4f9abcde8241ce33bf5090896e9c16d0b4232"
+                "reference": "dd16fedc022180ea4292a03aabe95e9895677911"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/a1f4f9abcde8241ce33bf5090896e9c16d0b4232",
-                "reference": "a1f4f9abcde8241ce33bf5090896e9c16d0b4232",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/dd16fedc022180ea4292a03aabe95e9895677911",
+                "reference": "dd16fedc022180ea4292a03aabe95e9895677911",
                 "shasum": ""
             },
             "require": {
@@ -1491,7 +1491,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-02-28T09:07:12+00:00"
+            "time": "2019-03-12T09:31:40+00:00"
         },
         {
             "name": "nwidart/laravel-modules",
@@ -1671,16 +1671,16 @@
         },
         {
             "name": "paragonie/sodium_compat",
-            "version": "v1.9.0",
+            "version": "v1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/sodium_compat.git",
-                "reference": "f261f50c84d20b1364723dbd21e668f4e40b2140"
+                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/f261f50c84d20b1364723dbd21e668f4e40b2140",
-                "reference": "f261f50c84d20b1364723dbd21e668f4e40b2140",
+                "url": "https://api.github.com/repos/paragonie/sodium_compat/zipball/87125d5b265f98c4d1b8d83a1f0726607c229421",
+                "reference": "87125d5b265f98c4d1b8d83a1f0726607c229421",
                 "shasum": ""
             },
             "require": {
@@ -1749,7 +1749,47 @@
                 "secret-key cryptography",
                 "side-channel resistant"
             ],
-            "time": "2019-03-06T17:16:38+00:00"
+            "time": "2019-03-20T17:19:05+00:00"
+        },
+        {
+            "name": "phlak/semver",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PHLAK/SemVer.git",
+                "reference": "76932b6571d570b2790a439d195acd232bf4d40a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PHLAK/SemVer/zipball/76932b6571d570b2790a439d195acd232bf4d40a",
+                "reference": "76932b6571d570b2790a439d195acd232bf4d40a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2.3",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PHLAK\\SemVer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Kankiewicz",
+                    "email": "Chris@ChrisKankiewicz.com"
+                }
+            ],
+            "description": "Semantic versioning helper library",
+            "time": "2017-09-07T23:53:52+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
@@ -2048,22 +2088,22 @@
         },
         {
             "name": "pusher/pusher-php-server",
-            "version": "v3.3.1",
+            "version": "v3.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/pusher/pusher-http-php.git",
-                "reference": "2279bcd21a608a76f9be1fe0675aa2dd1efb2fa0"
+                "reference": "a5fcdc65efd8d9a8291efbe01d326ec7ef5d5cee"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/2279bcd21a608a76f9be1fe0675aa2dd1efb2fa0",
-                "reference": "2279bcd21a608a76f9be1fe0675aa2dd1efb2fa0",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/a5fcdc65efd8d9a8291efbe01d326ec7ef5d5cee",
+                "reference": "a5fcdc65efd8d9a8291efbe01d326ec7ef5d5cee",
                 "shasum": ""
             },
             "require": {
                 "ext-curl": "*",
                 "paragonie/sodium_compat": "^1.6",
-                "php": "^5.4 || ^7.0",
+                "php": ">=5.4 <7.4",
                 "psr/log": "^1.0"
             },
             "require-dev": {
@@ -2072,7 +2112,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.0-dev"
+                    "dev-master": "3.4-dev"
                 }
             },
             "autoload": {
@@ -2098,7 +2138,7 @@
                 "rest",
                 "trigger"
             ],
-            "time": "2019-01-18T12:10:21+00:00"
+            "time": "2019-03-19T11:19:11+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -3073,16 +3113,16 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19"
+                "reference": "82ebae02209c21113908c229e9883c419720738a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/e3d826245268269cd66f8326bd8bc066687b4a19",
-                "reference": "e3d826245268269cd66f8326bd8bc066687b4a19",
+                "url": "https://api.github.com/repos/symfony/polyfill-ctype/zipball/82ebae02209c21113908c229e9883c419720738a",
+                "reference": "82ebae02209c21113908c229e9883c419720738a",
                 "shasum": ""
             },
             "require": {
@@ -3094,7 +3134,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -3116,7 +3156,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "BackEndTea@gmail.com"
+                    "email": "backendtea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3127,20 +3167,20 @@
                 "polyfill",
                 "portable"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/polyfill-iconv",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-iconv.git",
-                "reference": "97001cfc283484c9691769f51cdf25259037eba2"
+                "reference": "f037ea22acfaee983e271dd9c3b8bb4150bd8ad7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/97001cfc283484c9691769f51cdf25259037eba2",
-                "reference": "97001cfc283484c9691769f51cdf25259037eba2",
+                "url": "https://api.github.com/repos/symfony/polyfill-iconv/zipball/f037ea22acfaee983e271dd9c3b8bb4150bd8ad7",
+                "reference": "f037ea22acfaee983e271dd9c3b8bb4150bd8ad7",
                 "shasum": ""
             },
             "require": {
@@ -3152,7 +3192,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -3186,20 +3226,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T06:26:08+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/polyfill-intl-idn",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-intl-idn.git",
-                "reference": "89de1d44f2c059b266f22c9cc9124ddc4cd0987a"
+                "reference": "c766e95bec706cdd89903b1eda8afab7d7a6b7af"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/89de1d44f2c059b266f22c9cc9124ddc4cd0987a",
-                "reference": "89de1d44f2c059b266f22c9cc9124ddc4cd0987a",
+                "url": "https://api.github.com/repos/symfony/polyfill-intl-idn/zipball/c766e95bec706cdd89903b1eda8afab7d7a6b7af",
+                "reference": "c766e95bec706cdd89903b1eda8afab7d7a6b7af",
                 "shasum": ""
             },
             "require": {
@@ -3248,20 +3288,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-30T16:36:12+00:00"
+            "time": "2019-03-04T13:44:35+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
+                "reference": "fe5e94c604826c35a32fa832f35bd036b6799609"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
-                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/fe5e94c604826c35a32fa832f35bd036b6799609",
+                "reference": "fe5e94c604826c35a32fa832f35bd036b6799609",
                 "shasum": ""
             },
             "require": {
@@ -3273,7 +3313,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -3307,20 +3347,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T13:07:52+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/polyfill-php70",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php70.git",
-                "reference": "6b88000cdd431cd2e940caa2cb569201f3f84224"
+                "reference": "bc4858fb611bda58719124ca079baff854149c89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/6b88000cdd431cd2e940caa2cb569201f3f84224",
-                "reference": "6b88000cdd431cd2e940caa2cb569201f3f84224",
+                "url": "https://api.github.com/repos/symfony/polyfill-php70/zipball/bc4858fb611bda58719124ca079baff854149c89",
+                "reference": "bc4858fb611bda58719124ca079baff854149c89",
                 "shasum": ""
             },
             "require": {
@@ -3330,7 +3370,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -3366,20 +3406,20 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T06:26:08+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/polyfill-php72",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-php72.git",
-                "reference": "9050816e2ca34a8e916c3a0ae8b9c2fccf68b631"
+                "reference": "ab50dcf166d5f577978419edd37aa2bb8eabce0c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/9050816e2ca34a8e916c3a0ae8b9c2fccf68b631",
-                "reference": "9050816e2ca34a8e916c3a0ae8b9c2fccf68b631",
+                "url": "https://api.github.com/repos/symfony/polyfill-php72/zipball/ab50dcf166d5f577978419edd37aa2bb8eabce0c",
+                "reference": "ab50dcf166d5f577978419edd37aa2bb8eabce0c",
                 "shasum": ""
             },
             "require": {
@@ -3388,7 +3428,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.9-dev"
+                    "dev-master": "1.11-dev"
                 }
             },
             "autoload": {
@@ -3421,7 +3461,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-09-21T13:07:52+00:00"
+            "time": "2019-02-06T07:57:58+00:00"
         },
         {
             "name": "symfony/process",
@@ -4452,27 +4492,29 @@
         },
         {
             "name": "doctrine/instantiator",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/instantiator.git",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda"
+                "reference": "a2c590166b2133a4633738648b6b064edae0814a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
-                "reference": "185b8868aa9bf7159f5f953ed5afb2d7fcdc3bda",
+                "url": "https://api.github.com/repos/doctrine/instantiator/zipball/a2c590166b2133a4633738648b6b064edae0814a",
+                "reference": "a2c590166b2133a4633738648b6b064edae0814a",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1"
             },
             "require-dev": {
-                "athletic/athletic": "~0.1.8",
+                "doctrine/coding-standard": "^6.0",
                 "ext-pdo": "*",
                 "ext-phar": "*",
-                "phpunit/phpunit": "^6.2.3",
-                "squizlabs/php_codesniffer": "^3.0.2"
+                "phpbench/phpbench": "^0.13",
+                "phpstan/phpstan-phpunit": "^0.11",
+                "phpstan/phpstan-shim": "^0.11",
+                "phpunit/phpunit": "^7.0"
             },
             "type": "library",
             "extra": {
@@ -4497,12 +4539,12 @@
                 }
             ],
             "description": "A small, lightweight utility to instantiate objects in PHP without invoking their constructors",
-            "homepage": "https://github.com/doctrine/instantiator",
+            "homepage": "https://www.doctrine-project.org/projects/instantiator.html",
             "keywords": [
                 "constructor",
                 "instantiate"
             ],
-            "time": "2017-07-22T11:58:36+00:00"
+            "time": "2019-03-17T17:37:11+00:00"
         },
         {
             "name": "filp/whoops",
@@ -5745,16 +5787,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.0.4",
+            "version": "8.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a7af0201285445c9c73c4bdf869c486e36b41604"
+                "reference": "19cbed2120839772c4a00e8b28456b0c77d1a7b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a7af0201285445c9c73c4bdf869c486e36b41604",
-                "reference": "a7af0201285445c9c73c4bdf869c486e36b41604",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/19cbed2120839772c4a00e8b28456b0c77d1a7b4",
+                "reference": "19cbed2120839772c4a00e8b28456b0c77d1a7b4",
                 "shasum": ""
             },
             "require": {
@@ -5773,7 +5815,7 @@
                 "phpunit/php-code-coverage": "^7.0",
                 "phpunit/php-file-iterator": "^2.0.1",
                 "phpunit/php-text-template": "^1.2.1",
-                "phpunit/php-timer": "^2.0",
+                "phpunit/php-timer": "^2.1",
                 "sebastian/comparator": "^3.0",
                 "sebastian/diff": "^3.0",
                 "sebastian/environment": "^4.1",
@@ -5823,7 +5865,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-02-18T09:23:05+00:00"
+            "time": "2019-03-16T07:33:46+00:00"
         },
         {
             "name": "predis/predis",

@@ -234,12 +234,12 @@ class GeneratorManager
     }
 
     /**
-     * @param string $moduleName
+     * @param string $version
      */
-    public function createRoute()
+    public function createRoute(string $version)
     {
         $options = [
-
+            '--versioning' => $version
         ];
         $this->call('route', $options);
     }

@@ -84,7 +84,7 @@ class $MODULE$Controller extends Controller
      */
     public function destroy(Delete$MODULE$Request $request, $id)
     {
-        $$LOWER_MODULE$ = $this->service->find($id);
+        $$LOWER_MODULE$ = $this->service->resolve($id);
 
         $this->exists($$LOWER_MODULE$);
         $this->hasAccess($$LOWER_MODULE$);
