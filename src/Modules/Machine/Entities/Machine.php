@@ -19,7 +19,7 @@ use Modules\User\Entities\User;
  * @property string $_id
  * @property string $id
  * @property string $user_id
- * @property string $name
+ * @property string $alias
  * @property string $hostname
  * @property string $username
  * @property string $os

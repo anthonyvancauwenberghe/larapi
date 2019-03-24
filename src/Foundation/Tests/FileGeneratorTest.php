@@ -472,7 +472,7 @@ class FileGeneratorTest extends TestCase
         $this->getModuleGenerator($module)->createTest($class, 'unit');
 
         $path = Larapi::getModule($module)->getTests()->getPath() . "/$class.php";
-        $stub = "unit-test.stub";
+        $stub = "test-unit.stub";
         $namespace = "Modules\User\Tests";
         $type = "unit";
 
@@ -580,9 +580,10 @@ class FileGeneratorTest extends TestCase
     public function testCreateRoute()
     {
         $moduleName = "Demo";
-        $routename = strtolower(Str::plural($moduleName)) . '.v1';
+        $version = 'v1';
+        $routename = strtolower(Str::plural($moduleName)) . ".$version";
 
-        $this->getModuleGenerator($moduleName)->createRoute();
+        $this->getModuleGenerator($moduleName)->createRoute($version);
 
         $expectedFileName = Larapi::getModule($moduleName)->getRoutes()->getPath() . "/$routename.php";
         $expectedStubName = "route.stub";

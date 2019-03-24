@@ -10,7 +10,7 @@ $factory->define(Modules\Machine\Entities\Machine::class, function (Faker $faker
     ];
 
     return [
-        'name'              => 'Machine '.$username = $faker->userName,
+        'alias'              => 'Machine '.$username = $faker->userName,
         'hostname'          => 'DESKTOP-'.$pcname = strtoupper(preg_replace('/[^a-zA-Z0-9]+/', '', base64_encode(random_bytes(5)))),
         'username'          => $username,
         'os'                => get_random_array_element($os),

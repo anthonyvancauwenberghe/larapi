@@ -81,7 +81,7 @@ class ModuleGeneratorTest extends \Foundation\Abstracts\Tests\TestCase
 
         $this->moduleFactory->addRequest('ARequest');
 
-        $this->moduleFactory->addRoute();
+        $this->moduleFactory->addRoute('v1');
 
         $this->moduleFactory->addComposer();
 

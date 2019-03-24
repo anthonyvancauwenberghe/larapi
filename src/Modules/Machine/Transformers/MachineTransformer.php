@@ -30,7 +30,7 @@ class MachineTransformer extends Transformer
         return [
             'id'               => $machine->id,
             'user_id'          => $machine->user_id,
-            'name'             => $machine->name,
+            'alias'            => $machine->alias,
             'hostname'         => $machine->hostname,
             'username'         => $machine->username,
             'os'               => $machine->os,
