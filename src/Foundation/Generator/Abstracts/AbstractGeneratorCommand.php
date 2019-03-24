@@ -133,7 +133,8 @@ abstract class AbstractGeneratorCommand extends Command
             "LOWER_MODULE" => strtolower($this->getModuleName()),
             "MODULE" => $this->getModuleName(),
             "PLURAL_MODULE" => Str::plural($this->getModuleName()),
-            "PLURAL_LOWER_MODULE" => strtolower(Str::plural($this->getModuleName()))
+            "PLURAL_LOWER_MODULE" => strtolower(Str::plural($this->getModuleName())),
+            "CLEAN_NAME" => $this->getCleanName()
         ];
     }
 
@@ -147,6 +148,13 @@ abstract class AbstractGeneratorCommand extends Command
         $options = $this->setOptions();
         $options[] = ['overwrite', null, InputOption::VALUE_NONE, 'Overwrite this file if it already exists?'];
         return $options;
+    }
+
+
+    protected function getCleanName(): string
+    {
+        $className = str_replace('.php', '', $this->getFileName());
+        return str_ireplace(strtolower($this->getGeneratorName()), '', $className);
     }
 
     /**

@@ -7,6 +7,8 @@ use Modules\$MODULE$\Events\$MODULE$WasCreatedEvent;
 use Modules\$MODULE$\Events\$MODULE$WasUpdatedEvent;
 use Modules\$MODULE$\Events\$MODULE$WasDeletedEvent;
 use Modules\$MODULE$\Contracts\$CLASS$Contract;
+use Modules\$MODULE$\Dtos\Create$CLEAN_NAME$Dto;
+use Modules\$MODULE$\Dtos\Update$CLEAN_NAME$Dto;
 use Illuminate\Database\Eloquent\Collection;
 
 class $CLASS$ implements $CLASS$Contract
@@ -37,7 +39,7 @@ class $CLASS$ implements $CLASS$Contract
      * @param $id
      * @return $MODULE$|null
      */
-    public function update($id, array $data): $MODULE$
+    public function update($id, Update$CLEAN_NAME$Dto $data): $MODULE$
     {
         $$LOWER_MODULE$ = $this->resolve($id);
         $$LOWER_MODULE$->update($data);
@@ -50,7 +52,7 @@ class $CLASS$ implements $CLASS$Contract
      * @param $id
      * @return $MODULE$
      */
-    public function create(array $data): $MODULE$
+    public function create(Create$CLEAN_NAME$Dto $data): $MODULE$
     {
         $$LOWER_MODULE$ = $MODULE$::create($data);
         event(new $MODULE$WasCreatedEvent($$LOWER_MODULE$));

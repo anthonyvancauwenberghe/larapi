@@ -4,6 +4,8 @@ namespace Modules\Script\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
 use Modules\Script\Contracts\ScriptServiceContract;
+use Modules\Script\Dtos\UserExclusivityGrantDto;
+use Modules\Script\Dtos\UserExclusivityUpdateDto;
 use Modules\Script\Entities\Script;
 use Modules\Script\Entities\ScriptExclusivity;
 use Modules\Script\Entities\ScriptRelease;
@@ -11,6 +13,7 @@ use Modules\Script\Entities\ScriptReview;
 use Modules\Script\Entities\ScriptReviewReply;
 use Modules\Script\Events\ScriptWasReviewedEvent;
 use Modules\Script\Exceptions\ScriptAlreadyReviewedException;
+use Modules\Script\Exceptions\ScriptReviewReplyAlreadyExistsException;
 use Modules\Script\Services\ScriptService;
 
 class ScriptServiceTest extends TestCase
@@ -71,8 +74,10 @@ class ScriptServiceTest extends TestCase
         $this->assertCount(1, $this->script->reviews);
 
         $reply = $this->service->publishReviewReply($this->script, ScriptReviewReply::fromFactory()->raw(["review_id" => $review->id]));
+        $this->assertNotNull($reply);
 
-        $this->assertNotNull(1, $reply);
+        $this->expectExceptionObject(new ScriptReviewReplyAlreadyExistsException());
+        $this->service->publishReviewReply($this->script, ScriptReviewReply::fromFactory()->raw(["review_id" => $review->id]));
     }
 
     /**
@@ -82,7 +87,9 @@ class ScriptServiceTest extends TestCase
      */
     public function testGrantScriptExclusivity()
     {
-        $exclusivity = $this->service->grantUserExclusivity($this->script, ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new UserExclusivityGrantDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+
+        $exclusivity = $this->service->grantUserExclusivity($this->script, $data);
         $this->assertNotNull($exclusivity);
         $this->assertArrayHasKey(ScriptExclusivity::USER_ID, $exclusivity);
         $this->assertArrayHasKey(ScriptExclusivity::RECURRING_PRICE, $exclusivity);
@@ -97,9 +104,11 @@ class ScriptServiceTest extends TestCase
      */
     public function testRemoveScriptExclusivity()
     {
-        $this->service->grantUserExclusivity($this->script, ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new UserExclusivityGrantDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+
+        $this->service->grantUserExclusivity($this->script, $data);
         $this->assertCount(1, $this->script->exclusivity);
-        $this->service->removeUserExclusivity($this->script,$this->getActingUser()->id);
+        $this->service->removeUserExclusivity($this->script, $this->getActingUser()->id);
         $this->assertCount(0, $this->script->exclusivity);
     }
 
@@ -110,12 +119,14 @@ class ScriptServiceTest extends TestCase
      */
     public function testUpdateScriptExclusivity()
     {
-        $this->service->grantUserExclusivity($this->script, ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new UserExclusivityGrantDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $this->service->grantUserExclusivity($this->script, $data);
         $this->assertCount(1, $this->script->exclusivity);
 
-        $exclusivity = $this->service->updateUserExclusivity($this->script, $data =ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
-        $this->assertEquals($data['user_id'],$exclusivity->user_id);
-        $this->assertEquals($data['base_price'],$exclusivity->base_price);
-        $this->assertEquals($data['recurring_price'],$exclusivity->recurring_price);
+        $data = new UserExclusivityUpdateDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $exclusivity = $this->service->updateUserExclusivity($this->script, $data);
+        $this->assertEquals($data->user_id, $exclusivity->user_id);
+        $this->assertEquals($data->base_price, $exclusivity->base_price);
+        $this->assertEquals($data->recurring_price, $exclusivity->recurring_price);
     }
 }

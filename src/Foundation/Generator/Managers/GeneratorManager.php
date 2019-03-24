@@ -102,6 +102,17 @@ class GeneratorManager
     }
 
     /**
+     * @param string $name
+     */
+    public function createDto(string $name)
+    {
+        $options = [
+            "name" => $name,
+        ];
+        $this->call('dto', $options);
+    }
+
+    /**
      * @param string $serviceName
      */
     public function createService(string $serviceName)

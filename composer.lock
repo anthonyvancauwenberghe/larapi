@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "228b5f472ad7f8f45ffd754e9dbe71bd",
+    "content-hash": "50294a07069a9ecf42fd13054a14abf4",
     "packages": [
         {
             "name": "auth0/auth0-php",
@@ -1435,16 +1435,16 @@
         },
         {
             "name": "nesbot/carbon",
-            "version": "2.16.0",
+            "version": "2.16.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/briannesbitt/Carbon.git",
-                "reference": "dd16fedc022180ea4292a03aabe95e9895677911"
+                "reference": "b509524136d579f6b15ad9af4e5bd4533d1ab6c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/dd16fedc022180ea4292a03aabe95e9895677911",
-                "reference": "dd16fedc022180ea4292a03aabe95e9895677911",
+                "url": "https://api.github.com/repos/briannesbitt/Carbon/zipball/b509524136d579f6b15ad9af4e5bd4533d1ab6c2",
+                "reference": "b509524136d579f6b15ad9af4e5bd4533d1ab6c2",
                 "shasum": ""
             },
             "require": {
@@ -1491,7 +1491,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2019-03-12T09:31:40+00:00"
+            "time": "2019-03-20T12:20:01+00:00"
         },
         {
             "name": "nwidart/laravel-modules",
@@ -1750,46 +1750,6 @@
                 "side-channel resistant"
             ],
             "time": "2019-03-20T17:19:05+00:00"
-        },
-        {
-            "name": "phlak/semver",
-            "version": "2.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHLAK/SemVer.git",
-                "reference": "76932b6571d570b2790a439d195acd232bf4d40a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHLAK/SemVer/zipball/76932b6571d570b2790a439d195acd232bf4d40a",
-                "reference": "76932b6571d570b2790a439d195acd232bf4d40a",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.6"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.3",
-                "phpunit/phpunit": "^4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "PHLAK\\SemVer\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Chris Kankiewicz",
-                    "email": "Chris@ChrisKankiewicz.com"
-                }
-            ],
-            "description": "Semantic versioning helper library",
-            "time": "2017-09-07T23:53:52+00:00"
         },
         {
             "name": "php-cs-fixer/diff",
@@ -2261,6 +2221,53 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "spatie/data-transfer-object",
+            "version": "1.8.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/data-transfer-object.git",
+                "reference": "06704275d0be83f3891342c5b165aaeacb94e8de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/data-transfer-object/zipball/06704275d0be83f3891342c5b165aaeacb94e8de",
+                "reference": "06704275d0be83f3891342c5b165aaeacb94e8de",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "larapack/dd": "^1.0",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\DataTransferObject\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brent Roose",
+                    "email": "brent@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Data transfer objects with batteries included",
+            "homepage": "https://github.com/spatie/data-transfer-object",
+            "keywords": [
+                "data-transfer-object",
+                "spatie"
+            ],
+            "time": "2019-03-18T08:09:17+00:00"
         },
         {
             "name": "spatie/laravel-permission",

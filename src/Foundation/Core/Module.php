@@ -85,6 +85,11 @@ final class Module
         return new Resource('attributes', '/Attributes', $this);
     }
 
+    public function getDtos()
+    {
+        return new Resource('dtos', '/Dtos', $this);
+    }
+
     public function getEvents()
     {
         return new Resource('events', '/Events', $this, Event::class);

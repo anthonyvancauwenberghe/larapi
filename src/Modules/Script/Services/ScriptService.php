@@ -2,6 +2,8 @@
 
 namespace Modules\Script\Services;
 
+use Modules\Script\Dtos\UserExclusivityGrantDto;
+use Modules\Script\Dtos\UserExclusivityUpdateDto;
 use Modules\Script\Entities\Script;
 use Modules\Script\Entities\ScriptConfigProfile;
 use Modules\Script\Entities\ScriptExclusivity;
@@ -14,9 +16,10 @@ use Modules\Script\Events\ScriptWasDeletedEvent;
 use Modules\Script\Contracts\ScriptServiceContract;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Script\Exceptions\ScriptAlreadyReviewedException;
-use Modules\Script\Exceptions\ScriptReviewReplyAlreadyExists;
+use Modules\Script\Exceptions\ScriptReviewReplyAlreadyExistsException;
 use Modules\Script\Exceptions\UserAlreadyHasExclusivityException;
 use Modules\Script\Exceptions\UserDoesNotHaveExclusivityException;
+use Modules\Script\Guards\ScriptAlreadyReviewedGuard;
 use Modules\Script\Support\Version;
 
 class ScriptService implements ScriptServiceContract
@@ -120,9 +123,8 @@ class ScriptService implements ScriptServiceContract
     {
         $script = $this->resolve($id);
 
-        if ($script->reviews()->withTrashed()->where(ScriptReview::REVIEWER_ID, get_authenticated_user_id())->get()->isNotEmpty()) {
-            throw new ScriptAlreadyReviewedException();
-        }
+        guard(new ScriptAlreadyReviewedGuard($script));
+
         //TODO CHECK IF THE USER IS ACTUALLY SUBSCRIBED TO THE SCRIPT
         //TODO PREVENT THE AUTHOR FROM REVIEWING HIS OWN SCRIPT
 
@@ -146,7 +148,7 @@ class ScriptService implements ScriptServiceContract
         }
 
         if ($review->reply !== null) {
-            throw new ScriptReviewReplyAlreadyExists();
+            throw new ScriptReviewReplyAlreadyExistsException();
         }
 
         $reply = $review->reply()->create([
@@ -157,24 +159,20 @@ class ScriptService implements ScriptServiceContract
         return $reply;
     }
 
-    public function grantUserExclusivity($id, array $data): ScriptExclusivity
+    public function grantUserExclusivity($id, UserExclusivityGrantDto $data): ScriptExclusivity
     {
         $script = $this->resolve($id);
-        if ($script->exclusivity()->where(ScriptExclusivity::USER_ID, $data['user_id'] ?? null)->first() !== null) {
+        if ($script->exclusivity()->where(ScriptExclusivity::USER_ID, $data->user_id ?? null)->first() !== null) {
             throw new UserAlreadyHasExclusivityException();
         }
-        $exclusivity = $script->exclusivity()->create([
-            ScriptExclusivity::USER_ID => $data['user_id'],
-            ScriptExclusivity::BASE_PRICE => $data['base_price'] ?? 0,
-            ScriptExclusivity::RECURRING_PRICE => $data['recurring_price'] ?? 0
-        ]);
 
-        return $exclusivity;
+        return $script->exclusivity()->create($data->toArray());
     }
 
     public function removeUserExclusivity($id, $userId): bool
     {
         $script = $this->resolve($id);
+
         if (($exclusivity = $script->exclusivity()->where(ScriptExclusivity::USER_ID, $userId)->first()) === null) {
             throw new UserDoesNotHaveExclusivityException();
         }
@@ -182,17 +180,15 @@ class ScriptService implements ScriptServiceContract
         return $exclusivity->delete();
     }
 
-    public function updateUserExclusivity($id, array $data): ScriptExclusivity
+    public function updateUserExclusivity($id, UserExclusivityUpdateDto $data): ScriptExclusivity
     {
         $script = $this->resolve($id);
-        if (($exclusivity = $script->exclusivity()->where(ScriptExclusivity::USER_ID, $data['user_id'] ?? null)->first()) === null) {
+
+        if (($exclusivity = $script->exclusivity()->where(ScriptExclusivity::USER_ID, $data->user_id ?? null)->first()) === null) {
             throw new UserDoesNotHaveExclusivityException();
         }
 
-        $exclusivity->update([
-            ScriptExclusivity::BASE_PRICE => $data['base_price'] ?? 0,
-            ScriptExclusivity::RECURRING_PRICE => $data['recurring_price'] ?? 0
-        ]);
+        $exclusivity->update($data->toArray());
 
         return $exclusivity;
     }

@@ -3,53 +3,55 @@
 namespace Foundation\Generator\Commands;
 
 use Foundation\Generator\Abstracts\ClassGeneratorCommand;
+use Foundation\Generator\Events\AttributeGeneratedEvent;
+use Foundation\Generator\Events\DtoGeneratedEvent;
 use Foundation\Generator\Events\EventGeneratedEvent;
 use Foundation\Generator\Events\ServiceGeneratedEvent;
 use Foundation\Generator\Managers\GeneratorManager;
 
-class ServiceMakeCommand extends ClassGeneratorCommand
+class DtoMakeCommand extends ClassGeneratorCommand
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $name = 'larapi:make:service';
+    protected $name = 'larapi:make:dto';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new service class for the specified module';
+    protected $description = 'Create a new data transfer object';
 
     /**
      * The name of the generated resource.
      *
      * @var string
      */
-    protected $generatorName = 'service';
+    protected $generatorName = 'dto';
 
     /**
      * The stub name.
      *
      * @var string
      */
-    protected $stub = 'service.stub';
+    protected $stub = 'dto.stub';
 
     /**
      * The file path.
      *
      * @var string
      */
-    protected $filePath = '/Services';
+    protected $filePath = '/Dtos';
 
     /**
      * The event that will fire when the file is created.
      *
      * @var string
      */
-    protected $event = ServiceGeneratedEvent::class;
+    protected $event = DtoGeneratedEvent::class;
 
     protected function stubOptions(): array
     {
@@ -57,17 +59,5 @@ class ServiceMakeCommand extends ClassGeneratorCommand
             'NAMESPACE' => $this->getClassNamespace(),
             'CLASS' => $this->getClassName(),
         ];
-    }
-
-    public function afterGeneration(): void
-    {
-        GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())
-            ->createServiceContract(ucfirst($this->getClassName()).'Contract');
-
-        GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())
-            ->createDto($this->getCleanName().'CreateDto');
-
-        GeneratorManager::module($this->getModuleName(), $this->isOverwriteable())
-            ->createDto($this->getCleanName().'UpdateDto');
     }
 }

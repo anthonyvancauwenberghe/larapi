@@ -14,6 +14,7 @@
         "laravel/framework": "5.8.*",
         "nwidart/laravel-modules": "^4.0",
         "pusher/pusher-php-server": "^3.2",
+        "spatie/data-transfer-object": "^1.8",
         "spatie/once": "^2.0",
         "stechstudio/laravel-php-cs-fixer": "^1.1",
         "wikimedia/composer-merge-plugin": "^1.4"
@@ -35,6 +36,7 @@
         },
         "files": [
             "src/Foundation/Support/helpers.php",
+            "src/Foundation/Guard/Support/helpers.php",
             "src/Foundation/Support/cloudflare_helper.php"
         ]
     },

@@ -5,9 +5,6 @@ namespace Modules\Script\Entities;
 use Modules\Mongo\Abstracts\MongoModel as Model;
 use Modules\Script\Attributes\ScriptExclusivityAttributes;
 use Foundation\Traits\ModelFactory;
-use Jenssegers\Mongodb\Eloquent\SoftDeletes;
-use Foundation\Contracts\Ownable;
-use Foundation\Traits\OwnedByUser;
 
 /**
  * Class ScriptExclusivity.

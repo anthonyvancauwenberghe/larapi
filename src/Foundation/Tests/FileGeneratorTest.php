@@ -10,6 +10,7 @@ use Foundation\Generator\Events\AttributeGeneratedEvent;
 use Foundation\Generator\Events\CommandGeneratedEvent;
 use Foundation\Generator\Events\ComposerGeneratedEvent;
 use Foundation\Generator\Events\ControllerGeneratedEvent;
+use Foundation\Generator\Events\DtoGeneratedEvent;
 use Foundation\Generator\Events\FactoryGeneratedEvent;
 use Foundation\Generator\Events\JobGeneratedEvent;
 use Foundation\Generator\Events\ListenerGeneratedEvent;
@@ -155,6 +156,27 @@ class FileGeneratorTest extends TestCase
 
         /* @var AttributeGeneratedEvent $event */
         $event = $this->getFirstDispatchedEvent(AttributeGeneratedEvent::class);
+        $this->assertClassBasics(
+            $event,
+            $module,
+            $stub,
+            $class,
+            $namespace,
+            $path);
+    }
+
+    public function testCreateDto()
+    {
+        $module = "User";
+        $class = "CreateUserData";
+        $this->getModuleGenerator($module)->createDto($class);
+
+        $path = Larapi::getModule($module)->getDtos()->getPath() . "/$class.php";
+        $stub = "dto.stub";
+        $namespace = "Modules\User\Dtos";
+
+        /* @var DtoGeneratedEvent $event */
+        $event = $this->getFirstDispatchedEvent(DtoGeneratedEvent::class);
         $this->assertClassBasics(
             $event,
             $module,
