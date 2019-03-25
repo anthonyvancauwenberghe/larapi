@@ -44,6 +44,7 @@ use Nwidart\Modules\Exceptions\FileAlreadyExistException;
  * @method void addPermission(string $name)
  * @method void addAttribute(string $name)
  * @method void addDto(string $name)
+ * @method void addGuard(string $name)
  *
  */
 class ModuleFactory

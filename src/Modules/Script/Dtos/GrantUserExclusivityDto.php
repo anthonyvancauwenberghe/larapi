@@ -11,7 +11,7 @@ namespace Modules\Script\Dtos;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class UserExclusivityUpdateDto extends DataTransferObject
+class GrantUserExclusivityDto extends DataTransferObject
 {
     /** @var int */
     public $user_id;
@@ -20,5 +20,5 @@ class UserExclusivityUpdateDto extends DataTransferObject
     public $base_price;
 
     /** @var double */
-    public $recurring_price;
+    public $recurring_price=2.0;
 }

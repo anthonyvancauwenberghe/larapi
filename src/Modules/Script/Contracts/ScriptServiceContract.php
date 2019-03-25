@@ -2,8 +2,9 @@
 
 namespace Modules\Script\Contracts;
 
-use Modules\Script\Dtos\UserExclusivityGrantDto;
-use Modules\Script\Dtos\UserExclusivityUpdateDto;
+use Modules\Script\Dtos\CreateScriptDto;
+use Modules\Script\Dtos\GrantUserExclusivityDto;
+use Modules\Script\Dtos\UpdateUserExclusivityDto;
 use Modules\Script\Entities\Script;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\Script\Entities\ScriptConfigProfile;
@@ -23,7 +24,7 @@ interface ScriptServiceContract
      * @param $userId
      * @return Script[]
      */
-    public function getByUserId($userId): Collection;
+    public function getByAuthorId($userId): Collection;
 
     /**
      * @param $id
@@ -35,7 +36,7 @@ interface ScriptServiceContract
      * @param $id
      * @return Script
      */
-    public function create(array $data): Script;
+    public function create(CreateScriptDto $data): Script;
 
     /**
      * @param $id
@@ -65,7 +66,7 @@ interface ScriptServiceContract
      * @param $id
      * @return $userId
      */
-    public function grantUserExclusivity($id, UserExclusivityGrantDto $data): ScriptExclusivity;
+    public function grantUserExclusivity($id, GrantUserExclusivityDto $data): ScriptExclusivity;
 
     /**
      * @param $id
@@ -77,7 +78,7 @@ interface ScriptServiceContract
      * @param $id
      * @return $userId
      */
-    public function updateUserExclusivity($id, UserExclusivityUpdateDto $data): ScriptExclusivity;
+    public function updateUserExclusivity($id, UpdateUserExclusivityDto $data): ScriptExclusivity;
 
     /**
      * @param $id

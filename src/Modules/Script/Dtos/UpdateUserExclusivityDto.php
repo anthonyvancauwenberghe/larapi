@@ -11,7 +11,7 @@ namespace Modules\Script\Dtos;
 
 use Spatie\DataTransferObject\DataTransferObject;
 
-class UserExclusivityGrantDto extends DataTransferObject
+class UpdateUserExclusivityDto extends DataTransferObject
 {
     /** @var int */
     public $user_id;

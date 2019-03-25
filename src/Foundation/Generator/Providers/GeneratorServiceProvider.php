@@ -16,6 +16,7 @@ use Foundation\Generator\Commands\DtoMakeCommand;
 use Foundation\Generator\Commands\EventMakeCommand;
 use Foundation\Generator\Commands\ExceptionMakeCommand;
 use Foundation\Generator\Commands\FactoryMakeCommand;
+use Foundation\Generator\Commands\GuardMakeCommand;
 use Foundation\Generator\Commands\JobMakeCommand;
 use Foundation\Generator\Commands\ListenerMakeCommand;
 use Foundation\Generator\Commands\MiddlewareMakeCommand;
@@ -67,7 +68,8 @@ class GeneratorServiceProvider extends ServiceProvider
         ExceptionMakeCommand::class,
         PermissionMakeCommand::class,
         AttributeMakeCommand::class,
-        DtoMakeCommand::class
+        DtoMakeCommand::class,
+        GuardMakeCommand::class
     ];
 
     /**

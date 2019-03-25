@@ -2,8 +2,9 @@
 
 namespace Modules\Script\Services;
 
-use Modules\Script\Dtos\UserExclusivityGrantDto;
-use Modules\Script\Dtos\UserExclusivityUpdateDto;
+use Modules\Script\Dtos\CreateScriptDto;
+use Modules\Script\Dtos\GrantUserExclusivityDto;
+use Modules\Script\Dtos\UpdateUserExclusivityDto;
 use Modules\Script\Entities\Script;
 use Modules\Script\Entities\ScriptConfigProfile;
 use Modules\Script\Entities\ScriptExclusivity;
@@ -41,9 +42,9 @@ class ScriptService implements ScriptServiceContract
      * @param $userId
      * @return Script[]
      */
-    public function getByUserId($userId): Collection
+    public function getByAuthorId($userId): Collection
     {
-        return Script::where('user_id', $userId)->get();
+        return Script::where(Script::AUTHOR_ID, $userId)->get();
     }
 
     /**
@@ -55,7 +56,6 @@ class ScriptService implements ScriptServiceContract
         $script = $this->resolve($id);
         $script->update($data);
         event(new ScriptWasUpdatedEvent($script));
-
         return $script;
     }
 
@@ -63,10 +63,10 @@ class ScriptService implements ScriptServiceContract
      * @param $id
      * @return Script
      */
-    public function create(array $data): Script
+    public function create(CreateScriptDto $data): Script
     {
-        $data[Script::AUTHOR_ID] = get_authenticated_user_id();
-        $script = Script::create($data);
+        $data->user_id = get_authenticated_user_id();
+        $script = Script::create($data->toArray());
         event(new ScriptWasCreatedEvent($script));
         return $script;
     }
@@ -159,10 +159,10 @@ class ScriptService implements ScriptServiceContract
         return $reply;
     }
 
-    public function grantUserExclusivity($id, UserExclusivityGrantDto $data): ScriptExclusivity
+    public function grantUserExclusivity($id, GrantUserExclusivityDto $data): ScriptExclusivity
     {
         $script = $this->resolve($id);
-        if ($script->exclusivity()->where(ScriptExclusivity::USER_ID, $data->user_id ?? null)->first() !== null) {
+        if ($script->exclusivity()->where(ScriptExclusivity::USER_ID, $data->user_id)->first() !== null) {
             throw new UserAlreadyHasExclusivityException();
         }
 
@@ -180,7 +180,7 @@ class ScriptService implements ScriptServiceContract
         return $exclusivity->delete();
     }
 
-    public function updateUserExclusivity($id, UserExclusivityUpdateDto $data): ScriptExclusivity
+    public function updateUserExclusivity($id, UpdateUserExclusivityDto $data): ScriptExclusivity
     {
         $script = $this->resolve($id);
 

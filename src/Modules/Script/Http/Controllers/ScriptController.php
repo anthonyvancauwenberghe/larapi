@@ -4,6 +4,7 @@ namespace Modules\Script\Http\Controllers;
 
 use Foundation\Abstracts\Controller\Controller;
 use Foundation\Responses\ApiResponse;
+use Modules\Script\Dtos\CreateScriptDto;
 use Modules\Script\Http\Requests\CreateScriptRequest;
 use Modules\Script\Http\Requests\DeleteScriptRequest;
 use Modules\Script\Http\Requests\FindScriptRequest;
@@ -34,7 +35,7 @@ class ScriptController extends Controller
      */
     public function index(IndexScriptRequest $request)
     {
-        return ScriptTransformer::collection($this->service->getByUserId(get_authenticated_user_id()));
+        return ScriptTransformer::collection($this->service->getByAuthorId(get_authenticated_user_id()));
     }
 
     /**
@@ -42,7 +43,7 @@ class ScriptController extends Controller
      */
     public function store(CreateScriptRequest $request)
     {
-        $script = $this->service->create($this->injectUserId($request));
+        $script = $this->service->create(new CreateScriptDto($request->all()));
         return ScriptTransformer::resource($script);
     }
 

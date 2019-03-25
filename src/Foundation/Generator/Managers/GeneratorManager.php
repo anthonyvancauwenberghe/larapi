@@ -104,6 +104,17 @@ class GeneratorManager
     /**
      * @param string $name
      */
+    public function createGuard(string $name)
+    {
+        $options = [
+            "name" => $name,
+        ];
+        $this->call('attribute', $options);
+    }
+
+    /**
+     * @param string $name
+     */
     public function createDto(string $name)
     {
         $options = [

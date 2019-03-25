@@ -4,8 +4,9 @@ namespace Modules\Script\Tests;
 
 use Foundation\Abstracts\Tests\TestCase;
 use Modules\Script\Contracts\ScriptServiceContract;
-use Modules\Script\Dtos\UserExclusivityGrantDto;
-use Modules\Script\Dtos\UserExclusivityUpdateDto;
+use Modules\Script\Dtos\CreateScriptDto;
+use Modules\Script\Dtos\GrantUserExclusivityDto;
+use Modules\Script\Dtos\UpdateUserExclusivityDto;
 use Modules\Script\Entities\Script;
 use Modules\Script\Entities\ScriptExclusivity;
 use Modules\Script\Entities\ScriptRelease;
@@ -32,7 +33,7 @@ class ScriptServiceTest extends TestCase
     protected function seedData()
     {
         $this->service = $this->app->make(ScriptServiceContract::class);
-        $this->script = $this->service->create(Script::fromFactory()->raw());
+        $this->script = $this->service->create(new CreateScriptDto(Script::fromFactory()->raw()));
     }
 
     /**
@@ -87,7 +88,7 @@ class ScriptServiceTest extends TestCase
      */
     public function testGrantScriptExclusivity()
     {
-        $data = new UserExclusivityGrantDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new GrantUserExclusivityDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
 
         $exclusivity = $this->service->grantUserExclusivity($this->script, $data);
         $this->assertNotNull($exclusivity);
@@ -104,7 +105,7 @@ class ScriptServiceTest extends TestCase
      */
     public function testRemoveScriptExclusivity()
     {
-        $data = new UserExclusivityGrantDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new GrantUserExclusivityDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
 
         $this->service->grantUserExclusivity($this->script, $data);
         $this->assertCount(1, $this->script->exclusivity);
@@ -119,11 +120,11 @@ class ScriptServiceTest extends TestCase
      */
     public function testUpdateScriptExclusivity()
     {
-        $data = new UserExclusivityGrantDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new GrantUserExclusivityDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
         $this->service->grantUserExclusivity($this->script, $data);
         $this->assertCount(1, $this->script->exclusivity);
 
-        $data = new UserExclusivityUpdateDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
+        $data = new UpdateUserExclusivityDto(ScriptExclusivity::fromFactory()->raw(["user_id" => $this->getActingUser()->id]));
         $exclusivity = $this->service->updateUserExclusivity($this->script, $data);
         $this->assertEquals($data->user_id, $exclusivity->user_id);
         $this->assertEquals($data->base_price, $exclusivity->base_price);
