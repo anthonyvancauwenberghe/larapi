@@ -8,8 +8,7 @@
 
 namespace Modules\Script\Guards;
 
-
-use Foundation\Guard\Abstracts\Guard;
+use Larapie\Guard\Guard;
 use Modules\Script\Entities\Script;
 use Modules\Script\Entities\ScriptReview;
 use Modules\Script\Exceptions\ScriptAlreadyReviewedException;
@@ -56,5 +55,4 @@ class ScriptAlreadyReviewedGuard extends Guard
             ->get()
             ->isNotEmpty();
     }
-
 }

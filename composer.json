@@ -11,6 +11,7 @@
         "fideloper/proxy": "^4.0",
         "friendsofphp/php-cs-fixer": "^2.14",
         "hhxsv5/laravel-s": "~3.0",
+        "larapie/guard": "^1.1",
         "laravel/framework": "5.8.*",
         "nwidart/laravel-modules": "^4.0",
         "pusher/pusher-php-server": "^3.2",
@@ -36,7 +37,6 @@
         },
         "files": [
             "src/Foundation/Support/helpers.php",
-            "src/Foundation/Guard/Support/helpers.php",
             "src/Foundation/Support/cloudflare_helper.php"
         ]
     },

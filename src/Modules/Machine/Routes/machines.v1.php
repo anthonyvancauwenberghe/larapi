@@ -11,7 +11,6 @@
 |
 */
 
-use Modules\Authorization\Entities\Permission;
 use \Modules\Machine\Permissions\MachinePermissions;
 
 Route::get('/{id}', 'MachineController@show')->middleware(['permission:'.MachinePermissions::SHOW_MACHINE]);

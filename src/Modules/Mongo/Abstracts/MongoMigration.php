@@ -1,17 +1,13 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: arthur
- * Date: 03.10.18
- * Time: 20:57.
- */
 
 namespace Modules\Mongo\Abstracts;
+
+use Illuminate\Database\Migrations\Migration;
 
 /**
  * Class MongoMigration.
  */
-abstract class MongoMigration extends \Illuminate\Database\Migrations\Migration
+abstract class MongoMigration extends Migration
 {
     protected $connection = 'mongodb';
 
