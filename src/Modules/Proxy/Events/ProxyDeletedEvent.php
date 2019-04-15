@@ -14,7 +14,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Modules\Proxy\Entities\Proxy;
 use Modules\Proxy\Transformers\ProxyTransformer;
 
-class ProxyUpdatedEvent extends Event implements ShouldBroadcast
+class ProxyDeletedEvent extends Event implements ShouldBroadcast
 {
     public $listeners = [];
 
@@ -24,7 +24,7 @@ class ProxyUpdatedEvent extends Event implements ShouldBroadcast
     public $proxy;
 
     /**
-     * ProxyUpdatedEvent constructor.
+     * ProxyDeletedEvent constructor.
      *
      * @param $user
      */
@@ -40,7 +40,7 @@ class ProxyUpdatedEvent extends Event implements ShouldBroadcast
 
     public function broadcastAs()
     {
-        return 'proxy.updated';
+        return 'proxy.deleted';
     }
 
     public function broadcastWith()

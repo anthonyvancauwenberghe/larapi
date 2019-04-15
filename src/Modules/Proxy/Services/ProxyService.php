@@ -9,6 +9,7 @@
 namespace Modules\Proxy\Services;
 
 use Carbon\Carbon;
+use Modules\Proxy\Contracts\ProxyRepositoryContract;
 use Modules\Proxy\Contracts\ProxyServiceContract;
 use Modules\Proxy\Entities\Proxy;
 use Modules\Proxy\Events\ProxyCreatedEvent;
@@ -16,6 +17,17 @@ use Modules\Proxy\Events\ProxyUpdatedEvent;
 
 class ProxyService implements ProxyServiceContract
 {
+    protected $repository;
+
+    /**
+     * ProxyService constructor.
+     * @param $repository
+     */
+    public function __construct(ProxyRepositoryContract $repository)
+    {
+        $this->repository = $repository;
+    }
+
     public function getByUserId($userId)
     {
         return Proxy::where('user_id', $userId)->get();
@@ -23,17 +35,12 @@ class ProxyService implements ProxyServiceContract
 
     public function find($id): ?Proxy
     {
-        if ($id instanceof Proxy) {
-            return $id;
-        }
-
-        return Proxy::find($id);
+        return $this->repository->resolve($id);
     }
 
     public function update($id, $data): Proxy
     {
-        $proxy = $this->find($id);
-        $proxy->update($data);
+        $proxy = $this->repository->update($data, $id);
         event(new ProxyUpdatedEvent($proxy));
 
         return $proxy;
@@ -57,7 +64,7 @@ class ProxyService implements ProxyServiceContract
         //TODO DO THE ACTUAL HEALTCHECK
         $this->update($id, [
             'last_alive_at' => Carbon::now(),
-            'last_checked_at'         => Carbon::now(),
+            'last_checked_at' => Carbon::now(),
         ]);
     }
 }

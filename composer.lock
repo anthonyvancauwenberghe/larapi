@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d7169e563db90f1338458ee462c9d1e",
+    "content-hash": "145884d837c9c7ad22725d0bc3241c6f",
     "packages": [
         {
             "name": "auth0/auth0-php",
@@ -1118,6 +1118,71 @@
             "time": "2019-03-30T14:55:15+00:00"
         },
         {
+            "name": "larapie/repository",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/larapie/repository.git",
+                "reference": "e8300fcbdf27dc73f12cbf2207aea731c5036e55"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/larapie/repository/zipball/e8300fcbdf27dc73f12cbf2207aea731c5036e55",
+                "reference": "e8300fcbdf27dc73f12cbf2207aea731c5036e55",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "illuminate/config": "~5.8",
+                "illuminate/console": "~5.8",
+                "illuminate/database": "~5.8",
+                "illuminate/filesystem": "~5.8",
+                "illuminate/http": "~5.8",
+                "illuminate/pagination": "~5.8",
+                "illuminate/support": "~5.8",
+                "php": "^7.2",
+                "prettus/laravel-validation": "1.1.*"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^3.5"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Larapie\\Repository\\Providers\\RepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Larapie\\Repository\\": "src/Larapie/Repository/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Anthony Vancauwenberghe",
+                    "email": "anthony.vanc@gmail.com",
+                    "homepage": "https://github.com/larapie",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel 5 - Repositories to  the database layer",
+            "homepage": "https://github.com/larapie/repository",
+            "keywords": [
+                "cache",
+                "eloquent",
+                "laravel",
+                "model",
+                "repository"
+            ],
+            "time": "2019-04-12T13:12:58+00:00"
+        },
+        {
             "name": "laravel/framework",
             "version": "v5.8.10",
             "source": {
@@ -1909,6 +1974,46 @@
                 "type"
             ],
             "time": "2015-07-25T16:39:46+00:00"
+        },
+        {
+            "name": "prettus/laravel-validation",
+            "version": "1.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/andersao/laravel-validator.git",
+                "reference": "d9eb401fb3518a890b117e83bd25a4109fcdb704"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/andersao/laravel-validator/zipball/d9eb401fb3518a890b117e83bd25a4109fcdb704",
+                "reference": "d9eb401fb3518a890b117e83bd25a4109fcdb704",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.4",
+                "illuminate/validation": "~5.4",
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Prettus\\Validator\\": "src/Prettus/Validator/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Anderson Andrade",
+                    "email": "contato@andersonandra.de"
+                }
+            ],
+            "description": "Laravel Validation Service",
+            "keywords": [
+                "laravel",
+                "service",
+                "validation"
+            ],
+            "time": "2017-08-28T23:28:32+00:00"
         },
         {
             "name": "psr/container",
@@ -5849,16 +5954,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "8.0.6",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "925109f8bbe6dae28fbc7bb07446a53abd3b1c25"
+                "reference": "37cfab19fdda1554f2830be83a566ade4e2ae098"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/925109f8bbe6dae28fbc7bb07446a53abd3b1c25",
-                "reference": "925109f8bbe6dae28fbc7bb07446a53abd3b1c25",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/37cfab19fdda1554f2830be83a566ade4e2ae098",
+                "reference": "37cfab19fdda1554f2830be83a566ade4e2ae098",
                 "shasum": ""
             },
             "require": {
@@ -5901,7 +6006,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "8.0-dev"
+                    "dev-master": "8.1-dev"
                 }
             },
             "autoload": {
@@ -5927,7 +6032,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2019-03-26T14:00:24+00:00"
+            "time": "2019-04-05T05:27:33+00:00"
         },
         {
             "name": "predis/predis",

@@ -107,7 +107,7 @@ class AccountHttpTest extends AuthorizedHttpTest
         $response->assertStatus(403);
     }
 
-    public function testUnauthorizedDeleteAccount()
+    public function  testUnauthorizedDeleteAccount()
     {
         $user = factory(User::class)->create();
         $account = factory(Account::class)->create(['user_id' => $user->id]);

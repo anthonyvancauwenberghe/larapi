@@ -14,9 +14,7 @@ use Modules\Proxy\Listeners\ProxyCreatedListener;
 
 class ProxyCreatedEvent extends Event
 {
-    public $listeners = [
-        ProxyCreatedListener::class,
-    ];
+    public $listeners = [];
 
     /**
      * @var Proxy
@@ -24,7 +22,7 @@ class ProxyCreatedEvent extends Event
     public $proxy;
 
     /**
-     * UserRegisteredEvent constructor.
+     * ProxyCreatedEvent constructor.
      *
      * @param $user
      */
